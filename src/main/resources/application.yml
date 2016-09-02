@@ -1,0 +1,60 @@
+server:
+  port: 8080
+
+spring:
+  datasource.ecssent:
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    dbType: oracle
+    url: jdbc:oracle:thin:@192.168.10.15:1521:XE
+    username: ecssent
+    password: 123456
+    initialSize: 5
+    maxIdle: 5
+    maxActive: 10
+    validationQuery: SELECT 1 from DUAL
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 100
+    filters: stat,wall,log4j
+  datasource.para:
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.10.15:1521:XE
+    username: para
+    password: 123456
+    initialSize: 5
+    maxIdle: 5
+    maxActive: 10
+    validationQuery: SELECT 1 from DUAL
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 100
+    filters: stat,wall,log4j
+  datasource.gjent:
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.10.15:1521:XE
+    username: ggfw_zhengzhou
+    password: 123456
+    initialSize: 5
+    maxIdle: 5
+    maxActive: 10
+    validationQuery: SELECT 1 from DUAL
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 100
+    filters: stat,wall,log4j
+
+logging:
+  file: maintain.log
+  level:
+    org:
+      mybatis: TRACE
+      springframework: INFO
+    online.zhaopei.myproject: TRACE
+    online.zhaopei.myproject.service: TRACE
+    online.zhaopei.myproject.mapper: TRACE
