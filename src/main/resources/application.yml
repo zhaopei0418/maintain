@@ -48,6 +48,8 @@ spring:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 100
     filters: stat,wall,log4j
+  thymeleaf:
+    cache: false
 
 logging:
   file: maintain.log
