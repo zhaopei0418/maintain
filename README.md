@@ -1,5 +1,7 @@
 用java 语言 + springboot + springmvc + mybatis + (maven/gradle) 搭成的框架
 
+用thymeleaf模板 + bootstrap
+
 此系统只为维护另一个项目快速查询问题而用,也是练习项目。
 
 1.用maven启动命令是
