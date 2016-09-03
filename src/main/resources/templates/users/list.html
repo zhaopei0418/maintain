@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorate="layout">
+    <head>
+        <title>用户管理</title>
+    </head>
+    <body>
+        <h1 layout:fragment="header">用户管理</h1>
+        <div layout:fragment="content">
+            <form class="form-horizontal" role="form" action="users" id="user_form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">登录名</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" placeholder="admin" name="loginName" th:value="${user.loginName}" />
+                    </div>
+                    <label class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" placeholder="全速通" name="userName" th:value="${user.userName}"/>
+                    </div>
+                </div>
+                <div class="pull-right form-group no-margin-right">
+                    <button type="submit" class="btn btn-info btn-lg">搜索</button>
+                    <button type="reset" class="btn btn-warning btn-lg">重置</button>
+                </div>
+            </form>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>用户ID</th>
+                        <th>登录名</th>
+                        <th>用户名</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${userList.empty}">
+                        <td colspan="3">没有数据</td>
+                    </tr>
+                    <tr th:each="user : ${userList}">
+                        <td th:text="${user.userId}">User Id</td>
+                        <td th:text="${user.loginName}">Login name</td>
+                        <td><a th:href="@{'users/' + ${user.userId}}" th:text="${user.userName}"> The summary </a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul class="pagination pagination-lg pull-right">
+                <li th:class="${pageInfo.isFirstPage} ? 'disabled'"><a href="javascript:void(0)"
+                    th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'user_form\', ' + ${pageInfo.prePage} + ');'">&laquo;</a></li>
+                <li th:each="page : ${pageList}" th:class="${page == user.pageNum} ? 'active'">
+                    <a href="javascript:void(0)" th:text="${page}" th:onclick="'goToPageNum(\'user_form\',' + ${page} + ');'"></a>
+                </li>
+                <li th:class="${pageInfo.isLastPage} ? 'disabled'"><a href="javascript:void(0)"
+                    th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'user_form\', ' + ${pageInfo.nextPage} + ');'">&raquo;</a></li>
+            </ul>
+        </div>
+    </body>
+</html>

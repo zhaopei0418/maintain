@@ -9,7 +9,6 @@ spring:
     username: ecssent
     password: 123456
     initialSize: 5
-    maxIdle: 5
     maxActive: 10
     validationQuery: SELECT 1 from DUAL
     testOnBorrow: true
@@ -24,7 +23,6 @@ spring:
     username: para
     password: 123456
     initialSize: 5
-    maxIdle: 5
     maxActive: 10
     validationQuery: SELECT 1 from DUAL
     testOnBorrow: true
@@ -39,7 +37,6 @@ spring:
     username: ggfw_zhengzhou
     password: 123456
     initialSize: 5
-    maxIdle: 5
     maxActive: 10
     validationQuery: SELECT 1 from DUAL
     testOnBorrow: true
@@ -58,5 +55,3 @@ logging:
       mybatis: TRACE
       springframework: INFO
     online.zhaopei.myproject: TRACE
-    online.zhaopei.myproject.service: TRACE
-    online.zhaopei.myproject.mapper: TRACE

@@ -1,8 +1,8 @@
 package online.zhaopei.myproject.domain.gjent;
 
-import java.io.Serializable;
+import online.zhaopei.myproject.domain.BaseDomain;
 
-public class PersonalInfo implements Serializable {
+public class PersonalInfo extends BaseDomain {
 
 	/**
 	 * serialVersionUID

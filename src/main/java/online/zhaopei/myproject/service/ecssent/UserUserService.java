@@ -7,5 +7,7 @@ import online.zhaopei.myproject.domain.ecssent.UserUser;
 
 public interface UserUserService extends Serializable {
 
-	List<UserUser> getAllUsers();
+	List<UserUser> getUsers(UserUser user);
+	
+	UserUser getUserByUserId(String userId);
 }

@@ -1,8 +1,8 @@
 package online.zhaopei.myproject.domain.ecssent;
 
-import java.io.Serializable;
+import online.zhaopei.myproject.domain.BaseDomain;
 
-public class UserUser implements Serializable {
+public class UserUser extends BaseDomain {
 
 	/**
 	 * serialVersionUID

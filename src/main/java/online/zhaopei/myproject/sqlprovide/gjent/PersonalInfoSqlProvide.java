@@ -11,7 +11,7 @@ public class PersonalInfoSqlProvide implements Serializable {
 	 */
 	private static final long serialVersionUID = 8269148158645035995L;
 
-	public String getPersonById() {
+	public String getPersonByIdSql() {
 		return new SQL() {{
 			this.SELECT("uuid, pername, certid");
 			this.FROM("personal_info");

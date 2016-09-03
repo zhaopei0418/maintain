@@ -21,8 +21,13 @@ public class UserUserServiceImpl implements UserUserService {
 	private UserUserMapper userUserMapper;
 	
 	@Override
-	public List<UserUser> getAllUsers() {
-		return this.userUserMapper.getAllUsers();
+	public List<UserUser> getUsers(UserUser user) {
+		return this.userUserMapper.getUsers(user);
+	}
+
+	@Override
+	public UserUser getUserByUserId(String userId) {
+		return this.userUserMapper.getUserByUserId(userId);
 	}
 
 }

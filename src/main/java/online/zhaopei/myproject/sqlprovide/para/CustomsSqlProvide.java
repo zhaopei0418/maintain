@@ -11,7 +11,7 @@ public class CustomsSqlProvide implements Serializable {
 	 */
 	private static final long serialVersionUID = -1630423204207078524L;
 
-	public String getCustomsByCode() {
+	public String getCustomsByCodeSql() {
 		return new SQL() {{
 			this.SELECT("*");
 			this.FROM("customs");

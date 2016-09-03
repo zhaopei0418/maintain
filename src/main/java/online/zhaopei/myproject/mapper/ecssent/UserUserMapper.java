@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
 
@@ -17,6 +18,10 @@ public interface UserUserMapper extends Serializable {
 		@Result(property = "loginName", column = "login_name"),
 		@Result(property = "userName", column = "user_name")
 	})
-	@SelectProvider(type = UserUserSqlProvide.class, method = "getAllUsers")
-	List<UserUser> getAllUsers();
+	@SelectProvider(type = UserUserSqlProvide.class, method = "getUsersSql")
+	List<UserUser> getUsers(UserUser user);
+	
+	@ResultMap(value = "userUserResult")
+	@SelectProvider(type = UserUserSqlProvide.class, method = "getUserByUserIdSql")
+	UserUser getUserByUserId(String userId);
 }

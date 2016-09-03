@@ -1,8 +1,8 @@
 package online.zhaopei.myproject.domain.para;
 
-import java.io.Serializable;
+import online.zhaopei.myproject.domain.BaseDomain;
 
-public class Customs implements Serializable {
+public class Customs extends BaseDomain {
 
 	/**
 	 * serialVersionUID

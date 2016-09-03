@@ -17,6 +17,6 @@ public interface CustomsMapper extends Serializable {
 		@Result(property = "customsName", column = "customs_name"),
 		@Result(property = "abbrCust", column = "abbr_cust")
 	})
-	@SelectProvider(type = CustomsSqlProvide.class, method = "getCustomsByCode")
+	@SelectProvider(type = CustomsSqlProvide.class, method = "getCustomsByCodeSql")
 	Customs getCustomsByCode(@Param("customsCode") String customsCode);
 }
