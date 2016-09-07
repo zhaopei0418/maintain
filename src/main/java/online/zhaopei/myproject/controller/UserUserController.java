@@ -24,7 +24,7 @@ public class UserUserController extends BaseController {
 	@Autowired
 	private UserUserService userUserService;
 
-	@GetMapping
+	@RequestMapping
 	public ModelAndView index(UserUser user) {
 		PageInfo<UserUser> pageInfo = this.getPageInfo(user, UserUser.class, this.userUserService, "getUsers");
 		ModelAndView mv = this.buildBaseModelAndView("users/list", pageInfo);

@@ -39,6 +39,14 @@
 				<h1 layout:fragment="header">Layout</h1>
 				<div layout:fragment="content">Fake content</div>
 			</div>
+			<script type="text/javascript">
+				$(".modal").on("shown.bs.modal", function(e) {
+					var self = $(this);
+					var modalDialog = self.find(".modal-dialog");
+					var m_top = ($(document).height() - modalDialog.height()) / 2;
+					modalDialog.css("margin", m_top + " px auto");
+				});
+			</script>
 		</div>
 	</body>
 </html>

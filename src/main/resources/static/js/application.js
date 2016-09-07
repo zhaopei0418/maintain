@@ -20,3 +20,9 @@ function switchActiveMenu(menuId) {
 	});
 	menuObj.addClass("active");
 }
+
+function resetForm(formId) {
+	var formObj = $("#" + formId);
+	formObj.find("input").val("");
+	formObj.find("select").val("");
+}

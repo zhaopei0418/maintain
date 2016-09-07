@@ -11,24 +11,115 @@
 		<script type="text/javascript">
 			switchActiveMenu("invt_man");
 		</script>
-		<form class="form-horizontal" role="form" action="invts"
+		
+		<!-- Small modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target=".bs-example-modal-sm">Small modal</button>
+
+		<div class="modal fade bs-example-modal-sm" tabindex="-1"
+			role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+					</div>
+					<div class="modal-body">...</div>
+				</div>
+			</div>
+		</div>
+		
+		<form class="form-horizontal" role="form" action="invts" method="POST"
 			id="invt_form">
 			<div class="form-group">
-				<label class="col-sm-2 control-label">登录名</label>
-				<div class="col-sm-4">
-					<input class="form-control" type="text" placeholder="admin"
-						name="loginName" />
+				<label class="col-sm-1 control-label">电商代码</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="ebcCode" placeholder="电商代码"
+						th:value="${invtHead.ebcCode}" />
 				</div>
-				<label class="col-sm-2 control-label">用户名</label>
-				<div class="col-sm-4">
-					<input class="form-control" type="text" placeholder="全速通"
-						name="userName" />
+				<label class="col-sm-1 control-label">电商名称</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="ebcName" placeholder="电商名称"
+						th:value="${invtHead.ebcName}" />
+				</div>
+				<label class="col-sm-1 control-label">申报企业代码</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="agentCode" placeholder="申报企业代码"
+						th:value="${invtHead.agentCode}" />
+				</div>
+				<label class="col-sm-1 control-label">申报企业名称</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="agentName" placeholder="申报企业名称"
+						th:value="${invtHead.agentName}" />
 				</div>
 				<input type="hidden" name="pageSize" th:value="${invtHead.pageSize}" />
 			</div>
+			<div class="form-group">
+				<label class="col-sm-1 control-label">物流企业代码</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="logisticsCode" placeholder="物流企业代码"
+						th:value="${invtHead.logisticsCode}" />
+				</div>
+				<label class="col-sm-1 control-label">物流企业名称</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="logisticsName" placeholder="物流企业名称"
+						th:value="${invtHead.logisticsName}" />
+				</div>
+				<label class="col-sm-1 control-label">区内企业代码</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="areaCode" placeholder="区内企业代码"
+						th:value="${invtHead.areaCode}" />
+				</div>
+				<label class="col-sm-1 control-label">区内企业名称</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="areaName" placeholder="区内企业名称"
+						th:value="${invtHead.areaName}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-1 control-label">清单号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="invtNo" placeholder="清单号"
+						th:value="${invtHead.invtNo}" />
+				</div>
+				<label class="col-sm-1 control-label">订单号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="orderNo" placeholder="订单号"
+						th:value="${invtHead.orderNo}" />
+				</div>
+				<label class="col-sm-1 control-label">运单号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="logisticsNo" placeholder="运单号"
+						th:value="${invtHead.logisticsNo}" />
+				</div>
+				<label class="col-sm-1 control-label">内部编号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="copNo" placeholder="内部编号" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-1 control-label">清单状态</label>
+				<div class="col-sm-2">
+					<select class="form-control" name="appStatus">
+						<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
+							th:text="${appStat.value}"
+							th:selected="${appStat.key == invtHead.appStatus} ? 'selected'"></option>
+					</select>
+				</div>
+				<label class="col-sm-1 control-label">出区状态</label>
+				<div class="col-sm-2">
+					<select class="form-control" name="distStatus">
+						<option th:each="distStat : ${distStatus}" th:value="${distStat.key}"
+							th:text="${distStat.value}"
+							th:selected="${distStat.key == invtHead.distStatus} ? 'selected'"></option>
+					</select>
+				</div>
+			</div>
 			<div class="pull-right form-group no-margin-right">
 				<button type="submit" class="btn btn-info btn-lg">搜索</button>
-				<button type="reset" class="btn btn-warning btn-lg">重置</button>
+				<button type="button" class="btn btn-warning btn-lg" onclick="resetForm('invt_form')">重置</button>
 			</div>
 		</form>
 		<table class="table table-bordered table-striped table-hover">
@@ -43,12 +134,14 @@
 					<th>订单号</th>
 					<th>物流企业</th>
 					<th>运单号</th>
+					<th>申报日期</th>
 					<th>清单状态</th>
+					<th>出区状态</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:if="${invtHeadList.empty}">
-					<td colspan="3">没有数据</td>
+					<td colspan="12">没有数据</td>
 				</tr>
 				<tr th:each="invtHead,stat : ${invtHeadList}">
 					<td th:text="${stat.count}"></td>
@@ -66,7 +159,27 @@
 					<td th:text="${invtHead.orderNo}"></td>
 					<td th:text="${invtHead.logisticsName}" th:title="${invtHead.logisticsCode}"></td>
 					<td th:text="${invtHead.logisticsNo}"></td>
-					<td><span class="label label-success" th:text="${invtHead.appStatus}"></span></td>
+					<td th:text="${#calendars.format(invtHead.appTime, 'YYYY-MM-dd hh:mm:ss')}"></td>
+					<td th:switch="${invtHead.appStatus}" data-toggle="modal"
+						data-target=".bs-example-modal-sm">
+						<span th:case="05" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="04" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="4" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="500" class="label label-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="100" class="label label-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="700" class="label label-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="800" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="899" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="3" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="03" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
+						<span th:case="*" class="label label-info" th:text="${appStatus[invtHead.appStatus]}"></span>
+					</td>
+					<td th:switch="${invtHead.distStatus}">
+						<span th:case="1" class="label label-danger" th:text="${distStatus[invtHead.distStatus]}"></span>
+						<span th:case="2" class="label label-warning" th:text="${distStatus[invtHead.distStatus]}"></span>
+						<span th:case="8" class="label label-success" th:text="${distStatus[invtHead.distStatus]}"></span>
+						<span th:case="*" class="label label-info" th:text="${distStatus[invtHead.distStatus]}"></span>
+					</td>
 				</tr>
 			</tbody>
 		</table>

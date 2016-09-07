@@ -1,7 +1,6 @@
 package online.zhaopei.myproject.domain.ecssent;
 
-import java.sql.Time;
-
+import java.util.Date;
 
 import online.zhaopei.myproject.domain.BaseDomain;
 
@@ -26,7 +25,7 @@ public class PubRtn extends BaseDomain {
 	
 	private String rtnStatus;
 	
-	private Time rtnTime;
+	private Date rtnTime;
 	
 	private String rtnInfo;
 	
@@ -34,7 +33,7 @@ public class PubRtn extends BaseDomain {
 	
 	private Integer sysDays;
 	
-	private Time sysDate;
+	private Date sysDate;
 
 	public String getMsgGuid() {
 		return msgGuid;
@@ -92,11 +91,11 @@ public class PubRtn extends BaseDomain {
 		this.rtnStatus = rtnStatus;
 	}
 
-	public Time getRtnTime() {
+	public Date getRtnTime() {
 		return rtnTime;
 	}
 
-	public void setRtnTime(Time rtnTime) {
+	public void setRtnTime(Date rtnTime) {
 		this.rtnTime = rtnTime;
 	}
 
@@ -124,11 +123,12 @@ public class PubRtn extends BaseDomain {
 		this.sysDays = sysDays;
 	}
 
-	public Time getSysDate() {
+	public Date getSysDate() {
 		return sysDate;
 	}
 
-	public void setSysDate(Time sysDate) {
+	public void setSysDate(Date sysDate) {
 		this.sysDate = sysDate;
 	}
+
 }

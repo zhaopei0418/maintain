@@ -18,7 +18,7 @@ public class InvtHead extends BaseDomain {
 
 	private String appType;
 
-	private Time appTime;
+	private Date appTime;
 
 	private String appStatus;
 
@@ -110,7 +110,7 @@ public class InvtHead extends BaseDomain {
 
 	private Integer sysDays;
 
-	private Time sysDate;
+	private Date sysDate;
 
 	private Double totalValue;
 
@@ -120,7 +120,7 @@ public class InvtHead extends BaseDomain {
 
 	private String distStatus;
 
-	private Time dischargeDate;
+	private Date dischargeDate;
 	
 	private List<PubRtn> pubRtnList;
 
@@ -140,11 +140,11 @@ public class InvtHead extends BaseDomain {
 		this.appType = appType;
 	}
 
-	public Time getAppTime() {
+	public Date getAppTime() {
 		return appTime;
 	}
 
-	public void setAppTime(Time appTime) {
+	public void setAppTime(Date appTime) {
 		this.appTime = appTime;
 	}
 
@@ -508,11 +508,11 @@ public class InvtHead extends BaseDomain {
 		this.sysDays = sysDays;
 	}
 
-	public Time getSysDate() {
+	public Date getSysDate() {
 		return sysDate;
 	}
 
-	public void setSysDate(Time sysDate) {
+	public void setSysDate(Date sysDate) {
 		this.sysDate = sysDate;
 	}
 
@@ -548,11 +548,11 @@ public class InvtHead extends BaseDomain {
 		this.distStatus = distStatus;
 	}
 
-	public Time getDischargeDate() {
+	public Date getDischargeDate() {
 		return dischargeDate;
 	}
 
-	public void setDischargeDate(Time dischargeDate) {
+	public void setDischargeDate(Date dischargeDate) {
 		this.dischargeDate = dischargeDate;
 	}
 

@@ -11,6 +11,7 @@
 		<script type="text/javascript">
 			switchActiveMenu("user_man");
 		</script>
+
 		<form class="form-horizontal" role="form" action="users"
 			id="user_form">
 			<div class="form-group">
@@ -52,36 +53,36 @@
 			</tbody>
 		</table>
 		<ul class="pagination pagination-lg pull-right">
-			<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
-			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
-				<a href="javascript:void(0)"
-						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'user_form\', 1);'">首页</a>
+			<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条
+			</a></li>
+			<li th:class="${0 == pageInfo.pages} ? 'disabled'"><a
+				href="javascript:void(0)"
+				th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'user_form\', 1);'">首页</a>
 			</li>
-			<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
-				<a href="javascript:void(0)"
-					th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'user_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+			<li th:class="${pageInfo.isFirstPage} ? 'disabled'"><a
+				href="javascript:void(0)"
+				th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'user_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
 			</li>
 			<li th:each="page : ${pageList}"
-				th:class="${page == pageInfo.pageNum} ? 'active'">
-				<a href="javascript:void(0)" th:text="${page}"
-					th:onclick="'goToPageNum(\'user_form\',' + ${page} + ');'"></a>
+				th:class="${page == pageInfo.pageNum} ? 'active'"><a
+				href="javascript:void(0)" th:text="${page}"
+				th:onclick="'goToPageNum(\'user_form\',' + ${page} + ');'"></a></li>
+			<li th:class="${pageInfo.isLastPage} ? 'disabled'"><a
+				href="javascript:void(0)"
+				th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'user_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
 			</li>
-			<li th:class="${pageInfo.isLastPage} ? 'disabled'">
-				<a href="javascript:void(0)"
-					th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'user_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
-			</li>
-			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
-				<a href="javascript:void(0)"
-						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'user_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+			<li th:class="${0 == pageInfo.pages} ? 'disabled'"><a
+				href="javascript:void(0)"
+				th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'user_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
 			</li>
 			<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
 			<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
-			<li>
-				<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('user_form', this.value);">
+			<li><select title="显示条数" class="input-lg" style="width: 60px;"
+				onchange="changePageSize('user_form', this.value);">
 					<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
-						th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
-				</select>
-			</li>
+						th:value="${pageSize}"
+						th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+			</select></li>
 		</ul>
 	</div>
 </body>

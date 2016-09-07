@@ -47,11 +47,24 @@ public enum InvtHeadConstant implements Serializable {
 	APP_STATUS_800("800"),
 	APP_STATUS_800_DESC("放行"),
 	APP_STATUS_899("899"),
-	APP_STATUS_899_DESC("结关")
+	APP_STATUS_899_DESC("结关"),
+	
+	DIST_STATUS_1("1"),
+	DIST_STATUS_1_DESC("未绑核放单"),
+	DIST_STATUS_2("2"),
+	DIST_STATUS_2_DESC("已绑核放单"),
+	DIST_STATUS_5("5"),
+	DIST_STATUS_5_DESC("滞留"),
+	DIST_STATUS_6("6"),
+	DIST_STATUS_6_DESC("放行"),
+	DIST_STATUS_8("8"),
+	DIST_STATUS_8_DESC("核放单结案"),
 	
 	;
 	
 	private static Map<String, String> APP_STATUS_MAP = new HashMap<String, String>();
+	
+	private static Map<String, String> DIST_STATUS_MAP = new HashMap<String, String>();
 	
 	static {
 		APP_STATUS_MAP.put("", "所有状态");
@@ -76,6 +89,13 @@ public enum InvtHeadConstant implements Serializable {
 		APP_STATUS_MAP.put(APP_STATUS_700.value, APP_STATUS_700_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_800.value, APP_STATUS_800_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_899.value, APP_STATUS_899_DESC.value);
+		
+		DIST_STATUS_MAP.put("", "所有状态");
+		DIST_STATUS_MAP.put(DIST_STATUS_1.value, DIST_STATUS_1_DESC.value);
+		DIST_STATUS_MAP.put(DIST_STATUS_2.value, DIST_STATUS_2_DESC.value);
+		DIST_STATUS_MAP.put(DIST_STATUS_5.value, DIST_STATUS_5_DESC.value);
+		DIST_STATUS_MAP.put(DIST_STATUS_6.value, DIST_STATUS_6_DESC.value);
+		DIST_STATUS_MAP.put(DIST_STATUS_8.value, DIST_STATUS_8_DESC.value);
 	}
 	
 	private String value;
@@ -91,6 +111,10 @@ public enum InvtHeadConstant implements Serializable {
 
 	public static Map<String, String> getAPP_STATUS_MAP() {
 		return APP_STATUS_MAP;
+	}
+
+	public static Map<String, String> getDIST_STATUS_MAP() {
+		return DIST_STATUS_MAP;
 	}
 	
 }

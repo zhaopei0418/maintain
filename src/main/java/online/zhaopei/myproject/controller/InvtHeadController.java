@@ -24,15 +24,15 @@ public class InvtHeadController extends BaseController {
 	@Autowired
 	private InvtHeadService invtHeadService;
 	
-	@GetMapping
+	@RequestMapping
 	public ModelAndView index(InvtHead invtHead) {
 		PageInfo<InvtHead> pageInfo = this.getPageInfo(invtHead, InvtHead.class, this.invtHeadService, "getInvtHeadList");
 		ModelAndView mv = this.buildBaseModelAndView("invts/list", pageInfo);
-		pageInfo.getList().get(0).getPubRtnList();
 		mv.addObject("invtHead", invtHead);
 		mv.addObject("invtHeadList", pageInfo.getList());
 		mv.addObject("pageInfo", pageInfo);
 		mv.addObject("appStatus", InvtHeadConstant.getAPP_STATUS_MAP());
+		mv.addObject("distStatus", InvtHeadConstant.getDIST_STATUS_MAP());
 		return mv;
 	}
 }

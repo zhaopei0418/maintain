@@ -19,6 +19,7 @@ public class InvtHeadSqlProvide implements Serializable {
 		return new SQL() {{
 			StringBuffer columns = new StringBuffer("head_guid");
 			columns.append(",app_status");
+			columns.append(",app_time");
 			columns.append(",app_sender_id");
 			columns.append(",order_no");
 			columns.append(",ebc_code");
@@ -32,6 +33,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			columns.append(",agent_name");
 			columns.append(",area_code");
 			columns.append(",area_name");
+			columns.append(",dist_status");
 			this.SELECT(columns.toString());
 			this.FROM("ceb2_invt_head");
 			if (!StringUtils.isEmpty(invtHead.getHeadGuid())) {
@@ -47,7 +49,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getOrderNo())) {
-				this.WHERE("order_no = '" + invtHead.getOrderNo() + "'");
+				this.WHERE("order_no like '%" + invtHead.getOrderNo() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEbcCode())) {
@@ -55,11 +57,11 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEbcName())) {
-				this.WHERE("ebc_name = '" + invtHead.getEbcName() + "'");
+				this.WHERE("ebc_name like '%" + invtHead.getEbcName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsNo())) {
-				this.WHERE("logistics_no = '" + invtHead.getLogisticsNo() + "'");
+				this.WHERE("logistics_no like '%" + invtHead.getLogisticsNo() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsCode())) {
@@ -67,7 +69,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsName())) {
-				this.WHERE("logistics_name = '" + invtHead.getLogisticsName() + "'");
+				this.WHERE("logistics_name like '%" + invtHead.getLogisticsName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getCopNo())) {
@@ -75,7 +77,27 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getInvtNo())) {
-				this.WHERE("invt_no = '" + invtHead.getInvtNo() + "'");
+				this.WHERE("invt_no like '%" + invtHead.getInvtNo() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHead.getAgentCode())) {
+				this.WHERE("agent_code = '" + invtHead.getAgentCode() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHead.getAgentName())) {
+				this.WHERE("agent_name like '%" + invtHead.getAgentName() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHead.getAreaCode())) {
+				this.WHERE("area_code = '" + invtHead.getAreaCode() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHead.getAreaName())) {
+				this.WHERE("area_name like '%" + invtHead.getAreaName() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHead.getDistStatus())) {
+				this.WHERE("dist_status = '" + invtHead.getDistStatus() + "'");
 			}
 			
 		}}.toString();
