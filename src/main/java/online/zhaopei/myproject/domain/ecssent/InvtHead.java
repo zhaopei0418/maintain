@@ -1,10 +1,12 @@
 package online.zhaopei.myproject.domain.ecssent;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.GsonBuilder;
+
 import online.zhaopei.myproject.domain.BaseDomain;
+import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
 
 public class InvtHead extends BaseDomain {
 
@@ -41,6 +43,8 @@ public class InvtHead extends BaseDomain {
 	private String logisticsName;
 
 	private String copNo;
+	
+	private String preNo;
 
 	private String assureCode;
 
@@ -124,6 +128,8 @@ public class InvtHead extends BaseDomain {
 	
 	private List<PubRtn> pubRtnList;
 
+	private List<ImpInvtHead> impInvtHeadList;
+	
 	public String getHeadGuid() {
 		return headGuid;
 	}
@@ -234,6 +240,14 @@ public class InvtHead extends BaseDomain {
 
 	public void setCopNo(String copNo) {
 		this.copNo = copNo;
+	}
+
+	public String getPreNo() {
+		return preNo;
+	}
+
+	public void setPreNo(String preNo) {
+		this.preNo = preNo;
 	}
 
 	public String getAssureCode() {
@@ -559,8 +573,21 @@ public class InvtHead extends BaseDomain {
 	public List<PubRtn> getPubRtnList() {
 		return pubRtnList;
 	}
+	
+	public String getPubRtnListJson() {
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+				.create().toJson(this.pubRtnList);
+	}
 
 	public void setPubRtnList(List<PubRtn> pubRtnList) {
 		this.pubRtnList = pubRtnList;
+	}
+
+	public List<ImpInvtHead> getImpInvtHeadList() {
+		return impInvtHeadList;
+	}
+
+	public void setImpInvtHeadList(List<ImpInvtHead> impInvtHeadList) {
+		this.impInvtHeadList = impInvtHeadList;
 	}
 }

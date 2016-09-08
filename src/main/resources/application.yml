@@ -47,6 +47,8 @@ spring:
     filters: stat,wall,log4j
   thymeleaf:
     cache: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
 
 logging:
   file: maintain.log

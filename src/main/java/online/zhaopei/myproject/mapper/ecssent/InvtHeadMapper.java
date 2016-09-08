@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Many;
+import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -13,6 +14,7 @@ import org.apache.ibatis.type.JdbcType;
 
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.ecssent.PubRtn;
+import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
 import online.zhaopei.myproject.sqlprovide.ecssent.InvtHeadSqlProvide;
 
 public interface InvtHeadMapper extends Serializable {
@@ -32,6 +34,7 @@ public interface InvtHeadMapper extends Serializable {
 		@Result(property = "logisticsCode", column = "logistics_code"),
 		@Result(property = "logisticsName", column = "logistics_name"),
 		@Result(property = "copNo", column = "cop_no"),
+		@Result(property = "preNo", column = "pre_no"),
 		@Result(property = "invtNo", column = "invt_no"),
 		@Result(property = "agentCode", column = "agent_code"),
 		@Result(property = "agentName", column = "agent_name"),

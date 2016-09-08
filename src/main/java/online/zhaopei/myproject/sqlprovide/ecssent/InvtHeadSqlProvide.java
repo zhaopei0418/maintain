@@ -18,23 +18,23 @@ public class InvtHeadSqlProvide implements Serializable {
 	public String getInvtHeadListSql(final InvtHead invtHead) {
 		return new SQL() {{
 			StringBuffer columns = new StringBuffer("head_guid");
-			columns.append(",app_status");
-			columns.append(",app_time");
-			columns.append(",app_sender_id");
-			columns.append(",order_no");
-			columns.append(",ebc_code");
-			columns.append(",ebc_name");
-			columns.append(",logistics_no");
-			columns.append(",logistics_code");
-			columns.append(",logistics_name");
-			columns.append(",cop_no");
-			columns.append(",invt_no");
-			columns.append(",agent_code");
-			columns.append(",agent_name");
-			columns.append(",area_code");
-			columns.append(",area_name");
-			columns.append(",dist_status");
-			this.SELECT(columns.toString());
+			this.SELECT("app_status");
+			this.SELECT("app_time");
+			this.SELECT("app_sender_id");
+			this.SELECT("order_no");
+			this.SELECT("ebc_code");
+			this.SELECT("ebc_name");
+			this.SELECT("logistics_no");
+			this.SELECT("logistics_code");
+			this.SELECT("logistics_name");
+			this.SELECT("cop_no");
+			this.SELECT("pre_no");
+			this.SELECT("invt_no");
+			this.SELECT("agent_code");
+			this.SELECT("agent_name");
+			this.SELECT("area_code");
+			this.SELECT("area_name");
+			this.SELECT("dist_status");
 			this.FROM("ceb2_invt_head");
 			if (!StringUtils.isEmpty(invtHead.getHeadGuid())) {
 				this.WHERE("head_guid = '" + invtHead.getHeadGuid() + "'");

@@ -10,23 +10,71 @@
 	<div layout:fragment="content">
 		<script type="text/javascript">
 			switchActiveMenu("invt_man");
+			
+			function showModal(data, status) {
+				$("#appStatusModal").modal("show");
+				
+				var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+				dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
+				dataHtml += "<tbody>";
+				if (null != data) {
+					for (var i = 0; i < data.length; i++) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data[i].rtnTime + "</td>";
+						dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
+						dataHtml += "<td>" + data[i].rtnInfo + "</td>";
+						dataHtml += "</tr>";
+					}
+				}
+				dataHtml += "</tbody>";
+				dataHtml += "</table>";
+				
+				
+				$("#appStatusModal .modal-body").html(dataHtml);
+			}
+			
+			function getCiqStatusByInvtNo(invtNo) {
+				$.getJSON("/invts//getImpInvtHeadListByInvtNo/" + invtNo, function(data) {
+					$("#appStatusModal").modal("show");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
+					dataHtml += "<th>审批时间</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for(var i = 0; i < data.length; i++) {
+				
+							if (null != data) {
+								for (var i = 0; i < data.length; i++) {
+									dataHtml += "<tr>";
+									dataHtml += "<td title='" + data[i].payCode +"'>" + data[i].payName + "</td>";
+									dataHtml += "<td>" + data[i].auditState + "</td>";
+									dataHtml += "<td>" + data[i].bwName + "</td>";
+									dataHtml += "<td>" + data[i].applyDate + "</td>";
+									dataHtml += "</tr>";
+								}
+							}
+							
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
 		</script>
-		
-		<!-- Small modal -->
-		<button type="button" class="btn btn-primary" data-toggle="modal"
-			data-target=".bs-example-modal-sm">Small modal</button>
 
-		<div class="modal fade bs-example-modal-sm" tabindex="-1"
+		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
 			role="dialog" aria-labelledby="mySmallModalLabel">
-			<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">
 							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						<h4 class="modal-title" id="myModalLabel">历史状态</h4>
 					</div>
-					<div class="modal-body">...</div>
+					<div class="modal-body"></div>
 				</div>
 			</div>
 		</div>
@@ -34,7 +82,7 @@
 		<form class="form-horizontal" role="form" action="invts" method="POST"
 			id="invt_form">
 			<div class="form-group">
-				<label class="col-sm-1 control-label">电商代码</label>
+				<label class="col-sm-1 control-label" onclick="showModal('Hello World!')">电商代码</label>
 				<div class="col-sm-2">
 					<input class="form-control" type="text" name="ebcCode" placeholder="电商代码"
 						th:value="${invtHead.ebcCode}" />
@@ -137,11 +185,12 @@
 					<th>申报日期</th>
 					<th>清单状态</th>
 					<th>出区状态</th>
+					<th>国检状态</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:if="${invtHeadList.empty}">
-					<td colspan="12">没有数据</td>
+					<td colspan="13">没有数据</td>
 				</tr>
 				<tr th:each="invtHead,stat : ${invtHeadList}">
 					<td th:text="${stat.count}"></td>
@@ -160,8 +209,7 @@
 					<td th:text="${invtHead.logisticsName}" th:title="${invtHead.logisticsCode}"></td>
 					<td th:text="${invtHead.logisticsNo}"></td>
 					<td th:text="${#calendars.format(invtHead.appTime, 'YYYY-MM-dd hh:mm:ss')}"></td>
-					<td th:switch="${invtHead.appStatus}" data-toggle="modal"
-						data-target=".bs-example-modal-sm">
+					<td th:switch="${invtHead.appStatus}" th:onclick="'showModal(' + ${invtHead.pubRtnListJson} + ', ' + ${appStatusJson} + ')'">
 						<span th:case="05" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
 						<span th:case="04" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
 						<span th:case="4" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
@@ -180,6 +228,7 @@
 						<span th:case="8" class="label label-success" th:text="${distStatus[invtHead.distStatus]}"></span>
 						<span th:case="*" class="label label-info" th:text="${distStatus[invtHead.distStatus]}"></span>
 					</td>
+					<td><button class="btn btn-info" th:onclick="'getCiqStatusByInvtNo(\'' + ${invtHead.invtNo} + '\')'">查询</button></td>
 				</tr>
 			</tbody>
 		</table>
