@@ -34,4 +34,26 @@ public class ImpInvtHeadSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+	
+	public String getInvtHeadListByCopNoSql(final String copNo) {
+		return new SQL() {{
+			this.SELECT("guid");
+			this.SELECT("pre_no");
+			this.SELECT("invt_no");
+			this.SELECT("detailscode");
+			this.SELECT("applycode");
+			this.SELECT("audit_state");
+			this.SELECT("bw_name");
+			this.SELECT("apply_date");
+			this.SELECT("payecode");
+			this.SELECT("payename");
+			this.FROM("imp_invt_head");
+			
+			if (!StringUtils.isEmpty(copNo)) {
+				this.WHERE("cop_no = '" + copNo + "'");
+			} else {
+				this.WHERE("1 = 2");
+			}
+		}}.toString();
+	}
 }

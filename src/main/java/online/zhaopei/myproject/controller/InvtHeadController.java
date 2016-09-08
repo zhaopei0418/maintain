@@ -41,6 +41,13 @@ public class InvtHeadController extends BaseController {
 		return impInvtHeadList;
 	}
 	
+	@GetMapping("/getImpInvtHeadListByCopNo/{copNo}")
+	@ResponseBody
+	public List<ImpInvtHead> getImpInvtHeadListByCopNo(@PathVariable("copNo") String copNo) {
+		List<ImpInvtHead> impInvtHeadList = this.impInvtHeadService.getInvtHeadListByCopNo(copNo);
+		return impInvtHeadList;
+	}
+	
 	@RequestMapping
 	public ModelAndView index(InvtHead invtHead) {
 		PageInfo<InvtHead> pageInfo = this.getPageInfo(invtHead, InvtHead.class, this.invtHeadService, "getInvtHeadList");

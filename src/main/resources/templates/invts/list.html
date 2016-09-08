@@ -34,8 +34,8 @@
 				$("#appStatusModal .modal-body").html(dataHtml);
 			}
 			
-			function getCiqStatusByInvtNo(invtNo) {
-				$.getJSON("/invts//getImpInvtHeadListByInvtNo/" + invtNo, function(data) {
+			function getCiqStatusByCopNo(copNo) {
+				$.getJSON("/invts/getImpInvtHeadListByCopNo/" + copNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("国检状态");
 					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
@@ -230,7 +230,7 @@
 						<span th:case="8" class="label label-success" th:text="${distStatus[invtHead.distStatus]}"></span>
 						<span th:case="*" class="label label-info" th:text="${distStatus[invtHead.distStatus]}"></span>
 					</td>
-					<td><button class="btn btn-info" th:onclick="'getCiqStatusByInvtNo(\'' + ${invtHead.invtNo} + '\')'">查询</button></td>
+					<td><button class="btn btn-info" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\')'">查询</button></td>
 				</tr>
 			</tbody>
 		</table>

@@ -8,4 +8,6 @@ import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
 public interface ImpInvtHeadService extends Serializable {
 
 	List<ImpInvtHead> getInvtHeadListByInvtNo(String invtNo);
+	
+	List<ImpInvtHead> getInvtHeadListByCopNo(String copNo);
 }

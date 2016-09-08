@@ -25,4 +25,9 @@ public class ImpInvtHeadServiceImpl implements ImpInvtHeadService {
 		return this.impInvtHeadMapper.getInvtHeadListByInvtNo(invtNo);
 	}
 
+	@Override
+	public List<ImpInvtHead> getInvtHeadListByCopNo(String copNo) {
+		return this.impInvtHeadMapper.getInvtHeadListByCopNo(copNo);
+	}
+
 }
