@@ -13,6 +13,7 @@
 			
 			function showModal(data, status) {
 				$("#appStatusModal").modal("show");
+				$("#appStatusModal .modal-title").text("历史状态");
 				
 				var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
 				dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
@@ -36,6 +37,7 @@
 			function getCiqStatusByInvtNo(invtNo) {
 				$.getJSON("/invts//getImpInvtHeadListByInvtNo/" + invtNo, function(data) {
 					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("国检状态");
 					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
 					dataHtml += "<thead><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
 					dataHtml += "<th>审批时间</th></thead>";
@@ -72,7 +74,7 @@
 						<button type="button" class="close" data-dismiss="modal">
 							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel">历史状态</h4>
+						<h4 class="modal-title">历史状态</h4>
 					</div>
 					<div class="modal-body"></div>
 				</div>
