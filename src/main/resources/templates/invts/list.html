@@ -11,35 +11,12 @@
 		<script type="text/javascript">
 			switchActiveMenu("invt_man");
 			
-			function showModal(data, status) {
-				$("#appStatusModal").modal("show");
-				$("#appStatusModal .modal-title").text("历史状态");
-				
-				var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
-				dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
-				dataHtml += "<tbody>";
-				if (null != data) {
-					for (var i = 0; i < data.length; i++) {
-						dataHtml += "<tr>";
-						dataHtml += "<td>" + data[i].rtnTime + "</td>";
-						dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
-						dataHtml += "<td>" + data[i].rtnInfo + "</td>";
-						dataHtml += "</tr>";
-					}
-				}
-				dataHtml += "</tbody>";
-				dataHtml += "</table>";
-				
-				
-				$("#appStatusModal .modal-body").html(dataHtml);
-			}
-			
-			function getCiqStatusByCopNo(copNo) {
+			function getCiqStatusByCopNo(copNo, status) {
 				$.getJSON("/invts/getImpInvtHeadListByCopNo/" + copNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("国检状态");
 					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
-					dataHtml += "<thead><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
+					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
 					dataHtml += "<th>审批时间</th></thead>";
 					dataHtml += "<tbody>";
 					if (null != data) {
@@ -48,15 +25,75 @@
 							if (null != data) {
 								for (var i = 0; i < data.length; i++) {
 									dataHtml += "<tr>";
+									dataHtml += "<td>" + data[i].applyCode + "</td>"
 									dataHtml += "<td title='" + data[i].payCode +"'>" + data[i].payName + "</td>";
-									dataHtml += "<td>" + data[i].auditState + "</td>";
+									if (undefined != data[i].auditState && null != data[i].auditState) {
+										dataHtml += "<td>" + status[data[i].auditState] + "[" + data[i].auditState + "]" + "</td>";
+									} else {
+										dataHtml += "<td></td>";
+									}
 									dataHtml += "<td>" + data[i].bwName + "</td>";
 									dataHtml += "<td>" + data[i].applyDate + "</td>";
 									dataHtml += "</tr>";
 								}
 							}
-							
 						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getPubRtnListByBizGuid(bizGuid, status) {
+				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("历史状态");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for (var i = 0; i < data.length; i++) {
+							dataHtml += "<tr>";
+							dataHtml += "<td>" + data[i].rtnTime + "</td>";
+							dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
+							dataHtml += "<td>" + data[i].rtnInfo + "</td>";
+							dataHtml += "</tr>";
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getDistHeadByInvtNo(invtNo, status) {
+				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("核放单信息");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.distNo + "</td>";
+						dataHtml += "<td>" + data.customsCode + "</td>";
+						dataHtml += "<td title='" + data.declCode + "'>" + data.declName + "</td>";
+						dataHtml += "<td>" + data.distStat + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "<thead><tr><th>录入日期</th><th>申报日期</th><th>退单原因</th><th>备注</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.inputDate + "</td>";
+						dataHtml += "<td>" + data.declDate + "</td>";
+						dataHtml += "<td>" + data.returnReason + "</td>";
+						dataHtml += "<td>" + data.note + "</td>";
+						dataHtml += "</tr>";
 					}
 					dataHtml += "</tbody>";
 					dataHtml += "</table>";
@@ -196,22 +233,19 @@
 				</tr>
 				<tr th:each="invtHead,stat : ${invtHeadList}">
 					<td th:text="${stat.count}"></td>
-					<td>
-						<a th:href="@{'invts/' + ${invtHead.headGuid}}"
-							th:text="${invtHead.invtNo}"></a>
+					<td th:text="${invtHead.invtNo}" th:title="${invtHead.agentCode}"></td>
+					<td th:text="${invtHead.copNo}" th:title="${invtHead.agentCode}"></td>
+					
+					<td th:title="${invtHead.agentCode}">
+						<a href="javascript:void(0)" th:text="${invtHead.agentName}"></a>
 					</td>
-					<td>
-						<a th:href="@{'invts/' + ${invtHead.headGuid}}"
-							th:text="${invtHead.copNo}"></a>
-					</td>
-					<td th:text="${invtHead.agentName}" th:title="${invtHead.agentCode}"></td>
 					<td th:text="${invtHead.areaName}" th:title="${invtHead.areaCode}"></td>
 					<td th:text="${invtHead.ebcName}" th:title="${invtHead.ebcCode}"></td>
 					<td th:text="${invtHead.orderNo}"></td>
 					<td th:text="${invtHead.logisticsName}" th:title="${invtHead.logisticsCode}"></td>
 					<td th:text="${invtHead.logisticsNo}"></td>
 					<td th:text="${#calendars.format(invtHead.appTime, 'YYYY-MM-dd hh:mm:ss')}"></td>
-					<td th:switch="${invtHead.appStatus}" th:onclick="'showModal(' + ${invtHead.pubRtnListJson} + ', ' + ${appStatusJson} + ')'">
+					<td th:switch="${invtHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${invtHead.headGuid} + '\', ' + ${appStatusJson} + ')'">
 						<span th:case="05" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
 						<span th:case="04" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
 						<span th:case="4" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
@@ -224,13 +258,13 @@
 						<span th:case="03" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
 						<span th:case="*" class="label label-info" th:text="${appStatus[invtHead.appStatus]}"></span>
 					</td>
-					<td th:switch="${invtHead.distStatus}">
+					<td th:switch="${invtHead.distStatus}" th:onclick="'getDistHeadByInvtNo(\'' + ${invtHead.invtNo} + '\', ' + ${appStatusJson} + ')'">
 						<span th:case="1" class="label label-danger" th:text="${distStatus[invtHead.distStatus]}"></span>
 						<span th:case="2" class="label label-warning" th:text="${distStatus[invtHead.distStatus]}"></span>
 						<span th:case="8" class="label label-success" th:text="${distStatus[invtHead.distStatus]}"></span>
 						<span th:case="*" class="label label-info" th:text="${distStatus[invtHead.distStatus]}"></span>
 					</td>
-					<td><button class="btn btn-info" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\')'">查询</button></td>
+					<td><button class="btn btn-info" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
 				</tr>
 			</tbody>
 		</table>

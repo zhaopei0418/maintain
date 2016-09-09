@@ -17,7 +17,7 @@ public class InvtHeadSqlProvide implements Serializable {
 
 	public String getInvtHeadListSql(final InvtHead invtHead) {
 		return new SQL() {{
-			StringBuffer columns = new StringBuffer("head_guid");
+			this.SELECT("head_guid");
 			this.SELECT("app_status");
 			this.SELECT("app_time");
 			this.SELECT("app_sender_id");

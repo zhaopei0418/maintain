@@ -14,9 +14,13 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 import online.zhaopei.myproject.constant.InvtHeadConstant;
+import online.zhaopei.myproject.domain.ecssent.DistHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
+import online.zhaopei.myproject.domain.ecssent.PubRtn;
 import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
+import online.zhaopei.myproject.service.ecssent.DistHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
+import online.zhaopei.myproject.service.ecssent.PubRtnService;
 import online.zhaopei.myproject.service.gjent.ImpInvtHeadService;
 
 @Controller
@@ -34,6 +38,12 @@ public class InvtHeadController extends BaseController {
 	@Autowired
 	private ImpInvtHeadService impInvtHeadService;
 	
+	@Autowired
+	private PubRtnService pubRtnService;
+	
+	@Autowired
+	private DistHeadService distHeadService;
+	
 	@GetMapping("/getImpInvtHeadListByInvtNo/{invtNo}")
 	@ResponseBody
 	public List<ImpInvtHead> getImpInvtHeadListByInvtNo(@PathVariable("invtNo") String invtNo) {
@@ -44,8 +54,19 @@ public class InvtHeadController extends BaseController {
 	@GetMapping("/getImpInvtHeadListByCopNo/{copNo}")
 	@ResponseBody
 	public List<ImpInvtHead> getImpInvtHeadListByCopNo(@PathVariable("copNo") String copNo) {
-		List<ImpInvtHead> impInvtHeadList = this.impInvtHeadService.getInvtHeadListByCopNo(copNo);
-		return impInvtHeadList;
+		 return this.impInvtHeadService.getInvtHeadListByCopNo(copNo);
+	}
+	
+	@GetMapping("/getPubRtnListByBizGuid/{bizGuid}")
+	@ResponseBody
+	public List<PubRtn> getPubRtnListByBizGuid(@PathVariable("bizGuid") String bizGuid) {
+		return this.pubRtnService.getPubRtnListByBizGuid(bizGuid);
+	}
+	
+	@GetMapping("/getDistHeadByInvtNo/{invtNo}")
+	@ResponseBody
+	public DistHead getDistHeadByInvtNo(@PathVariable("invtNo") String invtNo) {
+		return this.distHeadService.getDistHeadByInvtNo(invtNo);
 	}
 	
 	@RequestMapping
@@ -57,6 +78,7 @@ public class InvtHeadController extends BaseController {
 		mv.addObject("pageInfo", pageInfo);
 		mv.addObject("appStatus", InvtHeadConstant.getAPP_STATUS_MAP());
 		mv.addObject("appStatusJson", new Gson().toJson(InvtHeadConstant.getAPP_STATUS_MAP()));
+		mv.addObject("auditStatusJson", new Gson().toJson(InvtHeadConstant.getAUDIT_STATE_MAP()));
 		mv.addObject("distStatus", InvtHeadConstant.getDIST_STATUS_MAP());
 		return mv;
 	}

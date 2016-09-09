@@ -21,9 +21,9 @@ public interface InvtHeadMapper extends Serializable {
 
 	@Results(id = "invtHeadResult", value = {
 		@Result(property = "headGuid", column = "head_guid", id = true),
-		@Result(property = "pubRtnList", javaType = List.class, column = "head_guid",
-			many = @Many(fetchType = FetchType.LAZY,
-				select = "online.zhaopei.myproject.mapper.ecssent.PubRtnMapper.getPubRtnListByBizGuid")),
+//		@Result(property = "pubRtnList", javaType = List.class, column = "head_guid",
+//			many = @Many(fetchType = FetchType.LAZY,
+//				select = "online.zhaopei.myproject.mapper.ecssent.PubRtnMapper.getPubRtnListByBizGuid")),
 		@Result(property = "appStatus", column = "app_status"),
 		@Result(property = "appTime", column = "app_time", jdbcType = JdbcType.TIMESTAMP),
 		@Result(property = "appSenderId", column = "app_sender_id"),
