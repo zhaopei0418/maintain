@@ -21,6 +21,10 @@ public class InvtHead extends BaseDomain {
 	private String appType;
 
 	private Date appTime;
+	
+	private String beginAppTime;
+	
+	private String endAppTime;
 
 	private String appStatus;
 
@@ -152,6 +156,22 @@ public class InvtHead extends BaseDomain {
 
 	public void setAppTime(Date appTime) {
 		this.appTime = appTime;
+	}
+
+	public String getBeginAppTime() {
+		return beginAppTime;
+	}
+
+	public void setBeginAppTime(String beginAppTime) {
+		this.beginAppTime = beginAppTime;
+	}
+
+	public String getEndAppTime() {
+		return endAppTime;
+	}
+
+	public void setEndAppTime(String endAppTime) {
+		this.endAppTime = endAppTime;
 	}
 
 	public String getAppStatus() {

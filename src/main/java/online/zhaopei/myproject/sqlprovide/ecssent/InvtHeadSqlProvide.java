@@ -44,6 +44,14 @@ public class InvtHeadSqlProvide implements Serializable {
 				this.WHERE("app_status = '" + invtHead.getAppStatus() + "'");
 			}
 			
+			if (!StringUtils.isEmpty(invtHead.getBeginAppTime())) {
+				this.WHERE("to_char(app_time, 'yyyy-mm-dd') >= '" + invtHead.getBeginAppTime() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHead.getEndAppTime())) {
+				this.WHERE("to_char(app_time, 'yyyy-mm-dd') <= '" + invtHead.getEndAppTime() + "'");
+			}
+			
 			if (!StringUtils.isEmpty(invtHead.getAppSenderId())) {
 				this.WHERE("app_sender_id = '" + invtHead.getAppSenderId() + "'");
 			}

@@ -11,6 +11,13 @@
 		<script type="text/javascript">
 			switchActiveMenu("invt_man");
 			
+			$(function() {
+				$(".input-date").datetimepicker({
+					locale: 'zh-CN',
+					format: 'YYYY-MM-DD'
+				});
+			});
+			
 			function getCiqStatusByCopNo(copNo, status) {
 				$.getJSON("/invts/getImpInvtHeadListByCopNo/" + copNo, function(data) {
 					$("#appStatusModal").modal("show");
@@ -202,6 +209,26 @@
 							th:text="${distStat.value}"
 							th:selected="${distStat.key == invtHead.distStatus} ? 'selected'"></option>
 					</select>
+				</div>
+				<label class="col-sm-1 control-label">申报开始时间</label>
+				<div class="col-sm-2">
+					<div class='input-group date input-date'>
+						<input type='text' class="form-control" name="beginAppTime"
+							th:value="${invtHead.beginAppTime}" />
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
+				</div>
+				<label class="col-sm-1 control-label">申报结束时间</label>
+				<div class="col-sm-2">
+					<div class='input-group date input-date'>
+						<input type='text' class="form-control" name="endAppTime"
+							th:value="${invtHead.endAppTime}" />
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
 				</div>
 			</div>
 			<div class="pull-right form-group no-margin-right">
