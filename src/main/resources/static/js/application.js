@@ -6,6 +6,20 @@ function goToPageNum(formId, pageNum) {
 	formObj.submit();
 }
 
+function addFormParaQuery(formId, name, value) {
+	var formObj = $("#" + formId);
+	var inputObj = formObj.find("[name='" + name + "']");
+	var param = "";
+	if (0 == inputObj.length) {
+		var param = "<input type='hidden' name='" + name + "' value='" 
+		+ value + "' />";
+		formObj.append(param);
+	} else {
+		inputObj.val(value);
+	}
+	formObj.submit();
+}
+
 function changePageSize(formId, pageSize) {
 	var formObj = $("#" + formId);
 	var pageSizeObj = formObj.find("[name='pageSize']");
