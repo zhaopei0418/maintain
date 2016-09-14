@@ -48,7 +48,8 @@ spring:
   thymeleaf:
     cache: false
   jackson:
-    date-format: yyyy-MM-dd HH:mm:ss.SSS
+    date-format: yyyy-MM-dd kk:mm:ss.SSS
+    time-zone: GMT+8
 
 logging:
   file: maintain.log

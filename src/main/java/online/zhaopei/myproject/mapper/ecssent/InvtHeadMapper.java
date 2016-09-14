@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -24,8 +25,10 @@ public interface InvtHeadMapper extends Serializable {
 //		@Result(property = "pubRtnList", javaType = List.class, column = "head_guid",
 //			many = @Many(fetchType = FetchType.LAZY,
 //				select = "online.zhaopei.myproject.mapper.ecssent.PubRtnMapper.getPubRtnListByBizGuid")),
+		@Result(property = "appType", column = "app_type"),
 		@Result(property = "appStatus", column = "app_status"),
 		@Result(property = "appTime", column = "app_time", jdbcType = JdbcType.TIMESTAMP),
+		@Result(property = "sysDate", column = "sys_date", jdbcType = JdbcType.TIMESTAMP),
 		@Result(property = "appSenderId", column = "app_sender_id"),
 		@Result(property = "orderNo", column = "order_no"),
 		@Result(property = "ebcCode", column = "ebc_code"),
@@ -41,7 +44,19 @@ public interface InvtHeadMapper extends Serializable {
 		@Result(property = "areaCode", column = "area_code"),
 		@Result(property = "areaName", column = "area_name"),
 		@Result(property = "distStatus", column = "dist_status"),
+		@Result(property = "portCode", column = "port_code"),
+		@Result(property = "ebpCode", column = "ebp_code"),
+		@Result(property = "ebpName", column = "ebp_name"),
+		@Result(property = "ieDate", column = "ie_date"),
+		@Result(property = "tradeMode", column = "trade_mode"),
+		@Result(property = "emsNo", column = "ems_no"),
+		@Result(property = "loctNo", column = "loct_no"),
+		@Result(property = "customsCode", column = "customs_code")
 	})
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadListSql")
 	List<InvtHead> getInvtHeadList(InvtHead invtHead);
+	
+	@ResultMap(value = "invtHeadResult")
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadByHeadGuidSql")
+	InvtHead getInvtHeadByHeadGuid(String headGuid);
 }

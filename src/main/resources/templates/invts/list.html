@@ -16,12 +16,18 @@
 					locale: 'zh-CN',
 					format: 'YYYY-MM-DD'
 				});
+				
+				$(document).keydown(function(event) {
+					if (13 == event.keyCode) {
+						$("#invt_form").submit();
+					}
+				});
 			});
 			
-			function getCiqStatusByCopNo(copNo, status) {
+			function getCiqStatusByCopNo(copNo, copNo, status) {
 				$.getJSON("/invts/getImpInvtHeadListByCopNo/" + copNo, function(data) {
 					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("国检状态");
+					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
 					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
 					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
 					dataHtml += "<th>审批时间</th></thead>";
@@ -53,10 +59,10 @@
 				});
 			}
 			
-			function getPubRtnListByBizGuid(bizGuid, status) {
+			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
 				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
 					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("历史状态");
+					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
 					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
 					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
 					dataHtml += "<tbody>";
@@ -79,7 +85,7 @@
 			function getDistHeadByInvtNo(invtNo, status) {
 				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
 					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("核放单信息");
+					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
 					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
 					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
 					dataHtml += "<tbody>";
@@ -190,7 +196,8 @@
 				</div>
 				<label class="col-sm-1 control-label">内部编号</label>
 				<div class="col-sm-2">
-					<input class="form-control" type="text" name="copNo" placeholder="内部编号" />
+					<input class="form-control" type="text" name="copNo" placeholder="内部编号"
+						th:value="${invtHead.copNo}" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -260,8 +267,11 @@
 				</tr>
 				<tr th:each="invtHead,stat : ${invtHeadList}">
 					<td th:text="${stat.count}"></td>
-					<td th:text="${invtHead.invtNo}" th:title="${invtHead.agentCode}"></td>
-					<td th:text="${invtHead.copNo}" th:title="${invtHead.agentCode}"></td>
+					<td>
+						<a th:text="${invtHead.invtNo}"
+							th:href="@{'/invts/' + ${invtHead.headGuid}}"></a>
+					</td>
+					<td th:text="${invtHead.copNo}"></td>
 					
 					<td th:title="${invtHead.agentCode}">
 						<a href="javascript:void(0)" th:text="${invtHead.agentName}"
@@ -281,8 +291,8 @@
 							th:onclick="'addFormParaQuery(\'invt_form\', \'logisticsCode\', \'' + ${invtHead.logisticsCode} + '\')'"></a>
 					</td>
 					<td th:text="${invtHead.logisticsNo}"></td>
-					<td th:text="${#calendars.format(invtHead.appTime, 'YYYY-MM-dd hh:mm:ss')}"></td>
-					<td th:switch="${invtHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${invtHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
+					<td th:text="${#calendars.format(invtHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
+					<td th:switch="${invtHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
 						title="点击查看历史状态">
 						<span th:case="05" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
 						<span th:case="04" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
@@ -303,7 +313,7 @@
 						<span th:case="8" class="label label-success" th:text="${distStatus[invtHead.distStatus]}"></span>
 						<span th:case="*" class="label label-info" th:text="${distStatus[invtHead.distStatus]}"></span>
 					</td>
-					<td><button class="btn btn-info" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
+					<td><button class="btn btn-info" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.copNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
 				</tr>
 			</tbody>
 		</table>

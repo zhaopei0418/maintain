@@ -70,7 +70,7 @@ public class BaseController implements Serializable {
 				pageList.add(pageInfo.getPageNum() + 1);
 				pageList.add(pageInfo.getPageNum() + 2);
 			} else {
-				if (5 < pageInfo.getPages()) {
+				if (5 <= pageInfo.getPages()) {
 					pageList.add(pageInfo.getPages() - 4);
 					pageList.add(pageInfo.getPages() - 3);
 					pageList.add(pageInfo.getPages() - 2);
@@ -81,7 +81,6 @@ public class BaseController implements Serializable {
 					pageList.add(2);
 					pageList.add(3);
 					pageList.add(4);
-					pageList.add(5);
 				}
 			}
 		}

@@ -25,4 +25,9 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 		return this.invtHeadMapper.getInvtHeadList(invtHead);
 	}
 
+	@Override
+	public InvtHead getInvtHeadByHeadGuid(String headGuid) {
+		return this.invtHeadMapper.getInvtHeadByHeadGuid(headGuid);
+	}
+
 }

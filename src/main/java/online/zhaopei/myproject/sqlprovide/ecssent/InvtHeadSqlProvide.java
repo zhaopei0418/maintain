@@ -1,6 +1,8 @@
 package online.zhaopei.myproject.sqlprovide.ecssent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.jdbc.SQL;
 
@@ -15,26 +17,57 @@ public class InvtHeadSqlProvide implements Serializable {
 	 */
 	private static final long serialVersionUID = 4299195909041965837L;
 
-	public String getInvtHeadListSql(final InvtHead invtHead) {
+	private List<String> selectField() {
+		return new ArrayList<String>(){{
+			this.add("head_guid");
+			this.add("app_status");
+			this.add("app_time");
+			this.add("sys_date");
+			this.add("app_sender_id");
+			this.add("order_no");
+			this.add("ebc_code");
+			this.add("ebc_name");
+			this.add("logistics_no");
+			this.add("logistics_code");
+			this.add("logistics_name");
+			this.add("cop_no");
+			this.add("pre_no");
+			this.add("invt_no");
+			this.add("agent_code");
+			this.add("agent_name");
+			this.add("area_code");
+			this.add("area_name");
+			this.add("dist_status");
+		}};
+	}
+	
+	public String getInvtHeadByHeadGuidSql(final String headGuid) {
+		final InvtHeadSqlProvide self = this;
 		return new SQL() {{
-			this.SELECT("head_guid");
-			this.SELECT("app_status");
-			this.SELECT("app_time");
-			this.SELECT("app_sender_id");
-			this.SELECT("order_no");
-			this.SELECT("ebc_code");
-			this.SELECT("ebc_name");
-			this.SELECT("logistics_no");
-			this.SELECT("logistics_code");
-			this.SELECT("logistics_name");
-			this.SELECT("cop_no");
-			this.SELECT("pre_no");
-			this.SELECT("invt_no");
-			this.SELECT("agent_code");
-			this.SELECT("agent_name");
-			this.SELECT("area_code");
-			this.SELECT("area_name");
-			this.SELECT("dist_status");
+			for(String field : self.selectField()) {
+				this.SELECT(field);
+			}
+			this.SELECT("app_type");
+			this.SELECT("customs_code");
+			this.SELECT("port_code");
+			this.SELECT("ebp_code");
+			this.SELECT("ebp_name");
+			this.SELECT("ie_date");
+			this.SELECT("loct_no");
+			this.SELECT("ems_no");
+			this.SELECT("trade_mode");
+			this.FROM("ceb2_invt_head");
+			this.WHERE("head_guid = '" + headGuid + "'");
+			
+		}}.toString();
+	}
+	
+	public String getInvtHeadListSql(final InvtHead invtHead) {
+		final InvtHeadSqlProvide self = this;
+		return new SQL() {{
+			for(String field : self.selectField()) {
+				this.SELECT(field);
+			}
 			this.FROM("ceb2_invt_head");
 			if (!StringUtils.isEmpty(invtHead.getHeadGuid())) {
 				this.WHERE("head_guid = '" + invtHead.getHeadGuid() + "'");
@@ -45,11 +78,11 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getBeginAppTime())) {
-				this.WHERE("to_char(app_time, 'yyyy-mm-dd') >= '" + invtHead.getBeginAppTime() + "'");
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') >= '" + invtHead.getBeginAppTime() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEndAppTime())) {
-				this.WHERE("to_char(app_time, 'yyyy-mm-dd') <= '" + invtHead.getEndAppTime() + "'");
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + invtHead.getEndAppTime() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAppSenderId())) {

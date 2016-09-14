@@ -69,6 +69,13 @@ public class InvtHeadController extends BaseController {
 		return this.distHeadService.getDistHeadByInvtNo(invtNo);
 	}
 	
+	@GetMapping("/{headGuid}")
+	public ModelAndView show(@PathVariable("headGuid") String headGuid) {
+		ModelAndView mv = new ModelAndView("invts/show");
+		mv.addObject("invtHead", this.invtHeadService.getInvtHeadByHeadGuid(headGuid));
+		return mv;
+	}
+	
 	@RequestMapping
 	public ModelAndView index(InvtHead invtHead) {
 		PageInfo<InvtHead> pageInfo = this.getPageInfo(invtHead, InvtHead.class, this.invtHeadService, "getInvtHeadList");
