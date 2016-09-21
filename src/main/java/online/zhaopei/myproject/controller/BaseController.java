@@ -106,6 +106,7 @@ public class BaseController implements Serializable {
 	
 	protected ModelAndView buildBaseModelAndView (String viewName, PageInfo pageInfo) {
 		ModelAndView mv = new ModelAndView(viewName);
+		mv.addObject("pageInfo", pageInfo);
 		mv.addObject("pageList", this.buildPageList(pageInfo));
 		mv.addObject("pageSizeList", this.buildPageSizeList());
 		return mv;

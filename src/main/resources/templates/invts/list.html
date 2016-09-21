@@ -21,6 +21,10 @@
 					if (13 == event.keyCode) {
 						$("#invt_form").submit();
 					}
+					
+					if (27 == event.keyCode) {
+						resetForm('invt_form');
+					}
 				});
 			});
 			
@@ -134,7 +138,7 @@
 		<form class="form-horizontal" role="form" action="invts" method="POST"
 			id="invt_form">
 			<div class="form-group">
-				<label class="col-sm-1 control-label" onclick="showModal('Hello World!')">电商代码</label>
+				<label class="col-sm-1 control-label">电商代码</label>
 				<div class="col-sm-2">
 					<input class="form-control" type="text" name="ebcCode" placeholder="电商代码"
 						th:value="${invtHead.ebcCode}" />
@@ -144,12 +148,12 @@
 					<input class="form-control" type="text" name="ebcName" placeholder="电商名称"
 						th:value="${invtHead.ebcName}" />
 				</div>
-				<label class="col-sm-1 control-label">申报企业代码</label>
+				<label class="col-sm-1 control-label">报关企业代码</label>
 				<div class="col-sm-2">
 					<input class="form-control" type="text" name="agentCode" placeholder="申报企业代码"
 						th:value="${invtHead.agentCode}" />
 				</div>
-				<label class="col-sm-1 control-label">申报企业名称</label>
+				<label class="col-sm-1 control-label">报关企业名称</label>
 				<div class="col-sm-2">
 					<input class="form-control" type="text" name="agentName" placeholder="申报企业名称"
 						th:value="${invtHead.agentName}" />
@@ -249,7 +253,7 @@
 					<th>序号</th>
 					<th>清单号</th>
 					<th>内部编号</th>
-					<th>申报企业</th>
+					<th>报关企业</th>
 					<th>区内企业</th>
 					<th>电商企业</th>
 					<th>订单号</th>

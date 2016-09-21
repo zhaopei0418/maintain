@@ -50,6 +50,10 @@ public enum InvtHeadConstant implements Serializable {
 	APP_STATUS_899_DESC("结关"),
 	APP_STATUS_621003("-621003"),
 	APP_STATUS_621003_DESC("清单申报失败"),
+	APP_STATUS_621999("-621999"),
+	APP_STATUS_621999_DESC("异常"),
+	APP_STATUS_621001("-621001"),
+	APP_STATUS_621001_DESC("清单校验失败"),
 	
 	AUDIT_STATE_1("1"),
 	AUDIT_STATE_1_DESC("放行"),
@@ -99,6 +103,8 @@ public enum InvtHeadConstant implements Serializable {
 		APP_STATUS_MAP.put(APP_STATUS_800.value, APP_STATUS_800_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_899.value, APP_STATUS_899_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_621003.value, APP_STATUS_621003_DESC.value);
+		APP_STATUS_MAP.put(APP_STATUS_621999.value, APP_STATUS_621999_DESC.value);
+		APP_STATUS_MAP.put(APP_STATUS_621001.value, APP_STATUS_621001_DESC.value);
 		
 		DIST_STATUS_MAP.put("", "所有状态");
 		DIST_STATUS_MAP.put(DIST_STATUS_1.value, DIST_STATUS_1_DESC.value);

@@ -28,6 +28,8 @@ public class InvtHead extends BaseDomain {
 
 	private String appStatus;
 
+	private String appStatusDesc;
+
 	private String appSenderId;
 
 	private String orderNo;
@@ -60,11 +62,15 @@ public class InvtHead extends BaseDomain {
 
 	private String customsCode;
 
+	private String customsCodeDesc;
+
 	private String portCode;
 
 	private Date ieDate;
 
 	private String buyerIdType;
+
+	private String buyerIdTypeDesc;
 
 	private String buyerIdNumber;
 
@@ -85,6 +91,8 @@ public class InvtHead extends BaseDomain {
 	private String tradeMode;
 
 	private String trafMode;
+	
+	private String trafNo;
 
 	private String voyageNo;
 
@@ -96,11 +104,15 @@ public class InvtHead extends BaseDomain {
 
 	private String country;
 
+	private String countryDesc;
+
 	private Double freight;
 
 	private Double insuredFee;
 
 	private String currency;
+
+	private String currencyDesc;
 
 	private String wrapType;
 
@@ -414,6 +426,14 @@ public class InvtHead extends BaseDomain {
 		this.trafMode = trafMode;
 	}
 
+	public String getTrafNo() {
+		return trafNo;
+	}
+
+	public void setTrafNo(String trafNo) {
+		this.trafNo = trafNo;
+	}
+
 	public String getVoyageNo() {
 		return voyageNo;
 	}
@@ -609,5 +629,45 @@ public class InvtHead extends BaseDomain {
 
 	public void setImpInvtHeadList(List<ImpInvtHead> impInvtHeadList) {
 		this.impInvtHeadList = impInvtHeadList;
+	}
+
+	public void setAppStatusDesc(String appStatusDesc) {
+		this.appStatusDesc = appStatusDesc;
+	}
+
+	public String getAppStatusDesc() {
+		return appStatusDesc;
+	}
+
+	public void setBuyerIdTypeDesc(String buyerIdTypeDesc) {
+		this.buyerIdTypeDesc = buyerIdTypeDesc;
+	}
+
+	public String getBuyerIdTypeDesc() {
+		return buyerIdTypeDesc;
+	}
+
+	public void setCountryDesc(String countryDesc) {
+		this.countryDesc = countryDesc;
+	}
+
+	public String getCountryDesc() {
+		return countryDesc;
+	}
+
+	public void setCurrencyDesc(String currencyDesc) {
+		this.currencyDesc = currencyDesc;
+	}
+
+	public String getCurrencyDesc() {
+		return currencyDesc;
+	}
+
+	public void setCustomsCodeDesc(String customsCodeDesc) {
+		this.customsCodeDesc = customsCodeDesc;
+	}
+
+	public String getCustomsCodeDesc() {
+		return customsCodeDesc;
 	}
 }

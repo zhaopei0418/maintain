@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>清单统计</title>
+</head>
+<body>
+	<h1 layout:fragment="header">清单统计</h1>
+	<div layout:fragment="content">
+		<script type="text/javascript">
+			switchActiveMenu("invt_man");
+			
+			$(function() {
+				$(".input-date").datetimepicker({
+					locale: 'zh-CN',
+					format: 'YYYY-MM-DD'
+				});
+				
+				$(document).keydown(function(event) {
+					if (13 == event.keyCode) {
+						$("#invt_statistics_form").submit();
+					}
+					
+					if (27 == event.keyCode) {
+						resetForm('invt_statistics_form');
+					}
+				});
+			});
+			
+			function getCiqStatusByCopNo(copNo, copNo, status) {
+				$.getJSON("/invts/getImpInvtHeadListByCopNo/" + copNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
+					dataHtml += "<th>审批时间</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for(var i = 0; i < data.length; i++) {
+				
+							if (null != data) {
+								for (var i = 0; i < data.length; i++) {
+									dataHtml += "<tr>";
+									dataHtml += "<td>" + data[i].applyCode + "</td>"
+									dataHtml += "<td title='" + data[i].payCode +"'>" + data[i].payName + "</td>";
+									if (undefined != data[i].auditState && null != data[i].auditState) {
+										dataHtml += "<td>" + status[data[i].auditState] + "[" + data[i].auditState + "]" + "</td>";
+									} else {
+										dataHtml += "<td></td>";
+									}
+									dataHtml += "<td>" + data[i].bwName + "</td>";
+									dataHtml += "<td>" + data[i].applyDate + "</td>";
+									dataHtml += "</tr>";
+								}
+							}
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
+				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for (var i = 0; i < data.length; i++) {
+							dataHtml += "<tr>";
+							dataHtml += "<td>" + data[i].rtnTime + "</td>";
+							dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
+							dataHtml += "<td>" + data[i].rtnInfo + "</td>";
+							dataHtml += "</tr>";
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getDistHeadByInvtNo(invtNo, status) {
+				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.distNo + "</td>";
+						dataHtml += "<td>" + data.customsCode + "</td>";
+						dataHtml += "<td title='" + data.declCode + "'>" + data.declName + "</td>";
+						dataHtml += "<td>" + data.distStat + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "<thead><tr><th>录入日期</th><th>申报日期</th><th>退单原因</th><th>备注</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.inputDate + "</td>";
+						dataHtml += "<td>" + data.declDate + "</td>";
+						dataHtml += "<td>" + data.returnReason + "</td>";
+						dataHtml += "<td>" + data.note + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+		</script>
+
+		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
+			role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">历史状态</h4>
+					</div>
+					<div class="modal-body"></div>
+				</div>
+			</div>
+		</div>
+		
+		<form class="form-horizontal" role="form" action="/invts/statistics" method="POST"
+			id="invt_statistics_form">
+			<div class="form-group">
+				<label class="col-sm-1 control-label">清单状态</label>
+				<div class="col-sm-3">
+					<select class="form-control" name="appStatus">
+						<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
+							th:text="${appStat.value}"
+							th:selected="${appStat.key == invtHeadStatistics.appStatus} ? 'selected'"></option>
+					</select>
+				</div>
+				<label class="col-sm-1 control-label">出区状态</label>
+				<div class="col-sm-3">
+					<select class="form-control" name="distStatus">
+						<option th:each="distStat : ${distStatus}" th:value="${distStat.key}"
+							th:text="${distStat.value}"
+							th:selected="${distStat.key == invtHeadStatistics.distStatus} ? 'selected'"></option>
+					</select>
+				</div>
+				<label class="col-sm-1 control-label">申报开始时间</label>
+				<div class="col-sm-3">
+					<div class='input-group date input-date'>
+						<input type='text' class="form-control" name="beginSysDate"
+							th:value="${invtHeadStatistics.beginSysDate}" placeholder="申报开始时间" />
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-1 control-label">申报结束时间</label>
+				<div class="col-sm-3">
+					<div class='input-group date input-date'>
+						<input type='text' class="form-control" name="endSysDate"
+							th:value="${invtHeadStatistics.endSysDate}" placeholder="申报结束时间" />
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
+				</div>
+				<label class="col-sm-1 control-label">第一分组</label>
+				<div class="col-sm-3">
+					<select class="form-control" name="groupField">
+						<option th:each="gf : ${groupFieldMap}" th:value="${gf.key}"
+							th:text="${gf.value}"
+							th:selected="${gf.key == invtHeadStatistics.groupField} ? 'selected'"></option>
+					</select>
+				</div>
+				<label class="col-sm-1 control-label">第二分组</label>
+				<div class="col-sm-3">
+					<select class="form-control" name="groupFieldTwo">
+						<option th:each="gf : ${groupFiledMapTwo}" th:value="${gf.key}"
+							th:text="${gf.value}"
+							th:selected="${gf.key == invtHeadStatistics.groupFieldTwo} ? 'selected'"></option>
+					</select>
+				</div>
+			</div>
+			<div class="pull-right form-group no-margin-right">
+				<button type="submit" class="btn btn-info btn-lg">搜索</button>
+				<button type="button" class="btn btn-warning btn-lg" onclick="resetForm('invt_statistics_form')">重置</button>
+			</div>
+		</form>
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>第一分组</th>
+					<th>第二分组</th>
+					<th>数量</th>
+					<th>货值</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${invtHeadStatisticsList.empty}">
+					<td colspan="5">没有数据</td>
+				</tr>
+				<tr th:each="invtHeadStatistics,stat : ${invtHeadStatisticsList}">
+					<td th:text="${stat.count}"></td>
+					<td th:text="${invtHeadStatistics.name}"></td>
+					<td th:text="${invtHeadStatistics.nameTwo}"></td>
+					<td th:text="${invtHeadStatistics.quantity}"></td>
+					<td th:text="${invtHeadStatistics.goodsValue}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul class="pagination pagination-lg pull-right">
+			<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+				<a href="javascript:void(0)"
+						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'invt_statistics_form\', 1);'">首页</a>
+			</li>
+			<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+				<a href="javascript:void(0)"
+					th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'invt_statistics_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+			</li>
+			<li th:each="page : ${pageList}"
+				th:class="${page == pageInfo.pageNum} ? 'active'">
+				<a href="javascript:void(0)" th:text="${page}"
+					th:onclick="'goToPageNum(\'invt_statistics_form\',' + ${page} + ');'"></a>
+			</li>
+			<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+				<a href="javascript:void(0)"
+					th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'invt_statistics_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+			</li>
+			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+				<a href="javascript:void(0)"
+						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'invt_statistics_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+			</li>
+			<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+			<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+			<li>
+				<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('invt_statistics_form', this.value);">
+					<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+						th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+				</select>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

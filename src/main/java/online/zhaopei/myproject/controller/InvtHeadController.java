@@ -1,8 +1,17 @@
 package online.zhaopei.myproject.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,14 +21,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import online.zhaopei.myproject.constant.InvtHeadConstant;
 import online.zhaopei.myproject.domain.ecssent.DistHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
+import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;
+import online.zhaopei.myproject.domain.ecssent.InvtList;
 import online.zhaopei.myproject.domain.ecssent.PubRtn;
 import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
 import online.zhaopei.myproject.service.ecssent.DistHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
+import online.zhaopei.myproject.service.ecssent.InvtHeadStatisticsService;
+import online.zhaopei.myproject.service.ecssent.InvtListService;
 import online.zhaopei.myproject.service.ecssent.PubRtnService;
 import online.zhaopei.myproject.service.gjent.ImpInvtHeadService;
 
@@ -43,6 +57,12 @@ public class InvtHeadController extends BaseController {
 	
 	@Autowired
 	private DistHeadService distHeadService;
+
+	@Autowired
+	private InvtListService invtListService;
+	
+	@Autowired
+	private InvtHeadStatisticsService invtHeadStatisticsService;
 	
 	@GetMapping("/getImpInvtHeadListByInvtNo/{invtNo}")
 	@ResponseBody
@@ -72,7 +92,59 @@ public class InvtHeadController extends BaseController {
 	@GetMapping("/{headGuid}")
 	public ModelAndView show(@PathVariable("headGuid") String headGuid) {
 		ModelAndView mv = new ModelAndView("invts/show");
-		mv.addObject("invtHead", this.invtHeadService.getInvtHeadByHeadGuid(headGuid));
+		InvtHead invtHead = this.invtHeadService.getInvtHeadByHeadGuid(headGuid);
+		List<InvtList> invtListList = this.invtListService.getInvtListListByHeadGuid(headGuid);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd kk:mm:ss.SSS").create();
+		mv.addObject("invtHead", invtHead);
+		mv.addObject("count", invtListList.size());
+		mv.addObject("invtListList", invtListList);
+		mv.addObject("invtListListJson", gson.toJson(invtListList));
+		return mv;
+	}
+	
+	@RequestMapping("download")
+	public ResponseEntity<byte[]> download() throws IOException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentDispositionFormData("attachment", "README.md");
+		File file = new File("README.md");
+		System.out.println(file.getAbsolutePath());
+		System.out.println(this.getClass().getResource(""));
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping("/statistics")
+	public ModelAndView statistics(InvtHeadStatistics invtHeadStatistics) {
+		PageInfo<InvtHeadStatistics> pageInfo = this.getPageInfo(invtHeadStatistics, InvtHeadStatistics.class, this.invtHeadStatisticsService, "statisticsInvtHeadQuantity");
+		ModelAndView mv = this.buildBaseModelAndView("invts/statistics", pageInfo);
+		final Map<String, String> groupFieldMap = new LinkedHashMap<String, String>(){{
+			this.put("cih.ebc_name", "电商企业");
+			this.put("cih.agent_name", "报关企业");
+			this.put("cih.logistics_name", "物流企业");
+			this.put("cih.area_name", "区内企业");
+			this.put("coh.pay_name", "支付企业");
+			this.put("clh.trade_name", "仓储企业");
+			this.put("cih.customs_code", "海关关区");
+			this.put("cih.trade_mode", "贸易方式");
+			this.put("cih.ems_no", "账册");
+			this.put("cih.port_code", "进口口岸");
+			this.put("cih.buyer_id_number", "订购人证件号");
+			this.put("cih.buyer_name", "订购人名称");
+			this.put("to_char(cih.sys_date, 'yyyy-mm-dd hh:mi')", "按分钟");
+			this.put("to_char(cih.sys_date, 'yyyy-mm-dd hh')", "按小时");
+			this.put("to_char(cih.sys_date, 'yyyy-mm-dd')", "按天");
+			this.put("to_char(cih.sys_date, 'yyyy-mm')", "按月");
+			this.put("to_char(cih.sys_date, 'yyyy')", "按年");
+		}};
+		mv.addObject("invtHeadStatistics", invtHeadStatistics);
+		mv.addObject("invtHeadStatisticsList", pageInfo.getList());
+		mv.addObject("appStatus", InvtHeadConstant.getAPP_STATUS_MAP());
+		mv.addObject("distStatus", InvtHeadConstant.getDIST_STATUS_MAP());
+		mv.addObject("groupFieldMap", groupFieldMap);
+		mv.addObject("groupFiledMapTwo", new LinkedHashMap<String, String>(){{
+			this.put("", "无");
+			this.putAll(groupFieldMap);
+		}});
 		return mv;
 	}
 	
@@ -82,7 +154,6 @@ public class InvtHeadController extends BaseController {
 		ModelAndView mv = this.buildBaseModelAndView("invts/list", pageInfo);
 		mv.addObject("invtHead", invtHead);
 		mv.addObject("invtHeadList", pageInfo.getList());
-		mv.addObject("pageInfo", pageInfo);
 		mv.addObject("appStatus", InvtHeadConstant.getAPP_STATUS_MAP());
 		mv.addObject("appStatusJson", new Gson().toJson(InvtHeadConstant.getAPP_STATUS_MAP()));
 		mv.addObject("auditStatusJson", new Gson().toJson(InvtHeadConstant.getAUDIT_STATE_MAP()));
