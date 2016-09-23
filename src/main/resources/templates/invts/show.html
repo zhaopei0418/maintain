@@ -145,7 +145,7 @@
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">申报地海关</h4>
-						<p class="list-group-item-text" th:text="${invtHead.customsCode}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.customsCodeDesc} + '[' + ${invtHead.customsCode} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">申报企业名称</h4>
@@ -165,7 +165,7 @@
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">订购人证件类型</h4>
-						<p class="list-group-item-text" th:text="${invtHead.buyerIdType}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.buyerIdTypeDesc} + '[' + ${invtHead.buyerIdType} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">收货人地址</h4>
@@ -187,11 +187,11 @@
 				<div class="list-group col-sm-3">
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">申报类型</h4>
-						<p class="list-group-item-text" th:text="${invtHead.appType}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.appTypeDesc} + '[' + ${invtHead.appType} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">进口口岸</h4>
-						<p class="list-group-item-text" th:text="${invtHead.portCode}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.portCodeDesc} + '[' + ${invtHead.portCode} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">进口日期</h4>
@@ -233,7 +233,7 @@
 				<div class="list-group col-sm-3">
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">业务状态</h4>
-						<p class="list-group-item-text" th:text="${invtHead.appStatus}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.appStatusDesc} + '[' + ${invtHead.appStatus} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">入库时间</h4>
@@ -241,7 +241,7 @@
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">贸易方式</h4>
-						<p class="list-group-item-text" th:text="${invtHead.tradeMode}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.tradeModeDesc} + '[' + ${invtHead.tradeMode} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">电商平台名称</h4>

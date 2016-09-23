@@ -19,6 +19,8 @@ public class InvtHead extends BaseDomain {
 	private String headGuid;
 
 	private String appType;
+	
+	private String appTypeDesc;
 
 	private Date appTime;
 	
@@ -66,6 +68,8 @@ public class InvtHead extends BaseDomain {
 
 	private String portCode;
 
+	private String portCodeDesc;
+
 	private Date ieDate;
 
 	private String buyerIdType;
@@ -89,6 +93,8 @@ public class InvtHead extends BaseDomain {
 	private String areaName;
 
 	private String tradeMode;
+
+	private String tradeModeDesc;
 
 	private String trafMode;
 	
@@ -669,5 +675,29 @@ public class InvtHead extends BaseDomain {
 
 	public String getCustomsCodeDesc() {
 		return customsCodeDesc;
+	}
+
+	public void setTradeModeDesc(String tradeModeDesc) {
+		this.tradeModeDesc = tradeModeDesc;
+	}
+
+	public String getTradeModeDesc() {
+		return tradeModeDesc;
+	}
+
+	public void setPortCodeDesc(String portCodeDesc) {
+		this.portCodeDesc = portCodeDesc;
+	}
+
+	public String getPortCodeDesc() {
+		return portCodeDesc;
+	}
+
+	public void setAppTypeDesc(String appTypeDesc) {
+		this.appTypeDesc = appTypeDesc;
+	}
+
+	public String getAppTypeDesc() {
+		return appTypeDesc;
 	}
 }

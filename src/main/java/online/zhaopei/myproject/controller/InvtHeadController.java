@@ -23,6 +23,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.InvtHeadConstant;
 import online.zhaopei.myproject.domain.ecssent.DistHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
@@ -30,12 +31,17 @@ import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;
 import online.zhaopei.myproject.domain.ecssent.InvtList;
 import online.zhaopei.myproject.domain.ecssent.PubRtn;
 import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
+import online.zhaopei.myproject.service.CurrService;
 import online.zhaopei.myproject.service.ecssent.DistHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadStatisticsService;
 import online.zhaopei.myproject.service.ecssent.InvtListService;
 import online.zhaopei.myproject.service.ecssent.PubRtnService;
 import online.zhaopei.myproject.service.gjent.ImpInvtHeadService;
+import online.zhaopei.myproject.service.para.CountryService;
+import online.zhaopei.myproject.service.para.CustomsService;
+import online.zhaopei.myproject.service.para.TradeService;
+import online.zhaopei.myproject.tool.common.ParaTool;
 
 @Controller
 @RequestMapping("/invts")
@@ -63,6 +69,18 @@ public class InvtHeadController extends BaseController {
 	
 	@Autowired
 	private InvtHeadStatisticsService invtHeadStatisticsService;
+
+	@Autowired
+	private TradeService tradeService;
+
+	@Autowired
+	private CustomsService customsService;
+	
+	@Autowired
+	private CountryService countryService;
+	
+	@Autowired
+	private CurrService currService;
 	
 	@GetMapping("/getImpInvtHeadListByInvtNo/{invtNo}")
 	@ResponseBody
@@ -93,6 +111,14 @@ public class InvtHeadController extends BaseController {
 	public ModelAndView show(@PathVariable("headGuid") String headGuid) {
 		ModelAndView mv = new ModelAndView("invts/show");
 		InvtHead invtHead = this.invtHeadService.getInvtHeadByHeadGuid(headGuid);
+		invtHead.setBuyerIdTypeDesc(CommonConstant.getID_TYPE_MAP().get(invtHead.getBuyerIdType()));
+		invtHead.setAppStatusDesc(InvtHeadConstant.getAPP_STATUS_MAP().get(invtHead.getAppStatus()));
+		invtHead.setAppTypeDesc(CommonConstant.getAPP_TYPE_MAP().get(invtHead.getAppType()));
+		ParaTool paraTool = new ParaTool();
+		invtHead.setTradeModeDesc(paraTool.getTradeModeDesc(invtHead.getTradeMode(), this.tradeService));
+		invtHead.setCustomsCodeDesc(paraTool.getCustomsDesc(invtHead.getCustomsCode(), this.customsService));
+		invtHead.setPortCodeDesc(paraTool.getCustomsDesc(invtHead.getPortCode(), this.customsService));
+
 		List<InvtList> invtListList = this.invtListService.getInvtListListByHeadGuid(headGuid);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd kk:mm:ss.SSS").create();
 		mv.addObject("invtHead", invtHead);
@@ -124,6 +150,7 @@ public class InvtHeadController extends BaseController {
 			this.put("cih.area_name", "区内企业");
 			this.put("coh.pay_name", "支付企业");
 			this.put("clh.trade_name", "仓储企业");
+			this.put("cih.app_status", "业务状态");
 			this.put("cih.customs_code", "海关关区");
 			this.put("cih.trade_mode", "贸易方式");
 			this.put("cih.ems_no", "账册");

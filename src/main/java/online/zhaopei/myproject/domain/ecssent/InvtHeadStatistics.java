@@ -29,6 +29,30 @@ public class InvtHeadStatistics extends BaseDomain {
 	
 	private String distStatus;
 
+	private String ebcCode;
+
+	private String ebcName;
+
+	private String agentCode;
+
+	private String agentName;
+
+	private String logisticsCode;
+
+	private String logisticsName;
+
+	private String areaCode;
+
+	private String areaName;
+
+	private String tradeCode;
+
+	private String tradeName;
+
+	private String payCode;
+
+	private String payName;
+
 	public String getName() {
 		return name;
 	}
@@ -107,5 +131,101 @@ public class InvtHeadStatistics extends BaseDomain {
 
 	public void setDistStatus(String distStatus) {
 		this.distStatus = distStatus;
+	}
+
+	public void setEbcCode(String ebcCode) {
+		this.ebcCode = ebcCode;
+	}
+
+	public String getEbcCode() {
+		return ebcCode;
+	}
+
+	public void setEbcName(String ebcName) {
+		this.ebcName = ebcName;
+	}
+
+	public String getEbcName() {
+		return ebcName;
+	}
+
+	public void setAgentCode(String agentCode) {
+		this.agentCode = agentCode;
+	}
+
+	public String getAgentCode() {
+		return agentCode;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
+	}
+
+	public String getAgentName() {
+		return agentName;
+	}
+
+	public void setLogisticsCode(String logisticsCode) {
+		this.logisticsCode = logisticsCode;
+	}
+
+	public String getLogisticsCode() {
+		return logisticsCode;
+	}
+
+	public void setLogisticsName(String logisticsName) {
+		this.logisticsName = logisticsName;
+	}
+
+	public String getLogisticsName() {
+		return logisticsName;
+	}
+
+	public void setAreaCode(String areaCode) {
+		this.areaCode = areaCode;
+	}
+
+	public String getAreaCode() {
+		return areaCode;
+	}
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
+
+	public String getAreaName() {
+		return areaName;
+	}
+
+	public void setTradeCode(String tradeCode) {
+		this.tradeCode = tradeCode;
+	}
+
+	public String getTradeCode() {
+		return tradeCode;
+	}
+
+	public void setTradeName(String tradeName) {
+		this.tradeName = tradeName;
+	}
+
+	public String getTradeName() {
+		return tradeName;
+	}
+
+	public void setPayCode(String payCode) {
+		this.payCode = payCode;
+	}
+
+	public String getPayCode() {
+		return payCode;
+	}
+
+	public void setPayName(String payName) {
+		this.payName = payName;
+	}
+
+	public String getPayName() {
+		return payName;
 	}
 }

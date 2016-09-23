@@ -49,6 +49,55 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 			if (!StringUtils.isEmpty(invtHeadStatistics.getDistStatus())) {
 				this.WHERE("cih.dist_status = '" + invtHeadStatistics.getDistStatus() + "'");
 			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getEbcCode())) {
+				this.WHERE("cih.ebc_code = '" + invtHeadStatistics.getEbcCode() + "'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getEbcName())) {
+				this.WHERE("cih.ebc_name like '%" + invtHeadStatistics.getEbcName() + "%'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getAgentCode())) {
+				this.WHERE("cih.agent_code = '" + invtHeadStatistics.getAgentCode() + "'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getAgentName())) {
+				this.WHERE("cih.agent_name like '%" + invtHeadStatistics.getAgentName() + "%'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getLogisticsCode())) {
+				this.WHERE("cih.logistics_code = '" + invtHeadStatistics.getLogisticsCode() + "'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getLogisticsName())) {
+				this.WHERE("cih.logistics_name like '%" + invtHeadStatistics.getLogisticsName() + "%'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getPayCode())) {
+				this.WHERE("coh.pay_code = '" + invtHeadStatistics.getPayCode() + "'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getPayName())) {
+				this.WHERE("coh.pay_name like '%" + invtHeadStatistics.getPayName() + "%'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getAreaCode())) {
+				this.WHERE("cih.area_code = '" + invtHeadStatistics.getAreaCode() + "'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getAreaName())) {
+				this.WHERE("cih.area_name like '%" + invtHeadStatistics.getAreaName() + "%'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getTradeCode())) {
+				this.WHERE("clh.trade_code = '" + invtHeadStatistics.getTradeCode() + "'");
+			}
+
+			if (!StringUtils.isEmpty(invtHeadStatistics.getTradeName())) {
+				this.WHERE("clh.trade_name like '%" + invtHeadStatistics.getTradeName() + "%'");
+			}
+
 			if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {
 				this.GROUP_BY("rollup(" + invtHeadStatistics.getGroupField() + "," 
 					+ invtHeadStatistics.getGroupFieldTwo() +")");

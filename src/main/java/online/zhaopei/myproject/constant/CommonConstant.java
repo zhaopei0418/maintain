@@ -26,12 +26,29 @@ public enum CommonConstant implements Serializable {
 
 	private static Map<String, String> TRAF_NO_MAP = new HashMap<String, String>();
 
+	private static Map<String, String> ID_TYPE_MAP = new HashMap<String, String>();
+
+	private static Map<String, String> APP_TYPE_MAP = new HashMap<String, String>();
+
 	private String value;
-	
+
+	static {
+		ID_TYPE_MAP.put("", "所有");
+		ID_TYPE_MAP.put("1", "身份证");
+		ID_TYPE_MAP.put("2", "军官证");
+		ID_TYPE_MAP.put("3", "护照");
+		ID_TYPE_MAP.put("4", "其他");
+
+		APP_TYPE_MAP.put("", "所有");
+		APP_TYPE_MAP.put("1", "新增");
+		APP_TYPE_MAP.put("2", "变更");
+		APP_TYPE_MAP.put("3", "删除");
+	}
+
 	private CommonConstant(String value) {
 		this.value = value;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.value;
@@ -67,5 +84,13 @@ public enum CommonConstant implements Serializable {
 
 	public static Map<String, String> getTRAF_NO_MAP() {
 		return TRAF_NO_MAP;
+	}
+
+	public static Map<String, String> getAPP_TYPE_MAP() {
+		return APP_TYPE_MAP;
+	}
+
+	public static Map<String, String> getID_TYPE_MAP() {
+		return ID_TYPE_MAP;
 	}
 }

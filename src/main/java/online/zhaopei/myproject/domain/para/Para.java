@@ -1,4 +1,4 @@
-package online.zhaopei.myproject.domain.ecssent;
+package online.zhaopei.myproject.domain.para;
 
 import java.io.Serializable;
 

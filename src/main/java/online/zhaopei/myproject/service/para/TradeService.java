@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import online.zhaopei.myproject.domain.para.Para;
 
-public interface CustomsService extends Serializable {
+public interface TradeService extends Serializable {
 
-	Para getCustomsByCode(String customsCode);
+	Para getTradeByCode(String code);
 }

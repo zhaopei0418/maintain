@@ -3,7 +3,7 @@ package online.zhaopei.myproject.service.para.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import online.zhaopei.myproject.domain.para.Customs;
+import online.zhaopei.myproject.domain.para.Para;
 import online.zhaopei.myproject.mapper.para.CustomsMapper;
 import online.zhaopei.myproject.service.para.CustomsService;
 
@@ -19,7 +19,7 @@ public class CustomsServiceImpl implements CustomsService {
 	private CustomsMapper customsMapper;
 	
 	@Override
-	public Customs getCustomsByCode(String customsCode) {
+	public Para getCustomsByCode(String customsCode) {
 		return this.customsMapper.getCustomsByCode(customsCode);
 	}
 
