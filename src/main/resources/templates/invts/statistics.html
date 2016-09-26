@@ -139,7 +139,7 @@
 			id="invt_statistics_form">
 			<div class="form-group">
 				<label class="col-sm-1 control-label">清单状态</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<select class="form-control" name="appStatus">
 						<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
 							th:text="${appStat.value}"
@@ -147,7 +147,7 @@
 					</select>
 				</div>
 				<label class="col-sm-1 control-label">出区状态</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<select class="form-control" name="distStatus">
 						<option th:each="distStat : ${distStatus}" th:value="${distStat.key}"
 							th:text="${distStat.value}"
@@ -155,7 +155,7 @@
 					</select>
 				</div>
 				<label class="col-sm-1 control-label">申报开始时间</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<div class='input-group date input-date'>
 						<input type='text' class="form-control" name="beginAppTime"
 							th:value="${invtHeadStatistics.beginSysDate}" placeholder="申报开始时间" />
@@ -164,10 +164,8 @@
 						</span>
 					</div>
 				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-sm-1 control-label">申报结束时间</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<div class='input-group date input-date'>
 						<input type='text' class="form-control" name="endSysDate"
 							th:value="${invtHeadStatistics.endSysDate}" placeholder="申报结束时间" />
@@ -176,8 +174,10 @@
 						</span>
 					</div>
 				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-sm-1 control-label">第一分组</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<select class="form-control" name="groupField">
 						<option th:each="gf : ${groupFieldMap}" th:value="${gf.key}"
 							th:text="${gf.value}"
@@ -185,78 +185,76 @@
 					</select>
 				</div>
 				<label class="col-sm-1 control-label">第二分组</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<select class="form-control" name="groupFieldTwo">
 						<option th:each="gf : ${groupFiledMapTwo}" th:value="${gf.key}"
 							th:text="${gf.value}"
 							th:selected="${gf.key == invtHeadStatistics.groupFieldTwo} ? 'selected'"></option>
 					</select>
 				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-sm-1 control-label">电商代码</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="ebcCode" placeholder="电商企业代码"
 						th:value="${invtHeadStatistics.ebcCode}" />
 				</div>
 				<label class="col-sm-1 control-label">电商名称</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="ebcName" placeholder="电商企业名称"
 						th:value="${invtHeadStatistics.ebcName}" />
 				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-sm-1 control-label">报关企业代码</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="agentCode" placeholder="报关企业代码"
 						th:value="${invtHeadStatistics.agentCode}" />
 				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-sm-1 control-label">报关企业名称</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="agentName" placeholder="报关企业名称"
 						th:value="${invtHeadStatistics.agentName}" />
 				</div>
 				<label class="col-sm-1 control-label">物流企业代码</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="logisticsCode" placeholder="物流企业代码"
 						th:value="${invtHeadStatistics.logisticsCode}" />
 				</div>
 				<label class="col-sm-1 control-label">物流企业名称</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="logisticsName" placeholder="物流企业名称"
 						th:value="${invtHeadStatistics.logisticsName}" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-1 control-label">区内企业代码</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="areaCode" placeholder="区内企业代码"
 						th:value="${invtHeadStatistics.areaCode}" />
 				</div>
 				<label class="col-sm-1 control-label">区内企业名称</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="areaName" placeholder="区内企业名称"
 						th:value="${invtHeadStatistics.areaName}" />
 				</div>
 				<label class="col-sm-1 control-label">仓储企业代码</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="tradeCode" placeholder="仓储企业代码"
 						th:value="${invtHeadStatistics.tradeCode}" />
 				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-sm-1 control-label">仓储企业名称</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="tradeName" placeholder="仓储企业名称"
 						th:value="${invtHeadStatistics.tradeName}" />
 				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-sm-1 control-label">支付企业代码</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="payCode" placeholder="支付企业代码"
 						th:value="${invtHeadStatistics.payCode}" />
 				</div>
 				<label class="col-sm-1 control-label">支付企业名称</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input class="form-control" type="text" name="payName" placeholder="支付企业名称"
 						th:value="${invtHeadStatistics.payName}" />
 				</div>
