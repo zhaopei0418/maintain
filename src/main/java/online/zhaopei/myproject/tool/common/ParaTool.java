@@ -8,6 +8,7 @@ import online.zhaopei.myproject.service.para.CountryService;
 import online.zhaopei.myproject.service.para.CurrService;
 import online.zhaopei.myproject.service.para.CustomsService;
 import online.zhaopei.myproject.service.para.TradeService;
+import online.zhaopei.myproject.service.para.TransfService;
 import online.zhaopei.myproject.service.para.UnitService;
 import online.zhaopei.myproject.service.para.WrapService;
 
@@ -90,6 +91,19 @@ public class ParaTool implements Serializable {
 			para = unitService.getUnitByCode(unitCode);
 			if (null != para) {
 				CommonConstant.getUNIT_MAP().put(unitCode, para.getName());
+				result = para.getName();
+			}
+		}
+		return result;
+	}
+
+	public String getTransfDesc(String transfCode, TransfService transfService) {
+		String result = "";
+		Para para = null;
+		if (null == CommonConstant.getTRAF_MODE_MAP().get(transfCode)) {
+			para = transfService.getTransfByCode(transfCode);
+			if (null != para) {
+				CommonConstant.getTRAF_MODE_MAP().put(transfCode, para.getName());
 				result = para.getName();
 			}
 		}

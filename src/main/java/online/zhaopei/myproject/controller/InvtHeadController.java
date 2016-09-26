@@ -41,6 +41,7 @@ import online.zhaopei.myproject.service.para.CountryService;
 import online.zhaopei.myproject.service.para.CurrService;
 import online.zhaopei.myproject.service.para.CustomsService;
 import online.zhaopei.myproject.service.para.TradeService;
+import online.zhaopei.myproject.service.para.TransfService;
 import online.zhaopei.myproject.service.para.WrapService;
 import online.zhaopei.myproject.tool.common.ParaTool;
 
@@ -85,6 +86,9 @@ public class InvtHeadController extends BaseController {
 
 	@Autowired
 	private WrapService wrapService;
+
+	@Autowired
+	private TransfService transfService;
 	
 	@GetMapping("/getImpInvtHeadListByInvtNo/{invtNo}")
 	@ResponseBody
@@ -124,8 +128,8 @@ public class InvtHeadController extends BaseController {
 		invtHead.setPortCodeDesc(paraTool.getCustomsDesc(invtHead.getPortCode(), this.customsService));
 		invtHead.setCountryDesc(paraTool.getCountryDesc(invtHead.getCountry(), this.countryService));
 		invtHead.setCurrencyDesc(paraTool.getCurrDesc(invtHead.getCurrency(), this.currService));
-		invtHead.setTradeModeDesc(paraTool.getTradeModeDesc(invtHead.getTradeMode(), this.tradeService));
 		invtHead.setWrapTypeDesc(paraTool.getWrapDesc(invtHead.getWrapType(), this.wrapService));
+		invtHead.setTrafModeDesc(paraTool.getTransfDesc(invtHead.getTrafMode(), this.transfService));
 
 		List<InvtList> invtListList = this.invtListService.getInvtListListByHeadGuid(headGuid);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd kk:mm:ss.SSS").create();
