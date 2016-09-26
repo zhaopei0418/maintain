@@ -97,7 +97,9 @@ public class InvtHead extends BaseDomain {
 	private String tradeModeDesc;
 
 	private String trafMode;
-	
+
+	private String trafModeDesc;
+
 	private String trafNo;
 
 	private String voyageNo;
@@ -121,6 +123,8 @@ public class InvtHead extends BaseDomain {
 	private String currencyDesc;
 
 	private String wrapType;
+
+	private String wrapTypeDesc;
 
 	private Double packNo;
 
@@ -699,5 +703,21 @@ public class InvtHead extends BaseDomain {
 
 	public String getAppTypeDesc() {
 		return appTypeDesc;
+	}
+
+	public void setTrafModeDesc(String trafModeDesc) {
+		this.trafModeDesc = trafModeDesc;
+	}
+
+	public String getTrafModeDesc() {
+		return trafModeDesc;
+	}
+
+	public void setWrapTypeDesc(String wrapTypeDesc) {
+		this.wrapTypeDesc = wrapTypeDesc;
+	}
+
+	public String getWrapTypeDesc() {
+		return wrapTypeDesc;
 	}
 }

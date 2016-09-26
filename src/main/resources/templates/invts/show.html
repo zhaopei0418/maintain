@@ -123,7 +123,7 @@
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">启运国（地区）</h4>
-						<p class="list-group-item-text" th:text="${invtHead.country}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.countryDesc} + '[' + ${invtHead.country} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">运输工具编号</h4>
@@ -131,7 +131,7 @@
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">包装种类</h4>
-						<p class="list-group-item-text" th:text="${invtHead.wrapType}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.wrapTypeDesc} + '[' + ${invtHead.wrapType} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">件数</h4>
@@ -261,7 +261,7 @@
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">运输方式</h4>
-						<p class="list-group-item-text" th:text="${invtHead.trafMode}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.trafModeDesc} + '[' + ${invtHead.trafMode} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">运费</h4>
@@ -269,7 +269,7 @@
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">币制</h4>
-						<p class="list-group-item-text" th:text="${invtHead.currency}"></p>
+						<p class="list-group-item-text" th:text="${invtHead.currencyDesc} + '[' + ${invtHead.currency} + ']'"></p>
 					</a>
 					<a href="javascript:void(0)" class="list-group-item">
 						<h4 class="list-group-item-heading">备注</h4>

@@ -31,7 +31,6 @@ import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;
 import online.zhaopei.myproject.domain.ecssent.InvtList;
 import online.zhaopei.myproject.domain.ecssent.PubRtn;
 import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
-import online.zhaopei.myproject.service.CurrService;
 import online.zhaopei.myproject.service.ecssent.DistHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadStatisticsService;
@@ -39,8 +38,10 @@ import online.zhaopei.myproject.service.ecssent.InvtListService;
 import online.zhaopei.myproject.service.ecssent.PubRtnService;
 import online.zhaopei.myproject.service.gjent.ImpInvtHeadService;
 import online.zhaopei.myproject.service.para.CountryService;
+import online.zhaopei.myproject.service.para.CurrService;
 import online.zhaopei.myproject.service.para.CustomsService;
 import online.zhaopei.myproject.service.para.TradeService;
+import online.zhaopei.myproject.service.para.WrapService;
 import online.zhaopei.myproject.tool.common.ParaTool;
 
 @Controller
@@ -81,6 +82,9 @@ public class InvtHeadController extends BaseController {
 	
 	@Autowired
 	private CurrService currService;
+
+	@Autowired
+	private WrapService wrapService;
 	
 	@GetMapping("/getImpInvtHeadListByInvtNo/{invtNo}")
 	@ResponseBody
@@ -118,6 +122,10 @@ public class InvtHeadController extends BaseController {
 		invtHead.setTradeModeDesc(paraTool.getTradeModeDesc(invtHead.getTradeMode(), this.tradeService));
 		invtHead.setCustomsCodeDesc(paraTool.getCustomsDesc(invtHead.getCustomsCode(), this.customsService));
 		invtHead.setPortCodeDesc(paraTool.getCustomsDesc(invtHead.getPortCode(), this.customsService));
+		invtHead.setCountryDesc(paraTool.getCountryDesc(invtHead.getCountry(), this.countryService));
+		invtHead.setCurrencyDesc(paraTool.getCurrDesc(invtHead.getCurrency(), this.currService));
+		invtHead.setTradeModeDesc(paraTool.getTradeModeDesc(invtHead.getTradeMode(), this.tradeService));
+		invtHead.setWrapTypeDesc(paraTool.getWrapDesc(invtHead.getWrapType(), this.wrapService));
 
 		List<InvtList> invtListList = this.invtListService.getInvtListListByHeadGuid(headGuid);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd kk:mm:ss.SSS").create();

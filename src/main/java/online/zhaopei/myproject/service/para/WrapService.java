@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import online.zhaopei.myproject.domain.para.Para;
 
-public interface CountryService extends Serializable {
+public interface WrapService extends Serializable {
 
-	Para getCountryByCode(String code);
+	Para getWrapByCode(String wrapCode);
 }

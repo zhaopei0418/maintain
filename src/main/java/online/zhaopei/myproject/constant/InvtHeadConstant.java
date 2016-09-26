@@ -31,6 +31,8 @@ public enum InvtHeadConstant implements Serializable {
 	APP_STATUS_300("300"),
 	APP_STATUS_300_DESC("人工审核"),
 	APP_STATUS_399("399"),
+	APP_STATUS_400("400"),
+	APP_STATUS_400_DESC("待运抵"),
 	APP_STATUS_399_DESC("海关审结"),
 	APP_STATUS_500("500"),
 	APP_STATUS_500_DESC("查验"),
@@ -94,6 +96,7 @@ public enum InvtHeadConstant implements Serializable {
 		APP_STATUS_MAP.put(APP_STATUS_120.value, APP_STATUS_120_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_300.value, APP_STATUS_300_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_399.value, APP_STATUS_399_DESC.value);
+		APP_STATUS_MAP.put(APP_STATUS_400.value, APP_STATUS_400_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_500.value, APP_STATUS_500_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_501.value, APP_STATUS_501_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_502.value, APP_STATUS_502_DESC.value);
