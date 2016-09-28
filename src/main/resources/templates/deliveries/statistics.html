@@ -142,7 +142,7 @@
 				<div class="col-sm-2">
 					<select class="form-control" name="appStatus">
 						<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
-							th:text="${appStat.key} + '-' + ${appStat.value}"
+							th:text="${appStat.value}"
 							th:selected="${appStat.key == invtHeadStatistics.appStatus} ? 'selected'"></option>
 					</select>
 				</div>
@@ -150,7 +150,7 @@
 				<div class="col-sm-2">
 					<select class="form-control" name="distStatus">
 						<option th:each="distStat : ${distStatus}" th:value="${distStat.key}"
-							th:text="${distStat.key} + '-' + ${distStat.value}"
+							th:text="${distStat.value}"
 							th:selected="${distStat.key == invtHeadStatistics.distStatus} ? 'selected'"></option>
 					</select>
 				</div>

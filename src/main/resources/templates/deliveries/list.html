@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>入库明细单管理</title>
+</head>
+<body>
+	<h1 layout:fragment="header">入库明细单管理</h1>
+	<div layout:fragment="content">
+		<script type="text/javascript">
+			switchActiveMenu("delivery_man");
+			
+			$(function() {
+				$(".input-date").datetimepicker({
+					locale: 'zh-CN',
+					format: 'YYYY-MM-DD'
+				});
+				
+				$(document).keydown(function(event) {
+					if (13 == event.keyCode) {
+						$("#delivery_form").submit();
+					}
+					
+					if (27 == event.keyCode) {
+						resetForm('delivery_form');
+					}
+				});
+			});
+			
+			function getCiqStatusByCopNo(copNo, copNo, status) {
+				$.getJSON("/invts/getImpInvtHeadListByCopNo/" + copNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
+					dataHtml += "<th>审批时间</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for(var i = 0; i < data.length; i++) {
+				
+							if (null != data) {
+								for (var i = 0; i < data.length; i++) {
+									dataHtml += "<tr>";
+									dataHtml += "<td>" + data[i].applyCode + "</td>"
+									dataHtml += "<td title='" + data[i].payCode +"'>" + data[i].payName + "</td>";
+									if (undefined != data[i].auditState && null != data[i].auditState) {
+										dataHtml += "<td>" + status[data[i].auditState] + "[" + data[i].auditState + "]" + "</td>";
+									} else {
+										dataHtml += "<td></td>";
+									}
+									dataHtml += "<td>" + data[i].bwName + "</td>";
+									dataHtml += "<td>" + data[i].applyDate + "</td>";
+									dataHtml += "</tr>";
+								}
+							}
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getDeliveryListList(headGuid, copNo) {
+				$.getJSON("/deliveries/" + headGuid + "/deliveryLists/", function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("表体信息[" + copNo + "]");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><tr><th>序号</th><th>运单号</th><th>时间</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for (var i = 0; i < data.length; i++) {
+							dataHtml += "<tr>";
+							dataHtml += "<td>" + data[i].gNum + "</td>";
+							dataHtml += "<td>" + data[i].logisticsNo + "</td>";
+							dataHtml += "<td>" + data[i].sysDate + "</td>";
+							dataHtml += "</tr>";
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getDistHeadByInvtNo(invtNo, status) {
+				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
+					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.distNo + "</td>";
+						dataHtml += "<td>" + data.customsCode + "</td>";
+						dataHtml += "<td title='" + data.declCode + "'>" + data.declName + "</td>";
+						dataHtml += "<td>" + data.distStat + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "<thead><tr><th>录入日期</th><th>申报日期</th><th>退单原因</th><th>备注</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.inputDate + "</td>";
+						dataHtml += "<td>" + data.declDate + "</td>";
+						dataHtml += "<td>" + data.returnReason + "</td>";
+						dataHtml += "<td>" + data.note + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+		</script>
+
+		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
+			role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">历史状态</h4>
+					</div>
+					<div class="modal-body"></div>
+				</div>
+			</div>
+		</div>
+		
+		<form class="form-horizontal" role="form" action="deliveries" method="GET"
+			id="delivery_form">
+			<input type="hidden" name="pageSize" th:value="${deliveryHead.pageSize}" />
+			<div class="form-group">
+				<label class="col-sm-1 control-label">预录入编号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="preNo" placeholder="预录入编号" th:value="${deliveryHead.preNo}" />
+				</div>
+				<label class="col-sm-1 control-label">入库单编号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="rkdNo" placeholder="入库单编号" th:value="${deliveryHead.rkdNo}" />
+				</div>
+				<label class="col-sm-1 control-label">监管场所经营人代码</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="operatorCode" placeholder="监管场所经营人代码" th:value="${deliveryHead.operatorCode}" />
+				</div>
+				<label class="col-sm-1 control-label">监管场所人经营人名称</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="operatorName" placeholder="监管场所经营人名称" th:value="${deliveryHead.operatorName}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-1 control-label">物流企业代码</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="logisticsCode" placeholder="物流企业代码" th:value="${deliveryHead.logisticsCode}" />
+				</div>
+				<label class="col-sm-1 control-label">物流企业名称</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="logisticsName" placeholder="物流企业名称" th:value="${deliveryHead.logisticsName}" />
+				</div>
+				<label class="col-sm-1 control-label">入库开始时间</label>
+				<div class="col-sm-2">
+					<div class='input-group date input-date'>
+						<input type='text' class="form-control" name="beginSysDate"
+							th:value="${deliveryHead.beginSysDate}" placeholder="申报开始时间" />
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
+				</div>
+				<label class="col-sm-1 control-label">入库结束时间</label>
+				<div class="col-sm-2">
+					<div class='input-group date input-date'>
+						<input type='text' class="form-control" name="endSysDate"
+							th:value="${deliveryHead.endSysDate}" placeholder="申报结束时间" />
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-1 control-label">入库单状态</label>
+				<div class="col-sm-2">
+					<select class="form-control" name="appStatus">
+						<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
+								th:text="${appStat.key} + '-' + ${appStat.value}"
+							th:selected="${appStat.key == deliveryHead.appStatus} ? 'selected'"></option>
+					</select>
+				</div>
+				<label class="col-sm-1 control-label">航班航次号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="voyageNo" placeholder="航班航次号" th:value="${deliveryHead.voyageNo}" />
+				</div>
+				<label class="col-sm-1 control-label">提运单号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="billNo" placeholder="提运单号" th:value="${deliveryHead.billNo}" />
+				</div>
+			</div>
+			<div class="pull-right form-group no-margin-right">
+				<button type="submit" class="btn btn-info btn-lg">搜索</button>
+				<button type="button" class="btn btn-warning btn-lg" onclick="resetForm('delivery_form')">重置</button>
+			</div>
+		</form>
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>预录入编号</th>
+					<th>企业内部编号</th>
+					<th>入库单编号</th>
+					<th>监管场所经营人名称</th>
+					<th>物流企业名称</th>
+					<th>航班航次号</th>
+					<th>提运单号</th>
+					<th>卸货库位</th>
+					<th>入库时间</th>
+					<th>业务状态</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${deliveryHeadList.empty}">
+					<td colspan="100">没有数据</td>
+				</tr>
+				<tr th:each="deliveryHead,stat : ${deliveryHeadList}">
+					<td th:text="${stat.count}" title="点击显示表体信息"
+						th:onclick="'getDeliveryListList(\'' + ${deliveryHead.headGuid} + '\',\'' + ${deliveryHead.copNo} + '\')'"></td>
+					<td th:text="${deliveryHead.preNo}"></td>
+					<td th:text="${deliveryHead.copNo}"></td>
+					<td th:text="${deliveryHead.rkdNo}"></td>
+					<td th:title="${deliveryHead.operatorCode}">
+						<a href="javascript:void(0)" th:text="${deliveryHead.operatorName}"
+							th:onclick="'addFormParaQuery(\'delivery_form\', \'operatorCode\', \'' + ${deliveryHead.operatorCode} + '\')'"></a>
+					</td>
+					<td th:title="${deliveryHead.logisticsCode}">
+						<a href="javascript:void(0)" th:text="${deliveryHead.logisticsName}"
+							th:onclick="'addFormParaQuery(\'delivery_form\', \'logisticsCode\', \'' + ${deliveryHead.logisticsCode} + '\')'"></a>
+					</td>
+					<td th:text="${deliveryHead.voyageNo}"></td>
+					<td th:text="${deliveryHead.billNo}"></td>
+					<td th:text="${deliveryHead.unloadLocation}"></td>
+					<td th:text="${#calendars.format(deliveryHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
+					<td th:text="${appStatus[deliveryHead.appStatus]}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul class="pagination pagination-lg pull-right">
+			<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+				<a href="javascript:void(0)"
+						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'delivery_form\', 1);'">首页</a>
+			</li>
+			<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+				<a href="javascript:void(0)"
+					th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+			</li>
+			<li th:each="page : ${pageList}"
+				th:class="${page == pageInfo.pageNum} ? 'active'">
+				<a href="javascript:void(0)" th:text="${page}"
+					th:onclick="'goToPageNum(\'delivery_form\',' + ${page} + ');'"></a>
+			</li>
+			<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+				<a href="javascript:void(0)"
+					th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+			</li>
+			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+				<a href="javascript:void(0)"
+						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+			</li>
+			<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+			<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+			<li>
+				<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('delivery_form', this.value);">
+					<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+						th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+				</select>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

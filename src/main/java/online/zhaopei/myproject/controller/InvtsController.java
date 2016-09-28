@@ -47,7 +47,7 @@ import online.zhaopei.myproject.tool.common.ParaTool;
 
 @Controller
 @RequestMapping("/invts")
-public class InvtHeadController extends BaseController {
+public class InvtsController extends BaseController {
 
 	/**
 	 * serialVersionUID

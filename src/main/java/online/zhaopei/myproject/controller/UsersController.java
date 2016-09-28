@@ -14,7 +14,7 @@ import online.zhaopei.myproject.service.ecssent.UserUserService;
 
 @Controller
 @RequestMapping("/users")
-public class UserUserController extends BaseController {
+public class UsersController extends BaseController {
 
 	/**
 	 * serialVersionUID

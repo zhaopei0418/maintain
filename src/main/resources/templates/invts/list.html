@@ -135,7 +135,7 @@
 			</div>
 		</div>
 		
-		<form class="form-horizontal" role="form" action="invts" method="POST"
+		<form class="form-horizontal" role="form" action="invts" method="GET"
 			id="invt_form">
 			<div class="form-group">
 				<label class="col-sm-1 control-label">电商代码</label>
@@ -209,7 +209,7 @@
 				<div class="col-sm-2">
 					<select class="form-control" name="appStatus">
 						<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
-							th:text="${appStat.value}"
+								th:text="${appStat.key} + '-' + ${appStat.value}"
 							th:selected="${appStat.key == invtHead.appStatus} ? 'selected'"></option>
 					</select>
 				</div>
@@ -217,7 +217,7 @@
 				<div class="col-sm-2">
 					<select class="form-control" name="distStatus">
 						<option th:each="distStat : ${distStatus}" th:value="${distStat.key}"
-							th:text="${distStat.value}"
+								th:text="${distStat.key} + '-' + ${distStat.value}"
 							th:selected="${distStat.key == invtHead.distStatus} ? 'selected'"></option>
 					</select>
 				</div>

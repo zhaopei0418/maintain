@@ -1,9 +1,10 @@
 package online.zhaopei.myproject.domain.ecssent;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class DistHead implements Serializable {
+import online.zhaopei.myproject.domain.BaseDomain;
+
+public class DistHead extends BaseDomain {
 
 	/**
 	 * serialVersionUID
