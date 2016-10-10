@@ -1,65 +1,226 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-		xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
-	<head>
-		<title>Layout</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}" />
-		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-		<link rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.min.css}" />
-		<link rel="stylesheet" th:href="@{/css/application.css}" />
-		<script type="text/javascript" th:src="@{/js/jquery-3.1.0.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/moment-with-locales.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/application.js}"></script>
-	</head>
-	<body>
-		<div class="container-fluid">
-			<nav class="navbar navbar-default navbar-fixed-top">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="#">维护系统</a>
-					</div>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gentellela Alela! | </title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{/fonts/css/font-awesome.min.css}" />
+	<link rel="stylesheet" th:href="@{/vendors/nprogress/nprogress.css}" />
+	<link rel="stylesheet" th:href="@{/vendors/iCheck/skins/flat/green.css}" />
+	<link rel="stylesheet" th:href="@{/css/custom.min.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+  </head>
 
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
-							<li id="invt_man" class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									清单管理
-									<span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="/invts">清单查询</a></li>
-									<li><a href="/invts/statistics">清单统计</a></li>
-								</ul>
-							</li>
-							<li id="delivery_man"><a href="/deliveries">入库明细单管理</a></li>
-							<li id="order_man"><a href="#">订单管理</a></li>
-							<li id="company_man"><a href="#">企业管理</a></li>
-							<li id="user_man"><a href="/users">用户管理</a></li>
-						</ul>
-					</div><!-- /.navbar-collapse -->
-				</div><!-- /.container-fluid -->
-			</nav>
-			<div style="padding-top: 60px;">
-				<h1 layout:fragment="header">Layout</h1>
-				<div layout:fragment="content">Fake content</div>
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+				<a href="/invts" class="site_title"><i class="fa fa-paw"></i> 
+					<span>维护系统</span>
+				</a>
 			</div>
-			<script type="text/javascript">
-				$(".modal").on("shown.bs.modal", function(e) {
-					var self = $(this);
-					var modalDialog = self.find(".modal-dialog");
-					var m_top = ($(document).height() - modalDialog.height()) / 2;
-					modalDialog.css("margin", m_top + " px auto");
-				});
-			</script>
-		</div>
-	</body>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile">
+              <div class="profile_pic">
+                <img src="/images/img.jpg" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>欢迎</span>
+                <h2>管理员</h2>
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+			<!-- sidebar menu -->
+			<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+				<div class="menu_section">
+					<h3>菜单</h3>
+					<ul class="nav side-menu">
+						<li><a><i class="fa fa-home"></i>清单管理<span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu">
+								<li><a href="/invts">清单查询</a></li>
+								<li><a href="/invts/statistics">清单统计</a></li>
+							</ul>
+						</li>
+						<li><a><i class="fa fa-edit"></i>入库明细单管理<span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu">
+								<li><a href="/deliveries">入库明细单查询</a></li>
+							</ul>
+						</li>
+						<li><a><i class="fa fa-desktop"></i>订单管理<span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu">
+								<li><a href="#">订单查询</a></li>
+							</ul>
+						</li>
+						<li><a><i class="fa fa-table"></i>企业管理<span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu">
+								<li><a href="#">企业查询</a></li>
+							</ul>
+						</li>
+						<li><a><i class="fa fa-bar-chart-o"></i>用户管理<span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu">
+								<li><a href="/users">用户查询</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Logout">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="/images/img.jpg" alt="">管理员
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;">个人信息</a></li>
+                    <li>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>设置</span>
+                      </a>
+                    </li>
+                    <li><a href="javascript:;">帮助</a></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
+                  </ul>
+                </li>
+
+                <li role="presentation" class="dropdown">
+                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="badge bg-green">6</span>
+                  </a>
+                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <li>
+                      <a>
+                        <span class="image"><img src="/images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="/images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="/images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="/images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="text-center">
+                        <a>
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+			<div layout:fragment="header" class="page-title">页标题</div>
+			<div class="clearfix"></div>
+			<div layout:fragment="content" class="row">页内容</div>
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+	<script type="text/javascript" th:src="@{/js/moment-with-locales.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+	<script type="text/javascript" th:src="@{/vendors/nprogress/nprogress.js}"></script>
+	<script type="text/javascript" th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/custom.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/application.js}"></script>
+  </body>
 </html>

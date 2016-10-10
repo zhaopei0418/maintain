@@ -6,11 +6,13 @@
 <title>清单统计</title>
 </head>
 <body>
-	<h1 layout:fragment="header">清单统计</h1>
+	<div layout:fragment="header">
+		<div class="title_left">
+			<h3>清单统计</h3>
+		</div>
+	</div>
 	<div layout:fragment="content">
 		<script type="text/javascript">
-			switchActiveMenu("invt_man");
-			
 			$(function() {
 				$(".input-date").datetimepicker({
 					locale: 'zh-CN',
@@ -264,21 +266,21 @@
 				<button type="button" class="btn btn-warning btn-lg" onclick="resetForm('invt_statistics_form')">重置</button>
 			</div>
 		</form>
-		<table class="table table-bordered table-striped table-hover">
+		<table class="table table-striped jambo_table bulk_action">
 			<thead>
-				<tr>
-					<th>序号</th>
-					<th>第一分组</th>
-					<th>第二分组</th>
-					<th>数量</th>
-					<th>货值</th>
+				<tr class="headings">
+					<th class="column-title">序号</th>
+					<th class="column-title">第一分组</th>
+					<th class="column-title">第二分组</th>
+					<th class="column-title">数量</th>
+					<th class="column-title">货值</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:if="${invtHeadStatisticsList.empty}">
 					<td colspan="5">没有数据</td>
 				</tr>
-				<tr th:each="invtHeadStatistics,stat : ${invtHeadStatisticsList}">
+				<tr th:each="invtHeadStatistics,stat : ${invtHeadStatisticsList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
 					<td th:text="${stat.count}"></td>
 					<td th:text="${invtHeadStatistics.name}"></td>
 					<td th:text="${invtHeadStatistics.nameTwo}"></td>

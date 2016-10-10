@@ -6,11 +6,13 @@
 <title>入库明细单管理</title>
 </head>
 <body>
-	<h1 layout:fragment="header">入库明细单管理</h1>
+	<div layout:fragment="header">
+		<div class="title_left">
+			<h3>入库明细单查询</h3>
+		</div>
+	</div>
 	<div layout:fragment="content">
 		<script type="text/javascript">
-			switchActiveMenu("delivery_man");
-			
 			$(function() {
 				$(".input-date").datetimepicker({
 					locale: 'zh-CN',
@@ -219,27 +221,27 @@
 				<button type="button" class="btn btn-warning btn-lg" onclick="resetForm('delivery_form')">重置</button>
 			</div>
 		</form>
-		<table class="table table-bordered table-striped table-hover">
+		<table class="table table-striped jambo_table bulk_action">
 			<thead>
 				<tr>
-					<th>序号</th>
-					<th>预录入编号</th>
-					<th>企业内部编号</th>
-					<th>入库单编号</th>
-					<th>监管场所经营人名称</th>
-					<th>物流企业名称</th>
-					<th>航班航次号</th>
-					<th>提运单号</th>
-					<th>卸货库位</th>
-					<th>入库时间</th>
-					<th>业务状态</th>
+					<th class="column-title">序号</th>
+					<th class="column-title">预录入编号</th>
+					<th class="column-title">企业内部编号</th>
+					<th class="column-title">入库单编号</th>
+					<th class="column-title">监管场所经营人名称</th>
+					<th class="column-title">物流企业名称</th>
+					<th class="column-title">航班航次号</th>
+					<th class="column-title">提运单号</th>
+					<th class="column-title">卸货库位</th>
+					<th class="column-title">入库时间</th>
+					<th class="column-title">业务状态</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:if="${deliveryHeadList.empty}">
 					<td colspan="100">没有数据</td>
 				</tr>
-				<tr th:each="deliveryHead,stat : ${deliveryHeadList}">
+				<tr th:each="deliveryHead,stat : ${deliveryHeadList}" th:class="${0 == stat.count} ? 'odd pointer' : 'even pointer'">
 					<td th:text="${stat.count}" title="点击显示表体信息"
 						th:onclick="'getDeliveryListList(\'' + ${deliveryHead.headGuid} + '\',\'' + ${deliveryHead.copNo} + '\')'"></td>
 					<td th:text="${deliveryHead.preNo}"></td>
