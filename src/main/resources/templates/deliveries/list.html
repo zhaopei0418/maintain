@@ -203,6 +203,16 @@
 				<div class="col-sm-2">
 					<input class="form-control" type="text" name="billNo" placeholder="提运单号" th:value="${deliveryHead.billNo}" />
 				</div>
+				<label class="col-sm-1 control-label">内部编号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="copNo" placeholder="内部编号" th:value="${deliveryHead.copNo}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-1 control-label">物流运单号</label>
+				<div class="col-sm-2">
+					<input class="form-control" type="text" name="logisticsNo" placeholder="物流运单号" th:value="${deliveryHead.logisticsNo}" />
+				</div>
 			</div>
 			<div class="pull-right form-group no-margin-right">
 				<button type="submit" class="btn btn-info btn-lg">搜索</button>

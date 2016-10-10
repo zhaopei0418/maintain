@@ -69,6 +69,8 @@ public class DeliveryHead extends BaseDomain {
 	
 	private String endSysDate;
 
+	private String logisticsNo;
+	
 	public String getHeadGuid() {
 		return headGuid;
 	}
@@ -299,5 +301,13 @@ public class DeliveryHead extends BaseDomain {
 
 	public void setEndSysDate(String endSysDate) {
 		this.endSysDate = endSysDate;
+	}
+
+	public String getLogisticsNo() {
+		return logisticsNo;
+	}
+
+	public void setLogisticsNo(String logisticsNo) {
+		this.logisticsNo = logisticsNo;
 	}
 }
