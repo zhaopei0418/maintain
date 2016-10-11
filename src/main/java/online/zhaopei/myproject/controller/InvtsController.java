@@ -2,6 +2,7 @@ package online.zhaopei.myproject.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,6 +198,11 @@ public class InvtsController extends BaseController {
 		mv.addObject("appStatusJson", new Gson().toJson(InvtHeadConstant.getAPP_STATUS_MAP()));
 		mv.addObject("auditStatusJson", new Gson().toJson(InvtHeadConstant.getAUDIT_STATE_MAP()));
 		mv.addObject("distStatus", InvtHeadConstant.getDIST_STATUS_MAP());
+		mv.addObject("declareStatus", new HashMap<String, String>(){{
+			this.put("", "所有");
+			this.put("1", "待申报");
+			this.put("2", "已申报");
+		}});
 		return mv;
 	}
 }

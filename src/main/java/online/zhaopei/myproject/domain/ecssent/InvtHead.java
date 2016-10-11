@@ -149,6 +149,8 @@ public class InvtHead extends BaseDomain {
 	private String opStatus;
 
 	private String distStatus;
+	
+	private String declareStatus;
 
 	private Date dischargeDate;
 	
@@ -719,5 +721,13 @@ public class InvtHead extends BaseDomain {
 
 	public String getWrapTypeDesc() {
 		return wrapTypeDesc;
+	}
+
+	public String getDeclareStatus() {
+		return declareStatus;
+	}
+
+	public void setDeclareStatus(String declareStatus) {
+		this.declareStatus = declareStatus;
 	}
 }

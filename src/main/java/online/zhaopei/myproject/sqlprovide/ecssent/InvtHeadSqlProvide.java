@@ -161,6 +161,14 @@ public class InvtHeadSqlProvide implements Serializable {
 				this.WHERE("dist_status = '" + invtHead.getDistStatus() + "'");
 			}
 			
+			if (!StringUtils.isEmpty(invtHead.getDeclareStatus())) {
+				if ("1".equals(invtHead.getDeclareStatus())) {
+					this.WHERE("app_status in ('1', '01', '100')");
+				} else {
+					this.WHERE("app_status not in ('1', '01', '100')");
+				}
+			}
+			
 		}}.toString();
 	}
 }

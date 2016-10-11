@@ -264,6 +264,16 @@
 								</div>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">申报状态</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="declareStatus">
+									<option th:each="declareStat : ${declareStatus}" th:value="${declareStat.key}"
+											th:text="${declareStat.key} + '-' + ${declareStat.value}"
+											th:selected="${declareStat.key == invtHead.declareStatus} ? 'selected'"></option>
+								</select>
+							</div>
+						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="submit" class="btn btn-info btn-lg">搜索</button>
 							<button type="button" class="btn btn-warning btn-lg" onclick="resetForm('invt_form')">重置</button>
