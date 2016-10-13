@@ -18,10 +18,14 @@ thymeleaf 地址：https://github.com/thymeleaf/thymeleaf
 
 bootstrap 地址：http://getbootstrap.com/css/
 
-1.用maven启动命令是
+**maven**
+```
 	mvn spring-boot:run
+```
 
-2.用gradle启动的命令是
+**gradle**
+```
 	gradle bootRun
+```
 
-3.用druid配置连接三个数据库
+用druid配置连接三个数据库
