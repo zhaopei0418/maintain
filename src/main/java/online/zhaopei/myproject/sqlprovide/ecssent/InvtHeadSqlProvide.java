@@ -37,6 +37,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.add("agent_name");
 			this.add("area_code");
 			this.add("area_name");
+			this.add("customs_code");
 			this.add("dist_status");
 		}};
 	}
@@ -48,7 +49,6 @@ public class InvtHeadSqlProvide implements Serializable {
 				this.SELECT(field);
 			}
 			this.SELECT("app_type");
-			this.SELECT("customs_code");
 			this.SELECT("port_code");
 			this.SELECT("ebp_code");
 			this.SELECT("ebp_name");
@@ -88,7 +88,12 @@ public class InvtHeadSqlProvide implements Serializable {
 			for(String field : self.selectField()) {
 				this.SELECT(field);
 			}
-			this.FROM("ceb2_invt_head");
+			this.FROM("ceb2_invt_head cih");
+			
+			if (!StringUtils.isEmpty(invtHead.getDistinct())) {
+				this.INNER_JOIN("(select min(head_guid) as inner_head_guid from ceb2_invt_head group by ebc_code, order_no) cih1 on cih.head_guid = cih1.inner_head_guid");
+			}
+			
 			if (!StringUtils.isEmpty(invtHead.getHeadGuid())) {
 				this.WHERE("head_guid = '" + invtHead.getHeadGuid() + "'");
 			}
@@ -159,6 +164,10 @@ public class InvtHeadSqlProvide implements Serializable {
 			
 			if (!StringUtils.isEmpty(invtHead.getDistStatus())) {
 				this.WHERE("dist_status = '" + invtHead.getDistStatus() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHead.getCustomsCode())) {
+				this.WHERE("customs_code = '" + invtHead.getCustomsCode() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getDeclareStatus())) {

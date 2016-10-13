@@ -158,6 +158,8 @@ public class InvtHead extends BaseDomain {
 
 	private List<ImpInvtHead> impInvtHeadList;
 	
+	private String distinct;
+	
 	public String getHeadGuid() {
 		return headGuid;
 	}
@@ -729,5 +731,13 @@ public class InvtHead extends BaseDomain {
 
 	public void setDeclareStatus(String declareStatus) {
 		this.declareStatus = declareStatus;
+	}
+
+	public String getDistinct() {
+		return distinct;
+	}
+
+	public void setDistinct(String distinct) {
+		this.distinct = distinct;
 	}
 }

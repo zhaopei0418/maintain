@@ -52,7 +52,13 @@ public class InvtHeadStatistics extends BaseDomain {
 	private String payCode;
 
 	private String payName;
+	
+	private String customsCode;
+	
+	private String declareStatus;
 
+	private String distinct;
+	
 	public String getName() {
 		return name;
 	}
@@ -227,5 +233,29 @@ public class InvtHeadStatistics extends BaseDomain {
 
 	public String getPayName() {
 		return payName;
+	}
+
+	public String getCustomsCode() {
+		return customsCode;
+	}
+
+	public void setCustomsCode(String customsCode) {
+		this.customsCode = customsCode;
+	}
+
+	public String getDeclareStatus() {
+		return declareStatus;
+	}
+
+	public void setDeclareStatus(String declareStatus) {
+		this.declareStatus = declareStatus;
+	}
+
+	public String getDistinct() {
+		return distinct;
+	}
+
+	public void setDistinct(String distinct) {
+		this.distinct = distinct;
 	}
 }

@@ -185,6 +185,16 @@ public class InvtsController extends BaseController {
 			this.put("", "无");
 			this.putAll(groupFieldMap);
 		}});
+		mv.addObject("declareStatus", new HashMap<String, String>(){{
+			this.put("", "所有");
+			this.put("1", "待申报");
+			this.put("2", "已申报");
+		}});
+		mv.addObject("customsCodeMap", CommonConstant.getCUSTOMS_MAP());
+		mv.addObject("distinctMap", new LinkedHashMap<String, String>(){{
+			this.put("", "不去重复");
+			this.put("1", "按电商及订单号去重");
+		}});
 		return mv;
 	}
 	
@@ -202,6 +212,11 @@ public class InvtsController extends BaseController {
 			this.put("", "所有");
 			this.put("1", "待申报");
 			this.put("2", "已申报");
+		}});
+		mv.addObject("customsCodeMap", CommonConstant.getCUSTOMS_MAP());
+		mv.addObject("distinctMap", new LinkedHashMap<String, String>(){{
+			this.put("", "不去重复");
+			this.put("1", "按电商及订单号去重");
 		}});
 		return mv;
 	}

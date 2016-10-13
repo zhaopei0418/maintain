@@ -29,10 +29,17 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 				this.SELECT("decode(grouping(" + invtHeadStatistics.getGroupFieldTwo() + "), 1, '小计', " +
 						invtHeadStatistics.getGroupFieldTwo() + ") as nameTwo");
 			}
+			
 			this.SELECT("count(1) as quantity");
 			this.SELECT("sum(coh.goods_value) as goods_value");
 			this.FROM("ceb2_invt_head cih");
-			this.LEFT_OUTER_JOIN("ceb2_ord_head coh on cih.order_no = coh.order_no and cih.ebc_code = coh.ebc_code");
+			
+			if (!StringUtils.isEmpty(invtHeadStatistics.getDistinct())) {
+				this.INNER_JOIN("(select min(head_guid) as inner_head_guid from ceb2_invt_head group by ebc_code, order_no) cih1 on cih.head_guid = cih1.inner_head_guid");
+			}
+			
+			this.LEFT_OUTER_JOIN("(select * from ceb2_ord_head where head_guid in (select min(head_guid) as headguid from ceb2_ord_head group by ebc_code, order_no)) coh on coh.ebc_code = cih.ebc_code and coh.order_no = cih.order_no");
+			
 			this.LEFT_OUTER_JOIN("cur_lms_head clh on clh.lms_no = cih.ems_no");
 			if (!StringUtils.isEmpty(invtHeadStatistics.getBeginSysDate())) {
 				this.WHERE("to_char(cih.sys_date, 'yyyy-mm-dd') >= '" + invtHeadStatistics.getBeginSysDate() + "'");
@@ -96,6 +103,18 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 
 			if (!StringUtils.isEmpty(invtHeadStatistics.getTradeName())) {
 				this.WHERE("clh.trade_name like '%" + invtHeadStatistics.getTradeName() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHeadStatistics.getCustomsCode())) {
+				this.WHERE("cih.customs_code = '" + invtHeadStatistics.getCustomsCode() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(invtHeadStatistics.getDeclareStatus())) {
+				if ("1".equals(invtHeadStatistics.getDeclareStatus())) {
+					this.WHERE("cih.app_status in ('1', '01', '100')");
+				} else {
+					this.WHERE("cih.app_status not in ('1', '01', '100')");
+				}
 			}
 
 			if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {

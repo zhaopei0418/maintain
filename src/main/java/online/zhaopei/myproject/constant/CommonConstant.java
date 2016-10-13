@@ -43,6 +43,14 @@ public enum CommonConstant implements Serializable {
 		APP_TYPE_MAP.put("1", "新增");
 		APP_TYPE_MAP.put("2", "变更");
 		APP_TYPE_MAP.put("3", "删除");
+		
+		CUSTOMS_MAP.put("", "所有关区");
+		CUSTOMS_MAP.put("4604", "郑州机办");
+		CUSTOMS_MAP.put("4605", "郑州邮办");
+		CUSTOMS_MAP.put("4606", "郑铁东办");
+		CUSTOMS_MAP.put("4612", "新郑综保");
+		CUSTOMS_MAP.put("4619", "河南德众");
+		CUSTOMS_MAP.put("4620", "口岸作业区");
 	}
 
 	private CommonConstant(String value) {

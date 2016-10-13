@@ -273,6 +273,22 @@
 											th:selected="${declareStat.key == invtHead.declareStatus} ? 'selected'"></option>
 								</select>
 							</div>
+							<label class="col-sm-1 control-label">申报关区</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="customsCode">
+									<option th:each="customsCodeEntry : ${customsCodeMap}" th:value="${customsCodeEntry.key}"
+											th:text="${customsCodeEntry.key} + '-' + ${customsCodeEntry.value}"
+											th:selected="${customsCodeEntry.key == invtHead.customsCode} ? 'selected'"></option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">是否去重复</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="distinct">
+									<option th:each="distinctEntry : ${distinctMap}" th:value="${distinctEntry.key}"
+											th:text="${distinctEntry.key} + '-' + ${distinctEntry.value}"
+											th:selected="${distinctEntry.key == invtHead.distinct} ? 'selected'"></option>
+								</select>
+							</div>
 						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="submit" class="btn btn-info btn-lg">搜索</button>
@@ -297,6 +313,7 @@
 						<th class="column-title">物流企业</th>
 						<th class="column-title">运单号</th>
 						<th class="column-title">申报日期</th>
+						<th class="column-title">关区</th>
 						<th class="column-title">清单状态</th>
 						<th class="column-title">出区状态</th>
 						<th class="column-title">国检状态</th>
@@ -304,7 +321,7 @@
 				</thead>
 				<tbody>
 					<tr th:if="${invtHeadList.empty}">
-						<td colspan="13">没有数据</td>
+						<td colspan="30">没有数据</td>
 					</tr>
 					<tr th:each="invtHead,stat : ${invtHeadList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
 						<td th:text="${stat.count}"></td>
@@ -336,6 +353,7 @@
 						</td>
 						<td th:text="${invtHead.logisticsNo}"></td>
 						<td th:text="${#calendars.format(invtHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${customsCodeMap[invtHead.customsCode]}" th:title="${invtHead.customsCode}"></td>
 						<td th:switch="${invtHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
 							title="点击查看历史状态">
 							<span th:case="05" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
