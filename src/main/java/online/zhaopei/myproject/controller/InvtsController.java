@@ -196,6 +196,11 @@ public class InvtsController extends BaseController {
 			this.put("", "不去重复");
 			this.put("1", "按电商及订单号去重");
 		}});
+		mv.addObject("tradeModeMap", new LinkedHashMap<String, String>(){{
+			this.put("", "所有方式");
+			this.put("1210", "保税电商");
+			this.put("9610", "电子商务");
+		}});
 		return mv;
 	}
 	
@@ -218,6 +223,11 @@ public class InvtsController extends BaseController {
 		mv.addObject("distinctMap", new LinkedHashMap<String, String>(){{
 			this.put("", "不去重复");
 			this.put("1", "按电商及订单号去重");
+		}});
+		mv.addObject("tradeModeMap", new LinkedHashMap<String, String>(){{
+			this.put("", "所有方式");
+			this.put("1210", "保税电商");
+			this.put("9610", "电子商务");
 		}});
 		return mv;
 	}

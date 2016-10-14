@@ -25,6 +25,7 @@ public interface InvtDeliveryMapper extends Serializable {
 		@Result(property = "invtTrafNo", column = "invt_traf_no"),
 		@Result(property = "logisticsCode", column = "logistics_code"),
 		@Result(property = "logisticsNo", column = "logistics_no"),
+		@Result(property = "copNo", column = "cop_no"),
 	})
 	@SelectProvider(type = InvtDeliverySqlProvide.class, method = "comparisonDeliveryByLogisticsNoSql")
 	List<InvtDeliveryComparison> comparisonDeliveryByLogisticsNo(String logisticsCode, String logisticsNo, String headGuid);

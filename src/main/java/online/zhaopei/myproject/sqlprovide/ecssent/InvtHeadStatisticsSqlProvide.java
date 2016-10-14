@@ -109,6 +109,10 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 				this.WHERE("cih.customs_code = '" + invtHeadStatistics.getCustomsCode() + "'");
 			}
 			
+			if (!StringUtils.isEmpty(invtHeadStatistics.getTradeMode())) {
+				this.WHERE("cih.trade_mode = '" + invtHeadStatistics.getTradeMode() + "'");
+			}
+			
 			if (!StringUtils.isEmpty(invtHeadStatistics.getDeclareStatus())) {
 				if ("1".equals(invtHeadStatistics.getDeclareStatus())) {
 					this.WHERE("cih.app_status in ('1', '01', '100')");

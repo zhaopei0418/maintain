@@ -38,7 +38,7 @@
 						logisticsNo + "]");
 					var isPass = false;
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
-					dataHtml += "<thead><th>表头序号</th><th>航班航次号</th><th>总（提）运单号</th><th>运输方式</th>";
+					dataHtml += "<thead><th>表头序号</th><th>企业内部编号</th><th>航班航次号</th><th>总（提）运单号</th><th>运输方式</th>";
 					dataHtml += "<th>运输工具</th><th>比对结果</th></thead>";
 					dataHtml += "<tbody>";
 					if (null != data) {
@@ -49,6 +49,7 @@
 								if (0 == i) {
 									dataHtml += "<tr style='background-color: yellow;'>";
 									dataHtml += "<td>" + data[i].invtHeadGuid + "</td>";
+									dataHtml += "<td>" + copNo + "</td>";
 									dataHtml += "<td>" + data[i].invtVoyageNo + "</td>";
 									dataHtml += "<td>" + data[i].invtBillNo + "</td>";
 									dataHtml += "<td>" + data[i].invtTrafMode + "</td>";
@@ -58,6 +59,7 @@
 								}
 								dataHtml += "<tr>";
 								dataHtml += "<td>" + data[i].deliveryHeadGuid + "</td>";
+								dataHtml += "<td>" + data[i].copNo + "</td>";
 								dataHtml += "<td>" + data[i].deliveryVoyageNo + "</td>";
 								dataHtml += "<td>" + data[i].deliveryBillNo + "</td>";
 								dataHtml += "<td>" + data[i].deliveryTrafMode + "</td>";
@@ -208,6 +210,7 @@
 				<div class="x_content">
 					<form class="form-horizontal" role="form" action="invts" method="GET"
 							id="invt_form">
+						<input type="hidden" name="pageSize" th:value="${invtHead.pageSize}" />
 						<div class="form-group">
 							<label class="col-sm-1 control-label">电商代码</label>
 							<div class="col-sm-2">
@@ -229,7 +232,6 @@
 								<input class="form-control" type="text" name="agentName" placeholder="申报企业名称"
 										th:value="${invtHead.agentName}" />
 							</div>
-							<input type="hidden" name="pageSize" th:value="${invtHead.pageSize}" />
 						</div>
 						<div class="form-group">
 							<label class="col-sm-1 control-label">物流企业代码</label>
@@ -338,6 +340,14 @@
 											th:selected="${distinctEntry.key == invtHead.distinct} ? 'selected'"></option>
 								</select>
 							</div>
+							<label class="col-sm-1 control-label">贸易方式</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="tradeMode">
+									<option th:each="tradeModeEntry : ${tradeModeMap}" th:value="${tradeModeEntry.key}"
+											th:text="${tradeModeEntry.key} + '-' + ${tradeModeEntry.value}"
+											th:selected="${tradeModeEntry.key == invtHead.tradeMode} ? 'selected'"></option>
+								</select>
+							</div>
 						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="submit" class="btn btn-info btn-lg">搜索</button>
@@ -349,6 +359,38 @@
 		</div>
 
 		<div class="col-md-12 col-sm-12 col-xs-12">
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'invt_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'invt_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'invt_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'invt_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'invt_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('invt_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+					</select>
+				</li>
+			</ul>
 			<table class="table table-striped jambo_table bulk_action">
 				<thead>
 					<tr class="headings">

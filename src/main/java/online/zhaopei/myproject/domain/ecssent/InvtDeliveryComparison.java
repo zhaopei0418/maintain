@@ -32,6 +32,8 @@ public class InvtDeliveryComparison extends BaseDomain {
 	private String logisticsCode;
 	
 	private String logisticsNo;
+	
+	private String copNo;
 
 	public String getDeliveryHeadGuid() {
 		return deliveryHeadGuid;
@@ -127,5 +129,13 @@ public class InvtDeliveryComparison extends BaseDomain {
 
 	public void setLogisticsNo(String logisticsNo) {
 		this.logisticsNo = logisticsNo;
+	}
+
+	public String getCopNo() {
+		return copNo;
+	}
+
+	public void setCopNo(String copNo) {
+		this.copNo = copNo;
 	}
 }

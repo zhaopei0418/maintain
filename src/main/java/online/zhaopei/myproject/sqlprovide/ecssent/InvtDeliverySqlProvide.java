@@ -15,6 +15,7 @@ public class InvtDeliverySqlProvide implements Serializable {
 		return new SQL() {{
 			this.SELECT("cih.head_guid as invt_head_guid");
 			this.SELECT("cdh.head_guid as delivery_head_guid");
+			this.SELECT("cdh.cop_no");
 			this.SELECT("cdh.voyage_no as delivery_voyage_no");
 			this.SELECT("cih.voyage_no as invt_voyage_no");
 			this.SELECT("cdh.bill_no as delivery_bill_no");

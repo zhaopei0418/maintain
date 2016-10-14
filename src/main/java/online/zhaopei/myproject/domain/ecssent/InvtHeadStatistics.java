@@ -59,6 +59,8 @@ public class InvtHeadStatistics extends BaseDomain {
 
 	private String distinct;
 	
+	private String tradeMode;
+	
 	public String getName() {
 		return name;
 	}
@@ -257,5 +259,13 @@ public class InvtHeadStatistics extends BaseDomain {
 
 	public void setDistinct(String distinct) {
 		this.distinct = distinct;
+	}
+
+	public String getTradeMode() {
+		return tradeMode;
+	}
+
+	public void setTradeMode(String tradeMode) {
+		this.tradeMode = tradeMode;
 	}
 }
