@@ -56,7 +56,12 @@ public class DeliveryHeadSqlProvide implements Serializable {
 				this.SELECT(field);
 			}
 			this.FROM("ceb2_delivery_head cdh");
-			this.LEFT_OUTER_JOIN("ceb2_delivery_list cdl on cdh.head_guid = cdl.head_guid");
+			
+			if (!StringUtils.isEmpty(deliveryHead.getLogisticsNo())) {
+				this.LEFT_OUTER_JOIN("ceb2_delivery_list cdl on cdh.head_guid = cdl.head_guid");
+				this.WHERE("cdl.logistics_no = '" + deliveryHead.getLogisticsNo() + "'");
+			}
+			
 			if (!StringUtils.isEmpty(deliveryHead.getHeadGuid())) {
 				this.WHERE("cdh.head_guid = '" + deliveryHead.getHeadGuid() + "'");
 			}
@@ -131,10 +136,6 @@ public class DeliveryHeadSqlProvide implements Serializable {
 			
 			if (!StringUtils.isEmpty(deliveryHead.getLogisticsName())) {
 				this.WHERE("cdh.logistics_name like '%" + deliveryHead.getLogisticsName() + "%'");
-			}
-			
-			if (!StringUtils.isEmpty(deliveryHead.getLogisticsNo())) {
-				this.WHERE("cdl.logistics_no = '" + deliveryHead.getLogisticsNo() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(deliveryHead.getUnloadLocation())) {

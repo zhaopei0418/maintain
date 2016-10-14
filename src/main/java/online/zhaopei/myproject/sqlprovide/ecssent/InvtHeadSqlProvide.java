@@ -39,6 +39,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.add("area_name");
 			this.add("customs_code");
 			this.add("dist_status");
+			this.add("trade_mode");
 		}};
 	}
 	
@@ -55,7 +56,6 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.SELECT("ie_date");
 			this.SELECT("loct_no");
 			this.SELECT("ems_no");
-			this.SELECT("trade_mode");
 			this.SELECT("buyer_name");
 			this.SELECT("country");
 			this.SELECT("traf_no");

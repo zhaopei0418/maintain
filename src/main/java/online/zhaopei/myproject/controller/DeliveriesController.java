@@ -15,8 +15,10 @@ import com.github.pagehelper.PageInfo;
 import online.zhaopei.myproject.constant.DeliveryHeadConstant;
 import online.zhaopei.myproject.domain.ecssent.DeliveryHead;
 import online.zhaopei.myproject.domain.ecssent.DeliveryList;
+import online.zhaopei.myproject.domain.ecssent.InvtDeliveryComparison;
 import online.zhaopei.myproject.service.ecssent.DeliveryHeadService;
 import online.zhaopei.myproject.service.ecssent.DeliveryListService;
+import online.zhaopei.myproject.service.ecssent.InvtDeliveryService;
 
 @Controller
 @RequestMapping("/deliveries")
@@ -33,11 +35,20 @@ public class DeliveriesController extends BaseController {
 	@Autowired
 	private DeliveryListService deliveryListService;
 	
+	@Autowired
+	private InvtDeliveryService invtDeliveryService;
+	
 	@GetMapping("/{headGuid}/deliveryLists")
 	@ResponseBody
 	public List<DeliveryList> index(@PathVariable("headGuid") String headGuid) {
 		List<DeliveryList> deliveryListList = this.deliveryListService.getDeliveryListByGuid(headGuid);
 		return deliveryListList;
+	}
+	
+	@GetMapping("/comparisonDeliveryByLogisticsNo")
+	@ResponseBody
+	public List<InvtDeliveryComparison> comparisonDeliveryByLogisticsNo(String logisticsCode, String logisticsNo, String headGuid) {
+		return this.invtDeliveryService.comparisonDeliveryByLogisticsNo(logisticsCode, logisticsNo, headGuid);
 	}
 	
 	@GetMapping

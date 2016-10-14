@@ -26,6 +26,7 @@ import com.google.gson.GsonBuilder;
 
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.InvtHeadConstant;
+import online.zhaopei.myproject.domain.ecssent.DeliveryHead;
 import online.zhaopei.myproject.domain.ecssent.DistHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;

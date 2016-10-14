@@ -29,12 +29,61 @@
 					}
 				});
 			});
+
+			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
+				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
+					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("入库比对结果[" + copNo + "-" + logisticsCode + ":" +
+						logisticsNo + "]");
+					var isPass = false;
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><th>表头序号</th><th>航班航次号</th><th>总（提）运单号</th><th>运输方式</th>";
+					dataHtml += "<th>运输工具</th><th>比对结果</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						if (0 == data.length) {
+							$("#appStatusModal .modal-body").html("没有对应的入库明细单");
+						} else {
+							for (var i = 0; i < data.length; i++) {
+								if (0 == i) {
+									dataHtml += "<tr style='background-color: yellow;'>";
+									dataHtml += "<td>" + data[i].invtHeadGuid + "</td>";
+									dataHtml += "<td>" + data[i].invtVoyageNo + "</td>";
+									dataHtml += "<td>" + data[i].invtBillNo + "</td>";
+									dataHtml += "<td>" + data[i].invtTrafMode + "</td>";
+									dataHtml += "<td>" + data[i].invtTrafNo + "</td>";
+									dataHtml += "<td>清单信息</td>";
+									dataHtml += "</tr>";
+								}
+								dataHtml += "<tr>";
+								dataHtml += "<td>" + data[i].deliveryHeadGuid + "</td>";
+								dataHtml += "<td>" + data[i].deliveryVoyageNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryBillNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryTrafMode + "</td>";
+								dataHtml += "<td>" + data[i].deliveryTrafNo + "</td>";
+								isPass = false;
+								if (data[i].deliveryVoyageNo == data[i].invtVoyageNo &&
+									data[i].deliveryBillNo == data[i].invtBillNo &&
+									data[i].deliveryTrafMode == data[i].invtTrafMode &&
+									data[i].deliveryTrafNo == data[i].invtTrafNo) {
+									isPass = true;
+								}
+								dataHtml += "<td>" + (isPass ? "<b style='color:#5cb85c;'><i>通过</i></b>" : "<b style='color:red;'><i>不通过</i></b>") + "</td>";
+								dataHtml += "</tr>";
+							}
+							dataHtml += "</tbody></table>";
+							$("#appStatusModal .modal-body").html(dataHtml);
+						}
+					}
+				})
+			}
 			
 			function getCiqStatusByCopNo(copNo, copNo, status) {
 				$.getJSON("/invts/getImpInvtHeadListByCopNo/" + copNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
-					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
 					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
 					dataHtml += "<th>审批时间</th></thead>";
 					dataHtml += "<tbody>";
@@ -69,7 +118,7 @@
 				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
-					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
 					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
 					dataHtml += "<tbody>";
 					if (null != data) {
@@ -92,7 +141,7 @@
 				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
-					var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
 					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
 					dataHtml += "<tbody>";
 					if (null != data) {
@@ -317,6 +366,7 @@
 						<th class="column-title">清单状态</th>
 						<th class="column-title">出区状态</th>
 						<th class="column-title">国检状态</th>
+						<th class="column-title">比对入库明细单</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -376,6 +426,7 @@
 							<span th:case="*" class="label label-info" th:text="${distStatus[invtHead.distStatus]}"></span>
 						</td>
 						<td><button class="btn btn-info" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.copNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
+						<td><button th:disabled="${'9610' != invtHead.tradeMode}" class="btn btn-info" th:onclick="'comparisonDelivery(\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\',\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\')'">比对</button></td>
 					</tr>
 				</tbody>
 			</table>
