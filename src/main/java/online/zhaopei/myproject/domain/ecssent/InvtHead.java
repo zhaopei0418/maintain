@@ -160,6 +160,8 @@ public class InvtHead extends BaseDomain {
 	
 	private String distinct;
 	
+	private String searchText;
+	
 	public String getHeadGuid() {
 		return headGuid;
 	}
@@ -739,5 +741,13 @@ public class InvtHead extends BaseDomain {
 
 	public void setDistinct(String distinct) {
 		this.distinct = distinct;
+	}
+
+	public String getSearchText() {
+		return searchText;
+	}
+
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
 	}
 }

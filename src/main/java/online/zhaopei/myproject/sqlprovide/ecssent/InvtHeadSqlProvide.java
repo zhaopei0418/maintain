@@ -94,6 +94,23 @@ public class InvtHeadSqlProvide implements Serializable {
 				this.INNER_JOIN("(select min(head_guid) as inner_head_guid from ceb2_invt_head group by ebc_code, order_no) cih1 on cih.head_guid = cih1.inner_head_guid");
 			}
 			
+			if (!StringUtils.isEmpty(invtHead.getSearchText())) {
+				this.WHERE("invt_no like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cop_no like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("ebc_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("ebc_name like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("order_no like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("agent_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("agent_name like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("logistics_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("logistics_name like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("logistics_no like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("area_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("area_name like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("customs_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("trade_mode like '%" + invtHead.getSearchText() + "%'");
+			}
+			
 			if (!StringUtils.isEmpty(invtHead.getHeadGuid())) {
 				this.WHERE("head_guid = '" + invtHead.getHeadGuid() + "'");
 			}
