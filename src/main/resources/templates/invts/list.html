@@ -371,6 +371,33 @@
 		</div>
 
 		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_content" style="display: block; text-align: center;">
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'800\')'">放行</button>
+					<button type="button" class="btn btn-round btn-warning"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'400\')'">待运抵</button>
+					<button type="button" class="btn btn-round btn-warning"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'500\')'">查验</button>
+					<button type="button" class="btn btn-round btn-warning"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'100\')'">退单</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'300\')'">人工审核</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'120\')'">海关入库</button>
+					<button type="button" class="btn btn-round btn-warning"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'700\')'">退运</button>
+					<button type="button" class="btn btn-round btn-danger"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'05\')'">电子口岸校验失败</button>
+					<button type="button" class="btn btn-round btn-danger"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'-621001\')'">清单校验失败</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'invt_form\', \'appStatus\', \'899\')'">结关</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
 			<ul class="pagination pagination-lg pull-right">
 				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
 				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
@@ -460,24 +487,25 @@
 						<td th:text="${customsCodeMap[invtHead.customsCode]}" th:title="${invtHead.customsCode}"></td>
 						<td th:switch="${invtHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
 							title="点击查看历史状态">
-							<span th:case="05" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="04" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="4" class="label label-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="500" class="label label-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="100" class="label label-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="700" class="label label-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="800" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="899" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="3" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="03" class="label label-success" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="*" class="label label-info" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="05" class="btn btn-round btn-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="04" class="btn btn-round btn-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="4" class="btn btn-round btn-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="500" class="btn btn-round btn-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="100" class="btn btn-round btn-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="700" class="btn btn-round btn-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="400" class="btn btn-round btn-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="800" class="btn btn-success btn-round" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="899" class="btn btn-round btn-success" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="3" class="btn btn-round btn-success" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="03" class="btn btn-round btn-success" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="*" class="btn btn-round btn-info" th:text="${appStatus[invtHead.appStatus]}"></span>
 						</td>
 						<td th:switch="${invtHead.distStatus}" th:onclick="'getDistHeadByInvtNo(\'' + ${invtHead.invtNo} + '\', ' + ${appStatusJson} + ')'"
 							title="点击查看所绑的核放单信息">
-							<span th:case="1" class="label label-danger" th:text="${distStatus[invtHead.distStatus]}"></span>
-							<span th:case="2" class="label label-warning" th:text="${distStatus[invtHead.distStatus]}"></span>
-							<span th:case="8" class="label label-success" th:text="${distStatus[invtHead.distStatus]}"></span>
-							<span th:case="*" class="label label-info" th:text="${distStatus[invtHead.distStatus]}"></span>
+							<span th:case="1" class="btn btn-round btn-danger" th:text="${distStatus[invtHead.distStatus]}"></span>
+							<span th:case="2" class="btn btn-round btn-warning" th:text="${distStatus[invtHead.distStatus]}"></span>
+							<span th:case="8" class="btn btn-round btn-success" th:text="${distStatus[invtHead.distStatus]}"></span>
+							<span th:case="*" class="btn btn-round btn-info" th:text="${distStatus[invtHead.distStatus]}"></span>
 						</td>
 						<td><button class="btn btn-info" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.copNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
 						<td><button th:disabled="${'9610' != invtHead.tradeMode}" class="btn btn-info" th:onclick="'comparisonDelivery(\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\',\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\')'">比对</button></td>
