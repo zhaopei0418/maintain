@@ -1,0 +1,318 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>清单管理:清单详情</title>
+</head>
+<body>
+	<h1 layout:fragment="header">清单详情</h1>
+	<div layout:fragment="content" class="container-fluid">
+		<script type="text/javascript">
+			switchActiveMenu("invt_man");
+
+			function getGoodsDetailByCount(invtListList, count) {
+				$("#goods_detail").modal("show");
+				var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
+				dataHtml += "<thead><tr><th>属性</th><th>值</th><th>属性</th><th>值</th></thead>";
+				dataHtml += "<tbody>";
+				var data = invtListList[count];
+				if (null != data) {
+					dataHtml += "<tr><th>商口序号</th>";
+					dataHtml += "<td>" + data.gNum + "</td>";
+					dataHtml += "<th>企业商品名称</th>"
+					dataHtml += "<td>" + data.itemName + "</td></tr>";
+					dataHtml += "<tr><th>商品编码</th>";
+					dataHtml += "<td>" + data.gCode + "</td>";
+					dataHtml += "<th>规格型号</th>"
+					dataHtml += "<td>" + data.gModel + "</td></tr>";
+					dataHtml += "<tr><th>商品货号</th>";
+					dataHtml += "<td>" + data.itemNo + "</td>";
+					dataHtml += "<th>商品名称</th>"
+					dataHtml += "<td>" + data.gName + "</td></tr>";
+					dataHtml += "<tr><th>商品条码</th>";
+					dataHtml += "<td>" + data.barCode + "</td>";
+					dataHtml += "<th>原产国（地区）</th>"
+					dataHtml += "<td>" + data.country + "</td></tr>";
+					dataHtml += "<tr><th>数量</th>";
+					dataHtml += "<td>" + data.qty + "</td>";
+					dataHtml += "<th>计量单位</th>"
+					dataHtml += "<td>" + data.unit + "</td></tr>";
+					dataHtml += "<tr><th>法定数量</th>";
+					dataHtml += "<td>" + data.qty1 + "</td>";
+					dataHtml += "<th>法定单位</th>"
+					dataHtml += "<td>" + data.unit1 + "</td></tr>";
+					dataHtml += "<tr><th>第二法定数量</th>";
+					dataHtml += "<td>" + data.qty2 + "</td>";
+					dataHtml += "<th>第二法定单位</th>"
+					dataHtml += "<td>" + data.unit2 + "</td></tr>";
+					dataHtml += "<tr><th>单价</th>";
+					dataHtml += "<td>" + data.price + "</td>";
+					dataHtml += "<th>总价</th>"
+					dataHtml += "<td>" + data.totalPrice + "</td></tr>";
+					dataHtml += "<tr><th>币制</th>";
+					dataHtml += "<td>" + data.currency + "</td>";
+					dataHtml += "<th>账册备案料号</th>"
+					dataHtml += "<td>" + data.itemRecordNo + "</td></tr>";
+					dataHtml += "<tr><th>备注</th>";
+					dataHtml += "<td colspan='3'>" + data.note + "</td></tr>";
+				}
+				dataHtml += "</tbody>";
+				dataHtml += "</table>";
+				
+				$("#goods_detail .modal-body").html(dataHtml);
+			}
+		</script>
+		<div class="table align-right">
+			<a class="btn btn-default" th:href="@{/invts}">返回清单列表</a>
+		</div>
+		<div id="goods_detail" class="modal fade bs-example-modal-sm" tabindex="-1"
+			role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">商品详情</h4>
+					</div>
+					<div class="modal-body"></div>
+				</div>
+			</div>
+		</div>
+		<ul id="myTab" class="nav nav-tabs">
+			<li class="active">
+				<a href="#invt_head" data-toggle="tab">表头信息</a>
+			</li>
+			<li>
+				<a href="#invt_list" data-toggle="tab">
+					表体信息
+					<span class="badge" th:text="${count}"></span>
+				</a>
+			</li>
+		</ul>
+		<div id="myTabContent" class="tab-content">
+			<div class="tab-pane fade in active" id="invt_head" style="margin-right: -15px;">
+				<div class="list-group col-sm-3">
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">预录入编号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.copNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">企业内部编号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.invtNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">申报企业代码</h4>
+						<p class="list-group-item-text" th:text="${invtHead.agentCode}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">电商企业代码</h4>
+						<p class="list-group-item-text" th:text="${invtHead.ebcCode}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">订单编号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.orderNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">账册编号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.emsNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">订购人</h4>
+						<p class="list-group-item-text" th:text="${invtHead.buyerName}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">启运国（地区）</h4>
+						<p class="list-group-item-text" th:text="${invtHead.countryDesc} + '[' + ${invtHead.country} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">运输工具编号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.trafNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">包装种类</h4>
+						<p class="list-group-item-text" th:text="${invtHead.wrapTypeDesc} + '[' + ${invtHead.wrapType} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">件数</h4>
+						<p class="list-group-item-text" th:text="${invtHead.packNo}"></p>
+					</a>
+				</div>
+				<div class="list-group col-sm-3">
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">海关清单号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.invtNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">申报地海关</h4>
+						<p class="list-group-item-text" th:text="${invtHead.customsCodeDesc} + '[' + ${invtHead.customsCode} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">申报企业名称</h4>
+						<p class="list-group-item-text" th:text="${invtHead.agentName}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">电商企业名称</h4>
+						<p class="list-group-item-text" th:text="${invtHead.ebcName}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">物流企业代码</h4>
+						<p class="list-group-item-text" th:text="${invtHead.logisticsCode}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">监管场所代码</h4>
+						<p class="list-group-item-text" th:text="${invtHead.loctNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">订购人证件类型</h4>
+						<p class="list-group-item-text" th:text="${invtHead.buyerIdTypeDesc} + '[' + ${invtHead.buyerIdType} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">收货人地址</h4>
+						<p class="list-group-item-text" th:text="${invtHead.consigneeAddress}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">航班航次号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.voyageNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">担保企业代码</h4>
+						<p class="list-group-item-text" th:text="${invtHead.assureCode}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">毛重</h4>
+						<p class="list-group-item-text" th:text="${invtHead.grossWeight}"></p>
+					</a>
+				</div>
+				<div class="list-group col-sm-3">
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">申报类型</h4>
+						<p class="list-group-item-text" th:text="${invtHead.appTypeDesc} + '[' + ${invtHead.appType} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">进口口岸</h4>
+						<p class="list-group-item-text" th:text="${invtHead.portCodeDesc} + '[' + ${invtHead.portCode} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">进口日期</h4>
+						<p class="list-group-item-text" th:text="${#calendars.format(invtHead.ieDate, 'YYYY-MM-dd')}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">电商平台代码</h4>
+						<p class="list-group-item-text" th:text="${invtHead.ebpCode}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">物流企业名称</h4>
+						<p class="list-group-item-text" th:text="${invtHead.logisticsName}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">区内企业代码</h4>
+						<p class="list-group-item-text" th:text="${invtHead.areaCode}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">订购人证件号码</h4>
+						<p class="list-group-item-text" th:text="${invtHead.buyerIdNumber}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">许可证号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.licenseNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">提运单号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.billNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">保费</h4>
+						<p class="list-group-item-text" th:text="${invtHead.insuredFee}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">净重</h4>
+						<p class="list-group-item-text" th:text="${invtHead.netWeight}"></p>
+					</a>
+				</div>
+				<div class="list-group col-sm-3">
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">业务状态</h4>
+						<p class="list-group-item-text" th:text="${invtHead.appStatusDesc} + '[' + ${invtHead.appStatus} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">入库时间</h4>
+						<p class="list-group-item-text" th:text="${#calendars.format(invtHead.appTime, 'YYYY-MM-dd hh:mm:ss')}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">贸易方式</h4>
+						<p class="list-group-item-text" th:text="${invtHead.tradeModeDesc} + '[' + ${invtHead.tradeMode} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">电商平台名称</h4>
+						<p class="list-group-item-text" th:text="${invtHead.ebpName}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">物流运单号</h4>
+						<p class="list-group-item-text" th:text="${invtHead.logisticsNo}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">区内企业名称</h4>
+						<p class="list-group-item-text" th:text="${invtHead.areaName}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">订购人电话</h4>
+						<p class="list-group-item-text" th:text="${invtHead.buyerTelephone}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">运输方式</h4>
+						<p class="list-group-item-text" th:text="${invtHead.trafModeDesc} + '[' + ${invtHead.trafMode} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">运费</h4>
+						<p class="list-group-item-text" th:text="${invtHead.freight}"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">币制</h4>
+						<p class="list-group-item-text" th:text="${invtHead.currencyDesc} + '[' + ${invtHead.currency} + ']'"></p>
+					</a>
+					<a href="javascript:void(0)" class="list-group-item">
+						<h4 class="list-group-item-heading">备注</h4>
+						<p class="list-group-item-text" th:text="${invtHead.note}"></p>
+					</a>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="invt_list">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+							<th>商品序号</th>
+							<th>商品名称</th>
+							<th>商品编码</th>
+							<th>商品货号</th>
+							<th>数量</th>
+							<th>计量单位</th>
+							<th>单价</th>
+							<th>总价</th>
+							<th>币制</th>
+							<th>原产国</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${invtListList.empty}">
+							<td colspan="10">没有数据</td>
+						</tr>
+						<tr th:each="invtList,stat : ${invtListList}" th:onclick="'getGoodsDetailByCount(' + ${invtListListJson} + ',' + ${stat.index} + ')'">
+							<td th:text="${invtList.gNum}"></td>
+							<td th:text="${invtList.gName}"></td>
+							<td th:text="${invtList.gCode}"></td>
+							<td th:text="${invtList.itemNo}"></td>
+							<td th:text="${invtList.qty}"></td>
+							<td th:text="${invtList.unit}"></td>
+							<td th:text="${invtList.price}"></td>
+							<td th:text="${invtList.totalPrice}"></td>
+							<td th:text="${invtList.currency}"></td>
+							<td th:text="${invtList.country}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
