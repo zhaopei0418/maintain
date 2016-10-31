@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
+import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.DeliveryHeadConstant;
 import online.zhaopei.myproject.domain.ecssent.OrderHead;
 import online.zhaopei.myproject.service.ecssent.OrderHeadService;
@@ -31,6 +32,7 @@ public class OrdersController extends BaseController {
 		mv.addObject("orderHead", orderHead);
 		mv.addObject("orderHeadList", pageInfo.getList());
 		mv.addObject("appStatus", DeliveryHeadConstant.getAPP_STATUS_MAP());
+		mv.addObject("appType", CommonConstant.getAPP_TYPE_MAP());
 		mv.addObject("appStatusJson", new Gson().toJson(DeliveryHeadConstant.getAPP_STATUS_MAP()));
 		return mv;
 	}
