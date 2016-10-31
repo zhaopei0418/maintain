@@ -1,5 +1,7 @@
 package online.zhaopei.myproject.service.gjent.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,11 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
 	@Override
 	public PersonalInfo getPersonById(String id) {
 		return this.personalInfoMapper.getPersonById(id);
+	}
+
+	@Override
+	public List<PersonalInfo> getPersonalInfoList(PersonalInfo personalInfo) {
+		return this.personalInfoMapper.getPersonalInfoList(personalInfo);
 	}
 
 }

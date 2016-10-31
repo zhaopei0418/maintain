@@ -23,6 +23,10 @@ public class PersonalInfo extends BaseDomain {
 	
 	private Date sysDate;
 	
+	private String beginSysDate;
+	
+	private String endSysDate;
+	
 	private String authWay;
 	
 	private String authCop;
@@ -50,6 +54,8 @@ public class PersonalInfo extends BaseDomain {
 	private Date noticeDate;
 	
 	private String ebpCode;
+	
+	private String searchText;
 
 	public String getUuid() {
 		return uuid;
@@ -209,5 +215,29 @@ public class PersonalInfo extends BaseDomain {
 
 	public void setEbpCode(String ebpCode) {
 		this.ebpCode = ebpCode;
+	}
+
+	public String getBeginSysDate() {
+		return beginSysDate;
+	}
+
+	public void setBeginSysDate(String beginSysDate) {
+		this.beginSysDate = beginSysDate;
+	}
+
+	public String getEndSysDate() {
+		return endSysDate;
+	}
+
+	public void setEndSysDate(String endSysDate) {
+		this.endSysDate = endSysDate;
+	}
+
+	public String getSearchText() {
+		return searchText;
+	}
+
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
 	}
 }

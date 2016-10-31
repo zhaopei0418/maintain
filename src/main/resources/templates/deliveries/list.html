@@ -160,178 +160,259 @@
 			</div>
 		</div>
 		
-		<form class="form-horizontal" role="form" action="deliveries" method="GET"
-			id="delivery_form">
-			<input type="hidden" name="pageSize" th:value="${deliveryHead.pageSize}" />
-			<div class="form-group">
-				<label class="col-sm-1 control-label">预录入编号</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="preNo" placeholder="预录入编号" th:value="${deliveryHead.preNo}" />
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>搜索条件</h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a>
+								</li>
+								<li><a href="#">Settings 2</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
 				</div>
-				<label class="col-sm-1 control-label">入库单编号</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="rkdNo" placeholder="入库单编号" th:value="${deliveryHead.rkdNo}" />
-				</div>
-				<label class="col-sm-1 control-label">监管场所经营人代码</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="operatorCode" placeholder="监管场所经营人代码" th:value="${deliveryHead.operatorCode}" />
-				</div>
-				<label class="col-sm-1 control-label">监管场所人经营人名称</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="operatorName" placeholder="监管场所经营人名称" th:value="${deliveryHead.operatorName}" />
+				<div class="x_content">
+					<form class="form-horizontal" role="form" action="deliveries" method="GET"
+							id="delivery_form">
+						<input type="hidden" name="pageSize" th:value="${deliveryHead.pageSize}" />
+						<div class="form-group">
+							<label class="col-sm-1 control-label">预录入编号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="preNo" placeholder="预录入编号" th:value="${deliveryHead.preNo}" />
+							</div>
+							<label class="col-sm-1 control-label">入库单编号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="rkdNo" placeholder="入库单编号" th:value="${deliveryHead.rkdNo}" />
+							</div>
+							<label class="col-sm-1 control-label">监管场所经营人代码</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="operatorCode" placeholder="监管场所经营人代码" th:value="${deliveryHead.operatorCode}" />
+							</div>
+							<label class="col-sm-1 control-label">监管场所人经营人名称</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="operatorName" placeholder="监管场所经营人名称" th:value="${deliveryHead.operatorName}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">物流企业代码</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="logisticsCode" placeholder="物流企业代码" th:value="${deliveryHead.logisticsCode}" />
+							</div>
+							<label class="col-sm-1 control-label">物流企业名称</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="logisticsName" placeholder="物流企业名称" th:value="${deliveryHead.logisticsName}" />
+							</div>
+							<label class="col-sm-1 control-label">入库开始时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="beginSysDate"
+											th:value="${deliveryHead.beginSysDate}" placeholder="申报开始时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+							<label class="col-sm-1 control-label">入库结束时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="endSysDate"
+											th:value="${deliveryHead.endSysDate}" placeholder="申报结束时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">入库单状态</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="appStatus">
+									<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
+											th:text="${appStat.key} + '-' + ${appStat.value}"
+											th:selected="${appStat.key == deliveryHead.appStatus} ? 'selected'"></option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">航班航次号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="voyageNo" placeholder="航班航次号" th:value="${deliveryHead.voyageNo}" />
+							</div>
+							<label class="col-sm-1 control-label">提运单号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="billNo" placeholder="提运单号" th:value="${deliveryHead.billNo}" />
+							</div>
+							<label class="col-sm-1 control-label">内部编号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="copNo" placeholder="内部编号" th:value="${deliveryHead.copNo}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">物流运单号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="logisticsNo" placeholder="物流运单号" th:value="${deliveryHead.logisticsNo}" />
+							</div>
+						</div>
+						<div class="pull-right form-group no-margin-right">
+							<button type="submit" class="btn btn-round btn-info btn-lg">搜索</button>
+							<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('delivery_form')">重置</button>
+						</div>
+					</form>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-1 control-label">物流企业代码</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="logisticsCode" placeholder="物流企业代码" th:value="${deliveryHead.logisticsCode}" />
-				</div>
-				<label class="col-sm-1 control-label">物流企业名称</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="logisticsName" placeholder="物流企业名称" th:value="${deliveryHead.logisticsName}" />
-				</div>
-				<label class="col-sm-1 control-label">入库开始时间</label>
-				<div class="col-sm-2">
-					<div class='input-group date input-date'>
-						<input type='text' class="form-control" name="beginSysDate"
-							th:value="${deliveryHead.beginSysDate}" placeholder="申报开始时间" />
-							<span class="input-group-addon">
-							<span class="glyphicon glyphicon-time"></span>
-						</span>
-					</div>
-				</div>
-				<label class="col-sm-1 control-label">入库结束时间</label>
-				<div class="col-sm-2">
-					<div class='input-group date input-date'>
-						<input type='text' class="form-control" name="endSysDate"
-							th:value="${deliveryHead.endSysDate}" placeholder="申报结束时间" />
-							<span class="input-group-addon">
-							<span class="glyphicon glyphicon-time"></span>
-						</span>
-					</div>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_content" style="display: block; text-align: center;">
+					<button type="button" class="btn btn-round btn-dark"
+						th:onclick="'addFormParaQuery(\'delivery_form\', \'appStatus\', \'\')'">全部</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'delivery_form\', \'appStatus\', \'03\')'">发送电子口岸成功</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'delivery_form\', \'appStatus\', \'2\')'">电子口岸申报中</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'delivery_form\', \'appStatus\', \'3\')'">发送海关成功</button>
+					<button type="button" class="btn btn-round btn-warning"
+						th:onclick="'addFormParaQuery(\'delivery_form\', \'appStatus\', \'100\')'">退单</button>
+					<button type="button" class="btn btn-round btn-danger"
+						th:onclick="'addFormParaQuery(\'delivery_form\', \'appStatus\', \'4\')'">发送海关失败</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'delivery_form\', \'appStatus\', \'120\')'">海关入库</button>
+					<button type="button" class="btn btn-round btn-danger"
+						th:onclick="'addFormParaQuery(\'delivery_form\', \'appStatus\', \'05\')'">电子口岸校验失败</button>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-1 control-label">入库单状态</label>
-				<div class="col-sm-2">
-					<select class="form-control" name="appStatus">
-						<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
-								th:text="${appStat.key} + '-' + ${appStat.value}"
-							th:selected="${appStat.key == deliveryHead.appStatus} ? 'selected'"></option>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'delivery_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'delivery_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('delivery_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
 					</select>
-				</div>
-				<label class="col-sm-1 control-label">航班航次号</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="voyageNo" placeholder="航班航次号" th:value="${deliveryHead.voyageNo}" />
-				</div>
-				<label class="col-sm-1 control-label">提运单号</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="billNo" placeholder="提运单号" th:value="${deliveryHead.billNo}" />
-				</div>
-				<label class="col-sm-1 control-label">内部编号</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="copNo" placeholder="内部编号" th:value="${deliveryHead.copNo}" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-1 control-label">物流运单号</label>
-				<div class="col-sm-2">
-					<input class="form-control" type="text" name="logisticsNo" placeholder="物流运单号" th:value="${deliveryHead.logisticsNo}" />
-				</div>
-			</div>
-			<div class="pull-right form-group no-margin-right">
-				<button type="submit" class="btn btn-round btn-info btn-lg">搜索</button>
-				<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('delivery_form')">重置</button>
-			</div>
-		</form>
-		<table class="table table-striped jambo_table bulk_action">
-			<thead>
-				<tr>
-					<th class="column-title">序号</th>
-					<th class="column-title">预录入编号</th>
-					<th class="column-title">企业内部编号</th>
-					<th class="column-title">入库单编号</th>
-					<th class="column-title">监管场所经营人名称</th>
-					<th class="column-title">物流企业名称</th>
-					<th class="column-title">航班航次号</th>
-					<th class="column-title">提运单号</th>
-					<th class="column-title">卸货库位</th>
-					<th class="column-title">入库时间</th>
-					<th class="column-title">业务状态</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:if="${deliveryHeadList.empty}">
-					<td colspan="100">没有数据</td>
-				</tr>
-				<tr th:each="deliveryHead,stat : ${deliveryHeadList}" th:class="${0 == stat.count} ? 'odd pointer' : 'even pointer'">
-					<td th:text="${stat.count}" title="点击显示表体信息"
-						th:onclick="'getDeliveryListList(\'' + ${deliveryHead.headGuid} + '\',\'' + ${deliveryHead.copNo} + '\')'"></td>
-					<td th:text="${deliveryHead.preNo}"></td>
-					<td th:text="${deliveryHead.copNo}"></td>
-					<td th:text="${deliveryHead.rkdNo}"></td>
-					<td th:title="${deliveryHead.operatorCode}">
-						<a href="javascript:void(0)" th:text="${deliveryHead.operatorName}"
-							th:onclick="'addFormParaQuery(\'delivery_form\', \'operatorCode\', \'' + ${deliveryHead.operatorCode} + '\')'"></a>
-					</td>
-					<td th:title="${deliveryHead.logisticsCode}">
-						<a href="javascript:void(0)" th:text="${deliveryHead.logisticsName}"
-							th:onclick="'addFormParaQuery(\'delivery_form\', \'logisticsCode\', \'' + ${deliveryHead.logisticsCode} + '\')'"></a>
-					</td>
-					<td th:text="${deliveryHead.voyageNo}"></td>
-					<td th:text="${deliveryHead.billNo}"></td>
-					<td th:text="${deliveryHead.unloadLocation}"></td>
-					<td th:text="${#calendars.format(deliveryHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
-					<td th:switch="${deliveryHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${deliveryHead.copNo} + '\',\'' + ${deliveryHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
-						title="点击查看历史状态">
-						<span th:case="05" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="04" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="4" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="500" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="100" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="700" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="400" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="800" class="btn btn-success btn-round" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="899" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="3" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="03" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-						<span th:case="*" class="btn btn-round btn-info" th:text="${appStatus[deliveryHead.appStatus]}"></span>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<ul class="pagination pagination-lg pull-right">
-			<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
-			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
-				<a href="javascript:void(0)"
-						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'delivery_form\', 1);'">首页</a>
-			</li>
-			<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
-				<a href="javascript:void(0)"
-					th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
-			</li>
-			<li th:each="page : ${pageList}"
-				th:class="${page == pageInfo.pageNum} ? 'active'">
-				<a href="javascript:void(0)" th:text="${page}"
-					th:onclick="'goToPageNum(\'delivery_form\',' + ${page} + ');'"></a>
-			</li>
-			<li th:class="${pageInfo.isLastPage} ? 'disabled'">
-				<a href="javascript:void(0)"
-					th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
-			</li>
-			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
-				<a href="javascript:void(0)"
-						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
-			</li>
-			<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
-			<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
-			<li>
-				<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('delivery_form', this.value);">
-					<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
-						th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
-				</select>
-			</li>
-		</ul>
+				</li>
+			</ul>
+			<table class="table table-striped jambo_table bulk_action">
+				<thead>
+					<tr>
+						<th class="column-title">序号</th>
+						<th class="column-title">预录入编号</th>
+						<th class="column-title">企业内部编号</th>
+						<th class="column-title">入库单编号</th>
+						<th class="column-title">监管场所经营人名称</th>
+						<th class="column-title">物流企业名称</th>
+						<th class="column-title">航班航次号</th>
+						<th class="column-title">提运单号</th>
+						<th class="column-title">卸货库位</th>
+						<th class="column-title">入库时间</th>
+						<th class="column-title">业务状态</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${deliveryHeadList.empty}">
+						<td colspan="100">没有数据</td>
+					</tr>
+					<tr th:each="deliveryHead,stat : ${deliveryHeadList}" th:class="${0 == stat.count} ? 'odd pointer' : 'even pointer'">
+						<td th:text="${stat.count}" title="点击显示表体信息"
+								th:onclick="'getDeliveryListList(\'' + ${deliveryHead.headGuid} + '\',\'' + ${deliveryHead.copNo} + '\')'"></td>
+						<td th:text="${deliveryHead.preNo}"></td>
+						<td th:text="${deliveryHead.copNo}"></td>
+						<td th:text="${deliveryHead.rkdNo}"></td>
+						<td th:title="${deliveryHead.operatorCode}">
+							<a href="javascript:void(0)" th:text="${deliveryHead.operatorName}"
+									th:onclick="'addFormParaQuery(\'delivery_form\', \'operatorCode\', \'' + ${deliveryHead.operatorCode} + '\')'"></a>
+						</td>
+						<td th:title="${deliveryHead.logisticsCode}">
+							<a href="javascript:void(0)" th:text="${deliveryHead.logisticsName}"
+									th:onclick="'addFormParaQuery(\'delivery_form\', \'logisticsCode\', \'' + ${deliveryHead.logisticsCode} + '\')'"></a>
+						</td>
+						<td th:text="${deliveryHead.voyageNo}"></td>
+						<td th:text="${deliveryHead.billNo}"></td>
+						<td th:text="${deliveryHead.unloadLocation}"></td>
+						<td th:text="${#calendars.format(deliveryHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
+						<td th:switch="${deliveryHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${deliveryHead.copNo} + '\',\'' + ${deliveryHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
+								title="点击查看历史状态">
+							<span th:case="05" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="04" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="4" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="500" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="100" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="700" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="400" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="800" class="btn btn-success btn-round" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="899" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="3" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="03" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+							<span th:case="*" class="btn btn-round btn-info" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'delivery_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'delivery_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'delivery_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('delivery_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+					</select>
+				</li>
+			</ul>
+		</div>
 	</div>
 </body>
 </html>
