@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 
 import online.zhaopei.myproject.constant.DeliveryHeadConstant;
 import online.zhaopei.myproject.domain.ecssent.DeliveryHead;
@@ -58,6 +59,7 @@ public class DeliveriesController extends BaseController {
 		mv.addObject("deliveryHead", deliveryHead);
 		mv.addObject("deliveryHeadList", pageInfo.getList());
 		mv.addObject("appStatus", DeliveryHeadConstant.getAPP_STATUS_MAP());
+		mv.addObject("appStatusJson", new Gson().toJson(DeliveryHeadConstant.getAPP_STATUS_MAP()));
 		return mv;
 	}
 }

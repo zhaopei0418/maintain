@@ -64,6 +64,29 @@
 					$("#appStatusModal .modal-body").html(dataHtml);
 				});
 			}
+
+			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
+				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for (var i = 0; i < data.length; i++) {
+							dataHtml += "<tr>";
+							dataHtml += "<td>" + data[i].rtnTime + "</td>";
+							dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
+							dataHtml += "<td>" + data[i].rtnInfo + "</td>";
+							dataHtml += "</tr>";
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
 			
 			function getDeliveryListList(headGuid, copNo) {
 				$.getJSON("/deliveries/" + headGuid + "/deliveryLists/", function(data) {
@@ -259,7 +282,21 @@
 					<td th:text="${deliveryHead.billNo}"></td>
 					<td th:text="${deliveryHead.unloadLocation}"></td>
 					<td th:text="${#calendars.format(deliveryHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
-					<td th:text="${appStatus[deliveryHead.appStatus]}"></td>
+					<td th:switch="${deliveryHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${deliveryHead.copNo} + '\',\'' + ${deliveryHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
+						title="点击查看历史状态">
+						<span th:case="05" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="04" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="4" class="btn btn-round btn-danger" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="500" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="100" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="700" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="400" class="btn btn-round btn-warning" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="800" class="btn btn-success btn-round" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="899" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="3" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="03" class="btn btn-round btn-success" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+						<span th:case="*" class="btn btn-round btn-info" th:text="${appStatus[deliveryHead.appStatus]}"></span>
+					</td>
 				</tr>
 			</tbody>
 		</table>
