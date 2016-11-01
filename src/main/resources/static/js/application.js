@@ -6,6 +6,10 @@ function goToPageNum(formId, pageNum) {
 	formObj.submit();
 }
 
+function logout() {
+    $("#form_logout").submit();
+}
+
 function addFormParaQuery(formId, name, value) {
 	var formObj = $("#" + formId);
 	var inputObj = formObj.find("[name='" + name + "']");

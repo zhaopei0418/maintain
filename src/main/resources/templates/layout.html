@@ -134,7 +134,7 @@
                       </a>
                     </li>
                     <li><a href="javascript:;">帮助</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
+					<li><a href="javascript:logout();"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
                   </ul>
                 </li>
 
@@ -228,6 +228,8 @@
         <!-- /footer content -->
       </div>
     </div>
+	<form id="form_logout" th:action="@{/logout}" method="POST">
+	</form>
 
 	<script type="text/javascript" th:src="@{/js/moment-with-locales.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
