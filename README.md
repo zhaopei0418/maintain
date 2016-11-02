@@ -18,6 +18,8 @@ thymeleaf 地址：https://github.com/thymeleaf/thymeleaf
 
 bootstrap 地址：http://getbootstrap.com/css/
 
+加上spring security安全模块
+
 **maven**
 ```
 	mvn spring-boot:run
