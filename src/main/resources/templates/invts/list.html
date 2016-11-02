@@ -439,7 +439,6 @@
 						<th class="column-title">清单号</th>
 						<th class="column-title">内部编号</th>
 						<th class="column-title">报关企业</th>
-						<th class="column-title">区内企业</th>
 						<th class="column-title">电商企业</th>
 						<th class="column-title">订单号</th>
 						<th class="column-title">物流企业</th>
@@ -471,10 +470,6 @@
 							<a href="javascript:void(0)" th:text="${invtHead.agentName}"
 								th:onclick="'addFormParaQuery(\'invt_form\', \'agentCode\', \'' + ${invtHead.agentCode} + '\')'"></a>
 						</td>
-						<td th:title="${invtHead.areaCode}">
-							<a href="javascript:void(0)" th:text="${invtHead.areaName}"
-								th:onclick="'addFormParaQuery(\'invt_form\', \'areaCode\', \'' + ${invtHead.areaCode} + '\')'"></a>
-						</td>
 						<td th:title="${invtHead.ebcCode}">
 							<a href="javascript:void(0)" th:text="${invtHead.ebcName}"
 								th:onclick="'addFormParaQuery(\'invt_form\', \'ebcCode\', \'' + ${invtHead.ebcCode} + '\')'"></a>
@@ -489,25 +484,25 @@
 						<td th:text="${customsCodeMap[invtHead.customsCode]}" th:title="${invtHead.customsCode}"></td>
 						<td th:switch="${invtHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
 							title="点击查看历史状态">
-							<span th:case="05" class="btn btn-round btn-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="04" class="btn btn-round btn-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="4" class="btn btn-round btn-danger" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="500" class="btn btn-round btn-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="100" class="btn btn-round btn-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="700" class="btn btn-round btn-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="400" class="btn btn-round btn-warning" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="800" class="btn btn-success btn-round" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="899" class="btn btn-round btn-success" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="3" class="btn btn-round btn-success" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="03" class="btn btn-round btn-success" th:text="${appStatus[invtHead.appStatus]}"></span>
-							<span th:case="*" class="btn btn-round btn-info" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="05" class="btn btn-round btn-danger btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="04" class="btn btn-round btn-danger btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="4" class="btn btn-round btn-danger btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="500" class="btn btn-round btn-warning btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="100" class="btn btn-round btn-warning btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="700" class="btn btn-round btn-warning btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="400" class="btn btn-round btn-warning btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="800" class="btn btn-success btn-round btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="899" class="btn btn-round btn-success btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="3" class="btn btn-round btn-success btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="03" class="btn btn-round btn-success btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
+							<span th:case="*" class="btn btn-round btn-info btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
 						</td>
 						<td th:switch="${invtHead.distStatus}" th:onclick="'getDistHeadByInvtNo(\'' + ${invtHead.invtNo} + '\', ' + ${appStatusJson} + ')'"
 							title="点击查看所绑的核放单信息">
-							<span th:case="1" class="btn btn-round btn-danger" th:text="${distStatus[invtHead.distStatus]}"></span>
-							<span th:case="2" class="btn btn-round btn-warning" th:text="${distStatus[invtHead.distStatus]}"></span>
-							<span th:case="8" class="btn btn-round btn-success" th:text="${distStatus[invtHead.distStatus]}"></span>
-							<span th:case="*" class="btn btn-round btn-info" th:text="${distStatus[invtHead.distStatus]}"></span>
+							<span th:case="1" class="btn btn-round btn-danger btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
+							<span th:case="2" class="btn btn-round btn-warning btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
+							<span th:case="8" class="btn btn-round btn-success btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
+							<span th:case="*" class="btn btn-round btn-info btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
 						</td>
 						<td><button class="btn btn-info" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.copNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
 						<td><button th:disabled="${'9610' != invtHead.tradeMode}" class="btn btn-info" th:onclick="'comparisonDelivery(\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\',\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\')'">比对</button></td>

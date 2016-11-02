@@ -1,14 +1,12 @@
 package online.zhaopei.myproject.controller;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.InvtCancelConstant;
@@ -34,6 +32,7 @@ public class InvtCancelController extends BaseController {
 		mv.addObject("invtCancel", invtCancel);
 		mv.addObject("invtCancelList", pageInfo.getList());
 		mv.addObject("appStatus", InvtCancelConstant.getAPP_STATUS_MAP());
+		mv.addObject("appStatusJson", new Gson().toJson(InvtCancelConstant.getAPP_STATUS_MAP()));
 		mv.addObject("customsCodeMap", CommonConstant.getCUSTOMS_MAP());
 		return mv;
 	}

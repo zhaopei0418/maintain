@@ -345,9 +345,9 @@
 						<td th:text="${personalInfo.perPhone}"></td>
 						<td th:text="${#calendars.format(personalInfo.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
 						<td th:switch="${personalInfo.checkFlag}" th:title="${personalInfo.checkMark}">
-							<span th:case="Y" class="btn btn-round btn-success" th:text="${checkFlag[personalInfo.checkFlag]}"></span>
-							<span th:case="N" class="btn btn-round btn-danger" th:text="${checkFlag[personalInfo.checkFlag]}"></span>
-							<span th:case="*" class="btn btn-round btn-info">无信息</span>
+							<span th:case="Y" class="btn btn-round btn-success btn-xs" th:text="${checkFlag[personalInfo.checkFlag]}"></span>
+							<span th:case="N" class="btn btn-round btn-danger btn-xs" th:text="${checkFlag[personalInfo.checkFlag]}"></span>
+							<span th:case="*" class="btn btn-round btn-info btn-xs">无信息</span>
 						</td>
 					</tr>
 				</tbody>

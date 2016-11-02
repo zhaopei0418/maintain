@@ -16,6 +16,8 @@ public enum InvtCancelConstant implements Serializable {
 		APP_STATUS_MAP.put("", "所有状态");
 		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_01.toString(), InvtHeadConstant.APP_STATUS_01_DESC.toString());
 		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_02.toString(), InvtHeadConstant.APP_STATUS_02_DESC.toString());
+		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_03.toString(), InvtHeadConstant.APP_STATUS_03_DESC.toString());
+		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_04.toString(), InvtHeadConstant.APP_STATUS_04_DESC.toString());
 		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_05.toString(), InvtHeadConstant.APP_STATUS_05_DESC.toString());
 		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_1.toString(), InvtHeadConstant.APP_STATUS_1_DESC.toString());
 		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_2.toString(), InvtHeadConstant.APP_STATUS_2_DESC.toString());

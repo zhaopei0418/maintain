@@ -320,6 +320,28 @@
 		</div>
 
 		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_content" style="display: block; text-align: center;">
+					<button type="button" class="btn btn-round btn-dark"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'\')'">全部</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'03\')'">发送电子口岸成功</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'2\')'">电子口岸申报中</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'3\')'">发送海关成功</button>
+					<button type="button" class="btn btn-round btn-warning"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'100\')'">退单</button>
+					<button type="button" class="btn btn-round btn-danger"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'4\')'">发送海关失败</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'120\')'">海关入库</button>
+					<button type="button" class="btn btn-round btn-danger"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'05\')'">电子口岸校验失败</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 col-sm-12 col-xs-12">
 			<ul class="pagination pagination-lg pull-right">
 				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
 				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
@@ -401,17 +423,17 @@
 						<td th:text="${customsCodeMap[invtCancel.customsCode]}" th:title="${invtCancel.customsCode}"></td>
 						<td th:switch="${invtCancel.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${invtCancel.copNo} + '\',\'' + ${invtCancel.headGuid} + '\', ' + ${appStatusJson} + ')'"
 							title="点击查看历史状态">
-							<span th:case="05" class="label label-danger" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="04" class="label label-danger" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="4" class="label label-danger" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="500" class="label label-warning" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="100" class="label label-warning" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="700" class="label label-warning" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="800" class="label label-success" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="899" class="label label-success" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="3" class="label label-success" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="03" class="label label-success" th:text="${appStatus[invtCancel.appStatus]}"></span>
-							<span th:case="*" class="label label-info" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="05" class="btn btn-danger btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="04" class="btn btn-danger btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="4" class="btn btn-danger btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="500" class="btn btn-warning btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="100" class="btn btn-warning btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="700" class="btn btn-warning btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="800" class="btn btn-success btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="899" class="btn btn-success btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="3" class="btn btn-success btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="03" class="btn btn-success btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
+							<span th:case="*" class="btn btn-info btn-xs" th:text="${appStatus[invtCancel.appStatus]}"></span>
 						</td>
 					</tr>
 				</tbody>
