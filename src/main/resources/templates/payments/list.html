@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>支付单管理</title>
+</head>
+<body>
+	<div layout:fragment="header">
+		<div class="title_left">
+			<h3>支付单查询</h3>
+		</div>
+		<div class="title_right">
+			<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+				<form action="/payments">
+					<div class="input-group">
+						<input type="text" class="form-control" name="searchText" placeholder="输入关键字...">
+						<span class="input-group-btn">
+							<button class="btn btn-default">搜索</button>
+						</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div layout:fragment="content">
+		<script type="text/javascript">
+			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
+				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
+					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("入库比对结果[" + copNo + "-" + logisticsCode + ":" +
+						logisticsNo + "]");
+					var isPass = false;
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><th>表头序号</th><th>企业内部编号</th><th>航班航次号</th><th>总（提）运单号</th><th>运输方式</th>";
+					dataHtml += "<th>运输工具</th><th>比对结果</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						if (0 == data.length) {
+							$("#appStatusModal .modal-body").html("没有对应的入库明细单");
+						} else {
+							for (var i = 0; i < data.length; i++) {
+								if (0 == i) {
+									dataHtml += "<tr style='background-color: yellow;'>";
+									dataHtml += "<td>" + data[i].payHeadGuid + "</td>";
+									dataHtml += "<td>" + copNo + "</td>";
+									dataHtml += "<td>" + data[i].invtVoyageNo + "</td>";
+									dataHtml += "<td>" + data[i].invtBillNo + "</td>";
+									dataHtml += "<td>" + data[i].invtTrafMode + "</td>";
+									dataHtml += "<td>" + data[i].invtTrafNo + "</td>";
+									dataHtml += "<td>清单信息</td>";
+									dataHtml += "</tr>";
+								}
+								dataHtml += "<tr>";
+								dataHtml += "<td>" + data[i].deliveryHeadGuid + "</td>";
+								dataHtml += "<td>" + data[i].copNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryVoyageNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryBillNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryTrafMode + "</td>";
+								dataHtml += "<td>" + data[i].deliveryTrafNo + "</td>";
+								isPass = false;
+								if (data[i].deliveryVoyageNo == data[i].invtVoyageNo &&
+									data[i].deliveryBillNo == data[i].invtBillNo &&
+									data[i].deliveryTrafMode == data[i].invtTrafMode &&
+									data[i].deliveryTrafNo == data[i].invtTrafNo) {
+									isPass = true;
+								}
+								dataHtml += "<td>" + (isPass ? "<b style='color:#5cb85c;'><i>通过</i></b>" : "<b style='color:red;'><i>不通过</i></b>") + "</td>";
+								dataHtml += "</tr>";
+							}
+							dataHtml += "</tbody></table>";
+							$("#appStatusModal .modal-body").html(dataHtml);
+						}
+					}
+				})
+			}
+			
+			function getCiqStatusByCopNo(copNo, copNo, status) {
+				$.getJSON("/invts/getImppayHeadListByCopNo/" + copNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
+					dataHtml += "<th>审批时间</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for(var i = 0; i < data.length; i++) {
+				
+							if (null != data) {
+								for (var i = 0; i < data.length; i++) {
+									dataHtml += "<tr>";
+									dataHtml += "<td>" + data[i].applyCode + "</td>"
+									dataHtml += "<td title='" + data[i].payCode +"'>" + data[i].payName + "</td>";
+									if (undefined != data[i].auditState && null != data[i].auditState) {
+										dataHtml += "<td>" + status[data[i].auditState] + "[" + data[i].auditState + "]" + "</td>";
+									} else {
+										dataHtml += "<td></td>";
+									}
+									dataHtml += "<td>" + data[i].bwName + "</td>";
+									dataHtml += "<td>" + data[i].applyDate + "</td>";
+									dataHtml += "</tr>";
+								}
+							}
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
+				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for (var i = 0; i < data.length; i++) {
+							dataHtml += "<tr>";
+							dataHtml += "<td>" + data[i].rtnTime + "</td>";
+							dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
+							dataHtml += "<td>" + data[i].rtnInfo + "</td>";
+							dataHtml += "</tr>";
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getDistHeadByInvtNo(invtNo, status) {
+				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.distNo + "</td>";
+						dataHtml += "<td>" + data.customsCode + "</td>";
+						dataHtml += "<td title='" + data.declCode + "'>" + data.declName + "</td>";
+						dataHtml += "<td>" + data.distStat + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "<thead><tr><th>录入日期</th><th>申报日期</th><th>退单原因</th><th>备注</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.inputDate + "</td>";
+						dataHtml += "<td>" + data.declDate + "</td>";
+						dataHtml += "<td>" + data.returnReason + "</td>";
+						dataHtml += "<td>" + data.note + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+		</script>
+
+		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
+			role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">历史状态</h4>
+					</div>
+					<div class="modal-body"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>搜索条件</h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a>
+								</li>
+								<li><a href="#">Settings 2</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form class="form-horizontal search-form" role="form" action="/payments" method="GET"
+							id="payment_form">
+						<input type="hidden" name="pageSize" th:value="${payHead.pageSize}" />
+						<input class="page-num" type="hidden" name="pageNum" th:value="${payHead.pageNum}" />
+						<div class="form-group">
+							<label class="col-sm-1 control-label">支付交易号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="payTransactionId" placeholder="支付交易号"
+										th:value="${payHead.payTransactionId}" />
+							</div>
+							<label class="col-sm-1 control-label">支付企业代码</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="payCode" placeholder="支付企业代码"
+										th:value="${payHead.payCode}" />
+							</div>
+							<label class="col-sm-1 control-label">支付企业名称</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="payName" placeholder="支付企业名称"
+										th:value="${payHead.payName}" />
+							</div>
+							<label class="col-sm-1 control-label">订单号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="ordNo" placeholder="订单号"
+										th:value="${payHead.ordNo}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">支付人</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="payerName" placeholder="支付人"
+										th:value="${payHead.payerName}" />
+							</div>
+							<label class="col-sm-1 control-label">支付人身份证号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="payerIdNumber" placeholder="支付人身份证号"
+										th:value="${payHead.payerIdNumber}" />
+							</div>
+							<label class="col-sm-1 control-label">入库开始时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="beginSysDate"
+											th:value="${payHead.beginSysDate}" placeholder="支付开始时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+							<label class="col-sm-1 control-label">入库结束时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="endSysDate"
+											th:value="${payHead.endSysDate}" placeholder="支付结束时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">业务状态</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="appStatus">
+									<option th:each="appStat : ${appStatus}" th:value="${appStat.key}"
+											th:text="${appStat.key} + '-' + ${appStat.value}"
+											th:selected="${appStat.key == payHead.appStatus} ? 'selected'"></option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">申报类型</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="appType">
+									<option th:each="appStat : ${appType}" th:value="${appStat.key}"
+											th:text="${appStat.key} + '-' + ${appStat.value}"
+											th:selected="${appStat.key == payHead.appType} ? 'selected'"></option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">支付开始时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="beginPayTime"
+											th:value="${payHead.beginPayTime}" placeholder="支付开始时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+							<label class="col-sm-1 control-label">支付结束时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="endPayTime"
+											th:value="${payHead.endPayTime}" placeholder="支付结束时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="pull-right form-group no-margin-right">
+							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
+							<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('payment_form')">重置</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_content" style="display: block; text-align: center;">
+					<button type="button" class="btn btn-round btn-dark"
+						th:onclick="'addFormParaQuery(\'payment_form\', \'appStatus\', \'\')'">全部</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'payment_form\', \'appStatus\', \'03\')'">发送电子口岸成功</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'payment_form\', \'appStatus\', \'2\')'">电子口岸申报中</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'payment_form\', \'appStatus\', \'3\')'">发送海关成功</button>
+					<button type="button" class="btn btn-round btn-warning"
+						th:onclick="'addFormParaQuery(\'payment_form\', \'appStatus\', \'100\')'">退单</button>
+					<button type="button" class="btn btn-round btn-danger"
+						th:onclick="'addFormParaQuery(\'payment_form\', \'appStatus\', \'4\')'">发送海关失败</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'payment_form\', \'appStatus\', \'120\')'">海关入库</button>
+					<button type="button" class="btn btn-round btn-danger"
+						th:onclick="'addFormParaQuery(\'payment_form\', \'appStatus\', \'05\')'">电子口岸校验失败</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'payment_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'payment_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'payment_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'payment_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'payment_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li><input type="number" class="input-lg change-page-num" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
+				<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'payment_form\', $(\'.change-page-num\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('payment_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+					</select>
+				</li>
+			</ul>
+			<table class="table table-striped jambo_table bulk_action">
+				<thead>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">支付交易号</th>
+						<th class="column-title">电商平台企业</th>
+						<th class="column-title">支付企业</th>
+						<th class="column-title">订单号</th>
+						<th class="column-title">支付人</th>
+						<th class="column-title">支付人身份证号</th>
+						<th class="column-title">支付金额</th>
+						<th class="column-title">业务状态</th>
+						<th class="column-title">入库日期</th>
+						<th class="column-title">支付日期</th>
+						<th class="column-title">申报类型</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${payHeadList.empty}">
+						<td colspan="30">没有数据</td>
+					</tr>
+					<tr th:each="payHead,stat : ${payHeadList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
+						<td th:text="${stat.count}"></td>
+						<td th:text="${payHead.payTransactionId}"></td>
+						<td th:title="${payHead.ebpCode}">
+							<a href="javascript:void(0)" th:text="${payHead.ebpName}"
+								th:onclick="'addFormParaQuery(\'payment_form\', \'ebpCode\', \'' + ${payHead.ebpCode} + '\')'"></a>
+						</td>
+						<td th:title="${payHead.payCode}">
+							<a href="javascript:void(0)" th:text="${payHead.payName}"
+								th:onclick="'addFormParaQuery(\'payment_form\', \'payCode\', \'' + ${payHead.payCode} + '\')'"></a>
+						</td>
+						<td th:text="${payHead.ordNo}"></td>
+						<td th:text="${payHead.payerName}"></td>
+						<td th:text="${payHead.payerIdNumber}"></td>
+						<td th:text="${payHead.amountPaid}"></td>
+						<td th:switch="${payHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${payHead.payTransactionId} + '\',\'' + ${payHead.guid} + '\', ' + ${appStatusJson} + ')'"
+							title="点击查看历史状态">
+							<span th:case="05" class="btn btn-round btn-danger btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="04" class="btn btn-round btn-danger btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="4" class="btn btn-round btn-danger btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="500" class="btn btn-round btn-warning btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="100" class="btn btn-round btn-warning btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="700" class="btn btn-round btn-warning btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="400" class="btn btn-round btn-warning btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="800" class="btn btn-success btn-round btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="899" class="btn btn-round btn-success btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="3" class="btn btn-round btn-success btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="03" class="btn btn-round btn-success btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+							<span th:case="*" class="btn btn-round btn-info btn-xs" th:text="${appStatus[payHead.appStatus]}"></span>
+						</td>
+						<td th:text="${#calendars.format(payHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${#calendars.format(payHead.payTime, 'YYYY-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${appType[payHead.appType]}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'payment_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'payment_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'payment_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'payment_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'payment_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li><input type="number" class="input-lg change-page-num-down" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
+				<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'payment_form\', $(\'.change-page-num-down\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('payment_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+					</select>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
