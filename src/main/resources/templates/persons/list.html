@@ -363,8 +363,8 @@
 				</li>
 				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
 				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
-				<li><input type="number" class="input-lg change-page-num" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
-				<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'personal_form\', $(\'.change-page-num\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
+				<li><input type="number" class="input-lg change-page-num-down" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
+				<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'personal_form\', $(\'.change-page-num-down\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
 				<li>
 					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('personal_form', this.value);">
 						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
