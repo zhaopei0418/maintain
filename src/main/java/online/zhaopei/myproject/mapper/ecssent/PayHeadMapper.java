@@ -26,7 +26,7 @@ public interface PayHeadMapper extends Serializable {
 		@Result(property = "payTransactionId", column = "pay_transaction_id"),
 		@Result(property = "ordNo", column = "ord_no"),
 		@Result(property = "ebpCode", column = "ebp_code"),
-		@Result(property = "ebpName", column = "ebpName"),
+		@Result(property = "ebpName", column = "ebp_name"),
 		@Result(property = "payerIdType", column = "payer_id_type"),
 		@Result(property = "payerIdNumber", column = "payer_id_number"),
 		@Result(property = "payerName", column = "payer_name"),
