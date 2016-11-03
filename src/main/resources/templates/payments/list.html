@@ -299,6 +299,18 @@
 								</div>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">电商平台代码</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="ebpCode" placeholder="电商平台代码"
+										th:value="${payHead.ebpCode}" />
+							</div>
+							<label class="col-sm-1 control-label">电商平台名称</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="ebpName" placeholder="电商平台名称"
+										th:value="${payHead.ebpName}" />
+							</div>
+						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
 							<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('payment_form')">重置</button>
