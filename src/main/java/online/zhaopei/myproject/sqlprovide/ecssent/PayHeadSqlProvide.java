@@ -85,12 +85,12 @@ public class PayHeadSqlProvide implements Serializable {
 				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + payHead.getEndSysDate() + "'");
 			}
 			
-			if (!StringUtils.isEmpty(payHead.getBeginSysDate())) {
-				this.WHERE("to_char(pay_time, 'yyyy-mm-dd') >= '" + payHead.getBeginSysDate() + "'");
+			if (!StringUtils.isEmpty(payHead.getBeginPayTime())) {
+				this.WHERE("to_char(pay_time, 'yyyy-mm-dd') >= '" + payHead.getBeginPayTime() + "'");
 			}
 			
-			if (!StringUtils.isEmpty(payHead.getEndSysDate())) {
-				this.WHERE("to_char(pay_time, 'yyyy-mm-dd') <= '" + payHead.getEndSysDate() + "'");
+			if (!StringUtils.isEmpty(payHead.getEndPayTime())) {
+				this.WHERE("to_char(pay_time, 'yyyy-mm-dd') <= '" + payHead.getEndPayTime() + "'");
 			}
 		}}.toString();
 	}
