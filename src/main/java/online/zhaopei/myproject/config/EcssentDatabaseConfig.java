@@ -27,9 +27,9 @@ import com.github.pagehelper.PageHelper;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = "online.zhaopei.myproject.mapper.ecssent", sqlSessionFactoryRef = "ecssentSqlSessionFactory")
-public class EcssentDatabaseConfiguration {
+public class EcssentDatabaseConfig {
 
-	private static Logger logger = Logger.getLogger(EcssentDatabaseConfiguration.class);
+	private static Logger logger = Logger.getLogger(EcssentDatabaseConfig.class);
 	
 	@Bean
 	public ServletRegistrationBean druidServlet() {
