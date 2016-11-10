@@ -10,4 +10,10 @@ public interface InvtHeadService extends Serializable {
 	List<InvtHead> getInvtHeadList(InvtHead invtHead);
 	
 	InvtHead getInvtHeadByHeadGuid(String headGuid);
+	
+	List<InvtHead> getDeclareTopTenSql(InvtHead invtHead);
+	
+	Long getInvtHeadCount(String countType);
+	
+	List<InvtHead> getInvtHeadMonthCount();
 }

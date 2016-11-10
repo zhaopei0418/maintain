@@ -3,19 +3,14 @@ package online.zhaopei.myproject.mapper.ecssent;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.mapping.FetchType;
 import org.apache.ibatis.type.JdbcType;
 
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
-import online.zhaopei.myproject.domain.ecssent.PubRtn;
-import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
 import online.zhaopei.myproject.sqlprovide.ecssent.InvtHeadSqlProvide;
 
 public interface InvtHeadMapper extends Serializable {
@@ -71,12 +66,24 @@ public interface InvtHeadMapper extends Serializable {
 		@Result(property = "freight", column = "freight"),
 		@Result(property = "currency", column = "currency"),
 		@Result(property = "note", column = "note"),
-		@Result(property = "customsCode", column = "customs_code")
+		@Result(property = "customsCode", column = "customs_code"),
 	})
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadListSql")
 	List<InvtHead> getInvtHeadList(InvtHead invtHead);
 	
-	@ResultMap(value = "invtHeadResult")
+	@ResultMap("invtHeadResult")
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadByHeadGuidSql")
 	InvtHead getInvtHeadByHeadGuid(String headGuid);
+	
+	@ResultMap("invtHeadResult")
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getDeclareTopTenSql")
+	List<InvtHead> getDeclareTopTen(InvtHead invtHead);
+	
+	@ResultType(Long.class)
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadCountSql")
+	Long getInvtHeadCount(String countType);
+	
+	@ResultMap("invtHeadResult")
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadMonthCountSql")
+	List<InvtHead> getInvtHeadMonthCount();
 }

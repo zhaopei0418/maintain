@@ -141,6 +141,8 @@ public class InvtHead extends BaseDomain {
 	private Integer sysDays;
 
 	private Date sysDate;
+	
+	private String sysDateStr;
 
 	private Double totalValue;
 
@@ -161,6 +163,18 @@ public class InvtHead extends BaseDomain {
 	private String distinct;
 	
 	private String searchText;
+	
+	private Long count;
+	
+	private String countType;
+	
+	private Double percentage;
+	
+	private List<String> copNoList;
+	
+	private String applyCode;
+	
+	private Long total;
 	
 	public String getHeadGuid() {
 		return headGuid;
@@ -749,5 +763,61 @@ public class InvtHead extends BaseDomain {
 
 	public void setSearchText(String searchText) {
 		this.searchText = searchText;
+	}
+
+	public Long getCount() {
+		return count;
+	}
+
+	public void setCount(Long count) {
+		this.count = count;
+	}
+
+	public Double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(Double percentage) {
+		this.percentage = percentage;
+	}
+
+	public List<String> getCopNoList() {
+		return copNoList;
+	}
+
+	public void setCopNoList(List<String> copNoList) {
+		this.copNoList = copNoList;
+	}
+
+	public String getApplyCode() {
+		return applyCode;
+	}
+
+	public void setApplyCode(String applyCode) {
+		this.applyCode = applyCode;
+	}
+
+	public Long getTotal() {
+		return total;
+	}
+
+	public void setTotal(Long total) {
+		this.total = total;
+	}
+
+	public String getCountType() {
+		return countType;
+	}
+
+	public void setCountType(String countType) {
+		this.countType = countType;
+	}
+
+	public String getSysDateStr() {
+		return sysDateStr;
+	}
+
+	public void setSysDateStr(String sysDateStr) {
+		this.sysDateStr = sysDateStr;
 	}
 }

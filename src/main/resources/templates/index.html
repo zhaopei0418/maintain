@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>数据统计</title>
+</head>
+<body>
+	<div class="row tile_count" layout:fragment="header">
+		<div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+			<span class="count_top"><i class="fa fa-user"></i>今天清单数</span>
+			<div class="count" th:text="${dayCount}"></div>
+			<span class="count_bottom">
+				<i th:class="${0 > fromDay ? 'red' : 'green'}">
+					<i th:class="${0 > fromDay ? 'fa fa-sort-desc' : 'fa fa-sort-asc'}"></i>
+					<i th:text="${0 == fromDay ? (0 == dayCount ? '0%' : '新增业务') : fromDay + '%'}"></i>
+				</i>从昨天
+			</span>
+		</div>
+		<div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+			<span class="count_top"><i class="fa fa-user"></i>本周清单数</span>
+			<div class="count" th:text="${weekCount}"></div>
+			<span class="count_bottom">
+				<i th:class="${0 > fromWeek ? 'red' : 'green'}">
+					<i th:class="${0 > fromWeek ? 'fa fa-sort-desc' : 'fa fa-sort-asc'}"></i>
+					<i th:text="${0 == fromWeek ? (0 == weekCount ? '0%' : '新增业务') : fromWeek + '%'}"></i>
+				</i>从上周
+			</span>
+		</div>
+		<div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+			<span class="count_top"><i class="fa fa-user"></i>本月清单数</span>
+			<div class="count" th:text="${monthCount}"></div>
+			<span class="count_bottom">
+				<i th:class="${0 > fromMonth ? 'red' : 'green'}">
+					<i th:class="${0 > fromMonth ? 'fa fa-sort-desc' : 'fa fa-sort-asc'}"></i>
+					<i th:text="${0 == fromMonth ? (0 == monthCount ? '0%' : '新增业务') : fromMonth + '%'}"></i>
+				</i>从上月
+			</span>
+		</div>
+		<div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+			<span class="count_top"><i class="fa fa-user"></i>今年清单数</span>
+			<div class="count" th:text="${yearCount}"></div>
+			<span class="count_bottom">
+				<i th:class="${0 > fromYear ? 'red' : 'green'}">
+					<i th:class="${0 > fromYear ? 'fa fa-sort-desc' : 'fa fa-sort-asc'}"></i>
+					<i th:text="${0 == fromYear ? (0 == yearCount ? '0%' : '新增业务') : fromYear + '%'}"></i>
+				</i>从去年
+			</span>
+		</div>
+	</div>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>清单总量走势</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Settings 1</a>
+									</li>
+									<li><a href="#">Settings 2</a>
+									</li>
+								</ul>
+							</li>
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<canvas id="invtHeadCountLine"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>清单总量比例</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Settings 1</a>
+									</li>
+									<li><a href="#">Settings 2</a>
+									</li>
+								</ul>
+							</li>
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<canvas id="invtHeadCountPieChart"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>清单放行比例</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Settings 1</a>
+									</li>
+									<li><a href="#">Settings 2</a>
+									</li>
+								</ul>
+							</li>
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<canvas id="invtHeadReleasePieChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="x_panel title">
+					<div class="x_title">
+						<h2>清单总量</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<h4>清单总量前10名</h4>
+						<div th:each="invtHead : ${invtHeadCountList}" class="widget_summary">
+							<div class="w_left w_25">
+								<span th:text="${invtHead.ebcName}"></span>
+							</div>
+							<div class="w_center w_55">
+								<div class="progress">
+									<div class="progress-bar progress-bar-success" th:aria-valuenow="${invtHead.percentage}"
+											th:data-transitiongoal="${invtHead.percentage}" th:style="'width: ' + ${invtHead.percentage} + '%;'">
+									</div>
+								</div>
+							</div>
+							<div class="w_right w_20">
+								<span th:text="${invtHead.count}"></span>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="x_panel title">
+					<div class="x_title">
+						<h2>清单放行量</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<h4>清单放行量前10名</h4>
+						<div th:each="invtHead : ${invtHeadReleaseList}" class="widget_summary">
+							<div class="w_left w_25">
+								<span th:text="${invtHead.ebcName}"></span>
+							</div>
+							<div class="w_center w_55">
+								<div class="progress">
+									<div class="progress-bar progress-bar-success" th:aria-valuenow="${invtHead.percentage}"
+											th:data-transitiongoal="${invtHead.percentage}" th:style="'width: ' + ${invtHead.percentage} + '%;'">
+									</div>
+								</div>
+							</div>
+							<div class="w_right w_20">
+								<span th:text="${invtHead.count}"></span>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(function() {
+				// Pie chart
+				$.getJSON("/invts/getInvtHeadTotal", function(data) {
+					var ctx = document.getElementById("invtHeadCountPieChart");
+					var pieChart = new Chart(ctx, {
+						data: data,
+						type: 'pie',
+						otpions: {
+							legend: false
+						}
+					});
+				});
+
+				$.getJSON("/invts/getInvtHeadTotal", {type: 'release'}, function(data) {
+					var ctx = document.getElementById("invtHeadReleasePieChart");
+					var pieChart = new Chart(ctx, {
+						data: data,
+						type: 'pie',
+						otpions: {
+							legend: false
+						}
+					});
+				});
+
+				// Line chart
+				var ctx = document.getElementById("invtHeadCountLine");
+				var lineChart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: ["January", "February", "March", "April", "May", "June", "July"],
+						datasets: [{
+							label: "My First dataset",
+							backgroundColor: "rgba(38, 185, 154, 0.31)",
+							borderColor: "rgba(38, 185, 154, 0.7)",
+							pointBorderColor: "rgba(38, 185, 154, 0.7)",
+							pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+							pointHoverBackgroundColor: "#fff",
+							pointHoverBorderColor: "rgba(220,220,220,1)",
+							pointBorderWidth: 1,
+							data: [31, 74, 6, 39, 20, 85, 7]
+						}, {
+							label: "My Second dataset",
+							backgroundColor: "rgba(3, 88, 106, 0.3)",
+							borderColor: "rgba(3, 88, 106, 0.70)",
+							pointBorderColor: "rgba(3, 88, 106, 0.70)",
+							pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+							pointHoverBackgroundColor: "#fff",
+							pointHoverBorderColor: "rgba(151,187,205,1)",
+							pointBorderWidth: 1,
+							data: [82, 23, 66, 9, 99, 4, 2]
+						}]
+					},
+				});
+			});
+		</script>
+	</div>
+</body>
+</html>

@@ -20,13 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.InvtHeadConstant;
-import online.zhaopei.myproject.domain.ecssent.DeliveryHead;
 import online.zhaopei.myproject.domain.ecssent.DistHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;
@@ -115,6 +117,65 @@ public class InvtsController extends BaseController {
 	@ResponseBody
 	public DistHead getDistHeadByInvtNo(@PathVariable("invtNo") String invtNo) {
 		return this.distHeadService.getDistHeadByInvtNo(invtNo);
+	}
+	
+	@GetMapping("/getInvtHeadCount")
+	@ResponseBody
+	public String getInvtHeadMonthCount() {
+		JsonObject result = new JsonObject();
+		JsonArray labels = new JsonArray();
+		JsonArray datasets = new JsonArray();
+		JsonObject data = null;
+		
+		data.addProperty("label", "清单总量");
+		data.addProperty("backgroundColor", "rgba(38, 185, 154, 0.31)");
+		data.addProperty("borderColor", "rgba(38, 185, 154, 0.7)");
+		data.addProperty("pointBorderColor", "rgba(38, 185, 154, 0.7)");
+		data.addProperty("borderColor", "rgba(38, 185, 154, 0.7)");
+		data.addProperty("borderColor", "rgba(38, 185, 154, 0.7)");
+		
+		return result.toString();
+	}
+	
+	@GetMapping("/getInvtHeadTotal")
+	@ResponseBody
+	public String getInvtHeadTotal(String type) {
+		JsonObject result = new JsonObject();
+		JsonArray labels = new JsonArray();
+		JsonArray datasets = new JsonArray();
+		JsonArray data = new JsonArray();
+		JsonArray backgroundColor = new JsonArray();
+		JsonObject tempObject = null;
+		InvtHead invtHead = new InvtHead();
+		long other = 0;
+		if ("release".equals(type)) {
+			invtHead.setAppStatus("800");
+		}
+		
+		List<InvtHead> invtHeadTotalList = this.invtHeadService.getDeclareTopTenSql(invtHead);
+		
+		if (null != invtHeadTotalList && !invtHeadTotalList.isEmpty()) {
+			for (int i = 0; i < invtHeadTotalList.size() && i < 6; i++) {
+				InvtHead ih = invtHeadTotalList.get(i);
+				labels.add(ih.getEbcName());
+				data.add(ih.getCount());
+				other += ih.getCount();
+				backgroundColor.add(CommonConstant.getPIE_COLORS().get(i));
+			}
+			
+			if (7 <= invtHeadTotalList.size()) {
+				labels.add("其他");
+				data.add(invtHeadTotalList.get(0).getTotal() - other);
+				backgroundColor.add(CommonConstant.getPIE_COLORS().get(6));
+			}
+			tempObject = new JsonObject();
+			tempObject.add("data", data);
+			tempObject.add("backgroundColor", backgroundColor);
+			datasets.add(tempObject);
+		}
+		result.add("labels", labels);
+		result.add("datasets", datasets);
+		return result.toString();
 	}
 	
 	@GetMapping("/{headGuid}")
@@ -206,8 +267,13 @@ public class InvtsController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView index(InvtHead invtHead) {
+		if (null != invtHead && !StringUtils.isEmpty(invtHead.getApplyCode())) {
+			invtHead.setCopNoList(this.impInvtHeadService.getCopNoList(invtHead.getApplyCode()));
+		}
+		
 		PageInfo<InvtHead> pageInfo = this.getPageInfo(invtHead, InvtHead.class, this.invtHeadService, "getInvtHeadList");
 		ModelAndView mv = this.buildBaseModelAndView("invts/list", pageInfo);
+		
 		mv.addObject("invtHead", invtHead);
 		mv.addObject("invtHeadList", pageInfo.getList());
 		mv.addObject("appStatus", InvtHeadConstant.getAPP_STATUS_MAP());

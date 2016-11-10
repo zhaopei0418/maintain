@@ -1,8 +1,12 @@
 package online.zhaopei.myproject.sqlprovide.ecssent;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.ibatis.jdbc.SQL;
 
@@ -127,6 +131,10 @@ public class InvtHeadSqlProvide implements Serializable {
 				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + invtHead.getEndAppTime() + "'");
 			}
 			
+			if (!StringUtils.isEmpty(invtHead.getSysDateStr())) {
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') = '" + invtHead.getSysDateStr() + "'");
+			}
+			
 			if (!StringUtils.isEmpty(invtHead.getAppSenderId())) {
 				this.WHERE("app_sender_id = '" + invtHead.getAppSenderId() + "'");
 			}
@@ -199,6 +207,94 @@ public class InvtHeadSqlProvide implements Serializable {
 				}
 			}
 			
+			if (null != invtHead.getCopNoList() && !invtHead.getCopNoList().isEmpty()) {
+				StringBuffer stringBufferIn = new StringBuffer("(");
+				for(String copNo : invtHead.getCopNoList()) {
+					stringBufferIn.append("'" + copNo + "',");
+				}
+				stringBufferIn.deleteCharAt(stringBufferIn.length() - 1);
+				stringBufferIn.append(")");
+				this.WHERE("cop_no in " + stringBufferIn.toString());
+			}
+			
+		}}.toString();
+	}
+	
+	public String getDeclareTopTenSql(final InvtHead invtHead) {
+		return new SQL() {{
+			this.SELECT("ebc_name");
+			this.SELECT("count(1) as count");
+			
+			if (!StringUtils.isEmpty(invtHead.getAppStatus())) {
+				this.SELECT("round(count(1) / (select count(1) from ceb2_invt_head where app_status = '" +
+						invtHead.getAppStatus() + "') * 100, 2) as percentage");
+				this.SELECT("(select count(1) from ceb2_invt_head where app_status = '" +
+						invtHead.getAppStatus() + "') as total");
+			} else {
+				this.SELECT("round(count(1) / (select count(1) from ceb2_invt_head) * 100, 2) as percentage");
+				this.SELECT("(select count(1) from ceb2_invt_head) as total");
+			}
+			this.FROM("ceb2_invt_head");
+			
+			if (!StringUtils.isEmpty(invtHead.getAppStatus())) {
+				this.WHERE("app_status = '" + invtHead.getAppStatus() + "'");
+			}
+			
+			this.GROUP_BY("ebc_name");
+			this.ORDER_BY("count(1) desc");
+		}}.toString();
+	}
+	
+	public String getInvtHeadMonthCountSql() {
+		return new SQL() {{
+			this.SELECT("to_char(sys_date, 'yyyy-mm') as ebc_name");
+			this.SELECT("count(1) as count");
+			this.FROM("ceb2_invt_head");
+			this.GROUP_BY("to_char(sys_date, 'yyyy-mm')");
+			this.ORDER_BY("to_char(sys_date, 'yyyy-mm')");
+		}}.toString();
+	}
+	
+	public String getInvtHeadCountSql(final String countType) {
+		return new SQL() {{
+			this.SELECT("count(1) as count");
+			this.FROM("ceb2_invt_head");
+			
+			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+			calendar.setFirstDayOfWeek(Calendar.MONDAY);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			if ("w".equals(countType)) {
+				calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') >= '" + sdf.format(calendar.getTime()) + "'");
+				calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + sdf.format(calendar.getTime()) + "'");
+			} else if ("pw".equals(countType)) {
+				calendar.add(Calendar.WEEK_OF_YEAR, -1);
+				calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') >= '" + sdf.format(calendar.getTime()) + "'");
+				calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + sdf.format(calendar.getTime()) + "'");
+			} else if ("m".equals(countType)) {
+				sdf = new SimpleDateFormat("yyyy-MM");
+				this.WHERE("to_char(sys_date, 'yyyy-mm') = '" + sdf.format(calendar.getTime()) + "'");
+			} else if ("pm".equals(countType)) {
+				sdf = new SimpleDateFormat("yyyy-MM");
+				calendar.add(Calendar.MONTH, -1);
+				this.WHERE("to_char(sys_date, 'yyyy-mm') = '" + sdf.format(calendar.getTime()) + "'");
+			} else if ("y".equals(countType)) {
+				sdf = new SimpleDateFormat("yyyy");
+				this.WHERE("to_char(sys_date, 'yyyy') = '" + sdf.format(calendar.getTime()) + "'");
+			} else if ("py".equals(countType)) {
+				sdf = new SimpleDateFormat("yyyy");
+				calendar.add(Calendar.YEAR, -1);
+				this.WHERE("to_char(sys_date, 'yyyy') = '" + sdf.format(calendar.getTime()) + "'");
+			} else if ("d".equals(countType)) {
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') = '" + sdf.format(calendar.getTime()) + "'");
+			} else if ("pd".equals(countType)) {
+				calendar.add(Calendar.DAY_OF_YEAR, -1);
+				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') = '" + sdf.format(calendar.getTime()) + "'");
+			}
 		}}.toString();
 	}
 }

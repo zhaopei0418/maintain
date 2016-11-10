@@ -56,4 +56,16 @@ public class ImpInvtHeadSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+	
+	public String getCopNoListSql(final String applyCode) {
+		return new SQL() {{
+			this.SELECT("cop_no");
+			this.FROM("imp_invt_head");
+			
+			if (!StringUtils.isEmpty(applyCode)) {
+				this.WHERE("applycode like '%" + applyCode + "%'");
+			}
+			
+		}}.toString();
+	}
 }

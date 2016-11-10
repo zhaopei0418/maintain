@@ -14,13 +14,13 @@
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
   </head>
 
-  <body class="nav-sm">
+  <body class="nav-md">
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-				<a href="/invts" class="site_title"><i class="fa fa-paw"></i> 
+				<a href="/" class="site_title"><i class="fa fa-paw"></i> 
 					<span>维护系统</span>
 				</a>
 			</div>
@@ -46,6 +46,8 @@
 				<div class="menu_section">
 					<h3>菜单</h3>
 					<ul class="nav side-menu">
+						<li><a href="/"><i class="fa fa-home"></i>首页</a>
+						</li>
 						<li><a><i class="fa fa-home"></i>清单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li><a href="/invts">清单查询</a></li>
@@ -251,7 +253,9 @@
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/nprogress/nprogress.js}"></script>
+	<script type="text/javascript" th:src="@{/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+	<script type="text/javascript" th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/custom.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/application.js}"></script>
   </body>

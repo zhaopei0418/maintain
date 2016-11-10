@@ -30,4 +30,19 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 		return this.invtHeadMapper.getInvtHeadByHeadGuid(headGuid);
 	}
 
+	@Override
+	public List<InvtHead> getDeclareTopTenSql(InvtHead invtHead) {
+		return this.invtHeadMapper.getDeclareTopTen(invtHead);
+	}
+
+	@Override
+	public Long getInvtHeadCount(String countType) {
+		return this.invtHeadMapper.getInvtHeadCount(countType);
+	}
+
+	@Override
+	public List<InvtHead> getInvtHeadMonthCount() {
+		return this.invtHeadMapper.getInvtHeadMonthCount();
+	}
+
 }

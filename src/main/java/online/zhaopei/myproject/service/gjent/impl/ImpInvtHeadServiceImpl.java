@@ -30,4 +30,9 @@ public class ImpInvtHeadServiceImpl implements ImpInvtHeadService {
 		return this.impInvtHeadMapper.getInvtHeadListByCopNo(copNo);
 	}
 
+	@Override
+	public List<String> getCopNoList(String applyCode) {
+		return this.impInvtHeadMapper.getCopNoList(applyCode);
+	}
+
 }

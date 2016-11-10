@@ -1,7 +1,9 @@
 package online.zhaopei.myproject.constant;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum CommonConstant implements Serializable {
@@ -30,6 +32,8 @@ public enum CommonConstant implements Serializable {
 
 	private static Map<String, String> APP_TYPE_MAP = new HashMap<String, String>();
 
+	private static List<String> PIE_COLORS = new ArrayList<String>();
+	
 	private String value;
 
 	static {
@@ -51,6 +55,15 @@ public enum CommonConstant implements Serializable {
 		CUSTOMS_MAP.put("4612", "新郑综保");
 		CUSTOMS_MAP.put("4619", "河南德众");
 		CUSTOMS_MAP.put("4620", "口岸作业区");
+		
+		PIE_COLORS.add("#455C73");
+		PIE_COLORS.add("#9B59B6");
+		PIE_COLORS.add("#BDC3C7");
+		PIE_COLORS.add("#26B99A");
+		PIE_COLORS.add("#3498DB");
+		PIE_COLORS.add("#E74C3C");
+		PIE_COLORS.add("#EC971F");
+		PIE_COLORS.add("#DE18CA");
 	}
 
 	private CommonConstant(String value) {
@@ -100,5 +113,9 @@ public enum CommonConstant implements Serializable {
 
 	public static Map<String, String> getID_TYPE_MAP() {
 		return ID_TYPE_MAP;
+	}
+
+	public static List<String> getPIE_COLORS() {
+		return PIE_COLORS;
 	}
 }
