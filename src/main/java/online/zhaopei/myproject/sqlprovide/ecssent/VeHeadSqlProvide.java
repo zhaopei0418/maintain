@@ -93,4 +93,28 @@ public class VeHeadSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+	
+	public String getVeHeadByVeNoSql(final String veNo) {
+		return new SQL() {{
+			this.SELECT("ve_id");
+			this.SELECT("ve_no");
+			this.SELECT("ve_owner");
+			this.SELECT("ve_run_num");
+			this.SELECT("link_tel");
+			this.SELECT("ve_cop_id");
+			this.SELECT("ve_cop_name");
+			this.SELECT("ic_card_id");
+			this.SELECT("ve_e_no");
+			this.SELECT("customs_code");
+			this.SELECT("ve_wt");
+			this.SELECT("input_date");
+			this.FROM("pre_ve_head");
+			
+			if (!StringUtils.isEmpty(veNo)) {
+				this.WHERE("ve_no = '" + veNo + "'");
+			} else {
+				this.WHERE("false");
+			}
+		}}.toString();
+ 	}
 }

@@ -19,6 +19,8 @@ public enum CommonConstant implements Serializable {
 	private static Map<String, String> UNIT_MAP = new HashMap<String, String>();
 
 	private static Map<String, String> CUSTOMS_MAP = new HashMap<String, String>();
+	
+	private static Map<String, String> ZBXC_CUSTOMS_MAP = new HashMap<String, String>();
 
 	private static Map<String, String> WRAP_TYPE_MAP = new HashMap<String, String>();
 
@@ -48,13 +50,13 @@ public enum CommonConstant implements Serializable {
 		APP_TYPE_MAP.put("2", "变更");
 		APP_TYPE_MAP.put("3", "删除");
 		
-		CUSTOMS_MAP.put("", "所有关区");
-		CUSTOMS_MAP.put("4604", "郑州机办");
-		CUSTOMS_MAP.put("4605", "郑州邮办");
-		CUSTOMS_MAP.put("4606", "郑铁东办");
-		CUSTOMS_MAP.put("4612", "新郑综保");
-		CUSTOMS_MAP.put("4619", "河南德众");
-		CUSTOMS_MAP.put("4620", "口岸作业区");
+		ZBXC_CUSTOMS_MAP.put("", "所有关区");
+		ZBXC_CUSTOMS_MAP.put("4604", "郑州机办");
+		ZBXC_CUSTOMS_MAP.put("4605", "郑州邮办");
+		ZBXC_CUSTOMS_MAP.put("4606", "郑铁东办");
+		ZBXC_CUSTOMS_MAP.put("4612", "新郑综保");
+		ZBXC_CUSTOMS_MAP.put("4619", "河南德众");
+		ZBXC_CUSTOMS_MAP.put("4620", "口岸作业区");
 		
 		PIE_COLORS.add("#455C73");
 		PIE_COLORS.add("#9B59B6");
@@ -117,5 +119,9 @@ public enum CommonConstant implements Serializable {
 
 	public static List<String> getPIE_COLORS() {
 		return PIE_COLORS;
+	}
+
+	public static Map<String, String> getZBXC_CUSTOMS_MAP() {
+		return ZBXC_CUSTOMS_MAP;
 	}
 }

@@ -25,4 +25,9 @@ public class VeHeadServiceImpl implements VeHeadService {
 		return this.veHeadMapper.getVeHeadList(veHead);
 	}
 
+	@Override
+	public VeHead getVeHeadByVeNo(String veNo) {
+		return this.veHeadMapper.getVeHeadByVeNo(veNo);
+	}
+
 }

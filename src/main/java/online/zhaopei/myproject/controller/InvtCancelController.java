@@ -33,7 +33,7 @@ public class InvtCancelController extends BaseController {
 		mv.addObject("invtCancelList", pageInfo.getList());
 		mv.addObject("appStatus", InvtCancelConstant.getAPP_STATUS_MAP());
 		mv.addObject("appStatusJson", new Gson().toJson(InvtCancelConstant.getAPP_STATUS_MAP()));
-		mv.addObject("customsCodeMap", CommonConstant.getCUSTOMS_MAP());
+		mv.addObject("customsCodeMap", CommonConstant.getZBXC_CUSTOMS_MAP());
 		return mv;
 	}
 }

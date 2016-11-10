@@ -15,21 +15,71 @@ public class DistHead extends BaseDomain {
 	
 	private String distNo;
 	
+	private String copDistNo;
+	
 	private String customsCode;
+	
+	private String distType;
+	
+	private String cfsCode;
+	
+	private String ieFlag;
+	
+	private String ieType;
+	
+	private String billType;
+	
+	private Double totalPackNum;
+	
+	private Double totalGrossWt;
+	
+	private Double totalNetWt;
+	
+	private Double totalGValue;
 	
 	private String declCode;
 	
 	private String declName;
 	
+	private String districtCode;
+	
+	private String ieFlag1;
+	
+	private String dischargeCode;
+	
+	private String ieFlag2;
+	
+	private String inputPerson;
+	
 	private String distStat;
 	
 	private Date inputDate;
 	
+	private String inputDateStr;
+	
+	private String beginInputDate;
+	
+	private String endInputDate;
+	
 	private Date declDate;
+	
+	private String billSum;
+	
+	private String veSum;
+	
+	private String modifyMark;
+	
+	private Date apprDate;
+	
+	private String note;
 	
 	private String returnReason;
 	
-	private String note;
+	private String iePort;
+	
+	private String searchText;
+	
+	private String veNo;
 
 	public String getSeqNo() {
 		return seqNo;
@@ -109,5 +159,205 @@ public class DistHead extends BaseDomain {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public String getCopDistNo() {
+		return copDistNo;
+	}
+
+	public void setCopDistNo(String copDistNo) {
+		this.copDistNo = copDistNo;
+	}
+
+	public String getDistType() {
+		return distType;
+	}
+
+	public void setDistType(String distType) {
+		this.distType = distType;
+	}
+
+	public String getCfsCode() {
+		return cfsCode;
+	}
+
+	public void setCfsCode(String cfsCode) {
+		this.cfsCode = cfsCode;
+	}
+
+	public String getIeFlag() {
+		return ieFlag;
+	}
+
+	public void setIeFlag(String ieFlag) {
+		this.ieFlag = ieFlag;
+	}
+
+	public String getIeType() {
+		return ieType;
+	}
+
+	public void setIeType(String ieType) {
+		this.ieType = ieType;
+	}
+
+	public String getBillType() {
+		return billType;
+	}
+
+	public void setBillType(String billType) {
+		this.billType = billType;
+	}
+
+	public Double getTotalPackNum() {
+		return totalPackNum;
+	}
+
+	public void setTotalPackNum(Double totalPackNum) {
+		this.totalPackNum = totalPackNum;
+	}
+
+	public Double getTotalGrossWt() {
+		return totalGrossWt;
+	}
+
+	public void setTotalGrossWt(Double totalGrossWt) {
+		this.totalGrossWt = totalGrossWt;
+	}
+
+	public Double getTotalNetWt() {
+		return totalNetWt;
+	}
+
+	public void setTotalNetWt(Double totalNetWt) {
+		this.totalNetWt = totalNetWt;
+	}
+
+	public Double getTotalGValue() {
+		return totalGValue;
+	}
+
+	public void setTotalGValue(Double totalGValue) {
+		this.totalGValue = totalGValue;
+	}
+
+	public String getDistrictCode() {
+		return districtCode;
+	}
+
+	public void setDistrictCode(String districtCode) {
+		this.districtCode = districtCode;
+	}
+
+	public String getIeFlag1() {
+		return ieFlag1;
+	}
+
+	public void setIeFlag1(String ieFlag1) {
+		this.ieFlag1 = ieFlag1;
+	}
+
+	public String getDischargeCode() {
+		return dischargeCode;
+	}
+
+	public void setDischargeCode(String dischargeCode) {
+		this.dischargeCode = dischargeCode;
+	}
+
+	public String getIeFlag2() {
+		return ieFlag2;
+	}
+
+	public void setIeFlag2(String ieFlag2) {
+		this.ieFlag2 = ieFlag2;
+	}
+
+	public String getInputPerson() {
+		return inputPerson;
+	}
+
+	public void setInputPerson(String inputPerson) {
+		this.inputPerson = inputPerson;
+	}
+
+	public String getBillSum() {
+		return billSum;
+	}
+
+	public void setBillSum(String billSum) {
+		this.billSum = billSum;
+	}
+
+	public String getVeSum() {
+		return veSum;
+	}
+
+	public void setVeSum(String veSum) {
+		this.veSum = veSum;
+	}
+
+	public String getModifyMark() {
+		return modifyMark;
+	}
+
+	public void setModifyMark(String modifyMark) {
+		this.modifyMark = modifyMark;
+	}
+
+	public Date getApprDate() {
+		return apprDate;
+	}
+
+	public void setApprDate(Date apprDate) {
+		this.apprDate = apprDate;
+	}
+
+	public String getIePort() {
+		return iePort;
+	}
+
+	public void setIePort(String iePort) {
+		this.iePort = iePort;
+	}
+
+	public String getBeginInputDate() {
+		return beginInputDate;
+	}
+
+	public void setBeginInputDate(String beginInputDate) {
+		this.beginInputDate = beginInputDate;
+	}
+
+	public String getEndInputDate() {
+		return endInputDate;
+	}
+
+	public void setEndInputDate(String endInputDate) {
+		this.endInputDate = endInputDate;
+	}
+
+	public String getSearchText() {
+		return searchText;
+	}
+
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
+	}
+
+	public String getVeNo() {
+		return veNo;
+	}
+
+	public void setVeNo(String veNo) {
+		this.veNo = veNo;
+	}
+
+	public String getInputDateStr() {
+		return inputDateStr;
+	}
+
+	public void setInputDateStr(String inputDateStr) {
+		this.inputDateStr = inputDateStr;
 	}
 }

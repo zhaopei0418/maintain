@@ -18,4 +18,19 @@ public class CustomsSqlProvide implements Serializable {
 			this.WHERE("customs_code = #{customsCode}");
 		}}.toString();
 	}
+	
+	public String getCustomsSql() {
+		return new SQL() {{
+			this.SELECT("customs_code");
+			this.SELECT("abbr_cust");
+			this.FROM("customs");
+		}}.toString();
+	}
+	
+	public String countCustomsSql() {
+		return new SQL() {{
+			this.SELECT("count(1)");
+			this.FROM("customs");
+		}}.toString();
+	}
 }

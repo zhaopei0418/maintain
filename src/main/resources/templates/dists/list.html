@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>核放单管理</title>
+</head>
+<body>
+	<div layout:fragment="header">
+		<div class="title_left">
+			<h3>核放单查询</h3>
+		</div>
+		<div class="title_right">
+			<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+				<form action="/dists">
+					<div class="input-group">
+						<input type="text" class="form-control" name="searchText" placeholder="输入关键字...">
+						<span class="input-group-btn">
+							<button class="btn btn-default">搜索</button>
+						</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div layout:fragment="content">
+		<script type="text/javascript">
+			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
+				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
+					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("入库比对结果[" + copNo + "-" + logisticsCode + ":" +
+						logisticsNo + "]");
+					var isPass = false;
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><th>表头序号</th><th>企业内部编号</th><th>航班航次号</th><th>总（提）运单号</th><th>运输方式</th>";
+					dataHtml += "<th>运输工具</th><th>比对结果</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						if (0 == data.length) {
+							$("#appStatusModal .modal-body").html("没有对应的入库明细单");
+						} else {
+							for (var i = 0; i < data.length; i++) {
+								if (0 == i) {
+									dataHtml += "<tr style='background-color: yellow;'>";
+									dataHtml += "<td>" + data[i].distHeadGuid + "</td>";
+									dataHtml += "<td>" + copNo + "</td>";
+									dataHtml += "<td>" + data[i].invtVoyageNo + "</td>";
+									dataHtml += "<td>" + data[i].invtBillNo + "</td>";
+									dataHtml += "<td>" + data[i].invtTrafMode + "</td>";
+									dataHtml += "<td>" + data[i].invtTrafNo + "</td>";
+									dataHtml += "<td>清单信息</td>";
+									dataHtml += "</tr>";
+								}
+								dataHtml += "<tr>";
+								dataHtml += "<td>" + data[i].deliveryHeadGuid + "</td>";
+								dataHtml += "<td>" + data[i].copNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryVoyageNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryBillNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryTrafMode + "</td>";
+								dataHtml += "<td>" + data[i].deliveryTrafNo + "</td>";
+								isPass = false;
+								if (data[i].deliveryVoyageNo == data[i].invtVoyageNo &&
+									data[i].deliveryBillNo == data[i].invtBillNo &&
+									data[i].deliveryTrafMode == data[i].invtTrafMode &&
+									data[i].deliveryTrafNo == data[i].invtTrafNo) {
+									isPass = true;
+								}
+								dataHtml += "<td>" + (isPass ? "<b style='color:#5cb85c;'><i>通过</i></b>" : "<b style='color:red;'><i>不通过</i></b>") + "</td>";
+								dataHtml += "</tr>";
+							}
+							dataHtml += "</tbody></table>";
+							$("#appStatusModal .modal-body").html(dataHtml);
+						}
+					}
+				})
+			}
+			
+			function getVeHeadByVeNo(veNo) {
+				$.getJSON("/vehicles/" + veNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("车辆信息[" + veNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><th>属性名</th><th>属性值</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr><td>车牌号</td>";
+						dataHtml += "<td>" + data.veNo + "</td>";
+						dataHtml += "</td></tr>";
+						dataHtml += "<tr><td>IC卡号</td>";
+						dataHtml += "<td>" + data.icCardId + "</td>";
+						dataHtml += "</td></tr>";
+						dataHtml += "<tr><td>电子车牌号</td>";
+						dataHtml += "<td>" + data.veEno + "</td>";
+						dataHtml += "</td></tr>";
+						dataHtml += "<tr><td>所属单位代码</td>";
+						dataHtml += "<td>" + data.veCopId + "</td>";
+						dataHtml += "</td></tr>";
+						dataHtml += "<tr><td>所属单位名称</td>";
+						dataHtml += "<td>" + data.veCopName + "</td>";
+						dataHtml += "</td></tr>";
+						dataHtml += "<tr><td>行驶证号</td>";
+						dataHtml += "<td>" + data.veRunNum + "</td>";
+						dataHtml += "</td></tr>";
+						dataHtml += "<tr><td>自重</td>";
+						dataHtml += "<td>" + data.veWt + "</td>";
+						dataHtml += "</td></tr>";
+						dataHtml += "<tr><td>电话</td>";
+						dataHtml += "<td>" + data.linkTel + "</td>";
+						dataHtml += "</td></tr>";
+						dataHtml += "<tr><td>录入时间</td>";
+						dataHtml += "<td>" + data.inputDate + "</td>";
+						dataHtml += "</td></tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
+				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for (var i = 0; i < data.length; i++) {
+							dataHtml += "<tr>";
+							dataHtml += "<td>" + data[i].rtnTime + "</td>";
+							dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
+							dataHtml += "<td>" + data[i].rtnInfo + "</td>";
+							dataHtml += "</tr>";
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getDistHeadByInvtNo(invtNo, status) {
+				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.distNo + "</td>";
+						dataHtml += "<td>" + data.customsCode + "</td>";
+						dataHtml += "<td title='" + data.declCode + "'>" + data.declName + "</td>";
+						dataHtml += "<td>" + data.distStat + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "<thead><tr><th>录入日期</th><th>申报日期</th><th>退单原因</th><th>备注</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.inputDate + "</td>";
+						dataHtml += "<td>" + data.declDate + "</td>";
+						dataHtml += "<td>" + data.returnReason + "</td>";
+						dataHtml += "<td>" + data.note + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+		</script>
+
+		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
+			role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">历史状态</h4>
+					</div>
+					<div class="modal-body"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>搜索条件</h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a>
+								</li>
+								<li><a href="#">Settings 2</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form class="form-horizontal search-form" role="form" action="/dists" method="GET"
+							id="dist_form">
+						<input type="hidden" name="pageSize" th:value="${distHead.pageSize}" />
+						<input class="page-num" type="hidden" name="pageNum" th:value="${distHead.pageNum}" />
+						<div class="form-group">
+							<label class="col-sm-1 control-label">核放单号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="distNo" placeholder="核放单号"
+										th:value="${distHead.distNo}" />
+							</div>
+							<label class="col-sm-1 control-label">车牌号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="veNo" placeholder="车牌号"
+										th:value="${distHead.veNo}" />
+							</div>
+							<label class="col-sm-1 control-label">申报企业代码</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="declCode" placeholder="申报企业代码"
+										th:value="${distHead.declCode}" />
+							</div>
+							<label class="col-sm-1 control-label">申报企业名称</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="declName" placeholder="申报企业名称"
+										th:value="${distHead.declName}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">出入区标志</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="ieFlag">
+									<option th:each="flag : ${ieFlag}" th:value="${flag.key}"
+											th:text="${flag.key} + '-' + ${flag.value}"
+											th:selected="${flag.key == distHead.ieFlag} ? 'selected'"></option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">出入区方式</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="ieType">
+									<option th:each="type : ${ieType}" th:value="${type.key}"
+											th:text="${type.key} + '-' + ${type.value}"
+											th:selected="${type.key == distHead.ieType} ? 'selected'"></option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">录入开始时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="beginInputDate"
+											th:value="${distHead.beginInputDate}" placeholder="录入开始时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+							<label class="col-sm-1 control-label">录入结束时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="endInputDate"
+											th:value="${distHead.endInputDate}" placeholder="录入结束时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">录入时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="inputDateStr"
+											th:value="${distHead.inputDateStr}" placeholder="录入时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+							<label class="col-sm-1 control-label">申报关区</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="customsCode">
+									<option th:each="customs : ${customsCode}" th:value="${customs.key}"
+											th:text="${customs.key} + '-' + ${customs.value}"
+											th:selected="${customs.key == distHead.customsCode} ? 'selected'"></option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">核放单状态</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="distStat">
+									<option th:each="stat : ${distStat}" th:value="${stat.key}"
+											th:text="${stat.key} + '-' + ${stat.value}"
+											th:selected="${stat.key == distHead.distStat} ? 'selected'"></option>
+								</select>
+							</div>
+						</div>
+						<div class="pull-right form-group no-margin-right">
+							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
+							<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('dist_form')">重置</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_content" style="display: block; text-align: center;">
+					<button type="button" class="btn btn-round btn-dark"
+						th:onclick="'addFormParaQuery(\'dist_form\', \'distStat\', \'\')'">全部</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'dist_form\', \'distStat\', \'1\')'">保存</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'dist_form\', \'distStat\', \'2\')'">申报</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'dist_form\', \'distStat\', \'5\')'">审核通过</button>
+					<button type="button" class="btn btn-round btn-warning"
+						th:onclick="'addFormParaQuery(\'dist_form\', \'distStat\', \'6\')'">审核不通过</button>
+					<button type="button" class="btn btn-round btn-success"
+						th:onclick="'addFormParaQuery(\'dist_form\', \'distStat\', \'7\')'">载货单放行</button>
+					<button type="button" class="btn btn-round btn-success"
+							th:onclick="'addFormParaQuery(\'dist_form\', \'distStat\', \'8\')'">结案(车货解绑)</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'dist_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'dist_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'dist_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'dist_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'dist_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li><input type="number" class="input-lg change-page-num" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
+				<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'dist_form\', $(\'.change-page-num\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('dist_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+					</select>
+				</li>
+			</ul>
+			<table class="table table-striped jambo_table bulk_action">
+				<thead>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">核放单号</th>
+						<th class="column-title">车牌号</th>
+						<th class="column-title">出入区标志</th>
+						<th class="column-title">出入区方式</th>
+						<th class="column-title">总件数</th>
+						<th class="column-title">总毛重</th>
+						<th class="column-title">申报企业</th>
+						<th class="column-title">录入日期</th>
+						<th class="column-title">单据状态</th>
+						<th class="column-title">申报关区</th>
+						<th class="column-title">审批意见</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${distHeadList.empty}">
+						<td colspan="30">没有数据</td>
+					</tr>
+					<tr th:each="distHead,stat : ${distHeadList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
+						<td th:text="${stat.count}"></td>
+						<td th:text="${distHead.distNo}"></td>
+						<td th:text="${distHead.veNo}" th:onclick="'getVeHeadByVeNo(\'' + ${distHead.veNo} + '\')'"></td>
+						<td th:text="${ieFlag[distHead.ieFlag]}"></td>
+						<td th:text="${ieType[distHead.ieType]}"></td>
+						<td th:text="${distHead.totalPackNum}"></td>
+						<td th:text="${distHead.totalGrossWt}"></td>
+						<td th:title="${distHead.declCode}">
+							<a href="javascript:void(0)" th:text="${distHead.declName}"
+								th:onclick="'addFormParaQuery(\'dist_form\', \'declCode\', \'' + ${distHead.declCode} + '\')'"></a>
+						</td>
+						<td th:text="${#calendars.format(distHead.inputDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
+						<td th:switch="${distHead.distStat}">
+							<span th:case="1" class="btn btn-round btn-info btn-xs" th:text="${distStat[distHead.distStat]}"></span>
+							<span th:case="2" class="btn btn-round btn-warning btn-xs" th:text="${distStat[distHead.distStat]}"></span>
+							<span th:case="5" class="btn btn-round btn-success btn-xs" th:text="${distStat[distHead.distStat]}"></span>
+							<span th:case="6" class="btn btn-round btn-danger btn-xs" th:text="${distStat[distHead.distStat]}"></span>
+							<span th:case="7" class="btn btn-round btn-success btn-xs" th:text="${distStat[distHead.distStat]}"></span>
+							<span th:case="8" class="btn btn-success btn-round btn-xs" th:text="${distStat[distHead.distStat]}"></span>
+							<span th:case="*" class="btn btn-round btn-info btn-xs" th:text="${distStat[distHead.distStat]}"></span>
+						</td>
+						<td th:text="${customsCode[distHead.customsCode]}"></td>
+						<td th:text="${distHead.returnReason}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'dist_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'dist_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'dist_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'dist_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'dist_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li><input type="number" class="input-lg change-page-num-down" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
+				<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'dist_form\', $(\'.change-page-num-down\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('dist_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+					</select>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

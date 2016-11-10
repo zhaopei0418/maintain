@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
 
@@ -56,4 +57,8 @@ public interface VeHeadMapper extends Serializable {
 	})
 	@SelectProvider(type = VeHeadSqlProvide.class, method = "getVeHeadListSql")
 	List<VeHead> getVeHeadList(VeHead veHead);
+	
+	@ResultMap("veHeadResult")
+	@SelectProvider(type = VeHeadSqlProvide.class, method = "getVeHeadByVeNoSql")
+	VeHead getVeHeadByVeNo(String veNo);
 }

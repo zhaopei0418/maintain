@@ -1,11 +1,14 @@
 package online.zhaopei.myproject.service.para.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import online.zhaopei.myproject.domain.para.Para;
 import online.zhaopei.myproject.mapper.para.CustomsMapper;
 import online.zhaopei.myproject.service.para.CustomsService;
+import online.zhaopei.myproject.tool.common.ArrayTool;
 
 @Service
 public class CustomsServiceImpl implements CustomsService {
@@ -21,6 +24,16 @@ public class CustomsServiceImpl implements CustomsService {
 	@Override
 	public Para getCustomsByCode(String customsCode) {
 		return this.customsMapper.getCustomsByCode(customsCode);
+	}
+
+	@Override
+	public Map<String, String> getCustoms() {
+		return ArrayTool.mapFromListOfMap(this.customsMapper.getCustoms(), "customs_code", "abbr_cust");
+	}
+
+	@Override
+	public Long countCustoms() {
+		return this.customsMapper.countCustoms();
 	}
 
 }

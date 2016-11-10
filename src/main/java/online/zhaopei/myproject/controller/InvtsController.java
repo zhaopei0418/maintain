@@ -185,14 +185,13 @@ public class InvtsController extends BaseController {
 		invtHead.setBuyerIdTypeDesc(CommonConstant.getID_TYPE_MAP().get(invtHead.getBuyerIdType()));
 		invtHead.setAppStatusDesc(InvtHeadConstant.getAPP_STATUS_MAP().get(invtHead.getAppStatus()));
 		invtHead.setAppTypeDesc(CommonConstant.getAPP_TYPE_MAP().get(invtHead.getAppType()));
-		ParaTool paraTool = new ParaTool();
-		invtHead.setTradeModeDesc(paraTool.getTradeModeDesc(invtHead.getTradeMode(), this.tradeService));
-		invtHead.setCustomsCodeDesc(paraTool.getCustomsDesc(invtHead.getCustomsCode(), this.customsService));
-		invtHead.setPortCodeDesc(paraTool.getCustomsDesc(invtHead.getPortCode(), this.customsService));
-		invtHead.setCountryDesc(paraTool.getCountryDesc(invtHead.getCountry(), this.countryService));
-		invtHead.setCurrencyDesc(paraTool.getCurrDesc(invtHead.getCurrency(), this.currService));
-		invtHead.setWrapTypeDesc(paraTool.getWrapDesc(invtHead.getWrapType(), this.wrapService));
-		invtHead.setTrafModeDesc(paraTool.getTransfDesc(invtHead.getTrafMode(), this.transfService));
+		invtHead.setTradeModeDesc(ParaTool.getTradeModeDesc(invtHead.getTradeMode(), this.tradeService));
+		invtHead.setCustomsCodeDesc(ParaTool.getCustomsDesc(invtHead.getCustomsCode(), this.customsService));
+		invtHead.setPortCodeDesc(ParaTool.getCustomsDesc(invtHead.getPortCode(), this.customsService));
+		invtHead.setCountryDesc(ParaTool.getCountryDesc(invtHead.getCountry(), this.countryService));
+		invtHead.setCurrencyDesc(ParaTool.getCurrDesc(invtHead.getCurrency(), this.currService));
+		invtHead.setWrapTypeDesc(ParaTool.getWrapDesc(invtHead.getWrapType(), this.wrapService));
+		invtHead.setTrafModeDesc(ParaTool.getTransfDesc(invtHead.getTrafMode(), this.transfService));
 
 		List<InvtList> invtListList = this.invtListService.getInvtListListByHeadGuid(headGuid);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd kk:mm:ss.SSS").create();
@@ -252,7 +251,7 @@ public class InvtsController extends BaseController {
 			this.put("1", "待申报");
 			this.put("2", "已申报");
 		}});
-		mv.addObject("customsCodeMap", CommonConstant.getCUSTOMS_MAP());
+		mv.addObject("customsCodeMap", CommonConstant.getZBXC_CUSTOMS_MAP());
 		mv.addObject("distinctMap", new LinkedHashMap<String, String>(){{
 			this.put("", "不去重复");
 			this.put("1", "按电商及订单号去重");
@@ -285,7 +284,7 @@ public class InvtsController extends BaseController {
 			this.put("1", "待申报");
 			this.put("2", "已申报");
 		}});
-		mv.addObject("customsCodeMap", CommonConstant.getCUSTOMS_MAP());
+		mv.addObject("customsCodeMap", CommonConstant.getZBXC_CUSTOMS_MAP());
 		mv.addObject("distinctMap", new LinkedHashMap<String, String>(){{
 			this.put("", "不去重复");
 			this.put("1", "按电商及订单号去重");

@@ -1,6 +1,7 @@
 package online.zhaopei.myproject.tool.common;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import com.alibaba.druid.util.StringUtils;
 
@@ -21,7 +22,19 @@ public class ParaTool implements Serializable {
 	 */
 	private static final long serialVersionUID = 6915465654456254940L;
 
-	public String getCountryDesc(String countryCode, CountryService countryService) {
+	public static Map<String, String> getAllCustoms(CustomsService customsService) {
+		Map<String, String> customsMap = null;
+		Long count = customsService.countCustoms();
+		
+		if (count != CommonConstant.getCUSTOMS_MAP().size()) {
+			customsMap = customsService.getCustoms();
+			CommonConstant.getCURRENCY_MAP().clear();
+			CommonConstant.getCUSTOMS_MAP().putAll(customsMap);
+		}
+		return CommonConstant.getCUSTOMS_MAP();
+	}
+	
+	public static String getCountryDesc(String countryCode, CountryService countryService) {
 		String result = "";
 		Para para = null;
 		if (StringUtils.isEmpty(CommonConstant.getCOUNTRY_MAP().get(countryCode))) {
@@ -36,7 +49,7 @@ public class ParaTool implements Serializable {
 		return result;
 	}
 
-	public String getCurrDesc(String currCode, CurrService currService) {
+	public static String getCurrDesc(String currCode, CurrService currService) {
 		String result = "";
 		Para para = null;
 		if (StringUtils.isEmpty(CommonConstant.getCURRENCY_MAP().get(currCode))) {
@@ -51,7 +64,7 @@ public class ParaTool implements Serializable {
 		return result;
 	}
 
-	public String getTradeModeDesc(String tradeMode, TradeService tradeService) {
+	public static String getTradeModeDesc(String tradeMode, TradeService tradeService) {
 		String result = "";
 		Para para = null;
 		if (StringUtils.isEmpty(CommonConstant.getTRADE_MODE_MAP().get(tradeMode))) {
@@ -66,7 +79,7 @@ public class ParaTool implements Serializable {
 		return result;
 	}
 
-	public String getCustomsDesc(String customsCode, CustomsService customsService) {
+	public static String getCustomsDesc(String customsCode, CustomsService customsService) {
 		String result = "";
 		Para para = null;
 		if (StringUtils.isEmpty(CommonConstant.getCUSTOMS_MAP().get(customsCode))) {
@@ -81,7 +94,7 @@ public class ParaTool implements Serializable {
 		return result;
 	}
 
-	public String getWrapDesc(String wrapCode, WrapService wrapService) {
+	public static String getWrapDesc(String wrapCode, WrapService wrapService) {
 		String result = "";
 		Para para = null;
 		if (StringUtils.isEmpty(CommonConstant.getWRAP_TYPE_MAP().get(wrapCode))) {
@@ -96,7 +109,7 @@ public class ParaTool implements Serializable {
 		return result;
 	}
 
-	public String getUnitDesc(String unitCode, UnitService unitService) {
+	public static String getUnitDesc(String unitCode, UnitService unitService) {
 		String result = "";
 		Para para = null;
 		if (StringUtils.isEmpty(CommonConstant.getUNIT_MAP().get(unitCode))) {
@@ -111,7 +124,7 @@ public class ParaTool implements Serializable {
 		return result;
 	}
 
-	public String getTransfDesc(String transfCode, TransfService transfService) {
+	public static String getTransfDesc(String transfCode, TransfService transfService) {
 		String result = "";
 		Para para = null;
 		if (StringUtils.isEmpty(CommonConstant.getTRAF_MODE_MAP().get(transfCode))) {

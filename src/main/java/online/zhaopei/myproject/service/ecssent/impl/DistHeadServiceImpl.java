@@ -1,5 +1,7 @@
 package online.zhaopei.myproject.service.ecssent.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,11 @@ public class DistHeadServiceImpl implements DistHeadService {
 	@Override
 	public DistHead getDistHeadByInvtNo(String invtNo) {
 		return this.distHeadMapper.getDistHeadByInvtNo(invtNo);
+	}
+
+	@Override
+	public List<DistHead> getDistHeadList(DistHead distHead) {
+		return this.distHeadMapper.getDistHeadList(distHead);
 	}
 
 }
