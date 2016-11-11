@@ -10,4 +10,6 @@ public interface DistHeadService extends Serializable {
 	DistHead getDistHeadByInvtNo(String invtNo);
 	
 	List<DistHead> getDistHeadList(DistHead distHead);
+	
+	DistHead getDistHeadBySeqNo(String seqNo);
 }

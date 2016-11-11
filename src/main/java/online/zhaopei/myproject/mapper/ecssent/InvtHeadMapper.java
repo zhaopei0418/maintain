@@ -76,6 +76,10 @@ public interface InvtHeadMapper extends Serializable {
 	InvtHead getInvtHeadByHeadGuid(String headGuid);
 	
 	@ResultMap("invtHeadResult")
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadByInvtNoSql")
+	InvtHead getInvtHeadByInvtNo(String invtNo);
+	
+	@ResultMap("invtHeadResult")
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getDeclareTopTenSql")
 	List<InvtHead> getDeclareTopTen(InvtHead invtHead);
 	

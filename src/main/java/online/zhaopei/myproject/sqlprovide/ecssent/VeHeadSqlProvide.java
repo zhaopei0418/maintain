@@ -113,7 +113,7 @@ public class VeHeadSqlProvide implements Serializable {
 			if (!StringUtils.isEmpty(veNo)) {
 				this.WHERE("ve_no = '" + veNo + "'");
 			} else {
-				this.WHERE("false");
+				this.WHERE("1 = 2");
 			}
 		}}.toString();
  	}

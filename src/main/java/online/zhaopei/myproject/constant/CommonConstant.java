@@ -27,6 +27,8 @@ public enum CommonConstant implements Serializable {
 	private static Map<String, String> TRAF_MODE_MAP = new HashMap<String, String>();
 
 	private static Map<String, String> TRADE_MODE_MAP = new HashMap<String, String>();
+	
+	private static Map<String, String> ZBXC_TRADE_MODE_MAP = new HashMap<String, String>();
 
 	private static Map<String, String> TRAF_NO_MAP = new HashMap<String, String>();
 
@@ -66,6 +68,10 @@ public enum CommonConstant implements Serializable {
 		PIE_COLORS.add("#E74C3C");
 		PIE_COLORS.add("#EC971F");
 		PIE_COLORS.add("#DE18CA");
+		
+		ZBXC_TRADE_MODE_MAP.put("", "所有");
+		ZBXC_TRADE_MODE_MAP.put("1210", "保税电商");
+		ZBXC_TRADE_MODE_MAP.put("9610", "电子商务");
 	}
 
 	private CommonConstant(String value) {
@@ -123,5 +129,9 @@ public enum CommonConstant implements Serializable {
 
 	public static Map<String, String> getZBXC_CUSTOMS_MAP() {
 		return ZBXC_CUSTOMS_MAP;
+	}
+
+	public static Map<String, String> getZBXC_TRADE_MODE_MAP() {
+		return ZBXC_TRADE_MODE_MAP;
 	}
 }

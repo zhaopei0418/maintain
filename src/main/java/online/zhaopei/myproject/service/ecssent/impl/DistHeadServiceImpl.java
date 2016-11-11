@@ -30,4 +30,9 @@ public class DistHeadServiceImpl implements DistHeadService {
 		return this.distHeadMapper.getDistHeadList(distHead);
 	}
 
+	@Override
+	public DistHead getDistHeadBySeqNo(String seqNo) {
+		return this.distHeadMapper.getDistHeadBySeqNo(seqNo);
+	}
+
 }

@@ -113,4 +113,37 @@ public class DistHeadSqlProvide implements Serializable {
 			
 		}}.toString();
 	}
+	
+	public String getDistHeadBySeqNoSql(final String seqNo) {
+		return new SQL() {{
+			this.SELECT("pdh.seq_no");
+			this.SELECT("pdh.dist_no");
+			this.SELECT("pdh.cop_dist_no");
+			this.SELECT("pdh.dist_type");
+			this.SELECT("pdh.dist_stat");
+			this.SELECT("pdh.customs_code");
+			this.SELECT("pdh.i_e_flag");
+			this.SELECT("pdh.i_e_type");
+			this.SELECT("pdh.total_pack_num");
+			this.SELECT("pdh.total_gross_wt");
+			this.SELECT("pdh.decl_code");
+			this.SELECT("pdh.decl_name");
+			this.SELECT("pdh.input_person");
+			this.SELECT("pdh.input_date");
+			this.SELECT("pdh.district_code");
+			this.SELECT("pdh.discharge_code");
+			this.SELECT("pdh.return_reason");
+			this.SELECT("pdh.cfs_code");
+			this.SELECT("pdh.i_e_port");
+			this.SELECT("pdh.note");
+			this.SELECT("pdvl.ve_no");
+			this.FROM("pre_dist_head pdh");
+			this.LEFT_OUTER_JOIN("pre_dist_ve_list pdvl on pdh.seq_no = pdvl.seq_no");
+			if (!StringUtils.isEmpty(seqNo)) {
+				this.WHERE("pdh.seq_no = '" + seqNo + "'");
+			} else {
+				this.WHERE("1 = 2");
+			}
+		}}.toString();
+	}
 }

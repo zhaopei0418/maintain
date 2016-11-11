@@ -3,10 +3,13 @@ package online.zhaopei.myproject.mapper.ecssent;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Many;
+import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.mapping.FetchType;
 
 import online.zhaopei.myproject.domain.ecssent.DistHead;
 import online.zhaopei.myproject.sqlprovide.ecssent.DistHeadSqlProvide;
@@ -46,6 +49,12 @@ public interface DistHeadMapper extends Serializable {
 		@Result(property = "returnReason", column = "return_reason"),
 		@Result(property = "iePort", column = "i_e_port"),
 		@Result(property = "veNo", column = "ve_no"),
+//		@Result(property = "veHead", column = "ve_no",
+//				one = @One(fetchType = FetchType.LAZY,
+//					select = "online.zhaopei.myproject.mapper.ecssent.VeHeadMapper.getVeHeadByVeNo")),
+		@Result(property = "distBillListList", column = "seq_no",
+				many = @Many(fetchType = FetchType.LAZY,
+					select = "online.zhaopei.myproject.mapper.ecssent.DistBillListMapper.getDistBillListList"))
 	})
 	@SelectProvider(type = DistHeadSqlProvide.class, method = "getDistHeadByInvtNoSql")
 	DistHead getDistHeadByInvtNo(String invtNo);
@@ -53,4 +62,8 @@ public interface DistHeadMapper extends Serializable {
 	@ResultMap("distHeadResult")
 	@SelectProvider(type = DistHeadSqlProvide.class, method = "getDistHeadListSql")
 	List<DistHead> getDistHeadList(DistHead distHead);
+	
+	@ResultMap("distHeadResult")
+	@SelectProvider(type = DistHeadSqlProvide.class, method = "getDistHeadBySeqNoSql")
+	DistHead getDistHeadBySeqNo(String seqNo);
 }

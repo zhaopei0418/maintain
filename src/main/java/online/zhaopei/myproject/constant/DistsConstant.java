@@ -14,6 +14,10 @@ public enum DistsConstant implements Serializable {
 	
 	private static Map<String, String> DIST_STAT = new HashMap<String, String>();
 	
+	private static Map<String, String> DISTRICT_CODE = new HashMap<String, String>();
+	
+	private static Map<String, String> DIST_TYPE = new HashMap<String, String>();
+	
 	static {
 		I_E_FLAG.put("", "全部");
 		I_E_FLAG.put("1", "出区");
@@ -34,6 +38,20 @@ public enum DistsConstant implements Serializable {
 		DIST_STAT.put("6", "审核不通过");
 		DIST_STAT.put("7", "载货单放行");
 		DIST_STAT.put("8", "结案(车货解绑)");
+		
+		DISTRICT_CODE.put("", "所有");
+		DISTRICT_CODE.put("CD00", "陆港/机场区外");
+		DISTRICT_CODE.put("RE33", "陆港卡口");
+		DISTRICT_CODE.put("ZZ01", "综保/德众区外");
+		DISTRICT_CODE.put("ZZ04", "河南保税");
+		DISTRICT_CODE.put("ZZ05", "出口加工区");
+		DISTRICT_CODE.put("ZZ06", "河南德众");
+		DISTRICT_CODE.put("ZZ09", "综保区内一卡口");
+		DISTRICT_CODE.put("RE24", "机场");
+		
+		DIST_TYPE.put("", "所有");
+		DIST_TYPE.put("1", "普通业务");
+		DIST_TYPE.put("2", "在途业务");
 	}
 	
 	private String value;
@@ -58,5 +76,12 @@ public enum DistsConstant implements Serializable {
 	public static Map<String, String> getDIST_STAT() {
 		return DIST_STAT;
 	}
-	
+
+	public static Map<String, String> getDISTRICT_CODE() {
+		return DISTRICT_CODE;
+	}
+
+	public static Map<String, String> getDIST_TYPE() {
+		return DIST_TYPE;
+	}
 }

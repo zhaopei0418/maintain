@@ -47,6 +47,50 @@ public class InvtHeadSqlProvide implements Serializable {
 		}};
 	}
 	
+	public String getInvtHeadByInvtNoSql(final String invtNo) {
+		final InvtHeadSqlProvide self = this;
+		return new SQL() {{
+			for(String field : self.selectField()) {
+				this.SELECT(field);
+			}
+			this.SELECT("app_type");
+			this.SELECT("port_code");
+			this.SELECT("ebp_code");
+			this.SELECT("ebp_name");
+			this.SELECT("ie_date");
+			this.SELECT("loct_no");
+			this.SELECT("ems_no");
+			this.SELECT("buyer_name");
+			this.SELECT("country");
+			this.SELECT("traf_no");
+			this.SELECT("wrap_type");
+			this.SELECT("pack_no");
+			this.SELECT("buyer_id_type");
+			this.SELECT("consignee_address");
+			this.SELECT("voyage_no");
+			this.SELECT("assure_code");
+			this.SELECT("gross_weight");
+			this.SELECT("buyer_id_number");
+			this.SELECT("license_no");
+			this.SELECT("bill_no");
+			this.SELECT("insured_fee");
+			this.SELECT("net_weight");
+			this.SELECT("buyer_telephone");
+			this.SELECT("traf_mode");
+			this.SELECT("freight");
+			this.SELECT("currency");
+			this.SELECT("note");
+			this.FROM("ceb2_invt_head");
+			
+			if (!StringUtils.isEmpty(invtNo)) {
+				this.WHERE("head_guid = '" + invtNo + "'");
+			} else {
+				this.WHERE("1 = 2");
+			}
+			
+		}}.toString();
+	}
+	
 	public String getInvtHeadByHeadGuidSql(final String headGuid) {
 		final InvtHeadSqlProvide self = this;
 		return new SQL() {{

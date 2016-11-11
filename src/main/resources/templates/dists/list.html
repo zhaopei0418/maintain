@@ -391,7 +391,9 @@
 					</tr>
 					<tr th:each="distHead,stat : ${distHeadList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
 						<td th:text="${stat.count}"></td>
-						<td th:text="${distHead.distNo}"></td>
+						<td title="点击查看详情">
+							<a th:href="'/dists/' + ${distHead.seqNo}" th:text="${distHead.distNo}"></a>
+						</td>
 						<td th:text="${distHead.veNo}" th:onclick="'getVeHeadByVeNo(\'' + ${distHead.veNo} + '\')'"></td>
 						<td th:text="${ieFlag[distHead.ieFlag]}"></td>
 						<td th:text="${ieType[distHead.ieType]}"></td>

@@ -1,6 +1,7 @@
 package online.zhaopei.myproject.domain.ecssent;
 
 import java.util.Date;
+import java.util.List;
 
 import online.zhaopei.myproject.domain.BaseDomain;
 
@@ -80,6 +81,10 @@ public class DistHead extends BaseDomain {
 	private String searchText;
 	
 	private String veNo;
+	
+	private VeHead veHead;
+	
+	private List<DistBillList> distBillListList;
 
 	public String getSeqNo() {
 		return seqNo;
@@ -359,5 +364,21 @@ public class DistHead extends BaseDomain {
 
 	public void setInputDateStr(String inputDateStr) {
 		this.inputDateStr = inputDateStr;
+	}
+
+	public VeHead getVeHead() {
+		return veHead;
+	}
+
+	public void setVeHead(VeHead veHead) {
+		this.veHead = veHead;
+	}
+
+	public List<DistBillList> getDistBillListList() {
+		return distBillListList;
+	}
+
+	public void setDistBillListList(List<DistBillList> distBillListList) {
+		this.distBillListList = distBillListList;
 	}
 }

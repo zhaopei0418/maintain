@@ -1,0 +1,279 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>核放单管理:核放单单详情</title>
+</head>
+<body>
+	<div layout:fragment="header">
+		<div class="title_left">
+			<h3>核放单详情</h3>
+		</div>
+	</div>
+	<div layout:fragment="content">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_content">
+					<div class="" role="tabpanel" data-example-id="togglable-tabs">
+						<ul class="nav nav-tabs bar_tabs" role="tablist">
+							<li role="presentation" class="active">
+								<a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">
+									核放单表头
+								</a>
+							</li>
+							<li role="presentation" class="">
+								<a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">核放单表体</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">核放单号</a>
+											<p th:if="${null != distHead.distNo}" th:text="${distHead.distNo}"></p>
+											<p th:if="${null == distHead.distNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报地海关</a>
+											<p th:if="${null != distHead.customsCode}" th:text="${customsCode[distHead.customsCode]} + '[' + ${distHead.customsCode} + ']'"></p>
+											<p th:if="${null == distHead.customsCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">总件数</a>
+											<p th:if="${null != distHead.totalPackNum}" th:text="${distHead.totalPackNum}"></p>
+											<p th:if="${null == distHead.totalPackNum}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">总货值</a>
+											<p th:if="${null != distHead.totalGValue}" th:text="${distHead.totalGValue}"></p>
+											<p th:if="${null == distHead.totalGValue}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">起始地</a>
+											<p th:if="${null != distHead.districtCode}" th:text="${districtCode[distHead.districtCode]} + '[' + ${distHead.districtCode} + ']'"></p>
+											<p th:if="${null == distHead.districtCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">业务现场代码</a>
+											<p th:if="${null != distHead.cfsCode}" th:text="${distHead.cfsCode}"></p>
+											<p th:if="${null == distHead.cfsCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">审批意见</a>
+											<p th:if="${null != distHead.returnReason}" th:text="${distHead.returnReason}"></p>
+											<p th:if="${null == distHead.returnReason}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">车牌号</a>
+											<p th:if="${null != distHead.veNo}" th:text="${distHead.veNo}"></p>
+											<p th:if="${null == distHead.veNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">车辆所属单位</a>
+											<p th:if="${null != distHead.veHead && null != distHead.veHead.veCopName}" th:text="${distHead.veHead.veCopName}"></p>
+											<p th:if="${null == distHead.veHead || null == distHead.veHead.veCopName}">无信息</p>
+										</div>
+									</article>
+								</div>
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">出入区标志</a>
+											<p th:if="${null != distHead.ieFlag}" th:text="${ieFlag[distHead.ieFlag]} + '[' + ${distHead.ieFlag} + ']'"></p>
+											<p th:if="${null == distHead.ieFlag}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报单位代码</a>
+											<p th:if="${null != distHead.declCode}" th:text="${distHead.declCode}"></p>
+											<p th:if="${null == distHead.declCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">总毛重</a>
+											<p th:if="${null != distHead.totalGrossWt}" th:text="${distHead.totalGrossWt}"></p>
+											<p th:if="${null == distHead.totalGrossWt}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">操作员</a>
+											<p th:if="${null != distHead.inputPerson}" th:text="${distHead.inputPerson}"></p>
+											<p th:if="${null == distHead.inputPerson}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">目的地</a>
+											<p th:if="${null != distHead.dischargeCode}" th:text="${districtCode[distHead.dischargeCode]} + '[' + ${distHead.dischargeCode} + ']'"></p>
+											<p th:if="${null == distHead.dischargeCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">单据内部编号</a>
+											<p th:if="${null != distHead.copDistNo}" th:text="${distHead.copDistNo}"></p>
+											<p th:if="${null == distHead.copDistNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">进口口岸</a>
+											<p th:if="${null != distHead.iePort}" th:text="${iePort[distHead.iePort]} + '[' + ${distHead.iePort} + ']'"></p>
+											<p th:if="${null == distHead.iePort}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">IC卡号</a>
+											<p th:if="${null != distHead.veHead && null != distHead.veHead.icCardId}" th:text="${distHead.veHead.icCardId}"></p>
+											<p th:if="${null == distHead.veHead || null == distHead.veHead.icCardId}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">车辆自重</a>
+											<p th:if="${null != distHead.veHead && null != distHead.veHead.veWt}" th:text="${distHead.veHead.veWt}"></p>
+											<p th:if="${null == distHead.veHead || null == distHead.veHead.veWt}">无信息</p>
+										</div>
+									</article>
+								</div>
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">出入区方式</a>
+											<p th:if="${null != distHead.ieType}" th:text="${distHead.ieType}"></p>
+											<p th:if="${null == distHead.ieType}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报单位名称</a>
+											<p th:if="${null != distHead.declName}" th:text="${distHead.declName}"></p>
+											<p th:if="${null == distHead.declName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">总净重</a>
+											<p th:if="${null != distHead.totalNetWt}" th:text="${distHead.totalNetWt}"></p>
+											<p th:if="${null == distHead.totalNetWt}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">录入时间</a>
+											<p th:if="${null != distHead.inputDate}" th:text="${#calendars.format(distHead.inputDate, 'YYYY-MM-dd HH:mm:ss')}"></p>
+											<p th:if="${null == distHead.inputDate}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">运载方式</a>
+											<p th:if="${null != distHead.distType}" th:text="${distType[distHead.distType]} + '[' + ${distHead.distType} + ']'"></p>
+											<p th:if="${null == distHead.distType}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报时间</a>
+											<p th:if="${null != distHead.declDate}" th:text="${#calendars.format(distHead.declDate, 'YYYY-MM-dd HH:mm:ss')}"></p>
+											<p th:if="${null == distHead.declDate}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">备注</a>
+											<p th:if="${null != distHead.note}" th:text="${note[distHead.note]} + '[' + ${distHead.note} + ']'"></p>
+											<p th:if="${null == distHead.note}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电子车牌号</a>
+											<p th:if="${null != distHead.veHead && null != distHead.veHead.veEno}" th:text="${distHead.veHead.veEno}"></p>
+											<p th:if="${null == distHead.veHead || null == distHead.veHead.veEno}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">行驶证号</a>
+											<p th:if="${null != distHead.veHead && null != distHead.veHead.veRunNum}" th:text="${distHead.veHead.veRunNum}"></p>
+											<p th:if="${null == distHead.veHead || null == distHead.veHead.veRunNum}">无信息</p>
+										</div>
+									</article>
+								</div>
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="x_panel">
+										<div class="x_content">
+											<div id="datatable-responsive_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+												<div class="row">
+													<div class="col-sm-12">
+														<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
+																cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
+															<thead>
+																<tr role="row">
+																	<th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1">单据编号</th>
+																	<th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1">毛重</th>
+																	<th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1">净重</th>
+																	<th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1">运抵标志</th>
+																	<th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1">经营单位</th>
+																	<th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1">贸易方式</th>
+																	<th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1">单据状态</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each="distBill : ${distHead.distBillListList}" role="row" class="odd">
+																	<td th:text="${distBill.billNo}"></td>
+																	<td th:text="${distBill.grossWt}"></td>
+																	<td th:text="${distBill.netWt}"></td>
+																	<td th:text="${distBill.arrivalFlag}"></td>
+																	<td th:text="${distBill.tradeName}" th:title="${distBill.tradeCode}"></td>
+																	<td th:text="${tradeMode[distBill.tradeMode]} + '[' + ${distBill.tradeMode} + ']'"></td>
+																	<td th:text="${distBill.decStatus}"></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function() {
+				$("#datatable-responsive").DataTable({
+					language: language
+				});
+			});
+		</script>
+	</div>
+</body>
+</html>
