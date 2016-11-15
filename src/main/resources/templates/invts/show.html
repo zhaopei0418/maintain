@@ -2,317 +2,434 @@
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	layout:decorate="layout">
 <head>
-<title>清单管理:清单详情</title>
+<title>清单管理 > 清单详情</title>
 </head>
 <body>
-	<h1 layout:fragment="header">清单详情</h1>
-	<div layout:fragment="content" class="container-fluid">
-		<script type="text/javascript">
-			switchActiveMenu("invt_man");
-
-			function getGoodsDetailByCount(invtListList, count) {
-				$("#goods_detail").modal("show");
-				var dataHtml = "<table class='table table-bordered table-striped table-hover'>";
-				dataHtml += "<thead><tr><th>属性</th><th>值</th><th>属性</th><th>值</th></thead>";
-				dataHtml += "<tbody>";
-				var data = invtListList[count];
-				if (null != data) {
-					dataHtml += "<tr><th>商口序号</th>";
-					dataHtml += "<td>" + data.gNum + "</td>";
-					dataHtml += "<th>企业商品名称</th>"
-					dataHtml += "<td>" + data.itemName + "</td></tr>";
-					dataHtml += "<tr><th>商品编码</th>";
-					dataHtml += "<td>" + data.gCode + "</td>";
-					dataHtml += "<th>规格型号</th>"
-					dataHtml += "<td>" + data.gModel + "</td></tr>";
-					dataHtml += "<tr><th>商品货号</th>";
-					dataHtml += "<td>" + data.itemNo + "</td>";
-					dataHtml += "<th>商品名称</th>"
-					dataHtml += "<td>" + data.gName + "</td></tr>";
-					dataHtml += "<tr><th>商品条码</th>";
-					dataHtml += "<td>" + data.barCode + "</td>";
-					dataHtml += "<th>原产国（地区）</th>"
-					dataHtml += "<td>" + data.country + "</td></tr>";
-					dataHtml += "<tr><th>数量</th>";
-					dataHtml += "<td>" + data.qty + "</td>";
-					dataHtml += "<th>计量单位</th>"
-					dataHtml += "<td>" + data.unit + "</td></tr>";
-					dataHtml += "<tr><th>法定数量</th>";
-					dataHtml += "<td>" + data.qty1 + "</td>";
-					dataHtml += "<th>法定单位</th>"
-					dataHtml += "<td>" + data.unit1 + "</td></tr>";
-					dataHtml += "<tr><th>第二法定数量</th>";
-					dataHtml += "<td>" + data.qty2 + "</td>";
-					dataHtml += "<th>第二法定单位</th>"
-					dataHtml += "<td>" + data.unit2 + "</td></tr>";
-					dataHtml += "<tr><th>单价</th>";
-					dataHtml += "<td>" + data.price + "</td>";
-					dataHtml += "<th>总价</th>"
-					dataHtml += "<td>" + data.totalPrice + "</td></tr>";
-					dataHtml += "<tr><th>币制</th>";
-					dataHtml += "<td>" + data.currency + "</td>";
-					dataHtml += "<th>账册备案料号</th>"
-					dataHtml += "<td>" + data.itemRecordNo + "</td></tr>";
-					dataHtml += "<tr><th>备注</th>";
-					dataHtml += "<td colspan='3'>" + data.note + "</td></tr>";
-				}
-				dataHtml += "</tbody>";
-				dataHtml += "</table>";
-				
-				$("#goods_detail .modal-body").html(dataHtml);
-			}
-		</script>
-		<div class="table align-right">
-			<a class="btn btn-default" th:href="@{/invts}">返回清单列表</a>
+	<div layout:fragment="header">
+		<div class="title_left">
+			<h3>清单详情</h3>
 		</div>
-		<div id="goods_detail" class="modal fade bs-example-modal-sm" tabindex="-1"
-			role="dialog" aria-labelledby="mySmallModalLabel">
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">
-							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-						</button>
-						<h4 class="modal-title">商品详情</h4>
+	</div>
+	<div layout:fragment="content">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<a class="btn btn-default" href="/invts">返回清单列表</a>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="" role="tabpanel" data-example-id="togglable-tabs">
+						<ul class="nav nav-tabs bar_tabs" role="tablist">
+							<li role="presentation" class="active">
+								<a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">
+									清单表头
+								</a>
+							</li>
+							<li role="presentation" class="">
+								<a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">
+									清单表体
+								</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">预录入编号</a>
+											<p th:if="${null != invtHead.preNo}" th:text="${invtHead.preNo}"></p>
+											<p th:if="${null == invtHead.preNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">业务状态</a>
+											<p th:if="${null != invtHead.appStatus}" th:text="${appStatus[invtHead.appStatus]} + '[' + ${invtHead.appStatus} + ']'"></p>
+											<p th:if="${null == invtHead.appStatus}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">进口口岸</a>
+											<p th:if="${null != invtHead.portCode}" th:text="${portCode[invtHead.portCode]} + '[' + ${invtHead.portCode} + ']'"></p>
+											<p th:if="${null == invtHead.portCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报企业名称</a>
+											<p th:if="${null != invtHead.agentName}" th:text="${invtHead.agentName}"></p>
+											<p th:if="${null == invtHead.agentName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电商企业代码</a>
+											<p th:if="${null != invtHead.ebcCode}" th:text="${invtHead.ebcCode}"></p>
+											<p th:if="${null == invtHead.ebcCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电商平台名称</a>
+											<p th:if="${null != invtHead.ebpName}" th:text="${invtHead.ebpName}"></p>
+											<p th:if="${null == invtHead.ebpName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">物流企业名称</a>
+											<p th:if="${null != invtHead.logisticsName}" th:text="${invtHead.logisticsName}"></p>
+											<p th:if="${null == invtHead.logisticsName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">区内企业名称</a>
+											<p th:if="${null != invtHead.areaName}" th:text="${invtHead.areaName}"></p>
+											<p th:if="${null == invtHead.areaName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订购人</a>
+											<p th:if="${null != invtHead.buyerName}" th:text="${invtHead.buyerName}"></p>
+											<p th:if="${null == invtHead.buyerName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订购人电话</a>
+											<p th:if="${null != invtHead.buyerTelephone}" th:text="${invtHead.buyerTelephone}"></p>
+											<p th:if="${null == invtHead.buyerTelephone}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">收货人地址</a>
+											<p th:if="${null != invtHead.consigneeAddress}" th:text="${invtHead.consigneeAddress}"></p>
+											<p th:if="${null == invtHead.consigneeAddress}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">航班航次号</a>
+											<p th:if="${null != invtHead.voyageNo}" th:text="${invtHead.voyageNo}"></p>
+											<p th:if="${null == invtHead.voyageNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">币制</a>
+											<p th:if="${null != invtHead.currency}" th:text="${invtHead.currency}"></p>
+											<p th:if="${null == invtHead.currency}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">包装种类</a>
+											<p th:if="${null != invtHead.wrapType}" th:text="${invtHead.wrapType}"></p>
+											<p th:if="${null == invtHead.wrapType}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">净重</a>
+											<p th:if="${null != invtHead.netWeight}" th:text="${invtHead.netWeight}"></p>
+											<p th:if="${null == invtHead.netWeight}">无信息</p>
+										</div>
+									</article>
+								</div>
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">清单号</a>
+											<p th:if="${null != invtHead.invtNo}" th:text="${invtHead.invtNo}"></p>
+											<p th:if="${null == invtHead.invtNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">物流状态</a>
+											<p th:if="${null != invtHead.distStatus}" th:text="${distStatus[invtHead.distStatus]} + '[' + ${invtHead.distStatus} + ']'"></p>
+											<p th:if="${null == invtHead.distStatus}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">企业内部编号</a>
+											<p th:if="${null != invtHead.copNo}" th:text="${invtHead.copNo}"></p>
+											<p th:if="${null == invtHead.copNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">入库时间</a>
+											<p th:if="${null != invtHead.sysDate}" th:text="${#calendars.format(invtHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></p>
+											<p th:if="${null == invtHead.sysDate}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">进口日期</a>
+											<p th:if="${null != invtHead.ieDate}" th:text="${#calendars.format(invtHead.ieDate, 'YYYY-MM-dd HH:mm:ss')}"></p>
+											<p th:if="${null == invtHead.ieDate}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电商企业名称</a>
+											<p th:if="${null != invtHead.ebcName}" th:text="${invtHead.ebcName}"></p>
+											<p th:if="${null == invtHead.ebcName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订单编号</a>
+											<p th:if="${null != invtHead.orderNo}" th:text="${invtHead.orderNo}"></p>
+											<p th:if="${null == invtHead.orderNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">物流运单号</a>
+											<p th:if="${null != invtHead.logisticsNo}" th:text="${invtHead.logisticsNo}"></p>
+											<p th:if="${null == invtHead.logisticsNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">账册编号</a>
+											<p th:if="${null != invtHead.emsNo}" th:text="${invtHead.emsNo}"></p>
+											<p th:if="${null == invtHead.emsNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订购人证件类型</a>
+											<p th:if="${null != invtHead.buyerIdType}" th:text="${idType[invtHead.buyerIdType]} + '[' + ${invtHead.buyerIdType} + ']'"></p>
+											<p th:if="${null == invtHead.buyerIdType}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">启运国</a>
+											<p th:if="${null != invtHead.country}" th:text="${country[invtHead.country]} + '[' + ${invtHead.country} + ']'"></p>
+											<p th:if="${null == invtHead.country}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">运输方式</a>
+											<p th:if="${null != invtHead.trafMode}" th:text="${invtHead.trafMode}"></p>
+											<p th:if="${null == invtHead.trafMode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">提运单号</a>
+											<p th:if="${null != invtHead.billNo}" th:text="${invtHead.billNo}"></p>
+											<p th:if="${null == invtHead.billNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">保费</a>
+											<p th:if="${null != invtHead.insuredFee}" th:text="${invtHead.insuredFee}"></p>
+											<p th:if="${null == invtHead.insuredFee}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">件数</a>
+											<p th:if="${null != invtHead.packNo}" th:text="${invtHead.packNo}"></p>
+											<p th:if="${null == invtHead.packNo}">无信息</p>
+										</div>
+									</article>
+								</div>
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报类型</a>
+											<p th:if="${null != invtHead.appType}" th:text="${appType[invtHead.appType]} + '[' + ${invtHead.appType} + ']'"></p>
+											<p th:if="${null == invtHead.appType}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报地海关</a>
+											<p th:if="${null != invtHead.customsCode}" th:text="${customsCode[invtHead.customsCode]} + '[' + ${invtHead.customsCode} + ']'"></p>
+											<p th:if="${null == invtHead.customsCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报企业代码</a>
+											<p th:if="${null != invtHead.agentCode}" th:text="${invtHead.agentCode}"></p>
+											<p th:if="${null == invtHead.agentCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">贸易方式</a>
+											<p th:if="${null != invtHead.tradeMode}" th:text="${tradeMode[invtHead.tradeMode]} + '[' + ${invtHead.tradeMode} + ']'"></p>
+											<p th:if="${null == invtHead.tradeMode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电商平台代码</a>
+											<p th:if="${null != invtHead.ebpCode}" th:text="${invtHead.ebpCode}"></p>
+											<p th:if="${null == invtHead.ebpCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">物流企业代码</a>
+											<p th:if="${null != invtHead.logisticsCode}" th:text="${invtHead.logisticsCode}"></p>
+											<p th:if="${null == invtHead.logisticsCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">区内企业代码</a>
+											<p th:if="${null != invtHead.areaCode}" th:text="${invtHead.areaCode}"></p>
+											<p th:if="${null == invtHead.areaCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">监管场所代码</a>
+											<p th:if="${null != invtHead.loctNo}" th:text="${invtHead.loctNo}"></p>
+											<p th:if="${null == invtHead.loctNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订购人证件号码</a>
+											<p th:if="${null != invtHead.buyerIdNumber}" th:text="${invtHead.buyerIdNumber}"></p>
+											<p th:if="${null == invtHead.buyerIdNumber}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">许可证号</a>
+											<p th:if="${null != invtHead.licenseNo}" th:text="${invtHead.licenseNo}"></p>
+											<p th:if="${null == invtHead.licenseNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">运输工具编号</a>
+											<p th:if="${null != invtHead.trafNo}" th:text="${invtHead.trafNo}"></p>
+											<p th:if="${null == invtHead.trafNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">运费</a>
+											<p th:if="${null != invtHead.freight}" th:text="${invtHead.freight}"></p>
+											<p th:if="${null == invtHead.freight}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">担保企业代码</a>
+											<p th:if="${null != invtHead.assureCode}" th:text="${invtHead.assureCode}"></p>
+											<p th:if="${null == invtHead.assureCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">毛重</a>
+											<p th:if="${null != invtHead.grossWeight}" th:text="${invtHead.grossWeight}"></p>
+											<p th:if="${null == invtHead.grossWeight}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">备注</a>
+											<p th:if="${null != invtHead.note}" th:text="${invtHead.note}"></p>
+											<p th:if="${null == invtHead.note}">无信息</p>
+										</div>
+									</article>
+								</div>
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="x_panel">
+										<div class="x_content">
+											<table id="datatable-responsive" th:title="${invtHead.headGuid}" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+												<thead>
+													<tr>
+														<th>商品序号</th>
+														<th>商品名称</th>
+														<th>商品编码</th>
+														<th>商品货号</th>
+														<th>数量</th>
+														<th>计量单位</th>
+														<th>单价</th>
+														<th>总价</th>
+														<th>币制</th>
+														<th>原产国</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+												<tfoot>
+													<tr>
+														<th>商品序号</th>
+														<th>商品名称</th>
+														<th>商品编码</th>
+														<th>商品货号</th>
+														<th>数量</th>
+														<th>计量单位</th>
+														<th>单价</th>
+														<th>总价</th>
+														<th>币制</th>
+														<th>原产国</th>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="modal-body"></div>
 				</div>
 			</div>
 		</div>
-		<ul id="myTab" class="nav nav-tabs">
-			<li class="active">
-				<a href="#invt_head" data-toggle="tab">表头信息</a>
-			</li>
-			<li>
-				<a href="#invt_list" data-toggle="tab">
-					表体信息
-					<span class="badge" th:text="${count}"></span>
-				</a>
-			</li>
-		</ul>
-		<div id="myTabContent" class="tab-content">
-			<div class="tab-pane fade in active" id="invt_head" style="margin-right: -15px;">
-				<div class="list-group col-sm-3">
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">预录入编号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.copNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">企业内部编号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.invtNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">申报企业代码</h4>
-						<p class="list-group-item-text" th:text="${invtHead.agentCode}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">电商企业代码</h4>
-						<p class="list-group-item-text" th:text="${invtHead.ebcCode}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">订单编号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.orderNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">账册编号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.emsNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">订购人</h4>
-						<p class="list-group-item-text" th:text="${invtHead.buyerName}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">启运国（地区）</h4>
-						<p class="list-group-item-text" th:text="${invtHead.countryDesc} + '[' + ${invtHead.country} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">运输工具编号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.trafNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">包装种类</h4>
-						<p class="list-group-item-text" th:text="${invtHead.wrapTypeDesc} + '[' + ${invtHead.wrapType} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">件数</h4>
-						<p class="list-group-item-text" th:text="${invtHead.packNo}"></p>
-					</a>
-				</div>
-				<div class="list-group col-sm-3">
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">海关清单号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.invtNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">申报地海关</h4>
-						<p class="list-group-item-text" th:text="${invtHead.customsCodeDesc} + '[' + ${invtHead.customsCode} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">申报企业名称</h4>
-						<p class="list-group-item-text" th:text="${invtHead.agentName}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">电商企业名称</h4>
-						<p class="list-group-item-text" th:text="${invtHead.ebcName}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">物流企业代码</h4>
-						<p class="list-group-item-text" th:text="${invtHead.logisticsCode}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">监管场所代码</h4>
-						<p class="list-group-item-text" th:text="${invtHead.loctNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">订购人证件类型</h4>
-						<p class="list-group-item-text" th:text="${invtHead.buyerIdTypeDesc} + '[' + ${invtHead.buyerIdType} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">收货人地址</h4>
-						<p class="list-group-item-text" th:text="${invtHead.consigneeAddress}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">航班航次号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.voyageNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">担保企业代码</h4>
-						<p class="list-group-item-text" th:text="${invtHead.assureCode}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">毛重</h4>
-						<p class="list-group-item-text" th:text="${invtHead.grossWeight}"></p>
-					</a>
-				</div>
-				<div class="list-group col-sm-3">
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">申报类型</h4>
-						<p class="list-group-item-text" th:text="${invtHead.appTypeDesc} + '[' + ${invtHead.appType} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">进口口岸</h4>
-						<p class="list-group-item-text" th:text="${invtHead.portCodeDesc} + '[' + ${invtHead.portCode} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">进口日期</h4>
-						<p class="list-group-item-text" th:text="${#calendars.format(invtHead.ieDate, 'YYYY-MM-dd')}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">电商平台代码</h4>
-						<p class="list-group-item-text" th:text="${invtHead.ebpCode}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">物流企业名称</h4>
-						<p class="list-group-item-text" th:text="${invtHead.logisticsName}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">区内企业代码</h4>
-						<p class="list-group-item-text" th:text="${invtHead.areaCode}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">订购人证件号码</h4>
-						<p class="list-group-item-text" th:text="${invtHead.buyerIdNumber}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">许可证号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.licenseNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">提运单号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.billNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">保费</h4>
-						<p class="list-group-item-text" th:text="${invtHead.insuredFee}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">净重</h4>
-						<p class="list-group-item-text" th:text="${invtHead.netWeight}"></p>
-					</a>
-				</div>
-				<div class="list-group col-sm-3">
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">业务状态</h4>
-						<p class="list-group-item-text" th:text="${invtHead.appStatusDesc} + '[' + ${invtHead.appStatus} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">入库时间</h4>
-						<p class="list-group-item-text" th:text="${#calendars.format(invtHead.appTime, 'YYYY-MM-dd hh:mm:ss')}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">贸易方式</h4>
-						<p class="list-group-item-text" th:text="${invtHead.tradeModeDesc} + '[' + ${invtHead.tradeMode} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">电商平台名称</h4>
-						<p class="list-group-item-text" th:text="${invtHead.ebpName}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">物流运单号</h4>
-						<p class="list-group-item-text" th:text="${invtHead.logisticsNo}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">区内企业名称</h4>
-						<p class="list-group-item-text" th:text="${invtHead.areaName}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">订购人电话</h4>
-						<p class="list-group-item-text" th:text="${invtHead.buyerTelephone}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">运输方式</h4>
-						<p class="list-group-item-text" th:text="${invtHead.trafModeDesc} + '[' + ${invtHead.trafMode} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">运费</h4>
-						<p class="list-group-item-text" th:text="${invtHead.freight}"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">币制</h4>
-						<p class="list-group-item-text" th:text="${invtHead.currencyDesc} + '[' + ${invtHead.currency} + ']'"></p>
-					</a>
-					<a href="javascript:void(0)" class="list-group-item">
-						<h4 class="list-group-item-heading">备注</h4>
-						<p class="list-group-item-text" th:text="${invtHead.note}"></p>
-					</a>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="invt_list">
-				<table class="table table-bordered table-striped table-hover">
-					<thead>
-						<tr>
-							<th>商品序号</th>
-							<th>商品名称</th>
-							<th>商品编码</th>
-							<th>商品货号</th>
-							<th>数量</th>
-							<th>计量单位</th>
-							<th>单价</th>
-							<th>总价</th>
-							<th>币制</th>
-							<th>原产国</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:if="${invtListList.empty}">
-							<td colspan="10">没有数据</td>
-						</tr>
-						<tr th:each="invtList,stat : ${invtListList}" th:onclick="'getGoodsDetailByCount(' + ${invtListListJson} + ',' + ${stat.index} + ')'">
-							<td th:text="${invtList.gNum}"></td>
-							<td th:text="${invtList.gName}"></td>
-							<td th:text="${invtList.gCode}"></td>
-							<td th:text="${invtList.itemNo}"></td>
-							<td th:text="${invtList.qty}"></td>
-							<td th:text="${invtList.unit}"></td>
-							<td th:text="${invtList.price}"></td>
-							<td th:text="${invtList.totalPrice}"></td>
-							<td th:text="${invtList.currency}"></td>
-							<td th:text="${invtList.country}"></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		<script>
+			$(document).ready(function() {
+				$("#datatable-responsive").DataTable({
+					language: language,
+					processing: true,
+					serverSide: true,
+					responsive: true,
+					paginationType: "full_numbers",
+					ajax: {
+						url: "/invts/searchInvtList/" + $("#datatable-responsive").attr("title"),
+						type: "GET",
+						headers: {
+							"X-CSRF-Token": $('meta[name="_csrf"]').attr('content')
+						}
+					},
+					columns: [
+						{ data: "gNum" },
+						{ data: "gName" },
+						{ data: "gCode" },
+						{ data: "itemNo" },
+						{ data: "qty" },
+						{ data: "unit" },
+						{ data: "price" },
+						{ data: "totalPrice" },
+						{ data: "currency" },
+						{ data: "country" },
+					]
+				});
+			});
+		</script>
 	</div>
 </body>
 </html>

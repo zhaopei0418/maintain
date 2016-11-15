@@ -21,14 +21,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.druid.util.StringUtils;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.InvtHeadConstant;
+import online.zhaopei.myproject.domain.common.DatatablePara;
 import online.zhaopei.myproject.domain.ecssent.DistHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;
@@ -46,6 +47,7 @@ import online.zhaopei.myproject.service.para.CurrService;
 import online.zhaopei.myproject.service.para.CustomsService;
 import online.zhaopei.myproject.service.para.TradeService;
 import online.zhaopei.myproject.service.para.TransfService;
+import online.zhaopei.myproject.service.para.UnitService;
 import online.zhaopei.myproject.service.para.WrapService;
 import online.zhaopei.myproject.tool.common.ParaTool;
 
@@ -93,6 +95,9 @@ public class InvtsController extends BaseController {
 
 	@Autowired
 	private TransfService transfService;
+	
+	@Autowired
+	private UnitService unitService;
 	
 	@GetMapping("/getImpInvtHeadListByInvtNo/{invtNo}")
 	@ResponseBody
@@ -182,24 +187,53 @@ public class InvtsController extends BaseController {
 	public ModelAndView show(@PathVariable("headGuid") String headGuid) {
 		ModelAndView mv = new ModelAndView("invts/show");
 		InvtHead invtHead = this.invtHeadService.getInvtHeadByHeadGuid(headGuid);
-		invtHead.setBuyerIdTypeDesc(CommonConstant.getID_TYPE_MAP().get(invtHead.getBuyerIdType()));
-		invtHead.setAppStatusDesc(InvtHeadConstant.getAPP_STATUS_MAP().get(invtHead.getAppStatus()));
-		invtHead.setAppTypeDesc(CommonConstant.getAPP_TYPE_MAP().get(invtHead.getAppType()));
-		invtHead.setTradeModeDesc(ParaTool.getTradeModeDesc(invtHead.getTradeMode(), this.tradeService));
-		invtHead.setCustomsCodeDesc(ParaTool.getCustomsDesc(invtHead.getCustomsCode(), this.customsService));
-		invtHead.setPortCodeDesc(ParaTool.getCustomsDesc(invtHead.getPortCode(), this.customsService));
-		invtHead.setCountryDesc(ParaTool.getCountryDesc(invtHead.getCountry(), this.countryService));
-		invtHead.setCurrencyDesc(ParaTool.getCurrDesc(invtHead.getCurrency(), this.currService));
-		invtHead.setWrapTypeDesc(ParaTool.getWrapDesc(invtHead.getWrapType(), this.wrapService));
-		invtHead.setTrafModeDesc(ParaTool.getTransfDesc(invtHead.getTrafMode(), this.transfService));
 
-		List<InvtList> invtListList = this.invtListService.getInvtListListByHeadGuid(headGuid);
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd kk:mm:ss.SSS").create();
 		mv.addObject("invtHead", invtHead);
-		mv.addObject("count", invtListList.size());
-		mv.addObject("invtListList", invtListList);
-		mv.addObject("invtListListJson", gson.toJson(invtListList));
+		mv.addObject("appType", CommonConstant.getAPP_TYPE_MAP());
+		mv.addObject("appStatus", InvtHeadConstant.getAPP_STATUS_MAP());
+		mv.addObject("distStatus", InvtHeadConstant.getDIST_STATUS_MAP());
+		mv.addObject("customsCode", CommonConstant.getZBXC_CUSTOMS_MAP());
+		mv.addObject("portCode", ParaTool.getAllCustoms(this.customsService));
+		mv.addObject("country", ParaTool.getAllCountries(this.countryService));
+		mv.addObject("tradeMode", CommonConstant.getZBXC_TRADE_MODE_MAP());
+		mv.addObject("idType", CommonConstant.getID_TYPE_MAP());
+		
 		return mv;
+	}
+	
+	@GetMapping("/searchInvtList/{headGuid}")
+	@ResponseBody
+	public String searchInvtList(@PathVariable String headGuid, DatatablePara datatablePara) {
+		JsonObject result = new JsonObject();
+		JsonArray data = new JsonArray();
+		JsonObject dataObj = null;
+		result.addProperty("draw", datatablePara.getDraw());
+		result.addProperty("recordsTotal", this.invtListService.countInvtList(headGuid));
+		int pageNum = datatablePara.getStart() / datatablePara.getLength() + 1;
+		PageHelper.startPage(pageNum, datatablePara.getLength());
+		PageInfo<InvtList> pageInfo = new PageInfo<InvtList>(this.invtListService.getInvtListListBySearchText(headGuid, datatablePara.getSearch().get("value")));
+		result.addProperty("recordsFiltered", pageInfo.getTotal());
+		List<InvtList> invtListList = pageInfo.getList();
+		
+		if (null != invtListList && !invtListList.isEmpty()) {
+			for (InvtList il : invtListList) {
+				dataObj = new JsonObject();
+				dataObj.addProperty("gNum", il.getGNum());
+				dataObj.addProperty("gName", il.getGName());
+				dataObj.addProperty("gCode", il.getGCode());
+				dataObj.addProperty("itemNo", il.getItemNo());
+				dataObj.addProperty("qty", il.getQty());
+				dataObj.addProperty("unit", ParaTool.getUnitDesc(il.getUnit(), this.unitService) + "[" + il.getUnit() + "]");
+				dataObj.addProperty("price", il.getPrice());
+				dataObj.addProperty("totalPrice", il.getTotalPrice());
+				dataObj.addProperty("currency", ParaTool.getCurrDesc(il.getCurrency(), this.currService) + "[" + il.getCurrency() + "]");
+				dataObj.addProperty("country", ParaTool.getCountryDesc(il.getCountry(), this.countryService) + "[" + il.getCountry() + "]");
+				
+				data.add(dataObj);
+			}
+		}
+		result.add("data", data);
+		return result.toString();
 	}
 	
 	@RequestMapping("download")

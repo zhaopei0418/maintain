@@ -68,7 +68,7 @@ public class DistBillListSqlProvide implements Serializable {
 		}}.toString();
 	}
 	
-	public String getDistBillListListBySearchTextSql(final String seqNo,final String searchText) {
+	public String getDistBillListListBySearchTextSql(final String seqNo, final String searchText) {
 		return new SQL() {{
 			this.SELECT("seq_no");
 			this.SELECT("dist_no");

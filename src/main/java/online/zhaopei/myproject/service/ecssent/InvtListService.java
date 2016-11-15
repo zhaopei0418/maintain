@@ -8,4 +8,8 @@ import online.zhaopei.myproject.domain.ecssent.InvtList;
 public interface InvtListService extends Serializable {
 
 	List<InvtList> getInvtListListByHeadGuid(String headGuid);
+	
+	Long countInvtList(String headGuid);
+	
+	List<InvtList> getInvtListListBySearchText(String headGuid, String searchText);
 }

@@ -25,4 +25,14 @@ public class InvtListServiceImpl implements InvtListService {
 		return this.invtListMapper.getInvtListListByHeadGuid(headGuid);
 	}
 
+	@Override
+	public Long countInvtList(String headGuid) {
+		return this.invtListMapper.countInvtList(headGuid);
+	}
+
+	@Override
+	public List<InvtList> getInvtListListBySearchText(String headGuid, String searchText) {
+		return this.invtListMapper.getInvtListListBySearchText(headGuid, searchText);
+	}
+
 }

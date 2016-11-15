@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.type.JdbcType;
@@ -39,4 +41,11 @@ public interface InvtListMapper extends Serializable {
 	@SelectProvider(type = InvtListSqlProvide.class, method = "getInvtListListByHeadGuidSql")
 	List<InvtList> getInvtListListByHeadGuid(String headGuid);
 
+	@ResultType(Long.class)
+	@SelectProvider(type = InvtListSqlProvide.class, method = "countInvtListSql")
+	Long countInvtList(String headGuid);
+	
+	@ResultMap("invtListResult")
+	@SelectProvider(type = InvtListSqlProvide.class, method = "getInvtListListBySearchTextSql")
+	List<InvtList> getInvtListListBySearchText(String headGuid, String searchText);
 }
