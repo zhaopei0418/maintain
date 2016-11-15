@@ -26,4 +26,19 @@ public class CountrySqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+	
+	public String getCountriesSql() {
+		return new SQL() {{
+			this.SELECT("country_code");
+			this.SELECT("coun_c_name");
+			this.FROM("country");
+		}}.toString();
+	}
+	
+	public String countCountriesSql() {
+		return new SQL() {{
+			this.SELECT("count(1)");
+			this.FROM("country");
+		}}.toString();
+	}
 }

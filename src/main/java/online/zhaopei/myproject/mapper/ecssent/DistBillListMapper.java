@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.mapping.FetchType;
@@ -51,4 +53,12 @@ public interface DistBillListMapper extends Serializable {
 	})
 	@SelectProvider(type = DistBillListSqlProvide.class, method = "getDistBillListListSql")
 	List<DistBillList> getDistBillListList(String seqNo);
+	
+	@ResultType(Long.class)
+	@SelectProvider(type = DistBillListSqlProvide.class, method = "countDistBillListSql")
+	Long countDistBillList(String seqNo);
+	
+	@ResultMap("distBillListResult")
+	@SelectProvider(type = DistBillListSqlProvide.class, method = "getDistBillListListBySearchTextSql")
+	List<DistBillList> getDistBillListListBySearchText(String seqNo, String searchText);
 }

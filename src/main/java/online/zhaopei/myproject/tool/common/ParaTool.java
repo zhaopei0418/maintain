@@ -34,6 +34,18 @@ public class ParaTool implements Serializable {
 		return CommonConstant.getCUSTOMS_MAP();
 	}
 	
+	public static Map<String, String> getAllCountries(CountryService countryService) {
+		Map<String, String> countriesMap = null;
+		Long count = countryService.countCountries();
+		
+		if (count != CommonConstant.getCOUNTRY_MAP().size()) {
+			countriesMap = countryService.getCountries();
+			CommonConstant.getCOUNTRY_MAP().clear();
+			CommonConstant.getCOUNTRY_MAP().putAll(countriesMap);
+		}
+		return CommonConstant.getCOUNTRY_MAP();
+	}
+	
 	public static String getCountryDesc(String countryCode, CountryService countryService) {
 		String result = "";
 		Para para = null;

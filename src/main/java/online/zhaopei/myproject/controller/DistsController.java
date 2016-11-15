@@ -1,17 +1,27 @@
 package online.zhaopei.myproject.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.DistsConstant;
+import online.zhaopei.myproject.domain.common.DatatablePara;
+import online.zhaopei.myproject.domain.ecssent.DistBillList;
 import online.zhaopei.myproject.domain.ecssent.DistHead;
+import online.zhaopei.myproject.service.ecssent.DistBillListService;
 import online.zhaopei.myproject.service.ecssent.DistHeadService;
 import online.zhaopei.myproject.service.para.CustomsService;
 import online.zhaopei.myproject.tool.common.ParaTool;
@@ -27,6 +37,9 @@ public class DistsController extends BaseController {
 
 	@Autowired
 	private DistHeadService distHeadService ;
+	
+	@Autowired
+	private DistBillListService distBillListService;
 	
 	@Autowired
 	private CustomsService customsService;
@@ -45,6 +58,38 @@ public class DistsController extends BaseController {
 		mv.addObject("tradeMode", CommonConstant.getZBXC_TRADE_MODE_MAP());
 		
 		return mv;
+	}
+	
+	@PostMapping("/searchDistBill/{seqNo}")
+	@ResponseBody
+	public String searchDistBill(@PathVariable String seqNo, DatatablePara datatablePara) {
+		JsonObject result = new JsonObject();
+		JsonArray data = new JsonArray();
+		JsonObject dataObj = null;
+		result.addProperty("draw", datatablePara.getDraw());
+		result.addProperty("recordsTotal", this.distBillListService.countDistBillList(seqNo));
+		int pageNum = datatablePara.getStart() / datatablePara.getLength() + 1;
+		PageHelper.startPage(pageNum, datatablePara.getLength());
+		PageInfo<DistBillList> pageInfo = new PageInfo<DistBillList>(this.distBillListService.getDistBillListListBySearchText(seqNo, datatablePara.getSearch().get("value")));
+		result.addProperty("recordsFiltered", pageInfo.getTotal());
+		List<DistBillList> distBillListList = pageInfo.getList();
+		
+		if (null != distBillListList && !distBillListList.isEmpty()) {
+			for (DistBillList dbl : distBillListList) {
+				dataObj = new JsonObject();
+				dataObj.addProperty("billNo", "<a href='/invts/" + dbl.getSeqNo() + "'>" + dbl.getBillNo() + "</a>");
+				dataObj.addProperty("grossWt", dbl.getGrossWt());
+				dataObj.addProperty("netWt", dbl.getNetWt());
+				dataObj.addProperty("arrivalFlag", dbl.getArrivalFlag());
+				dataObj.addProperty("tradeName", dbl.getTradeName());
+				dataObj.addProperty("tradeMode", dbl.getTradeMode());
+				dataObj.addProperty("decStatus", dbl.getDecStatus());
+				data.add(dataObj);
+			}
+		}
+		
+		result.add("data", data);
+		return result.toString();
 	}
 	
 	@RequestMapping
