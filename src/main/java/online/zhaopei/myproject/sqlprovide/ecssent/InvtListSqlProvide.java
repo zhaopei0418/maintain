@@ -96,8 +96,8 @@ public class InvtListSqlProvide implements Serializable {
 				orSql += " OR g_code like '%" + searchText + "%'";
 				orSql += " OR item_no like '%" + searchText + "%'";
 				orSql += " OR qty like '%" + searchText + "%'";
-				orSql += " OR price like '%" + searchText + "%'";
-				orSql += " OR total_price like '%" + searchText + "%'";
+				orSql += " OR price = '" + searchText + "'";
+				orSql += " OR total_price = '" + searchText + "'";
 				orSql += " OR country like '%" + searchText + "%'";
 				orSql += " OR currency like '%" + searchText + "%')";
 				this.WHERE(orSql);

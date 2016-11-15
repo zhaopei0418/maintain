@@ -359,7 +359,7 @@
 								<div class="col-md-12 col-sm-12 col-xs-12">
 									<div class="x_panel">
 										<div class="x_content">
-											<table id="datatable-responsive" th:title="${invtHead.headGuid}" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+											<table id="datatable-responsive" th:tid="${invtHead.headGuid}" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 												<thead>
 													<tr>
 														<th>商品序号</th>
@@ -409,7 +409,7 @@
 					responsive: true,
 					paginationType: "full_numbers",
 					ajax: {
-						url: "/invts/searchInvtList/" + $("#datatable-responsive").attr("title"),
+						url: "/invts/searchInvtList/" + $("#datatable-responsive").attr("tid"),
 						type: "GET",
 						headers: {
 							"X-CSRF-Token": $('meta[name="_csrf"]').attr('content')

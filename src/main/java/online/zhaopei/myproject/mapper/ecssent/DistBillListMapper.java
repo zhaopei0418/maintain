@@ -47,9 +47,16 @@ public interface DistBillListMapper extends Serializable {
 		@Result(property = "gValue", column = "g_value"),
 		@Result(property = "modifyMark", column = "modify_mark"),
 		@Result(property = "inputDate", column = "input_date"),
-		@Result(property = "invtHead", column = "bill_no", 
-				one = @One(fetchType = FetchType.LAZY,
-				select = "online.zhaopei.myproject.mapper.ecssent.InvtHeadMapper.getInvtHeadByInvtNo")),
+		@Result(property = "appStatus", column = "app_status"),
+		@Result(property = "orderNo", column = "order_no"),
+		@Result(property = "logisticsNo", column = "logistics_no"),
+		@Result(property = "logisticsCode", column = "logistics_code"),
+		@Result(property = "logisticsName", column = "logistics_name"),
+		@Result(property = "ebcCode", column = "ebc_code"),
+		@Result(property = "ebcName", column = "ebc_name"),
+//		@Result(property = "invtHead", column = "bill_no", 
+//				one = @One(fetchType = FetchType.LAZY,
+//				select = "online.zhaopei.myproject.mapper.ecssent.InvtHeadMapper.getInvtHeadByInvtNo")),
 	})
 	@SelectProvider(type = DistBillListSqlProvide.class, method = "getDistBillListListSql")
 	List<DistBillList> getDistBillListList(String seqNo);

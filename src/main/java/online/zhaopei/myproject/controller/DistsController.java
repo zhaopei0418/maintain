@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.DistsConstant;
+import online.zhaopei.myproject.constant.InvtHeadConstant;
 import online.zhaopei.myproject.domain.common.DatatablePara;
 import online.zhaopei.myproject.domain.ecssent.DistBillList;
 import online.zhaopei.myproject.domain.ecssent.DistHead;
@@ -80,10 +81,13 @@ public class DistsController extends BaseController {
 				dataObj.addProperty("billNo", "<a href='/invts/" + dbl.getSeqNo() + "'>" + dbl.getBillNo() + "</a>");
 				dataObj.addProperty("grossWt", dbl.getGrossWt());
 				dataObj.addProperty("netWt", dbl.getNetWt());
-				dataObj.addProperty("arrivalFlag", dbl.getArrivalFlag());
-				dataObj.addProperty("tradeName", dbl.getTradeName());
-				dataObj.addProperty("tradeMode", dbl.getTradeMode());
-				dataObj.addProperty("decStatus", dbl.getDecStatus());
+				dataObj.addProperty("arrivalFlag", DistsConstant.getARRIVAL_FLAG().get(dbl.getArrivalFlag()) + "[" + dbl.getArrivalFlag() + "]");
+				dataObj.addProperty("ebcName", dbl.getEbcName());
+				dataObj.addProperty("orderNo", dbl.getOrderNo());
+				dataObj.addProperty("logisticsName", dbl.getLogisticsName());
+				dataObj.addProperty("logisticsNo", dbl.getLogisticsNo());
+				dataObj.addProperty("tradeMode", CommonConstant.getZBXC_TRADE_MODE_MAP().get(dbl.getTradeMode()) + "[" + dbl.getTradeMode() + "]");
+				dataObj.addProperty("appStatus", InvtHeadConstant.getAPP_STATUS_MAP().get(dbl.getAppStatus()) + "[" + dbl.getAppStatus() + "]");
 				data.add(dataObj);
 			}
 		}

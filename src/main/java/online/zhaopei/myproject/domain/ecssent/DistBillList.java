@@ -71,6 +71,20 @@ public class DistBillList extends BaseDomain {
 	
 	private Date inputDate;
 	
+	private String appStatus;
+	
+	private String orderNo;
+	
+	private String logisticsNo;
+	
+	private String ebcCode;
+	
+	private String ebcName;
+	
+	private String logisticsCode;
+	
+	private String logisticsName;
+	
 	private InvtHead invtHead;
 
 	public String getSeqNo() {
@@ -319,5 +333,61 @@ public class DistBillList extends BaseDomain {
 
 	public void setInvtHead(InvtHead invtHead) {
 		this.invtHead = invtHead;
+	}
+
+	public String getAppStatus() {
+		return appStatus;
+	}
+
+	public void setAppStatus(String appStatus) {
+		this.appStatus = appStatus;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public String getLogisticsNo() {
+		return logisticsNo;
+	}
+
+	public void setLogisticsNo(String logisticsNo) {
+		this.logisticsNo = logisticsNo;
+	}
+
+	public String getEbcCode() {
+		return ebcCode;
+	}
+
+	public void setEbcCode(String ebcCode) {
+		this.ebcCode = ebcCode;
+	}
+
+	public String getEbcName() {
+		return ebcName;
+	}
+
+	public void setEbcName(String ebcName) {
+		this.ebcName = ebcName;
+	}
+
+	public String getLogisticsCode() {
+		return logisticsCode;
+	}
+
+	public void setLogisticsCode(String logisticsCode) {
+		this.logisticsCode = logisticsCode;
+	}
+
+	public String getLogisticsName() {
+		return logisticsName;
+	}
+
+	public void setLogisticsName(String logisticsName) {
+		this.logisticsName = logisticsName;
 	}
 }
