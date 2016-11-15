@@ -434,6 +434,22 @@
 						<td th:text="${appType[payHead.appType]}"></td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">支付交易号</th>
+						<th class="column-title">电商平台企业</th>
+						<th class="column-title">支付企业</th>
+						<th class="column-title">订单号</th>
+						<th class="column-title">支付人</th>
+						<th class="column-title">支付人身份证号</th>
+						<th class="column-title">支付金额</th>
+						<th class="column-title">业务状态</th>
+						<th class="column-title">入库日期</th>
+						<th class="column-title">支付日期</th>
+						<th class="column-title">申报类型</th>
+					</tr>
+				</tfoot>
 			</table>
 			<ul class="pagination pagination-lg pull-right">
 				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>

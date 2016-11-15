@@ -386,6 +386,18 @@
 						<td th:text="${appType[lgsHead.appType]}"></td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">运单号</th>
+						<th class="column-title">提运单号</th>
+						<th class="column-title">物流企业名称</th>
+						<th class="column-title">收货人</th>
+						<th class="column-title">入库日期</th>
+						<th class="column-title">业务状态</th>
+						<th class="column-title">申报类型</th>
+					</tr>
+				</tfoot>
 			</table>
 			<ul class="pagination pagination-lg pull-right">
 				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>

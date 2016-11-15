@@ -417,6 +417,22 @@
 						<td th:text="${distHead.returnReason}"></td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">核放单号</th>
+						<th class="column-title">车牌号</th>
+						<th class="column-title">出入区标志</th>
+						<th class="column-title">出入区方式</th>
+						<th class="column-title">总件数</th>
+						<th class="column-title">总毛重</th>
+						<th class="column-title">申报企业</th>
+						<th class="column-title">录入日期</th>
+						<th class="column-title">单据状态</th>
+						<th class="column-title">申报关区</th>
+						<th class="column-title">审批意见</th>
+					</tr>
+				</tfoot>
 			</table>
 			<ul class="pagination pagination-lg pull-right">
 				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>

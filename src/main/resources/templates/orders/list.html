@@ -403,6 +403,20 @@
 						<td th:text="${appType[orderHead.appType]}"></td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">订单号</th>
+						<th class="column-title">电商企业</th>
+						<th class="column-title">电商平台企业</th>
+						<th class="column-title">订单商品货款</th>
+						<th class="column-title">实际支付金额</th>
+						<th class="column-title">订购人</th>
+						<th class="column-title">入库日期</th>
+						<th class="column-title">订单状态</th>
+						<th class="column-title">申报类型</th>
+					</tr>
+				</tfoot>
 			</table>
 			<ul class="pagination pagination-lg pull-right">
 				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>

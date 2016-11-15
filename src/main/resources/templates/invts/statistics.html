@@ -355,7 +355,7 @@
 				</thead>
 				<tbody>
 					<tr th:if="${invtHeadStatisticsList.empty}">
-						<td colspan="5">没有数据</td>
+						<td colspan="30">没有数据</td>
 					</tr>
 					<tr th:each="invtHeadStatistics,stat : ${invtHeadStatisticsList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
 						<td th:text="${stat.count}"></td>
@@ -365,6 +365,15 @@
 						<td th:text="${invtHeadStatistics.goodsValue}"></td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">第一分组</th>
+						<th class="column-title">第二分组</th>
+						<th class="column-title">数量</th>
+						<th class="column-title">货值</th>
+					</tr>
+				</tfoot>
 			</table>
 			<ul class="pagination pagination-lg pull-right">
 				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>

@@ -511,6 +511,24 @@
 						<td><button th:disabled="${'9610' != invtHead.tradeMode}" class="btn btn-info btn-xs" th:onclick="'comparisonDelivery(\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\',\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\')'">比对</button></td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">清单号</th>
+						<th class="column-title">内部编号</th>
+						<th class="column-title">报关企业</th>
+						<th class="column-title">电商企业</th>
+						<th class="column-title">订单号</th>
+						<th class="column-title">物流企业</th>
+						<th class="column-title">运单号</th>
+						<th class="column-title">申报日期</th>
+						<th class="column-title">关区</th>
+						<th class="column-title">清单状态</th>
+						<th class="column-title">出区状态</th>
+						<th class="column-title">国检状态</th>
+						<th class="column-title">比对入库明细单</th>
+					</tr>
+				</tfoot>
 			</table>
 			<ul class="pagination pagination-lg pull-right">
 				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
