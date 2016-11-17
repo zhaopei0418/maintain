@@ -1,4 +1,4 @@
-package online.zhaopei.myproject.tool.common;
+package online.zhaopei.myproject.common.tool;
 
 import java.io.Serializable;
 import java.util.Map;

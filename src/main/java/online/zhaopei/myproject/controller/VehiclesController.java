@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 
+import online.zhaopei.myproject.common.tool.ParaTool;
 import online.zhaopei.myproject.domain.ecssent.VeHead;
 import online.zhaopei.myproject.service.ecssent.VeHeadService;
 import online.zhaopei.myproject.service.para.CustomsService;
-import online.zhaopei.myproject.tool.common.ParaTool;
 
 @Controller
 @RequestMapping("/vehicles")

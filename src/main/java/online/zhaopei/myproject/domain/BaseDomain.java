@@ -9,9 +9,19 @@ public class BaseDomain implements Serializable {
 	 */
 	private static final long serialVersionUID = -4859374345481326332L;
 
+	private String orderBy;
+	
 	private Integer pageNum;
 	
 	private Integer pageSize;
+	
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
 
 	public Integer getPageNum() {
 		return pageNum;

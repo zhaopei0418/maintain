@@ -45,6 +45,20 @@ spring:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 100
     filters: stat,wall,log4j
+  datasource.gjpayment:
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.10.15:1521:XE
+    username: ggfw_zhengzhou
+    password: 123456
+    initialSize: 5
+    maxActive: 10
+    validationQuery: SELECT 1 from DUAL
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 100
+    filters: stat,wall,log4j
   thymeleaf:
     cache: false
   jackson:

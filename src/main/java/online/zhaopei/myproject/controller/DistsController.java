@@ -16,6 +16,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import online.zhaopei.myproject.common.tool.ParaTool;
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.DistsConstant;
 import online.zhaopei.myproject.constant.InvtHeadConstant;
@@ -25,7 +26,6 @@ import online.zhaopei.myproject.domain.ecssent.DistHead;
 import online.zhaopei.myproject.service.ecssent.DistBillListService;
 import online.zhaopei.myproject.service.ecssent.DistHeadService;
 import online.zhaopei.myproject.service.para.CustomsService;
-import online.zhaopei.myproject.tool.common.ParaTool;
 
 @Controller
 @RequestMapping("/dists")

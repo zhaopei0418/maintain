@@ -5,10 +5,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import online.zhaopei.myproject.common.tool.ArrayTool;
 import online.zhaopei.myproject.domain.para.Para;
 import online.zhaopei.myproject.mapper.para.CustomsMapper;
 import online.zhaopei.myproject.service.para.CustomsService;
-import online.zhaopei.myproject.tool.common.ArrayTool;
 
 @Service
 public class CustomsServiceImpl implements CustomsService {
