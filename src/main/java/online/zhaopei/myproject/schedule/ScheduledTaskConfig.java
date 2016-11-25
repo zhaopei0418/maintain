@@ -56,7 +56,7 @@ public class ScheduledTaskConfig {
 				if (null != insertImpPayHead) {
 					try {
 						searchImpPayHead = new ImpPayHead(insertImpPayHead.getUuid());
-						if (0 == this.impPayHeadService.countImpPayHead(searchImpPayHead)) {
+						if (0 < this.impPayHeadService.countImpPayHead(searchImpPayHead)) {
 							continue;
 						}
 						
