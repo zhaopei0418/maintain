@@ -10,4 +10,8 @@ public interface ImpPayHeadService extends Serializable {
 	void insertPayHead(ImpPayHead impPayHead);
 	
 	List<ImpPayHead> getImpPayHeadList(ImpPayHead impPayHead);
+	
+	Long countImpPayHead(ImpPayHead impPayHead);
+	
+	void updateImpPayHead(ImpPayHead impPayHead);
 }

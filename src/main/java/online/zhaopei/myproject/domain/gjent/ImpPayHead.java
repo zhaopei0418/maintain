@@ -92,7 +92,19 @@ public class ImpPayHead extends BaseDomain {
 	private Date applyDate;
 	
 	private String uuid;
-
+	
+	public ImpPayHead() {
+	}
+	
+	public ImpPayHead(String uuid) {
+		this.uuid = uuid;
+	}
+	
+	public ImpPayHead(String payCode, String payTransactionId) {
+		this.payCode = payCode;
+		this.payTransactionId = payTransactionId;
+	}
+	
 	public String getGuid() {
 		return guid;
 	}

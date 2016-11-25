@@ -1,21 +1,9 @@
 package online.zhaopei.myproject;
 
-import java.util.Calendar;
-import java.util.Random;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
-import org.apache.ibatis.jdbc.SQL;
-
-import online.zhaopei.myproject.domain.gjpayment.BodyMaster;
-import online.zhaopei.myproject.domain.gjpayment.CbecMessage;
-import online.zhaopei.myproject.domain.gjpayment.MessageBody;
-
 public class MaintainTest {
 
 //	public static void main(String[] args) throws Exception {
+//		System.out.println(Long.MAX_VALUE);
 //
 //		JAXBContext context = JAXBContext.newInstance(MessageBody.class);
 //		Marshaller m = context.createMarshaller();

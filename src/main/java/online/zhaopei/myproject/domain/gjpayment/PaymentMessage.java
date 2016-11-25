@@ -20,6 +20,8 @@ public class PaymentMessage extends BaseDomain {
 	private String beginCreateDate;
 	
 	private Long dateNum;
+	
+	private Long beginDateNum;
 
 	public Long getId() {
 		return id;
@@ -59,5 +61,13 @@ public class PaymentMessage extends BaseDomain {
 
 	public void setDateNum(Long dateNum) {
 		this.dateNum = dateNum;
+	}
+
+	public Long getBeginDateNum() {
+		return beginDateNum;
+	}
+
+	public void setBeginDateNum(Long beginDateNum) {
+		this.beginDateNum = beginDateNum;
 	}
 }

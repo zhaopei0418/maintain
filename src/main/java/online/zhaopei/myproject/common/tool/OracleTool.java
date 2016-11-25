@@ -83,4 +83,16 @@ public class OracleTool {
 			sql.ORDER_BY(orderBy);
 		}
 	}
+	
+	public static void set(SQL sql, String column, String value) {
+		sql.SET(column + " = " + (null == value ? "null" : toString(value)));
+	}
+	
+	public static void set(SQL sql, String column, Double value) {
+		sql.SET(column + " = " + (null == value ? "null" : value));
+	}
+	
+	public static void set(SQL sql, String column, Date value) {
+		sql.SET(column + " = " + (null == value ? "null" : toString(value)));
+	}
 }

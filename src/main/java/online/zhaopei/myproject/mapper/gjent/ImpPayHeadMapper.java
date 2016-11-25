@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
 import online.zhaopei.myproject.sqlprovide.gjent.ImpPayHeadSqlProvide;
@@ -61,4 +63,11 @@ public interface ImpPayHeadMapper extends Serializable {
 	})
 	@SelectProvider(type = ImpPayHeadSqlProvide.class, method = "getImpPayHeadListSql")
 	List<ImpPayHead> getImpPayHeadList(ImpPayHead impPayHead);
+	
+	@ResultType(Long.class)
+	@SelectProvider(type = ImpPayHeadSqlProvide.class, method = "countImpPayHeadSql")
+	Long countImpPayHead(ImpPayHead impPayHead);
+	
+	@UpdateProvider(type = ImpPayHeadSqlProvide.class, method = "updateImpPayHeadSql")
+	Integer updateImpPayHead(ImpPayHead impPayHead);
 }

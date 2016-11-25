@@ -1,7 +1,7 @@
 package online.zhaopei.myproject.schedule;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +10,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.github.pagehelper.PageHelper;
-
 import online.zhaopei.myproject.common.tool.PaymentTool;
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
 import online.zhaopei.myproject.domain.gjpayment.PaymentMessage;
 import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
+import online.zhaopei.myproject.service.para.SyncPaymentInfoService;
 
 @Configuration
 @EnableAsync
@@ -29,35 +28,25 @@ public class ScheduledTaskConfig {
 	@Autowired
 	private PaymentMessageService paymentMessageService;
 	
-//	@Scheduled(initialDelay = 60000, fixedDelay = 60000)
+	@Autowired
+	private SyncPaymentInfoService syncPaymentInfoService;
+	
+	@Scheduled(initialDelay = 10000, fixedDelay = 60000)
 	public void syncPaymentInfo() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		ImpPayHead searchIph = new ImpPayHead();
+		SimpleDateFormat sdfDay = new SimpleDateFormat("yyyyMMdd");
 		ImpPayHead insertImpPayHead = null;
-		PaymentMessage searchPm = new PaymentMessage();;
+		ImpPayHead searchImpPayHead = null;
+		PaymentMessage searchPm = new PaymentMessage();
 		List<PaymentMessage> resultPaymentMessageList = null;
-		ImpPayHead resultIph = null;
-		Date appTime = null;
-		searchIph.setPayCode("P460400005");
-		searchIph.setOrderBy("app_time desc");
-		PageHelper.startPage(1, 1);
+		Long lastSyncTime = this.syncPaymentInfoService.getSyncTime();
 		
-		List<ImpPayHead> resultImpPayHeadList = this.impPayHeadService.getImpPayHeadList(searchIph);
-		
-		if (null != resultImpPayHeadList && !resultImpPayHeadList.isEmpty()) {
-			resultIph = resultImpPayHeadList.get(0);
-			
-			if (null != resultIph) {
-				appTime = resultIph.getAppTime();
-			}
+		if (null != lastSyncTime && 10000000000000L < lastSyncTime) {
+			searchPm.setBeginCreateDate(String.valueOf(lastSyncTime));
 		}
-		
-		if (null != appTime) {
-			searchPm.setBeginCreateDate(sdf.format(appTime));
-		}
+		searchPm.setBeginDateNum(Long.valueOf(sdfDay.format(Calendar.getInstance().getTime()) + "00"));
 		searchPm.setXmlContent("<BILLMODE>0</BILLMODE>");
 		searchPm.setOrderBy("created_date asc");
-		PageHelper.startPage(1, 30);
 		resultPaymentMessageList = this.paymentMessageService.getPaymentMessageList(searchPm);
 		
 		if (null != resultPaymentMessageList && !resultPaymentMessageList.isEmpty()) {
@@ -66,7 +55,18 @@ public class ScheduledTaskConfig {
 				
 				if (null != insertImpPayHead) {
 					try {
-						this.impPayHeadService.insertPayHead(insertImpPayHead);						
+						searchImpPayHead = new ImpPayHead(insertImpPayHead.getUuid());
+						if (0 == this.impPayHeadService.countImpPayHead(searchImpPayHead)) {
+							continue;
+						}
+						
+						searchImpPayHead = new ImpPayHead(insertImpPayHead.getPayCode(), insertImpPayHead.getPayTransactionId());
+						if (1 == this.impPayHeadService.countImpPayHead(searchImpPayHead)) {
+							this.impPayHeadService.updateImpPayHead(insertImpPayHead);
+						} else {
+							this.impPayHeadService.insertPayHead(insertImpPayHead);
+							this.syncPaymentInfoService.updateSyncTime(Long.valueOf(sdf.format(pm.getCreatedDate())));
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

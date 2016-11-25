@@ -32,11 +32,15 @@ public class PaymentMessageSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(paymentMessage.getBeginCreateDate())) {
-				this.WHERE("to_char(created_date, 'yyyymmddhh24miss') > '" + paymentMessage.getBeginCreateDate() + "'");
+				this.WHERE("to_char(created_date, 'yyyymmddhh24miss') >= '" + paymentMessage.getBeginCreateDate() + "'");
 			}
 			
 			if (null != paymentMessage.getDateNum()) {
 				this.WHERE("date_num = " + paymentMessage.getDateNum());
+			}
+			
+			if (null != paymentMessage.getBeginDateNum()) {
+				this.WHERE("date_num >= " + paymentMessage.getBeginDateNum());
 			}
 			
 			if (!StringUtils.isEmpty(paymentMessage.getOrderBy())) {

@@ -30,4 +30,14 @@ public class ImpPayHeadServiceImpl implements ImpPayHeadService {
 		return this.impPayHeadMapper.getImpPayHeadList(impPayHead);
 	}
 
+	@Override
+	public Long countImpPayHead(ImpPayHead impPayHead) {
+		return this.impPayHeadMapper.countImpPayHead(impPayHead);
+	}
+
+	@Override
+	public void updateImpPayHead(ImpPayHead impPayHead) {
+		this.impPayHeadMapper.updateImpPayHead(impPayHead);
+	}
+
 }
