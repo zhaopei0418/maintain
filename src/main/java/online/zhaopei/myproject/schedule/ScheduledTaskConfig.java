@@ -31,7 +31,7 @@ public class ScheduledTaskConfig {
 	@Autowired
 	private SyncPaymentInfoService syncPaymentInfoService;
 	
-	@Scheduled(initialDelay = 10000, fixedDelay = 60000)
+//	@Scheduled(initialDelay = 10000, fixedDelay = 60000)
 	public void syncPaymentInfo() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		SimpleDateFormat sdfDay = new SimpleDateFormat("yyyyMMdd");

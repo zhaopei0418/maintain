@@ -31,8 +31,11 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 			}
 			
 			this.SELECT("count(1) as quantity");
-			this.SELECT("sum(coh.goods_value) as goods_value");
+			this.SELECT("sum(cil.total_price) as goods_value");
+			this.SELECT("sum(cil.qty) as goodsTotalQuantity");
 			this.FROM("ceb2_invt_head cih");
+			
+			this.INNER_JOIN("(select head_guid, sum(qty) as qty, sum(total_price) as total_price from ceb2_invt_list group by head_guid) cil on cil.head_guid = cih.head_guid");
 			
 			if (!StringUtils.isEmpty(invtHeadStatistics.getDistinct())) {
 				this.INNER_JOIN("(select min(head_guid) as inner_head_guid from ceb2_invt_head group by ebc_code, order_no) cih1 on cih.head_guid = cih1.inner_head_guid");
@@ -131,7 +134,7 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 			if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {
 				orderStringBuffer.append("," + invtHeadStatistics.getGroupFieldTwo());
 			}
-			orderStringBuffer.append(", count(1) desc, sum(coh.goods_value) desc");
+			orderStringBuffer.append(", count(1) desc, sum(cil.total_price) desc");
 			this.ORDER_BY(orderStringBuffer.toString()); 
 		}}.toString();
 	}

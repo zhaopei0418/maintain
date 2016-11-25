@@ -15,6 +15,8 @@ public class InvtHeadStatistics extends BaseDomain {
 	
 	private Integer quantity;
 	
+	private Integer goodsTotalQuantity;
+	
 	private Double goodsValue;
 	
 	private String beginSysDate;
@@ -83,6 +85,14 @@ public class InvtHeadStatistics extends BaseDomain {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public Integer getGoodsTotalQuantity() {
+		return goodsTotalQuantity;
+	}
+
+	public void setGoodsTotalQuantity(Integer goodsTotalQuantity) {
+		this.goodsTotalQuantity = goodsTotalQuantity;
 	}
 
 	public Double getGoodsValue() {
