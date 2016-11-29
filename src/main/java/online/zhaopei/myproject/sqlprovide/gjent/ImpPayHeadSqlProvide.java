@@ -112,6 +112,7 @@ public class ImpPayHeadSqlProvide implements Serializable {
 			OracleTool.values(this, "cbecode", impPayHead.getCbeCode());
 			OracleTool.values(this, "cbename", impPayHead.getCbeName());
 			OracleTool.values(this, "billmode", impPayHead.getBillMode());
+			OracleTool.values(this, "auditstate", "success");
 			this.VALUES("sys_date", "sysdate");
 		}}.toString();
 	}
