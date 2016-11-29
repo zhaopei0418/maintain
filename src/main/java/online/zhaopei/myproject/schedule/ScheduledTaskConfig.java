@@ -44,7 +44,10 @@ public class ScheduledTaskConfig {
 		if (null != lastSyncTime && 10000000000000L < lastSyncTime) {
 			searchPm.setBeginCreateDate(String.valueOf(lastSyncTime));
 		}
-		searchPm.setBeginDateNum(Long.valueOf(sdfDay.format(Calendar.getInstance().getTime()) + "00"));
+		
+		Calendar yesterdayCalendar = Calendar.getInstance();
+		yesterdayCalendar.add(Calendar.DAY_OF_YEAR, -1);
+		searchPm.setBeginDateNum(Long.valueOf(sdfDay.format(yesterdayCalendar.getTime()) + "00"));
 		searchPm.setXmlContent("<BILLMODE>0</BILLMODE>");
 		searchPm.setOrderBy("created_date asc");
 		resultPaymentMessageList = this.paymentMessageService.getPaymentMessageList(searchPm);
