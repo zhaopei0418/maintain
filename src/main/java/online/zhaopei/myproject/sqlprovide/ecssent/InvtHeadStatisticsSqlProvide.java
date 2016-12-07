@@ -33,6 +33,10 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 			this.SELECT("count(1) as quantity");
 			this.SELECT("sum(cil.total_price) as goods_value");
 			this.SELECT("sum(cil.qty) as goodsTotalQuantity");
+			this.SELECT("sum(cth.tax_total) as taxTotal");
+			this.SELECT("sum(cth.customs_tax) as customsTax");
+			this.SELECT("sum(cth.value_added_tax) as valueAddedTax");
+			this.SELECT("sum(cth.consumption_tax) as consumptionTax");
 			this.FROM("ceb2_invt_head cih");
 			
 			this.INNER_JOIN("(select head_guid, sum(qty) as qty, sum(total_price) as total_price from ceb2_invt_list group by head_guid) cil on cil.head_guid = cih.head_guid");
@@ -42,6 +46,7 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 			}
 			
 			this.LEFT_OUTER_JOIN("(select * from ceb2_ord_head where head_guid in (select min(head_guid) as headguid from ceb2_ord_head group by ebc_code, order_no)) coh on coh.ebc_code = cih.ebc_code and coh.order_no = cih.order_no");
+			this.LEFT_OUTER_JOIN("ceb2_tax_head cth on cth.invt_no = cih.invt_no");
 			
 			this.LEFT_OUTER_JOIN("cur_lms_head clh on clh.lms_no = cih.ems_no");
 			if (!StringUtils.isEmpty(invtHeadStatistics.getBeginSysDate())) {

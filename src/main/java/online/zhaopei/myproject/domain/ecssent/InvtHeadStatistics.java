@@ -17,6 +17,14 @@ public class InvtHeadStatistics extends BaseDomain {
 	
 	private Integer goodsTotalQuantity;
 	
+	private Double taxTotal;
+	
+	private Double customsTax;
+	
+	private Double valueAddedTax;
+	
+	private Double consumptionTax;
+	
 	private Double goodsValue;
 	
 	private String beginSysDate;
@@ -93,6 +101,38 @@ public class InvtHeadStatistics extends BaseDomain {
 
 	public void setGoodsTotalQuantity(Integer goodsTotalQuantity) {
 		this.goodsTotalQuantity = goodsTotalQuantity;
+	}
+
+	public Double getTaxTotal() {
+		return taxTotal;
+	}
+
+	public void setTaxTotal(Double taxTotal) {
+		this.taxTotal = taxTotal;
+	}
+
+	public Double getCustomsTax() {
+		return customsTax;
+	}
+
+	public void setCustomsTax(Double customsTax) {
+		this.customsTax = customsTax;
+	}
+
+	public Double getValueAddedTax() {
+		return valueAddedTax;
+	}
+
+	public void setValueAddedTax(Double valueAddedTax) {
+		this.valueAddedTax = valueAddedTax;
+	}
+
+	public Double getConsumptionTax() {
+		return consumptionTax;
+	}
+
+	public void setConsumptionTax(Double consumptionTax) {
+		this.consumptionTax = consumptionTax;
 	}
 
 	public Double getGoodsValue() {

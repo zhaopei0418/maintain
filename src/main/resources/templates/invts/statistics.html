@@ -352,6 +352,10 @@
 						<th class="column-title">数量</th>
 						<th class="column-title">商品数量</th>
 						<th class="column-title">货值</th>
+						<th class="column-title">总税款</th>
+						<th class="column-title">关税</th>
+						<th class="column-title">消费税</th>
+						<th class="column-title">增值税</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -365,6 +369,10 @@
 						<td th:text="${invtHeadStatistics.quantity}"></td>
 						<td th:text="${invtHeadStatistics.goodsTotalQuantity}"></td>
 						<td th:text="${invtHeadStatistics.goodsValue}"></td>
+						<td th:text="${invtHeadStatistics.taxTotal}"></td>
+						<td th:text="${invtHeadStatistics.customsTax}"></td>
+						<td th:text="${invtHeadStatistics.consumptionTax}"></td>
+						<td th:text="${invtHeadStatistics.valueAddedTax}"></td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -375,6 +383,10 @@
 						<th class="column-title">数量</th>
 						<th class="column-title">商品数量</th>
 						<th class="column-title">货值</th>
+						<th class="column-title">总税款</th>
+						<th class="column-title">关税</th>
+						<th class="column-title">消费税</th>
+						<th class="column-title">增值税</th>
 					</tr>
 				</tfoot>
 			</table>
