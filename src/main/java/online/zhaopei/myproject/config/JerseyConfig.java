@@ -16,6 +16,9 @@ import online.zhaopei.myproject.jerseyservice.HelloEndpoint;
 @ApplicationPath("api")
 public class JerseyConfig extends ResourceConfig {
 
+	@Value("${spring.jersey.application-path:/api}")
+	private String apiPath;
+
 	public JerseyConfig() {
 		this.registerEndpoints();
 	}
@@ -38,6 +41,7 @@ public class JerseyConfig extends ResourceConfig {
 		config.setVersion("1.0.0");
 		config.setContact("赵配");
 		config.setSchemes(new String[] { "http", "https" });
+		config.setBasePath(this.apiPath);
 		config.setResourcePackage("online.zhaopei.myproject.jerseyservice");
 		config.setPrettyPrint(true);
 		config.setScan(true);
