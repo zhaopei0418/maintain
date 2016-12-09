@@ -20,6 +20,11 @@ bootstrap 地址：http://getbootstrap.com/css/
 
 加上spring security安全模块
 
+添加基于Jersey的RestfulAPI
+```
+文档地址: localhost:8080/apidocs/index.html
+```
+
 **maven**
 ```
 	mvn spring-boot:run
