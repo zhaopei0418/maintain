@@ -29,11 +29,14 @@ public class Application extends SpringBootServletInitializer {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests()
-					.antMatchers("/js/**", "/css/**", "/fonts/**", "/images/**", "/vendors/**", "/locales/**",
-							"/favicon.ico", "/api/**", "/apidocs/**")
-					.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
-					.logout().permitAll();
+			http.csrf()
+				.ignoringAntMatchers("/wechat/**")
+				.and()
+				.authorizeRequests()
+				.antMatchers("/js/**", "/css/**", "/fonts/**", "/images/**", "/vendors/**", "/locales/**",
+					"/favicon.ico", "/api/**", "/apidocs/**", "/wechat/**")
+				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
+				.logout().permitAll();
 		}
 
 		@Override
