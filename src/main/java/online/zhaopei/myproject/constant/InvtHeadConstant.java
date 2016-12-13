@@ -58,6 +58,8 @@ public enum InvtHeadConstant implements Serializable {
 	APP_STATUS_621999_DESC("异常"),
 	APP_STATUS_621001("-621001"),
 	APP_STATUS_621001_DESC("清单校验失败"),
+	APP_STATUS_621049("-621049"),
+	APP_STATUS_621049_DESC("验签失败"),
 	
 	
 	AUDIT_STATE_SUCCESS("success"),
