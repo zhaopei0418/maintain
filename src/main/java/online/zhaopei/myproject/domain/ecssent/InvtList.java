@@ -33,11 +33,11 @@ public class InvtList extends BaseDomain {
 
 	private String currency;
 
-	private Integer qty;
+	private Double qty;
 
-	private Integer qty1;
+	private Double qty1;
 
-	private Integer qty2;
+	private Double qty2;
 
 	private String unit;
 
@@ -141,27 +141,59 @@ public class InvtList extends BaseDomain {
 		this.currency = currency;
 	}
 
-	public Integer getQty() {
+	public Integer getgNum() {
+		return gNum;
+	}
+
+	public void setgNum(Integer gNum) {
+		this.gNum = gNum;
+	}
+
+	public String getgCode() {
+		return gCode;
+	}
+
+	public void setgCode(String gCode) {
+		this.gCode = gCode;
+	}
+
+	public String getgName() {
+		return gName;
+	}
+
+	public void setgName(String gName) {
+		this.gName = gName;
+	}
+
+	public String getgModel() {
+		return gModel;
+	}
+
+	public void setgModel(String gModel) {
+		this.gModel = gModel;
+	}
+
+	public Double getQty() {
 		return qty;
 	}
 
-	public void setQty(Integer qty) {
+	public void setQty(Double qty) {
 		this.qty = qty;
 	}
 
-	public Integer getQty1() {
+	public Double getQty1() {
 		return qty1;
 	}
 
-	public void setQty1(Integer qty1) {
+	public void setQty1(Double qty1) {
 		this.qty1 = qty1;
 	}
 
-	public Integer getQty2() {
+	public Double getQty2() {
 		return qty2;
 	}
 
-	public void setQty2(Integer qty2) {
+	public void setQty2(Double qty2) {
 		this.qty2 = qty2;
 	}
 
