@@ -221,6 +221,7 @@ public class InvtsController extends BaseController {
 				dataObj.addProperty("gNum", il.getGNum());
 				dataObj.addProperty("gName", il.getGName());
 				dataObj.addProperty("gCode", il.getGCode());
+				dataObj.addProperty("itemRecordNo", il.getItemRecordNo());
 				dataObj.addProperty("itemNo", il.getItemNo());
 				dataObj.addProperty("qty", il.getQty());
 				dataObj.addProperty("unit", ParaTool.getUnitDesc(il.getUnit(), this.unitService) + "[" + il.getUnit() + "]");
