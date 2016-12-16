@@ -320,6 +320,8 @@
 						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'4\')'">发送海关失败</button>
 					<button type="button" class="btn btn-round btn-info"
 						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'120\')'">海关入库</button>
+					<button type="button" class="btn btn-round btn-info"
+						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'399\')'">海关审结</button>
 					<button type="button" class="btn btn-round btn-danger"
 						th:onclick="'addFormParaQuery(\'invt_cancel_form\', \'appStatus\', \'05\')'">电子口岸校验失败</button>
 				</div>
@@ -384,9 +386,9 @@
 						<td th:text="${stat.count}"></td>
 						<td>
 							<a th:text="${invtCancel.invtNo}"
-								th:href="@{'/invts/' + ${invtCancel.headGuid}}"></a>
+								th:href="@{'/invts?invtNo=' + ${invtCancel.invtNo}}"></a>
 						</td>
-						<td>
+						<td th:text="${invtCancel.copNo}">
 							<a th:text="${invtCancel.copNo}"
 								th:href="@{'/invts/' + ${invtCancel.headGuid}}"></a>
 						</td>
