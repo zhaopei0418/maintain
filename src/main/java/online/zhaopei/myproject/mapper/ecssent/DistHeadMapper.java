@@ -52,9 +52,9 @@ public interface DistHeadMapper extends Serializable {
 //		@Result(property = "veHead", column = "ve_no",
 //				one = @One(fetchType = FetchType.LAZY,
 //					select = "online.zhaopei.myproject.mapper.ecssent.VeHeadMapper.getVeHeadByVeNo")),
-		@Result(property = "distBillListList", column = "seq_no",
-				many = @Many(fetchType = FetchType.LAZY,
-					select = "online.zhaopei.myproject.mapper.ecssent.DistBillListMapper.getDistBillListList"))
+//		@Result(property = "distBillListList", column = "seq_no",
+//				many = @Many(fetchType = FetchType.LAZY,
+//					select = "online.zhaopei.myproject.mapper.ecssent.DistBillListMapper.getDistBillListList"))
 	})
 	@SelectProvider(type = DistHeadSqlProvide.class, method = "getDistHeadByInvtNoSql")
 	DistHead getDistHeadByInvtNo(String invtNo);
