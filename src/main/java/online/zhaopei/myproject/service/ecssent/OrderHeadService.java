@@ -8,4 +8,6 @@ import online.zhaopei.myproject.domain.ecssent.OrderHead;
 public interface OrderHeadService extends Serializable {
 
 	List<OrderHead> getOrderHeadList(OrderHead orderHead);
+	
+	OrderHead getOrderHeadByHeadGuid(String headGuid);
 }

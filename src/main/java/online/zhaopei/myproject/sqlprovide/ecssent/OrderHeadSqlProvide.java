@@ -6,6 +6,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 import com.alibaba.druid.util.StringUtils;
 
+import online.zhaopei.myproject.common.tool.OracleTool;
 import online.zhaopei.myproject.domain.ecssent.OrderHead;
 
 public class OrderHeadSqlProvide implements Serializable {
@@ -15,6 +16,55 @@ public class OrderHeadSqlProvide implements Serializable {
 	 */
 	private static final long serialVersionUID = -4190863223284944833L;
 
+	public String getOrderHeadByHeadGuidSql(final String headGuid) {
+		return new SQL() {{
+			this.SELECT("head_guid");
+			this.SELECT("app_type");
+			this.SELECT("app_time");
+			this.SELECT("app_status");
+			this.SELECT("app_uid");
+			this.SELECT("app_uname");
+			this.SELECT("app_sender_id");
+			this.SELECT("decl_time");
+			this.SELECT("order_type");
+			this.SELECT("order_no");
+			this.SELECT("ebp_code");
+			this.SELECT("ebp_name");
+			this.SELECT("ebc_code");
+			this.SELECT("ebc_name");
+			this.SELECT("goods_value");
+			this.SELECT("freight");
+			this.SELECT("discount");
+			this.SELECT("tax_total");
+			this.SELECT("actural_paid");
+			this.SELECT("currency");
+			this.SELECT("buyer_reg_no");
+			this.SELECT("buyer_name");
+			this.SELECT("buyer_id_type");
+			this.SELECT("buyer_id_number");
+			this.SELECT("pay_code");
+			this.SELECT("pay_name");
+			this.SELECT("pay_transaction_id");
+			this.SELECT("batch_numbers");
+			this.SELECT("consignee");
+			this.SELECT("consignee_telephone");
+			this.SELECT("consignee_address");
+			this.SELECT("consignee_district");
+			this.SELECT("note");
+			this.SELECT("msg_guid");
+			this.SELECT("del_flag");
+			this.SELECT("sys_days");
+			this.SELECT("sys_date");
+			this.FROM("ceb2_ord_head");
+			
+			if (!StringUtils.isEmpty(headGuid)) {
+				OracleTool.where(this, "head_guid", headGuid);
+			} else {
+				this.WHERE("1 = 2");
+			}
+		}}.toString();
+	}
+	
 	public String getOrderHeadListSql(final OrderHead orderHead) {
 		return new SQL() {{
 			this.SELECT("head_guid");
@@ -31,6 +81,7 @@ public class OrderHeadSqlProvide implements Serializable {
 			this.SELECT("sys_date");
 			this.SELECT("app_type");
 			this.FROM("ceb2_ord_head");
+			
 			if (!StringUtils.isEmpty(orderHead.getHeadGuid())) {
 				this.WHERE("head_guid = '" + orderHead.getHeadGuid() + "'");
 			}
@@ -44,7 +95,7 @@ public class OrderHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getEbcName())) {
-				this.WHERE("ebc_name link '%" + orderHead.getEbcName() + "%'");
+				this.WHERE("ebc_name like '%" + orderHead.getEbcName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getEbpCode())) {

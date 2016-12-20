@@ -1,0 +1,312 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>订单管理 > 订单详情</title>
+</head>
+<body>
+	<div layout:fragment="header">
+		<div class="title_left">
+			<h3>订单详情</h3>
+		</div>
+	</div>
+	<div layout:fragment="content">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<a class="btn btn-default" href="/orders">返回订单列表</a>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="" role="tabpanel" data-example-id="togglable-tabs">
+						<ul class="nav nav-tabs bar_tabs" role="tablist">
+							<li role="presentation" class="active">
+								<a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">
+									订单表头
+								</a>
+							</li>
+							<li role="presentation" class="">
+								<a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">
+									订单表体
+								</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订单编号</a>
+											<p th:if="${null != orderHead.orderNo}" th:text="${orderHead.orderNo}"></p>
+											<p th:if="${null == orderHead.orderNo}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">入库时间</a>
+											<p th:if="${null != orderHead.sysDate}" th:text="${#calendars.format(orderHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></p>
+											<p th:if="${null == orderHead.sysDate}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电商企业代码</a>
+											<p th:if="${null != orderHead.ebcCode}" th:text="${orderHead.ebcCode}"></p>
+											<p th:if="${null == orderHead.ebcCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">支付企业名称</a>
+											<p th:if="${null != orderHead.payName}" th:text="${orderHead.payName}"></p>
+											<p th:if="${null == orderHead.payName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">商品批次号</a>
+											<p th:if="${null != orderHead.batchNumbers}" th:text="${orderHead.batchNumbers}"></p>
+											<p th:if="${null == orderHead.batchNumbers}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">收货人名称</a>
+											<p th:if="${null != orderHead.consignee}" th:text="${orderHead.consignee}"></p>
+											<p th:if="${null == orderHead.consignee}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">收货人地址</a>
+											<p th:if="${null != orderHead.consigneeAddress}" th:text="${orderHead.consigneeAddress}"></p>
+											<p th:if="${null == orderHead.consigneeAddress}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">运杂费</a>
+											<p th:if="${null != orderHead.freight}" th:text="${orderHead.freight}"></p>
+											<p th:if="${null == orderHead.freight}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">币制</a>
+											<p th:if="${null != orderHead.currency}" th:text="${currency} + '[' + ${orderHead.currency} + ']'"></p>
+											<p th:if="${null == orderHead.currency}">无信息</p>
+										</div>
+									</article>
+								</div>
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">申报类型</a>
+											<p th:if="${null != orderHead.appType}" th:text="${appType[orderHead.appType]} + '[' + ${orderHead.appType} + ']'"></p>
+											<p th:if="${null == orderHead.appType}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电商平台代码</a>
+											<p th:if="${null != orderHead.ebpCode}" th:text="${orderHead.ebpCode}"></p>
+											<p th:if="${null == orderHead.ebpCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电商企业名称</a>
+											<p th:if="${null != orderHead.ebcName}" th:text="${orderHead.ebcName}"></p>
+											<p th:if="${null == orderHead.ebcName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">交易号</a>
+											<p th:if="${null != orderHead.payTransactionId}" th:text="${orderHead.payTransactionId}"></p>
+											<p th:if="${null == orderHead.payTransactionId}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订购人证件类型</a>
+											<p th:if="${null != orderHead.buyerIdType}" th:text="${orderHead.buyerIdType}"></p>
+											<p th:if="${null == orderHead.buyerIdType}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">收货人电话</a>
+											<p th:if="${null != orderHead.consigneeTelephone}" th:text="${orderHead.consigneeTelephone}"></p>
+											<p th:if="${null == orderHead.consigneeTelephone}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">实际支付金额</a>
+											<p th:if="${null != orderHead.acturalPaid}" th:text="${orderHead.acturalPaid}"></p>
+											<p th:if="${null == orderHead.acturalPaid}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">优惠减免金额</a>
+											<p th:if="${null != orderHead.discount}" th:text="${orderHead.discount}"></p>
+											<p th:if="${null == orderHead.discount}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">进/出口</a>
+											<p th:if="${null != orderHead.orderType}" th:text="${orderType[orderHead.orderType]} + '[' + ${orderHead.orderType} + ']'"></p>
+											<p th:if="${null == orderHead.orderType}">无信息</p>
+										</div>
+									</article>
+								</div>
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">业务状态</a>
+											<p th:if="${null != orderHead.appStatus}" th:text="${appStatus[orderHead.appStatus]} + '[' + ${orderHead.appStatus} + ']'"></p>
+											<p th:if="${null == orderHead.appStatus}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">电商平台名称</a>
+											<p th:if="${null != orderHead.ebpName}" th:text="${orderHead.ebpName}"></p>
+											<p th:if="${null == orderHead.ebpName}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">支付企业代码</a>
+											<p th:if="${null != orderHead.payCode}" th:text="${orderHead.payCode}"></p>
+											<p th:if="${null == orderHead.payCode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订购人名称</a>
+											<p th:if="${null != orderHead.buyerName}" th:text="${orderHead.buyerName}"></p>
+											<p th:if="${null == orderHead.tradeMode}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订购人证件号码</a>
+											<p th:if="${null != orderHead.buyerIdNumber}" th:text="${orderHead.buyerIdNumber}"></p>
+											<p th:if="${null == orderHead.buyerIdNumber}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">收货人行政区划代码</a>
+											<p th:if="${null != orderHead.consigneeDistrict}" th:text="${orderHead.consigneeDistrict}"></p>
+											<p th:if="${null == orderHead.consigneeDistrict}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">货款金额</a>
+											<p th:if="${null != orderHead.goodsValue}" th:text="${orderHead.goodsValue}"></p>
+											<p th:if="${null == orderHead.goodsValue}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">订单商品税款</a>
+											<p th:if="${null != orderHead.taxTotal}" th:text="${orderHead.taxTotal}"></p>
+											<p th:if="${null == orderHead.taxTotal}">无信息</p>
+										</div>
+									</article>
+									<article class="media event">
+										<div class="media-body">
+											<a class="title" href="javascript:void(0);">备注</a>
+											<p th:if="${null != orderHead.note}" th:text="${orderHead.note}"></p>
+											<p th:if="${null == orderHead.note}">无信息</p>
+										</div>
+									</article>
+								</div>
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="x_panel">
+										<div class="x_content">
+											<table id="datatable-responsive" th:tid="${orderHead.headGuid}" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+												<thead>
+													<tr>
+														<th>商品序号</th>
+														<th>商品名称</th>
+														<th>商品编码</th>
+														<th>商品料号</th>
+														<th>商品货号</th>
+														<th>数量</th>
+														<th>计量单位</th>
+														<th>单价</th>
+														<th>总价</th>
+														<th>币制</th>
+														<th>原产国</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+												<tfoot>
+													<tr>
+														<th>商品序号</th>
+														<th>商品名称</th>
+														<th>商品编码</th>
+														<th>商品料号</th>
+														<th>商品货号</th>
+														<th>数量</th>
+														<th>计量单位</th>
+														<th>单价</th>
+														<th>总价</th>
+														<th>币制</th>
+														<th>原产国</th>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function() {
+				$("#datatable-responsive").DataTable({
+					language: language,
+					processing: true,
+					serverSide: true,
+					responsive: true,
+					paginationType: "full_numbers",
+					ajax: {
+						url: "/orders/searchOrderList/" + $("#datatable-responsive").attr("tid"),
+						type: "GET",
+						headers: {
+							"X-CSRF-Token": $('meta[name="_csrf"]').attr('content')
+						}
+					},
+					columns: [
+						{ data: "gNum" },
+						{ data: "gName" },
+						{ data: "gCode" },
+						{ data: "itemRecordNo" },
+						{ data: "itemNo" },
+						{ data: "qty" },
+						{ data: "unit" },
+						{ data: "price" },
+						{ data: "totalPrice" },
+						{ data: "currency" },
+						{ data: "country" },
+					]
+				});
+			});
+		</script>
+	</div>
+</body>
+</html>

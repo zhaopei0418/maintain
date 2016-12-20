@@ -25,4 +25,9 @@ public class OrderHeadServiceImpl implements OrderHeadService {
 		return this.orderHeadMapper.getOrderHeadList(orderHead);
 	}
 
+	@Override
+	public OrderHead getOrderHeadByHeadGuid(String headGuid) {
+		return this.orderHeadMapper.getOrderHeadByHeadGuid(headGuid);
+	}
+
 }
