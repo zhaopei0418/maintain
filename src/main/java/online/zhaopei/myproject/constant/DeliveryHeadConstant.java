@@ -25,6 +25,7 @@ public enum DeliveryHeadConstant implements Serializable {
 		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_4.toString(), InvtHeadConstant.APP_STATUS_4_DESC.toString());
 		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_100.toString(), InvtHeadConstant.APP_STATUS_100_DESC.toString());
 		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_120.toString(), InvtHeadConstant.APP_STATUS_120_DESC.toString());
+		APP_STATUS_MAP.put(InvtHeadConstant.APP_STATUS_504011.toString(), InvtHeadConstant.APP_STATUS_504011_DESC.toString());
 	}
 	
 	private DeliveryHeadConstant(String value) {

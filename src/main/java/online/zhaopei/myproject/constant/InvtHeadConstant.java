@@ -46,6 +46,8 @@ public enum InvtHeadConstant implements Serializable {
 	APP_STATUS_503_DESC("扣留移送法规"),
 	APP_STATUS_599("599"),
 	APP_STATUS_599_DESC("其它扣留"),
+	APP_STATUS_600("600"),
+	APP_STATUS_600_DESC("挂起"),
 	APP_STATUS_700("700"),
 	APP_STATUS_700_DESC("退运"),
 	APP_STATUS_800("800"),
@@ -138,6 +140,7 @@ public enum InvtHeadConstant implements Serializable {
 		APP_STATUS_MAP.put(APP_STATUS_502.value, APP_STATUS_502_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_503.value, APP_STATUS_503_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_599.value, APP_STATUS_599_DESC.value);
+		APP_STATUS_MAP.put(APP_STATUS_600.value, APP_STATUS_600_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_700.value, APP_STATUS_700_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_800.value, APP_STATUS_800_DESC.value);
 		APP_STATUS_MAP.put(APP_STATUS_899.value, APP_STATUS_899_DESC.value);
