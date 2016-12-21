@@ -189,7 +189,7 @@
 										<div class="media-body">
 											<a class="title" href="javascript:void(0);">订购人名称</a>
 											<p th:if="${null != orderHead.buyerName}" th:text="${orderHead.buyerName}"></p>
-											<p th:if="${null == orderHead.tradeMode}">无信息</p>
+											<p th:if="${null == orderHead.buyerName}">无信息</p>
 										</div>
 									</article>
 									<article class="media event">
@@ -237,16 +237,17 @@
 												<thead>
 													<tr>
 														<th>商品序号</th>
-														<th>商品名称</th>
-														<th>商品编码</th>
-														<th>商品料号</th>
 														<th>商品货号</th>
+														<th>商品名称</th>
+														<th>商品描述</th>
+														<th>条码</th>
 														<th>数量</th>
 														<th>计量单位</th>
 														<th>单价</th>
 														<th>总价</th>
 														<th>币制</th>
 														<th>原产国</th>
+														<th>备注</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -254,16 +255,17 @@
 												<tfoot>
 													<tr>
 														<th>商品序号</th>
-														<th>商品名称</th>
-														<th>商品编码</th>
-														<th>商品料号</th>
 														<th>商品货号</th>
+														<th>商品名称</th>
+														<th>商品描述</th>
+														<th>条码</th>
 														<th>数量</th>
 														<th>计量单位</th>
 														<th>单价</th>
 														<th>总价</th>
 														<th>币制</th>
 														<th>原产国</th>
+														<th>备注</th>
 													</tr>
 												</tfoot>
 											</table>
@@ -293,16 +295,17 @@
 					},
 					columns: [
 						{ data: "gNum" },
-						{ data: "gName" },
-						{ data: "gCode" },
-						{ data: "itemRecordNo" },
 						{ data: "itemNo" },
+						{ data: "itemName" },
+						{ data: "itemDescribe" },
+						{ data: "barCode" },
 						{ data: "qty" },
 						{ data: "unit" },
 						{ data: "price" },
 						{ data: "totalPrice" },
 						{ data: "currency" },
 						{ data: "country" },
+						{ data: "note" }
 					]
 				});
 			});

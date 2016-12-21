@@ -24,6 +24,7 @@ import online.zhaopei.myproject.domain.ecssent.OrderHead;
 import online.zhaopei.myproject.domain.ecssent.OrderList;
 import online.zhaopei.myproject.service.ecssent.OrderHeadService;
 import online.zhaopei.myproject.service.ecssent.OrderListService;
+import online.zhaopei.myproject.service.para.CountryService;
 import online.zhaopei.myproject.service.para.CurrService;
 
 @Controller
@@ -43,6 +44,9 @@ public class OrdersController extends BaseController {
 	
 	@Autowired
 	private CurrService currService;
+	
+	@Autowired
+	private CountryService countryService;
 	
 	@RequestMapping
 	public ModelAndView index(OrderHead orderHead) {
@@ -94,18 +98,18 @@ public class OrdersController extends BaseController {
 		if (null != orderListList && !orderListList.isEmpty()) {
 			for (OrderList ol : orderListList) {
 				dataObj = new JsonObject();
-//				dataObj.addProperty("gNum", il.getGNum());
-//				dataObj.addProperty("gName", il.getGName());
-//				dataObj.addProperty("gCode", il.getGCode());
-//				dataObj.addProperty("itemRecordNo", il.getItemRecordNo());
-//				dataObj.addProperty("itemNo", il.getItemNo());
-//				dataObj.addProperty("qty", il.getQty());
-//				dataObj.addProperty("unit", ParaTool.getUnitDesc(il.getUnit(), this.unitService) + "[" + il.getUnit() + "]");
-//				dataObj.addProperty("price", il.getPrice());
-//				dataObj.addProperty("totalPrice", il.getTotalPrice());
-//				dataObj.addProperty("currency", ParaTool.getCurrDesc(il.getCurrency(), this.currService) + "[" + il.getCurrency() + "]");
-//				dataObj.addProperty("country", ParaTool.getCountryDesc(il.getCountry(), this.countryService) + "[" + il.getCountry() + "]");
-				
+				dataObj.addProperty("gNum", ol.getgNum());
+				dataObj.addProperty("itemNo", ol.getItemNo());
+				dataObj.addProperty("itemName", ol.getItemName());
+				dataObj.addProperty("itemDescribe", ol.getItemDescribe());
+				dataObj.addProperty("barCode", ol.getBarCode());
+				dataObj.addProperty("qty", ol.getQty());
+				dataObj.addProperty("unit", ol.getUnit());
+				dataObj.addProperty("price", ol.getPrice());
+				dataObj.addProperty("totalPrice", ol.getTotalPrice());
+				dataObj.addProperty("currency", ParaTool.getCurrDesc(ol.getCurrency(), this.currService) + "[" + ol.getCurrency() + "]");
+				dataObj.addProperty("country", ParaTool.getCountryDesc(ol.getCountry(), this.countryService) + "[" + ol.getCountry() + "]");
+				dataObj.addProperty("note", ol.getNote());
 				data.add(dataObj);
 			}
 		}

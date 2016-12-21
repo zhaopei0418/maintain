@@ -124,6 +124,96 @@ public class InvtsController extends BaseController {
 		return this.distHeadService.getDistHeadByInvtNo(invtNo);
 	}
 	
+	private String getInvtInfoByFormat(String format) {
+		JsonObject result = new JsonObject();
+		JsonArray labels = new JsonArray();
+		JsonArray datasets = new JsonArray();
+		JsonObject dataset = null;
+		JsonArray dataCount = new JsonArray();
+		JsonArray dataGoodsValue = new JsonArray();
+		JsonArray dataGoodsQuantity = new JsonArray();
+		JsonArray dataTaxTotal = new JsonArray();
+		InvtHeadStatistics tempStatistics = null;
+		InvtHeadStatistics invtHeadStatistics = new InvtHeadStatistics("to_char(cih.sys_date, '" + format + "')");
+		invtHeadStatistics.setSubtotal(false);
+		List<InvtHeadStatistics> invtHeadStatisticsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+		
+		if (null != invtHeadStatisticsList && !invtHeadStatisticsList.isEmpty()) {
+			for (int i = 0; i < invtHeadStatisticsList.size(); i++) {
+				tempStatistics = invtHeadStatisticsList.get(i);
+				labels.add(tempStatistics.getName());
+				dataCount.add(tempStatistics.getQuantity());
+				dataGoodsValue.add(tempStatistics.getGoodsValue());
+				dataGoodsQuantity.add(tempStatistics.getGoodsTotalQuantity());
+				dataTaxTotal.add(tempStatistics.getTaxTotal());
+			}
+			
+			dataset = new JsonObject();
+			dataset.addProperty("label", "清单数");
+			dataset.addProperty("backgroundColor", "rgba(38, 185, 154, 0.31)");
+			dataset.addProperty("borderColor", "rgba(38, 185, 154, 0.7)");
+			dataset.addProperty("pointBorderColor", "rgba(38, 185, 154, 0.7)");
+			dataset.addProperty("pointBackgroundColor", "rgba(38, 185, 154, 0.7)");
+			dataset.addProperty("pointHoverBackgroundColor", "#fff");
+			dataset.addProperty("pointHoverBorderColor", "rgba(220,220,220,1)");
+			dataset.addProperty("pointBorderWidth", "1");
+			dataset.add("data", dataCount);
+			datasets.add(dataset);
+			
+			dataset = new JsonObject();
+			dataset.addProperty("label", "货值");
+			dataset.addProperty("backgroundColor", "rgba(3, 88, 106, 0.3)");
+			dataset.addProperty("borderColor", "rgba(3, 88, 106, 0.70)");
+			dataset.addProperty("pointBorderColor", "rgba(3, 88, 106, 0.70)");
+			dataset.addProperty("pointBackgroundColor", "rgba(3, 88, 106, 0.70)");
+			dataset.addProperty("pointHoverBackgroundColor", "#fff");
+			dataset.addProperty("pointHoverBorderColor", "rgba(151,187,205,1)");
+			dataset.addProperty("pointBorderWidth", "1");
+			dataset.add("data", dataGoodsValue);
+			datasets.add(dataset);
+			
+			dataset = new JsonObject();
+			dataset.addProperty("label", "商品数量");
+			dataset.addProperty("backgroundColor", "rgba(238, 88, 106, 0.3)");
+			dataset.addProperty("borderColor", "rgba(238, 88, 106, 0.70)");
+			dataset.addProperty("pointBorderColor", "rgba(238, 88, 106, 0.70)");
+			dataset.addProperty("pointBackgroundColor", "rgba(238, 88, 106, 0.70)");
+			dataset.addProperty("pointHoverBackgroundColor", "#fff");
+			dataset.addProperty("pointHoverBorderColor", "rgba(150,150,150,1)");
+			dataset.addProperty("pointBorderWidth", "1");
+			dataset.add("data", dataGoodsQuantity);
+			datasets.add(dataset);
+			
+			dataset = new JsonObject();
+			dataset.addProperty("label", "税款");
+			dataset.addProperty("backgroundColor", "rgba(138, 88, 106, 0.3)");
+			dataset.addProperty("borderColor", "rgba(138, 88, 106, 0.70)");
+			dataset.addProperty("pointBorderColor", "rgba(138, 88, 106, 0.70)");
+			dataset.addProperty("pointBackgroundColor", "rgba(138, 88, 106, 0.70)");
+			dataset.addProperty("pointHoverBackgroundColor", "#fff");
+			dataset.addProperty("pointHoverBorderColor", "rgba(110,110,110,1)");
+			dataset.addProperty("pointBorderWidth", "1");
+			dataset.add("data", dataTaxTotal);
+			datasets.add(dataset);
+		}
+		
+		result.add("labels", labels);
+		result.add("datasets", datasets);
+		return result.toString();
+	}
+	
+	@GetMapping("/getDayInvtInfo")
+	@ResponseBody
+	public String getDayInvtInfo() {
+		return this.getInvtInfoByFormat("yyyy-mm-dd");
+	}
+	
+	@GetMapping("/getMonthInvtInfo")
+	@ResponseBody
+	public String getMonthInvtInfo() {
+		return this.getInvtInfoByFormat("yyyy-mm");
+	}
+	
 	@GetMapping("/getInvtHeadCount")
 	@ResponseBody
 	public String getInvtHeadMonthCount() {

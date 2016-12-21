@@ -22,12 +22,19 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 				invtHeadStatistics.setGroupField("cih.ebc_name");
 			}
 			
-			this.SELECT("decode(grouping(" + invtHeadStatistics.getGroupField() + "), 1, '总计', " +
-					invtHeadStatistics.getGroupField() + ") as name");
-			
-			if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {
-				this.SELECT("decode(grouping(" + invtHeadStatistics.getGroupFieldTwo() + "), 1, '小计', " +
-						invtHeadStatistics.getGroupFieldTwo() + ") as nameTwo");
+			if (invtHeadStatistics.isSubtotal()) {
+				this.SELECT("decode(grouping(" + invtHeadStatistics.getGroupField() + "), 1, '总计', " +
+						invtHeadStatistics.getGroupField() + ") as name");
+				
+				if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {
+					this.SELECT("decode(grouping(" + invtHeadStatistics.getGroupFieldTwo() + "), 1, '小计', " +
+							invtHeadStatistics.getGroupFieldTwo() + ") as nameTwo");
+				}
+			} else {
+				this.SELECT(invtHeadStatistics.getGroupField() + " as name");
+				if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {
+					this.SELECT(invtHeadStatistics.getGroupFieldTwo() + " as nameTwo");
+				}
 			}
 			
 			this.SELECT("count(1) as quantity");
@@ -130,10 +137,19 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 			}
 
 			if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {
-				this.GROUP_BY("rollup(" + invtHeadStatistics.getGroupField() + "," 
-					+ invtHeadStatistics.getGroupFieldTwo() +")");
+				if (invtHeadStatistics.isSubtotal()) {
+					this.GROUP_BY("rollup(" + invtHeadStatistics.getGroupField() + "," 
+						+ invtHeadStatistics.getGroupFieldTwo() +")");
+				} else {
+					this.GROUP_BY(invtHeadStatistics.getGroupField() + "," 
+						+ invtHeadStatistics.getGroupFieldTwo());
+				}
 			} else {
-				this.GROUP_BY("rollup(" + invtHeadStatistics.getGroupField() + ")");
+				if (invtHeadStatistics.isSubtotal()) {
+					this.GROUP_BY("rollup(" + invtHeadStatistics.getGroupField() + ")");
+				} else {
+					this.GROUP_BY(invtHeadStatistics.getGroupField());
+				}
 			}
 			orderStringBuffer.append(invtHeadStatistics.getGroupField());
 			if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {

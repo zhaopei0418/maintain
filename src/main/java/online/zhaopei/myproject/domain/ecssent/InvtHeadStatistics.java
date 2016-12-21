@@ -71,6 +71,20 @@ public class InvtHeadStatistics extends BaseDomain {
 	
 	private String tradeMode;
 	
+	private boolean isSubtotal = true;
+	
+	public InvtHeadStatistics() {
+	}
+	
+	public InvtHeadStatistics(String groupField) {
+		this.groupField = groupField;
+	}
+	
+	public InvtHeadStatistics(String groupField, String groupFieldTwo) {
+		this.groupField = groupField;
+		this.groupFieldTwo = groupFieldTwo;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -317,5 +331,13 @@ public class InvtHeadStatistics extends BaseDomain {
 
 	public void setTradeMode(String tradeMode) {
 		this.tradeMode = tradeMode;
+	}
+
+	public boolean isSubtotal() {
+		return isSubtotal;
+	}
+
+	public void setSubtotal(boolean isSubtotal) {
+		this.isSubtotal = isSubtotal;
 	}
 }

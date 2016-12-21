@@ -32,7 +32,7 @@ public class OrderListServiceImpl implements OrderListService {
 
 	@Override
 	public List<OrderList> getOrderListBySearchText(String headGuid, String searchText) {
-		return this.getOrderListBySearchText(headGuid, searchText);
+		return this.orderListMapper.getOrderListBySearchText(headGuid, searchText);
 	}
 
 }
