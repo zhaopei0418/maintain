@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import org.apache.ibatis.jdbc.SQL;
 
-import com.google.gson.Gson;
-
 import online.zhaopei.myproject.common.tool.OracleTool;
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
 

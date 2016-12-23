@@ -27,9 +27,12 @@ import online.zhaopei.myproject.common.tool.SHA1;
 import online.zhaopei.myproject.constant.WeChatMsgType;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;
+import online.zhaopei.myproject.domain.mysystem.ImportBill;
 import online.zhaopei.myproject.domain.wechat.WeChatMessage;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadStatisticsService;
+import online.zhaopei.myproject.service.mhin.ImportBillInService;
+import online.zhaopei.myproject.service.mhout.ImportBillOutService;
 
 @Controller
 @RequestMapping("/wechat")
@@ -42,6 +45,12 @@ public class WeChatController implements Serializable {
 	
 	@Autowired
 	private InvtHeadStatisticsService invtHeadStatisticsService;
+	
+	@Autowired
+	private ImportBillInService importBillInService;
+	
+	@Autowired
+	private ImportBillOutService importBillOutService;
 	
 	/**
 	 * serialVersionUID
@@ -160,6 +169,8 @@ public class WeChatController implements Serializable {
 			Calendar calendar = Calendar.getInstance();
 			List<InvtHeadStatistics> ihsList = null;
 			InvtHeadStatistics ihs = null, ihsYesterday = null;
+			ImportBill searchBill = null, resultInBill = null, resultOutBill = null;
+			ImportBill resultInBillYesterday = null, resultOutBillYesterday = null;
 			if ("1".equals(inputMsg.getContent()) || "今日清单".equals(inputMsg.getContent())) {
 				invtHeadStatistics =  new InvtHeadStatistics("to_char(cih.sys_date, 'yyyy-mm-dd')");
 				invtHeadStatistics.setSysDateStr(sdfDay.format(calendar.getTime()));
@@ -183,28 +194,51 @@ public class WeChatController implements Serializable {
 						+ "总货值是：[" + (null == ihsYesterday ? 0 : ihsYesterday.getGoodsValue()) + "]");
 			} else if ("4612".equals(inputMsg.getContent()) || "电子口岸数据".equals(inputMsg.getContent())) {
 				invtHeadStatistics =  new InvtHeadStatistics("cih.statistics");
+				searchBill = new ImportBill();
 				calendar.add(Calendar.DAY_OF_MONTH, -1);
 				invtHeadStatistics.setEndSysDate(sdfDay.format(calendar.getTime()));
+				searchBill.setEndDeclareDate(sdfDay.format(calendar.getTime()));
 				invtHeadStatistics.setSubtotal(false);
 				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				resultInBill = this.importBillInService.statisticsBill(searchBill);
+				resultOutBill = this.importBillOutService.statisticsBill(searchBill);
 				if (null != ihsList && !ihsList.isEmpty()) {
 					ihs = ihsList.get(0);
 				}
 				
 				invtHeadStatistics.setSysDateStr(invtHeadStatistics.getEndSysDate());
 				invtHeadStatistics.setEndSysDate(null);
+				searchBill.setDeclareDateStr(searchBill.getEndDeclareDate());
+				searchBill.setEndDeclareDate(null);
 				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				resultInBillYesterday = this.importBillInService.statisticsBill(searchBill);
+				resultOutBillYesterday = this.importBillOutService.statisticsBill(searchBill);
 				if (null != ihsList && !ihsList.isEmpty()) {
 					ihsYesterday = ihsList.get(0);
 				}
 				
 				StringBuffer contentBuffer = new StringBuffer("各位领导上午好\n");
-				contentBuffer.append("进口系统:");
+				contentBuffer.append("进口统一版系统:");
 				contentBuffer.append(sdfYeday.format(calendar.getTime()));
 				contentBuffer.append("跨境电商企业申报清单" + (null == ihsYesterday ? 0 : ihsYesterday.getQuantity()) + "票,货值");
 				contentBuffer.append((null == ihsYesterday ? 0.00 : ihsYesterday.getGoodsValue() / 10000) + "万元。");
 				contentBuffer.append("截至目前申报清单" + (null == ihs ? 0 : ihs.getQuantity()) + "票，货值");
 				contentBuffer.append((null == ihs ? 0.00 : ihs.getGoodsValue() / 10000) + "万元");
+				
+				contentBuffer.append("\n进口过渡版系统:");
+				contentBuffer.append(sdfYeday.format(calendar.getTime()));
+				contentBuffer.append("跨境电商企业申报清单" + (null == resultInBillYesterday ? 0 : resultInBillYesterday.getCount()) + "票,货值");
+				contentBuffer.append((null == resultInBillYesterday.getTotalValueRmb() ? 0.00 : resultInBillYesterday.getTotalValueRmb() / 10000) + "万元。");
+				contentBuffer.append("截至目前申报清单" + (null == resultInBill ? 0 : resultInBill.getCount()) + "票，货值");
+				contentBuffer.append((null == resultInBill.getTotalValueRmb() ? 0.00 : resultInBill.getTotalValueRmb() / 10000) + "万元");
+				
+				contentBuffer.append("\n出口系统:");
+				contentBuffer.append(sdfYeday.format(calendar.getTime()));
+				contentBuffer.append("跨境电商企业申报清单" + (null == resultOutBillYesterday ? 0 : resultOutBillYesterday.getCount()) + "票,货值");
+				contentBuffer.append((null == resultOutBillYesterday.getTotalValueRmb() ? 0.00 : resultOutBillYesterday.getTotalValueRmb() / 10000) + "万元。");
+				contentBuffer.append("截至目前申报清单" + (null == resultOutBill ? 0 : resultOutBill.getCount()) + "票，货值");
+				contentBuffer.append((null == resultOutBill.getTotalValueRmb() ? 0.00 : resultOutBill.getTotalValueRmb() / 10000) + "万元");
+				
 				responseMsg.setContent(contentBuffer.toString());
 			} else if ("2".equals(inputMsg.getContent()) || "清单前10".equals(inputMsg.getContent())) {
 				PageHelper.startPage(1, 10);

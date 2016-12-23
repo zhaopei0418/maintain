@@ -59,6 +59,36 @@ spring:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 100
     filters: stat,wall,log4j
+  datasource.mhin:
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    dbType: oracle
+    url: jdbc:oracle:thin:@192.168.10.15:1521:XE
+    username: mh
+    password: mh
+    initialSize: 5
+    maxActive: 10
+    validationQuery: SELECT 1 from DUAL
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 100
+    filters: stat,wall,log4j
+  datasource.mhout:
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    dbType: oracle
+    url: jdbc:oracle:thin:@192.168.10.15:1521:XE
+    username: mh
+    password: mh
+    initialSize: 5
+    maxActive: 10
+    validationQuery: SELECT 1 from DUAL
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 100
+    filters: stat,wall,log4j
   thymeleaf:
     cache: false
   jackson:

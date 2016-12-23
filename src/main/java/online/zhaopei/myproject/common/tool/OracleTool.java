@@ -27,12 +27,16 @@ public class OracleTool {
 	}
 	
 	public static void where(SQL sql, String column, String value) {
-		where(sql, column, value, false);
+		where(sql, column, value, "=", false);
 	}
 	
 	public static void where(SQL sql, String column, String value, boolean isVague) {
+		where(sql, column, value, "=", isVague);
+	}
+	
+	public static void where(SQL sql, String column, String value, String operator, boolean isVague) {
 		if (!StringUtils.isEmpty(value)) {
-			sql.WHERE(column + (isVague ? " like " : " = ") + toString(value, isVague));
+			sql.WHERE(column + (isVague ? " like " : " " + operator + " ") + toString(value, isVague));
 		}
 	}
 	
