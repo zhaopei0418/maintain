@@ -1,5 +1,7 @@
 package online.zhaopei.myproject.domain.ecssent;
 
+import java.util.Date;
+
 import online.zhaopei.myproject.domain.BaseDomain;
 
 public class InvtHeadStatistics extends BaseDomain {
@@ -26,6 +28,8 @@ public class InvtHeadStatistics extends BaseDomain {
 	private Double consumptionTax;
 	
 	private Double goodsValue;
+	
+	private String sysDateStr;
 	
 	private String beginSysDate;
 	
@@ -70,6 +74,12 @@ public class InvtHeadStatistics extends BaseDomain {
 	private String distinct;
 	
 	private String tradeMode;
+	
+	private Date weekStart;
+	
+	private Date weekEnd;
+	
+	private boolean isWeekGroup = false;
 	
 	private boolean isSubtotal = true;
 	
@@ -339,5 +349,37 @@ public class InvtHeadStatistics extends BaseDomain {
 
 	public void setSubtotal(boolean isSubtotal) {
 		this.isSubtotal = isSubtotal;
+	}
+
+	public Date getWeekStart() {
+		return weekStart;
+	}
+
+	public void setWeekStart(Date weekStart) {
+		this.weekStart = weekStart;
+	}
+
+	public Date getWeekEnd() {
+		return weekEnd;
+	}
+
+	public void setWeekEnd(Date weekEnd) {
+		this.weekEnd = weekEnd;
+	}
+
+	public boolean isWeekGroup() {
+		return isWeekGroup;
+	}
+
+	public void setWeekGroup(boolean isWeekGroup) {
+		this.isWeekGroup = isWeekGroup;
+	}
+
+	public String getSysDateStr() {
+		return sysDateStr;
+	}
+
+	public void setSysDateStr(String sysDateStr) {
+		this.sysDateStr = sysDateStr;
 	}
 }

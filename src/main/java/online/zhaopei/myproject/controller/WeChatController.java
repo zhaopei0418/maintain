@@ -2,6 +2,7 @@ package online.zhaopei.myproject.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -139,7 +140,9 @@ public class WeChatController implements Serializable {
 			StringBuffer buffer = new StringBuffer("");
 			buffer.append("你可以输入下面数字或者菜单名称实现快捷查询\n");
 			buffer.append("[0] 菜单: 可使用的菜单列表\n");
-			buffer.append("[1] 今日清单: 查询当日清单数量\n");
+			buffer.append("[1] 今日清单: 查询当日清单数量及货值\n");
+			buffer.append("[11] 昨日清单: 查询昨日清单数量及货值\n");
+			buffer.append("[4612] 电子口岸数据: 统计电子口岸清单相关数据\n");
 			buffer.append("[2] 清单前10: 查询清单数量排名前10的电商企业及数量\n");
 			buffer.append("[3] 清单放行前10: 查询清单放行数量排名前10的电商企业及数量\n");
 			buffer.append("[4] 电商清单数据: 以电商分组来统计电商的清单数，商品数，总货值，总税款，总增值税\n");
@@ -151,8 +154,58 @@ public class WeChatController implements Serializable {
 			responseMsg.setFromUserName(serverName);
 			responseMsg.setCreateTime(returnTime);
 			responseMsg.setMsgType(msgType);
+			InvtHeadStatistics invtHeadStatistics = null;
+			SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdfYeday = new SimpleDateFormat("yyyy年MM月dd日");
+			Calendar calendar = Calendar.getInstance();
+			List<InvtHeadStatistics> ihsList = null;
+			InvtHeadStatistics ihs = null, ihsYesterday = null;
 			if ("1".equals(inputMsg.getContent()) || "今日清单".equals(inputMsg.getContent())) {
-				responseMsg.setContent("今日清单总数是：[" + this.invtHeadService.getInvtHeadCount("d") + "]");
+				invtHeadStatistics =  new InvtHeadStatistics("to_char(cih.sys_date, 'yyyy-mm-dd')");
+				invtHeadStatistics.setSysDateStr(sdfDay.format(calendar.getTime()));
+				invtHeadStatistics.setSubtotal(false);
+				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				if (null != ihsList && !ihsList.isEmpty()) {
+					ihs = ihsList.get(0);
+				}
+				responseMsg.setContent("今日清单总数是：[" + (null == ihs ? 0 : ihs.getQuantity()) + "]"
+						+ "总货值是：[" + (null == ihs ? 0 : ihs.getGoodsValue()) + "]");
+			} else if ("11".equals(inputMsg.getContent()) || "昨日清单".equals(inputMsg.getContent())) {
+				invtHeadStatistics =  new InvtHeadStatistics("to_char(cih.sys_date, 'yyyy-mm-dd')");
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+				invtHeadStatistics.setSysDateStr(sdfDay.format(calendar.getTime()));
+				invtHeadStatistics.setSubtotal(false);
+				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				if (null != ihsList && !ihsList.isEmpty()) {
+					ihsYesterday = ihsList.get(0);
+				}
+				responseMsg.setContent("昨日清单总数是：[" + (null == ihsYesterday ? 0 : ihsYesterday.getQuantity()) + "]"
+						+ "总货值是：[" + (null == ihsYesterday ? 0 : ihsYesterday.getGoodsValue()) + "]");
+			} else if ("4612".equals(inputMsg.getContent()) || "电子口岸数据".equals(inputMsg.getContent())) {
+				invtHeadStatistics =  new InvtHeadStatistics("cih.statistics");
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+				invtHeadStatistics.setEndSysDate(sdfDay.format(calendar.getTime()));
+				invtHeadStatistics.setSubtotal(false);
+				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				if (null != ihsList && !ihsList.isEmpty()) {
+					ihs = ihsList.get(0);
+				}
+				
+				invtHeadStatistics.setSysDateStr(invtHeadStatistics.getEndSysDate());
+				invtHeadStatistics.setEndSysDate(null);
+				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				if (null != ihsList && !ihsList.isEmpty()) {
+					ihsYesterday = ihsList.get(0);
+				}
+				
+				StringBuffer contentBuffer = new StringBuffer("各位领导上午好\n");
+				contentBuffer.append("进口系统:");
+				contentBuffer.append(sdfYeday.format(calendar.getTime()));
+				contentBuffer.append("跨境电商企业申报清单" + (null == ihsYesterday ? 0 : ihsYesterday.getQuantity()) + "票,货值");
+				contentBuffer.append((null == ihsYesterday ? 0.00 : ihsYesterday.getGoodsValue() / 10000) + "万元。");
+				contentBuffer.append("截至目前申报清单" + (null == ihs ? 0 : ihs.getQuantity()) + "票，货值");
+				contentBuffer.append((null == ihs ? 0.00 : ihs.getGoodsValue() / 10000) + "万元");
+				responseMsg.setContent(contentBuffer.toString());
 			} else if ("2".equals(inputMsg.getContent()) || "清单前10".equals(inputMsg.getContent())) {
 				PageHelper.startPage(1, 10);
 				List<InvtHead> invtHeadCountList = this.invtHeadService.getDeclareTopTenSql(new InvtHead());
@@ -162,6 +215,7 @@ public class WeChatController implements Serializable {
 					invtHeadBuffer.append((i + 1) + ". 电商[" + ih.getEbcName() + "] 数量：[" + ih.getCount() + "]\n");
 				}
 				responseMsg.setContent(invtHeadBuffer.toString());
+			
 			} else if ("3".equals(inputMsg.getContent()) || "清单放行前10".equals(inputMsg.getContent())) {
 				PageHelper.startPage(1, 10);
 				InvtHead invtHead = new InvtHead();
@@ -174,36 +228,36 @@ public class WeChatController implements Serializable {
 				}
 				responseMsg.setContent(invtHeadBuffer.toString());
 			} else if ("4".equals(inputMsg.getContent()) || "电商清单数据".equals(inputMsg.getContent())) {
-				InvtHeadStatistics invtHeadStatistics = new InvtHeadStatistics();
+				invtHeadStatistics = new InvtHeadStatistics();
 				invtHeadStatistics.setGroupField("cih.ebc_name");
-				List<InvtHeadStatistics> ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
 				buffer = new StringBuffer("");
 				for (int i = 0; i < ihsList.size(); i++) {
-					InvtHeadStatistics ihs = ihsList.get(i);
+					ihs = ihsList.get(i);
 					buffer.append((i + 1) + ". 电商[" + ihs.getName() + "] 单量：[" + ihs.getQuantity()
 					+ "] 商品数量: [" + ihs.getGoodsTotalQuantity() + "] 总货值：[" + ihs.getGoodsValue()
 					+ "] 总税款: [" + ihs.getTaxTotal() + "] 总增值税: [" + ihs.getValueAddedTax() + "]\n");
 				}
 				responseMsg.setContent(buffer.toString());
 			} else if ("5".equals(inputMsg.getContent()) || "物流清单数据".equals(inputMsg.getContent())) {
-				InvtHeadStatistics invtHeadStatistics = new InvtHeadStatistics();
+				invtHeadStatistics = new InvtHeadStatistics();
 				invtHeadStatistics.setGroupField("cih.logistics_name");
-				List<InvtHeadStatistics> ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
 				buffer = new StringBuffer("");
 				for (int i = 0; i < ihsList.size(); i++) {
-					InvtHeadStatistics ihs = ihsList.get(i);
+					ihs = ihsList.get(i);
 					buffer.append((i + 1) + ". 物流[" + ihs.getName() + "] 单量：[" + ihs.getQuantity()
 					+ "] 商品数量: [" + ihs.getGoodsTotalQuantity() + "] 总货值：[" + ihs.getGoodsValue()
 					+ "] 总税款: [" + ihs.getTaxTotal() + "] 总增值税: [" + ihs.getValueAddedTax() + "]\n");
 				}
 				responseMsg.setContent(buffer.toString());
 			} else if ("6".equals(inputMsg.getContent()) || "报关行清单数据".equals(inputMsg.getContent())) {
-				InvtHeadStatistics invtHeadStatistics = new InvtHeadStatistics();
+				invtHeadStatistics = new InvtHeadStatistics();
 				invtHeadStatistics.setGroupField("cih.agent_name");
-				List<InvtHeadStatistics> ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+				ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
 				buffer = new StringBuffer("");
 				for (int i = 0; i < ihsList.size(); i++) {
-					InvtHeadStatistics ihs = ihsList.get(i);
+					ihs = ihsList.get(i);
 					buffer.append((i + 1) + ". 报关行[" + ihs.getName() + "] 单量：[" + ihs.getQuantity()
 					+ "] 商品数量: [" + ihs.getGoodsTotalQuantity() + "] 总货值：[" + ihs.getGoodsValue()
 					+ "] 总税款: [" + ihs.getTaxTotal() + "] 总增值税: [" + ihs.getValueAddedTax() + "]\n");

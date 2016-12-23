@@ -2,6 +2,7 @@ package online.zhaopei.myproject.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -134,14 +135,26 @@ public class InvtsController extends BaseController {
 		JsonArray dataGoodsQuantity = new JsonArray();
 		JsonArray dataTaxTotal = new JsonArray();
 		InvtHeadStatistics tempStatistics = null;
-		InvtHeadStatistics invtHeadStatistics = new InvtHeadStatistics("to_char(cih.sys_date, '" + format + "')");
+		InvtHeadStatistics invtHeadStatistics = null;
+		SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy/MM/dd");
+		if ("week".equals(format)) {
+			invtHeadStatistics = new InvtHeadStatistics("NEXT_DAY(trunc(cih.sys_date), 2)");
+			invtHeadStatistics.setWeekGroup(true);
+		} else {
+			invtHeadStatistics = new InvtHeadStatistics("to_char(cih.sys_date, '" + format + "')");
+		}
 		invtHeadStatistics.setSubtotal(false);
 		List<InvtHeadStatistics> invtHeadStatisticsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
 		
 		if (null != invtHeadStatisticsList && !invtHeadStatisticsList.isEmpty()) {
 			for (int i = 0; i < invtHeadStatisticsList.size(); i++) {
 				tempStatistics = invtHeadStatisticsList.get(i);
-				labels.add(tempStatistics.getName());
+				if ("week".equals(format)) {
+					labels.add(sdfDay.format(tempStatistics.getWeekStart()) + " - " + sdfDay.format(tempStatistics.getWeekEnd()));
+				} else {
+					labels.add(tempStatistics.getName());
+				}
+				
 				dataCount.add(tempStatistics.getQuantity());
 				dataGoodsValue.add(tempStatistics.getGoodsValue());
 				dataGoodsQuantity.add(tempStatistics.getGoodsTotalQuantity());
@@ -206,6 +219,12 @@ public class InvtsController extends BaseController {
 	@ResponseBody
 	public String getDayInvtInfo() {
 		return this.getInvtInfoByFormat("yyyy-mm-dd");
+	}
+	
+	@GetMapping("/getWeekInvtInfo")
+	@ResponseBody
+	public String getWeekInvtInfo() {
+		return this.getInvtInfoByFormat("week");
 	}
 	
 	@GetMapping("/getMonthInvtInfo")

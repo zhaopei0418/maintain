@@ -6,6 +6,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 import com.alibaba.druid.util.StringUtils;
 
+import online.zhaopei.myproject.common.tool.OracleTool;
 import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;
 
 public class InvtHeadStatisticsSqlProvide implements Serializable {
@@ -35,6 +36,11 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 				if (!StringUtils.isEmpty(invtHeadStatistics.getGroupFieldTwo())) {
 					this.SELECT(invtHeadStatistics.getGroupFieldTwo() + " as nameTwo");
 				}
+				
+				if (invtHeadStatistics.isWeekGroup()) {
+					this.SELECT(invtHeadStatistics.getGroupField() + " - 7 as weekStart");
+					this.SELECT(invtHeadStatistics.getGroupField() + " - 1 as weekEnd");
+				}
 			}
 			
 			this.SELECT("count(1) as quantity");
@@ -63,6 +69,8 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 			if (!StringUtils.isEmpty(invtHeadStatistics.getEndSysDate())) {
 				this.WHERE("to_char(cih.sys_date, 'yyyy-mm-dd') <= '" + invtHeadStatistics.getEndSysDate() + "'");
 			}
+			
+			OracleTool.where(this, "cih.sys_date", invtHeadStatistics.getSysDateStr(), "=");
 			
 			if (!StringUtils.isEmpty(invtHeadStatistics.getAppStatus())) {
 				this.WHERE("cih.app_status = '" + invtHeadStatistics.getAppStatus() + "'");
