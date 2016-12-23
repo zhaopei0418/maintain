@@ -18,7 +18,7 @@ public class ImportBillSqlProvide implements Serializable {
 		return new SQL() {{
 			this.SELECT("count(1) as count");
 			this.SELECT("sum(totalvaluermb) as totalValueRmb");
-			this.FROM("tb_bondend_import_bill");
+			this.FROM("tb_bonded_import_bill");
 			
 			this.WHERE("last_status <> 0");
 			this.WHERE("last_status <> 3");
