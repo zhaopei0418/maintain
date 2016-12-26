@@ -477,12 +477,18 @@
 							<a href="javascript:void(0)" th:text="${invtHead.ebcName}"
 								th:onclick="'addFormParaQuery(\'invt_form\', \'ebcCode\', \'' + ${invtHead.ebcCode} + '\')'"></a>
 						</td>
-						<td th:text="${invtHead.orderNo}"></td>
+						<td>
+							<a th:text="${invtHead.orderNo}"
+								th:href="@{'/orders?orderNo=' + ${invtHead.orderNo}}"></a>
+						</td>
 						<td th:title="${invtHead.logisticsCode}">
 							<a href="javascript:void(0)" th:text="${invtHead.logisticsName}"
 								th:onclick="'addFormParaQuery(\'invt_form\', \'logisticsCode\', \'' + ${invtHead.logisticsCode} + '\')'"></a>
 						</td>
-						<td th:text="${invtHead.logisticsNo}"></td>
+						<td>
+							<a th:text="${invtHead.logisticsNo}"
+								th:href="@{'/logistics?logisticsNo=' + ${invtHead.logisticsNo}}"></a>
+						</td>
 						<td th:text="${#calendars.format(invtHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${customsCodeMap[invtHead.customsCode]}" th:title="${invtHead.customsCode}"></td>
 						<td th:switch="${invtHead.appStatus}" th:onclick="'getPubRtnListByBizGuid(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\', ' + ${appStatusJson} + ')'"
