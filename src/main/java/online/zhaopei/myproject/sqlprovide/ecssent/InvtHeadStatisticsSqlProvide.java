@@ -58,7 +58,7 @@ public class InvtHeadStatisticsSqlProvide implements Serializable {
 				this.INNER_JOIN("(select min(head_guid) as inner_head_guid from ceb2_invt_head group by ebc_code, order_no) cih1 on cih.head_guid = cih1.inner_head_guid");
 			}
 			
-			this.LEFT_OUTER_JOIN("(select * from ceb2_ord_head where head_guid in (select min(head_guid) as headguid from ceb2_ord_head group by ebc_code, order_no)) coh on coh.ebc_code = cih.ebc_code and coh.order_no = cih.order_no");
+//			this.LEFT_OUTER_JOIN("(select * from ceb2_ord_head where head_guid in (select min(head_guid) as headguid from ceb2_ord_head group by ebc_code, order_no)) coh on coh.ebc_code = cih.ebc_code and coh.order_no = cih.order_no");
 			this.LEFT_OUTER_JOIN("ceb2_tax_head cth on cth.invt_no = cih.invt_no");
 			
 			this.LEFT_OUTER_JOIN("cur_lms_head clh on clh.lms_no = cih.ems_no");
