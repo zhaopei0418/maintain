@@ -31,7 +31,7 @@ public class PubRtnSqlProvide implements Serializable {
 			if (!StringUtils.isEmpty(bizGuid)) {
 				this.WHERE("biz_guid = '" + bizGuid + "'");
 			}
-			this.ORDER_BY("rtn_time desc");
+			this.ORDER_BY("sys_date desc");
 		}}.toString();
 	}
 }

@@ -116,11 +116,12 @@
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
-					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
+					dataHtml += "<thead><tr><th>入库时间</th><th>报文时间</th><th>业务状态</th><th>业务信息</th></thead>";
 					dataHtml += "<tbody>";
 					if (null != data) {
 						for (var i = 0; i < data.length; i++) {
 							dataHtml += "<tr>";
+							dataHtml += "<td>" + data[i].sysDate + "</td>";
 							dataHtml += "<td>" + data[i].rtnTime + "</td>";
 							dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
 							dataHtml += "<td>" + data[i].rtnInfo + "</td>";
@@ -203,7 +204,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form class="form-horizontal search-form" role="form" action="invts" method="GET"
+					<form class="form-horizontal search-form" role="form" action="/invts" method="GET"
 							id="invt_form">
 						<input type="hidden" name="pageSize" th:value="${invtHead.pageSize}" />
 						<input class="page-num" type="hidden" name="pageNum" th:value="${invtHead.pageNum}" />
