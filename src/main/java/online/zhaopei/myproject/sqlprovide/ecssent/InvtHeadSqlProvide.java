@@ -12,6 +12,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 import com.alibaba.druid.util.StringUtils;
 
+import online.zhaopei.myproject.common.tool.OracleTool;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 
 public class InvtHeadSqlProvide implements Serializable {
@@ -242,6 +243,10 @@ public class InvtHeadSqlProvide implements Serializable {
 			if (!StringUtils.isEmpty(invtHead.getTradeMode())) {
 				this.WHERE("trade_mode = '" + invtHead.getTradeMode() + "'");
 			}
+			
+			OracleTool.where(this, "bill_no", invtHead.getBillNo());
+			OracleTool.where(this, "voyage_no", invtHead.getVoyageNo());
+			OracleTool.where(this, "buyer_telephone", invtHead.getBuyerTelephone());
 			
 			if (!StringUtils.isEmpty(invtHead.getDeclareStatus())) {
 				if ("1".equals(invtHead.getDeclareStatus())) {

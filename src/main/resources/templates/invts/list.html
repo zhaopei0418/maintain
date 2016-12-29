@@ -361,6 +361,23 @@
 									</span>
 								</div>
 							</div>
+							<label class="col-sm-1 control-label">提运单号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="billNo" placeholder="提运单号"
+										th:value="${invtHead.billNo}" />
+							</div>
+							<label class="col-sm-1 control-label">航班航次号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="voyageNo" placeholder="航班航次号"
+										th:value="${invtHead.voyageNo}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">订购人电话</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="buyerTelephone" placeholder="订购人电话"
+										th:value="${invtHead.buyerTelephone}" />
+							</div>
 						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
