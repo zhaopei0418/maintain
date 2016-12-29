@@ -2,7 +2,9 @@ package online.zhaopei.myproject.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,12 +40,15 @@ import online.zhaopei.myproject.domain.ecssent.InvtHeadStatistics;
 import online.zhaopei.myproject.domain.ecssent.InvtList;
 import online.zhaopei.myproject.domain.ecssent.PubRtn;
 import online.zhaopei.myproject.domain.gjent.ImpInvtHead;
+import online.zhaopei.myproject.domain.mysystem.ImportBill;
 import online.zhaopei.myproject.service.ecssent.DistHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 import online.zhaopei.myproject.service.ecssent.InvtHeadStatisticsService;
 import online.zhaopei.myproject.service.ecssent.InvtListService;
 import online.zhaopei.myproject.service.ecssent.PubRtnService;
 import online.zhaopei.myproject.service.gjent.ImpInvtHeadService;
+import online.zhaopei.myproject.service.mhin.ImportBillInService;
+import online.zhaopei.myproject.service.mhout.ImportBillOutService;
 import online.zhaopei.myproject.service.para.CountryService;
 import online.zhaopei.myproject.service.para.CurrService;
 import online.zhaopei.myproject.service.para.CustomsService;
@@ -100,11 +105,85 @@ public class InvtsController extends BaseController {
 	@Autowired
 	private UnitService unitService;
 	
+	@Autowired
+	private ImportBillInService importBillInService;
+	
+	@Autowired
+	private ImportBillOutService importBillOutService;
+	
 	@GetMapping("/getImpInvtHeadListByInvtNo/{invtNo}")
 	@ResponseBody
 	public List<ImpInvtHead> getImpInvtHeadListByInvtNo(@PathVariable("invtNo") String invtNo) {
 		List<ImpInvtHead> impInvtHeadList = this.impInvtHeadService.getInvtHeadListByInvtNo(invtNo);
 		return impInvtHeadList;
+	}
+	
+	@GetMapping("/getStatisticsInOutInvtData")
+	@ResponseBody
+	public String getStatisticsInOutInvtData() {
+		InvtHeadStatistics invtHeadStatistics = null;
+		SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdfYeday = new SimpleDateFormat("yyyy年MM月dd日");
+		DecimalFormat df = new DecimalFormat("0.000");
+		Calendar calendar = Calendar.getInstance();
+		List<InvtHeadStatistics> ihsList = null;
+		InvtHeadStatistics ihs = null, ihsYesterday = null;
+		ImportBill searchBill = null, resultInBill = null, resultOutBill = null;
+		ImportBill resultInBillYesterday = null, resultOutBillYesterday = null;
+		Long inTotalQuantity = 0L;
+		Double inTotalGoodsValue = 0.00;
+		
+		invtHeadStatistics =  new InvtHeadStatistics("cih.statistics");
+		searchBill = new ImportBill();
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+		invtHeadStatistics.setEndSysDate(sdfDay.format(calendar.getTime()));
+		searchBill.setEndDeclareDate(sdfDay.format(calendar.getTime()));
+		invtHeadStatistics.setSubtotal(false);
+		ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+		resultInBill = this.importBillInService.statisticsBill(searchBill);
+		resultOutBill = this.importBillOutService.statisticsBill(searchBill);
+		if (null != ihsList && !ihsList.isEmpty()) {
+			ihs = ihsList.get(0);
+		}
+		
+		invtHeadStatistics.setSysDateStr(invtHeadStatistics.getEndSysDate());
+		invtHeadStatistics.setEndSysDate(null);
+		searchBill.setDeclareDateStr(searchBill.getEndDeclareDate());
+		searchBill.setEndDeclareDate(null);
+		ihsList = this.invtHeadStatisticsService.statisticsInvtHeadQuantity(invtHeadStatistics);
+		resultInBillYesterday = this.importBillInService.statisticsBill(searchBill);
+		resultOutBillYesterday = this.importBillOutService.statisticsBill(searchBill);
+		if (null != ihsList && !ihsList.isEmpty()) {
+			ihsYesterday = ihsList.get(0);
+		}
+		inTotalQuantity += (null == ihsYesterday ? 0 : ihsYesterday.getQuantity());
+		inTotalQuantity += (null == resultInBillYesterday ? 0 : resultInBillYesterday.getCount());
+		inTotalGoodsValue += (null == ihs ? 0 : ihs.getQuantity());
+		inTotalGoodsValue += (null == resultInBill ? 0 : resultInBill.getCount());
+		
+		StringBuffer contentBuffer = new StringBuffer("各位领导上午好<br/>");
+		contentBuffer.append("进口系统:");
+		contentBuffer.append(sdfYeday.format(calendar.getTime()));
+		contentBuffer.append("跨境电商企业申报清单" + inTotalQuantity + "票,货值");
+		contentBuffer.append((null == ihsYesterday ? 0.00 : df.format(ihsYesterday.getGoodsValue() / 10000)) + "万元。");
+		contentBuffer.append("截至目前申报清单" + inTotalGoodsValue + "票，货值");
+		contentBuffer.append((null == ihs ? 0.00 : df.format(ihs.getGoodsValue() / 10000)) + "万元");
+		
+//		contentBuffer.append("<br/>进口过渡版系统:");
+//		contentBuffer.append(sdfYeday.format(calendar.getTime()));
+//		contentBuffer.append("跨境电商企业申报清单" +  + "票,货值");
+//		contentBuffer.append((null == resultInBillYesterday.getTotalValueRmb() ? 0.00 : df.format(resultInBillYesterday.getTotalValueRmb() / 10000)) + "万元。");
+//		contentBuffer.append("截至目前申报清单" +  + "票，货值");
+//		contentBuffer.append((null == resultInBill.getTotalValueRmb() ? 0.00 : df.format(resultInBill.getTotalValueRmb() / 10000)) + "万元");
+		
+		contentBuffer.append("<br/>出口系统:");
+		contentBuffer.append(sdfYeday.format(calendar.getTime()));
+		contentBuffer.append("跨境电商企业申报清单" + (null == resultOutBillYesterday ? 0 : resultOutBillYesterday.getCount()) + "票,货值");
+		contentBuffer.append((null == resultOutBillYesterday.getTotalValueRmb() ? 0.00 : df.format(resultOutBillYesterday.getTotalValueRmb() / 10000)) + "万元。");
+		contentBuffer.append("截至目前申报清单" + (null == resultOutBill ? 0 : resultOutBill.getCount()) + "票，货值");
+		contentBuffer.append((null == resultOutBill.getTotalValueRmb() ? 0.00 : df.format(resultOutBill.getTotalValueRmb() / 10000)) + "万元");
+		
+		return contentBuffer.toString();
 	}
 	
 	@GetMapping("/getImpInvtHeadListByCopNo/{copNo}")

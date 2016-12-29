@@ -34,7 +34,8 @@ public class Application extends SpringBootServletInitializer {
 				.and()
 				.authorizeRequests()
 				.antMatchers("/js/**", "/css/**", "/fonts/**", "/images/**", "/vendors/**", "/locales/**",
-					"/favicon.ico", "/api/**", "/apidocs/**", "/wechat/**")
+					"/favicon.ico", "/api/**", "/apidocs/**", "/wechat/**",
+					"/invts/getStatisticsInOutInvtData")
 				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
 				.logout().permitAll();
 		}
