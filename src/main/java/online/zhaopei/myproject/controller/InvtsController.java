@@ -130,8 +130,8 @@ public class InvtsController extends BaseController {
 		InvtHeadStatistics ihs = null, ihsYesterday = null;
 		ImportBill searchBill = null, resultInBill = null, resultOutBill = null;
 		ImportBill resultInBillYesterday = null, resultOutBillYesterday = null;
-		Long inTotalQuantity = 0L;
-		Double inTotalGoodsValue = 0.00;
+		Long inYesterdayTotalQuantity = 0L, inTotalQuantity = 0L;
+		Double inYesterdayTotalGoodsValue = 0.00, inTotalGoodsValue = 0.00;
 		
 		invtHeadStatistics =  new InvtHeadStatistics("cih.statistics");
 		searchBill = new ImportBill();
@@ -156,18 +156,24 @@ public class InvtsController extends BaseController {
 		if (null != ihsList && !ihsList.isEmpty()) {
 			ihsYesterday = ihsList.get(0);
 		}
-		inTotalQuantity += (null == ihsYesterday ? 0 : ihsYesterday.getQuantity());
-		inTotalQuantity += (null == resultInBillYesterday ? 0 : resultInBillYesterday.getCount());
-		inTotalGoodsValue += (null == ihs ? 0 : ihs.getQuantity());
-		inTotalGoodsValue += (null == resultInBill ? 0 : resultInBill.getCount());
+		
+		inYesterdayTotalQuantity = (null == ihsYesterday ? 0L : ihsYesterday.getQuantity());
+		inYesterdayTotalQuantity += (null == resultInBillYesterday ? 0L : resultInBillYesterday.getCount());
+		inYesterdayTotalGoodsValue = (null == ihsYesterday ? 0.00 : ihsYesterday.getGoodsValue());
+		inYesterdayTotalGoodsValue += (null == resultInBillYesterday ? 0.00 : resultInBillYesterday.getTotalValueRmb());
+		
+		inTotalQuantity += (null == ihs ? 0 : ihs.getQuantity());
+		inTotalQuantity += (null == resultInBill ? 0 : resultInBill.getCount());
+		inTotalGoodsValue += (null == ihs ? 0.00 : ihs.getGoodsValue());
+		inTotalGoodsValue += (null == resultInBill ? 0.00 : resultInBill.getTotalValueRmb());
 		
 		StringBuffer contentBuffer = new StringBuffer("各位领导上午好<br/>");
 		contentBuffer.append("进口系统:");
 		contentBuffer.append(sdfYeday.format(calendar.getTime()));
-		contentBuffer.append("跨境电商企业申报清单" + inTotalQuantity + "票,货值");
-		contentBuffer.append((null == ihsYesterday ? 0.00 : df.format(ihsYesterday.getGoodsValue() / 10000)) + "万元。");
-		contentBuffer.append("截至目前申报清单" + inTotalGoodsValue + "票，货值");
-		contentBuffer.append((null == ihs ? 0.00 : df.format(ihs.getGoodsValue() / 10000)) + "万元");
+		contentBuffer.append("跨境电商企业申报清单" + inYesterdayTotalQuantity + "票,货值");
+		contentBuffer.append(df.format(inYesterdayTotalGoodsValue / 10000) + "万元。");
+		contentBuffer.append("截至目前申报清单" + inTotalQuantity + "票，货值");
+		contentBuffer.append(df.format(inTotalGoodsValue / 10000) + "万元");
 		
 //		contentBuffer.append("<br/>进口过渡版系统:");
 //		contentBuffer.append(sdfYeday.format(calendar.getTime()));
