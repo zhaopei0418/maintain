@@ -124,7 +124,7 @@ public class InvtsController extends BaseController {
 		InvtHeadStatistics invtHeadStatistics = null;
 		SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat sdfYeday = new SimpleDateFormat("yyyy年MM月dd日");
-		DecimalFormat df = new DecimalFormat("0.000");
+		DecimalFormat df = new DecimalFormat("0.00");
 		Calendar calendar = Calendar.getInstance();
 		List<InvtHeadStatistics> ihsList = null;
 		InvtHeadStatistics ihs = null, ihsYesterday = null;
@@ -167,7 +167,7 @@ public class InvtsController extends BaseController {
 		inTotalGoodsValue += (null == ihs ? 0.00 : ihs.getGoodsValue());
 		inTotalGoodsValue += (null == resultInBill ? 0.00 : resultInBill.getTotalValueRmb());
 		
-		StringBuffer contentBuffer = new StringBuffer("各位领导上午好<br/>");
+		StringBuffer contentBuffer = new StringBuffer("各位领导上午好[微笑]<br/>");
 		contentBuffer.append("进口系统:");
 		contentBuffer.append(sdfYeday.format(calendar.getTime()));
 		contentBuffer.append("跨境电商企业申报清单" + inYesterdayTotalQuantity + "票,货值");
@@ -185,9 +185,9 @@ public class InvtsController extends BaseController {
 		contentBuffer.append("<br/>出口系统:");
 		contentBuffer.append(sdfYeday.format(calendar.getTime()));
 		contentBuffer.append("跨境电商企业申报清单" + (null == resultOutBillYesterday ? 0 : resultOutBillYesterday.getCount()) + "票,货值");
-		contentBuffer.append((null == resultOutBillYesterday.getTotalValueRmb() ? 0.00 : df.format(resultOutBillYesterday.getTotalValueRmb() / 10000)) + "万元。");
+		contentBuffer.append((null == resultOutBillYesterday.getTotalValueRmb() ? 0.00 : df.format(resultOutBillYesterday.getTotalValueRmb() / 10000)) + "万美元。");
 		contentBuffer.append("截至目前申报清单" + (null == resultOutBill ? 0 : resultOutBill.getCount()) + "票，货值");
-		contentBuffer.append((null == resultOutBill.getTotalValueRmb() ? 0.00 : df.format(resultOutBill.getTotalValueRmb() / 10000)) + "万元");
+		contentBuffer.append((null == resultOutBill.getTotalValueRmb() ? 0.00 : df.format(resultOutBill.getTotalValueRmb() / 10000)) + "万美元");
 		
 		return contentBuffer.toString();
 	}
