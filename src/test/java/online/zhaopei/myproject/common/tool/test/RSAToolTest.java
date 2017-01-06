@@ -1,6 +1,7 @@
 package online.zhaopei.myproject.common.tool.test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 
@@ -13,10 +14,43 @@ import org.junit.Test;
 import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
 
 import online.zhaopei.myproject.common.tool.RSATool;
+import online.zhaopei.myproject.domain.common.EListRejectMessage;
 import online.zhaopei.myproject.domain.wechat.WeChatMessage;
 
 public class RSAToolTest {
-
+	
+	@Test
+	public void buildMessage() throws Exception {
+		
+		EListRejectMessage elrm = null;
+		
+		String[] nos = new String[] {
+			"46042017I010449723",
+			"46042017I010449911",
+			"46042017I010449765",
+			"46042017I010449767",
+			"46042017I010449913",
+			"46042017I010449851",
+			"46042017I010449893",
+			"46042017I010449897",
+			"46042017I010449645"
+		};
+		
+		JAXBContext jc = JAXBContext.newInstance(EListRejectMessage.class);
+		Marshaller m = jc.createMarshaller();
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+		String filePath = "/Users/zhaopei/work/test/111/";
+		for(int i = 0; i < nos.length; i++) {
+			elrm = new EListRejectMessage();
+			elrm.setAppNo("4611");
+			elrm.seteListNo(nos[i]);
+			elrm.setOperator("9999");
+			elrm.setReason("航班号错误，需要退单处理，系统调用退单处理！");
+			m.marshal(elrm, new File(filePath + "invt_no_" + i + ".xml"));
+		}
+	}
+	
 	@Test
 	public void weChatTest() throws Exception {
 		StringBuffer xml = new StringBuffer("");
