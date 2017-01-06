@@ -118,12 +118,12 @@ public class DistBillListSqlProvide implements Serializable {
 			
 			if (!StringUtils.isEmpty(searchText)) {
 				String orSql = "(pdbl.bill_no like '%" + searchText + "%'";
-				orSql += " OR cih.order_no like '%" + searchText + "%'";
-				orSql += " OR pdbl.gross_wt = '" + searchText + "'";
-				orSql += " OR pdbl.net_wt = '" + searchText + "'";
-				orSql += " OR cih.logistics_no like '%" + searchText + "%'";
-				orSql += " OR cih.ebc_name like '%" + searchText + "%'";
-				orSql += " OR cih.logistics_name like '%" + searchText + "%'";
+				orSql += " OR lower(cih.order_no) like '%' || lower('" + searchText + "') || '%'";
+				orSql += " OR pdbl.gross_wt like '%" + searchText + "%'";
+				orSql += " OR pdbl.net_wt like '%" + searchText + "%'";
+				orSql += " OR lower(cih.logistics_no) like '%' || lower('" + searchText + "') || '%'";
+				orSql += " OR lower(cih.ebc_name) like '%' || lower('" + searchText + "') || '%'";
+				orSql += " OR cih.logistics_name like '%' || lower('" + searchText + "') || '%'";
 				orSql += " OR pdbl.trade_mode like '%" + searchText + "%'";
 				orSql += " OR cih.app_status like '%" + searchText + "%')";
 				this.WHERE(orSql);

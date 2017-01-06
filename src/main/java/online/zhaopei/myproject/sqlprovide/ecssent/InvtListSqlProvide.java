@@ -92,12 +92,12 @@ public class InvtListSqlProvide implements Serializable {
 			
 			if (!StringUtils.isEmpty(searchText)) {
 				String orSql = "(unit like '%" + searchText + "%'";
-				orSql += " OR g_name like '%" + searchText + "%'";
-				orSql += " OR g_code like '%" + searchText + "%'";
-				orSql += " OR item_no like '%" + searchText + "%'";
+				orSql += " OR lower(g_name) like '%' || lower('" + searchText + "') || '%'";
+				orSql += " OR lower(g_code) like '%' || lower('" + searchText + "') || '%'";
+				orSql += " OR lower(item_no) like '%' || lower('" + searchText + "') || '%'";
 				orSql += " OR qty like '%" + searchText + "%'";
-				orSql += " OR price = '" + searchText + "'";
-				orSql += " OR total_price = '" + searchText + "'";
+				orSql += " OR price like '%" + searchText + "%'";
+				orSql += " OR total_price like '%" + searchText + "%'";
 				orSql += " OR country like '%" + searchText + "%'";
 				orSql += " OR currency like '%" + searchText + "%')";
 				this.WHERE(orSql);
