@@ -160,12 +160,12 @@ public class InvtsController extends BaseController {
 		inYesterdayTotalQuantity = (null == ihsYesterday ? 0L : ihsYesterday.getQuantity());
 		inYesterdayTotalQuantity += (null == resultInBillYesterday ? 0L : resultInBillYesterday.getCount());
 		inYesterdayTotalGoodsValue = (null == ihsYesterday ? 0.00 : ihsYesterday.getGoodsValue());
-		inYesterdayTotalGoodsValue += (null == resultInBillYesterday ? 0.00 : resultInBillYesterday.getTotalValueRmb());
+		inYesterdayTotalGoodsValue += (null == resultInBillYesterday || 0 == resultInBillYesterday.getCount() ? 0.00 : resultInBillYesterday.getTotalValueRmb());
 		
 		inTotalQuantity += (null == ihs ? 0 : ihs.getQuantity());
 		inTotalQuantity += (null == resultInBill ? 0 : resultInBill.getCount());
 		inTotalGoodsValue += (null == ihs ? 0.00 : ihs.getGoodsValue());
-		inTotalGoodsValue += (null == resultInBill ? 0.00 : resultInBill.getTotalValueRmb());
+		inTotalGoodsValue += (null == resultInBill || 0 == resultInBill.getCount() ? 0.00 : resultInBill.getTotalValueRmb());
 		
 		StringBuffer contentBuffer = new StringBuffer("各位领导上午好[微笑]<br/>");
 		contentBuffer.append("进口系统:");
