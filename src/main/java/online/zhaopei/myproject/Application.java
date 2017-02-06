@@ -29,20 +29,16 @@ public class Application extends SpringBootServletInitializer {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.csrf()
-				.ignoringAntMatchers("/wechat/**")
-				.and()
-				.authorizeRequests()
-				.antMatchers("/js/**", "/css/**", "/fonts/**", "/images/**", "/vendors/**", "/locales/**",
-					"/favicon.ico", "/api/**", "/apidocs/**", "/wechat/**",
-					"/invts/getStatisticsInOutInvtData")
-				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
-				.logout().permitAll();
+			http.csrf().ignoringAntMatchers("/wechat/**").and().authorizeRequests()
+					.antMatchers("/js/**", "/css/**", "/fonts/**", "/images/**", "/vendors/**", "/locales/**",
+							"/favicon.ico", "/api/**", "/apidocs/**", "/wechat/**", "/invts/getStatisticsInOutInvtData")
+					.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
+					.logout().permitAll();
 		}
 
 		@Override
 		public void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
+			auth.inMemoryAuthentication().withUser("admin").password("zhaopei0408").roles("ADMIN");
 		}
 
 	}
