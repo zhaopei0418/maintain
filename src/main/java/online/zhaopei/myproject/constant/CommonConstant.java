@@ -9,7 +9,7 @@ import java.util.Map;
 public enum CommonConstant implements Serializable {
 
 	DEFAULT_PAGE_ZIZE("10"),
-
+	
 	WECHAT_APP_ID("wx8a3ecd5dc8bf14ac"),
 	WECHAT_APP_SECRET("0383851a42499e5e72e1d09407d9d6e6"),
 	;
@@ -41,6 +41,8 @@ public enum CommonConstant implements Serializable {
 	private static Map<String, String> APP_TYPE_MAP = new HashMap<String, String>();
 
 	private static List<String> PIE_COLORS = new ArrayList<String>();
+	
+	public static byte BOM[] = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
 	
 	private String value;
 
