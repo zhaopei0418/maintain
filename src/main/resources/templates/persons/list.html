@@ -318,6 +318,7 @@
 						<th class="column-title">电话</th>
 						<th class="column-title">验证时间</th>
 						<th class="column-title">验证结果</th>
+						<th class="column-title">验证结果描述</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -335,6 +336,7 @@
 							<span th:case="N" class="btn btn-round btn-danger btn-xs" th:text="${checkFlag[personalInfo.checkFlag]}"></span>
 							<span th:case="*" class="btn btn-round btn-info btn-xs">无信息</span>
 						</td>
+						<td th:text="${personalInfo.checkMark}"></td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -345,6 +347,7 @@
 						<th class="column-title">电话</th>
 						<th class="column-title">验证时间</th>
 						<th class="column-title">验证结果</th>
+						<th class="column-title">验证结果描述</th>
 					</tr>
 				</tfoot>
 			</table>
