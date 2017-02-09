@@ -44,6 +44,7 @@ public class TaxHeadSqlProvide implements Serializable {
 			OracleTool.where(this, "ebc_code", taxHead.getEbcCode());
 			OracleTool.where(this, "logistics_code", taxHead.getLogisticsCode());
 			OracleTool.where(this, "customs_code", taxHead.getCustomsCode());
+			OracleTool.where(this, "agent_code", taxHead.getAgentCode());
 			OracleTool.where(this, "sys_date", taxHead.getBeginSysDate(), ">=");
 			OracleTool.where(this, "sys_date", taxHead.getEndSysDate(), "<=");
 			OracleTool.where(this, "sys_date", taxHead.getSysDateStr(), "=");
