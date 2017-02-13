@@ -19,6 +19,10 @@ public class TaxHead extends BaseDomain {
 	
 	private String invtNo;
 	
+	private String orderNo;
+	
+	private String logisticsNo;
+	
 	private String taxNo;
 	
 	private Double taxTotal;
@@ -39,9 +43,15 @@ public class TaxHead extends BaseDomain {
 	
 	private String assureCode;
 	
+	private String assureName;
+	
 	private String ebcCode;
 	
+	private String ebcName;
+	
 	private String logisticsCode;
+	
+	private String logisticsName;
 	
 	private Integer delFlag;
 	
@@ -58,6 +68,8 @@ public class TaxHead extends BaseDomain {
 	private Date sysDate;
 	
 	private String agentCode;
+	
+	private String agentName;
 
 	public String getHeadGuid() {
 		return headGuid;
@@ -249,5 +261,53 @@ public class TaxHead extends BaseDomain {
 
 	public void setAgentCode(String agentCode) {
 		this.agentCode = agentCode;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public String getLogisticsNo() {
+		return logisticsNo;
+	}
+
+	public void setLogisticsNo(String logisticsNo) {
+		this.logisticsNo = logisticsNo;
+	}
+
+	public String getAssureName() {
+		return assureName;
+	}
+
+	public void setAssureName(String assureName) {
+		this.assureName = assureName;
+	}
+
+	public String getEbcName() {
+		return ebcName;
+	}
+
+	public void setEbcName(String ebcName) {
+		this.ebcName = ebcName;
+	}
+
+	public String getLogisticsName() {
+		return logisticsName;
+	}
+
+	public void setLogisticsName(String logisticsName) {
+		this.logisticsName = logisticsName;
+	}
+
+	public String getAgentName() {
+		return agentName;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
 	}
 }

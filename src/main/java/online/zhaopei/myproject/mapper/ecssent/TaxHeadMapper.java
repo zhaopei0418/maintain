@@ -17,6 +17,8 @@ public interface TaxHeadMapper extends Serializable {
 		@Result(property = "returnTime", column = "return_time"),
 		@Result(property = "customsCode", column = "customs_code"),
 		@Result(property = "invtNo", column = "invt_no"),
+		@Result(property = "orderNo", column = "order_no"),
+		@Result(property = "logisticsNo", column = "logistics_no"),
 		@Result(property = "taxNo", column = "tax_no"),
 		@Result(property = "taxTotal", column = "tax_total"),
 		@Result(property = "customsTax", column = "customs_tax"),
@@ -27,13 +29,17 @@ public interface TaxHeadMapper extends Serializable {
 		@Result(property = "note", column = "note"),
 		@Result(property = "idNumber", column = "id_number"),
 		@Result(property = "assureCode", column = "assure_code"),
+		@Result(property = "assureName", column = "company_name"),
 		@Result(property = "ebcCode", column = "ebc_code"),
+		@Result(property = "ebcName", column = "ebc_name"),
 		@Result(property = "logisticsCode", column = "logistics_code"),
+		@Result(property = "logisticsName", column = "logistics_name"),
 		@Result(property = "delFlag", column = "del_flag"),
 		@Result(property = "msgGuid", column = "msg_guid"),
 		@Result(property = "sysDays", column = "sys_days"),
 		@Result(property = "sysDate", column = "sys_date"),
 		@Result(property = "agentCode", column = "agent_code"),
+		@Result(property = "agentName", column = "agent_name"),
 	})
 	@SelectProvider(type = TaxHeadSqlProvide.class, method = "getTaxHeadListSql")
 	List<TaxHead> getTaxHeadList(TaxHead taxHead);

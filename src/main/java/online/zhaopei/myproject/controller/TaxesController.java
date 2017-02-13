@@ -63,16 +63,16 @@ public class TaxesController extends BaseController {
 			output.close();
 			
 			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "UTF-8")));
-			writer.println("税单号,清单号,缴款书编号,证件号码,担保企业代码,电商企业代码,物流企业代码,报关企业代码,税款总额,关税,增值税,消费税,所属关区,入库日期");
+			writer.println("税单号,清单号,订单号,运单号,担保企业,电商企业,物流企业,报关企业,税款总额,关税,增值税,消费税,所属关区,入库日期");
 			for(TaxHead th : taxHeadList) {
 				writer.print(th.getTaxNo());
 				writer.print("," + th.getInvtNo());
-				writer.print("," + th.getEntDutyNo());
-				writer.print("," + th.getIdNumber());
-				writer.print("," + th.getAssureCode());
-				writer.print("," + th.getEbcCode());
-				writer.print("," + th.getLogisticsCode());
-				writer.print("," + th.getAgentCode());
+				writer.print("," + th.getOrderNo());
+				writer.print("," + th.getLogisticsNo());
+				writer.print("," + th.getAssureName());
+				writer.print("," + th.getEbcName());
+				writer.print("," + th.getLogisticsName());
+				writer.print("," + th.getAgentName());
 				writer.print("," + th.getTaxTotal());
 				writer.print("," + th.getCustomsTax());
 				writer.print("," + th.getValueAddedTax());

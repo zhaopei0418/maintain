@@ -300,6 +300,40 @@
 								</div>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">电商名称</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="ebcName" placeholder="电商名称"
+										th:value="${taxHead.ebcName}" />
+							</div>
+							<label class="col-sm-1 control-label">担保企业名称</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="assureName" placeholder="担保企业名称"
+										th:value="${taxHead.assureName}" />
+							</div>
+							<label class="col-sm-1 control-label">订单号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="orderNo" placeholder="订单号"
+										th:value="${taxHead.orderNo}" />
+							</div>
+                            <label class="col-sm-1 control-label">运单号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="logisticsNo" placeholder="运单号"
+										th:value="${taxHead.logisticsNo}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">物流企业名称</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="logisticsName" placeholder="物流企业名称"
+										th:value="${taxHead.logisticsName}" />
+							</div>
+							<label class="col-sm-1 control-label">报关企业名称</label>
+							<div class="col-sm-2">
+                                <input class="form-control" type="text" name="agentName" placeholder="报关企业名称"
+										th:value="${taxHead.agentName}" />
+							</div>
+						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
 							<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('tax_form')">重置</button>
@@ -350,12 +384,12 @@
 						<th class="column-title">序号</th>
 						<th class="column-title">税单号</th>
 						<th class="column-title">清单号</th>
-						<th class="column-title">缴款书编号</th>
-						<th class="column-title">证件号码</th>
-						<th class="column-title">担保企业代码</th>
-						<th class="column-title">电商企业代码</th>
-						<th class="column-title">物流企业代码</th>
-						<th class="column-title">报关企业代码</th>
+						<th class="column-title">订单号</th>
+						<th class="column-title">运单号</th>
+						<th class="column-title">担保企业</th>
+						<th class="column-title">电商企业</th>
+						<th class="column-title">物流企业</th>
+						<th class="column-title">报关企业</th>
 						<th class="column-title">税款总额</th>
 						<th class="column-title">关税</th>
 						<th class="column-title">增值税</th>
@@ -372,23 +406,23 @@
 						<td th:text="${stat.count}"></td>
 						<td th:text="${taxHead.taxNo}"></td>
 						<td th:text="${taxHead.invtNo}"></td>
-						<td th:text="${taxHead.entDutyNo}"></td>
-						<td th:text="${taxHead.idNumber}"></td>
+						<td th:text="${taxHead.orderNo}"></td>
+						<td th:text="${taxHead.logisticsNo}"></td>
 						<td th:title="${taxHead.assureCode}">
-							<a href="javascript:void(0)" th:text="${taxHead.assureCode}"
-								th:onclick="'addFormParaQuery(\'tax_form\', \'assureCode\', \'' + ${taxHead.assureCode} + '\')'"></a>
+							<a href="javascript:void(0)" th:text="${taxHead.assureName}"
+								th:onclick="'addFormParaQuery(\'tax_form\', \'assureName\', \'' + ${taxHead.assureName} + '\')'"></a>
 						</td>
 						<td th:title="${taxHead.ebcCode}">
-							<a href="javascript:void(0)" th:text="${taxHead.ebcCode}"
-								th:onclick="'addFormParaQuery(\'tax_form\', \'ebcCode\', \'' + ${taxHead.ebcCode} + '\')'"></a>
+							<a href="javascript:void(0)" th:text="${taxHead.ebcName}"
+								th:onclick="'addFormParaQuery(\'tax_form\', \'ebcName\', \'' + ${taxHead.ebcName} + '\')'"></a>
 						</td>
 						<td th:title="${taxHead.logisticsCode}">
-							<a href="javascript:void(0)" th:text="${taxHead.logisticsCode}"
-								th:onclick="'addFormParaQuery(\'tax_form\', \'logisticsCode\', \'' + ${taxHead.logisticsCode} + '\')'"></a>
+							<a href="javascript:void(0)" th:text="${taxHead.logisticsName}"
+								th:onclick="'addFormParaQuery(\'tax_form\', \'logisticsName\', \'' + ${taxHead.logisticsName} + '\')'"></a>
 						</td>
 						<td th:title="${taxHead.agentCode}">
-							<a href="javascript:void(0)" th:text="${taxHead.agentCode}"
-								th:onclick="'addFormParaQuery(\'tax_form\', \'agentCode\', \'' + ${taxHead.agentCode} + '\')'"></a>
+							<a href="javascript:void(0)" th:text="${taxHead.agentName}"
+								th:onclick="'addFormParaQuery(\'tax_form\', \'agentName\', \'' + ${taxHead.agentName} + '\')'"></a>
 						</td>
 						<td th:text="${taxHead.taxTotal}"></td>
 						<td th:text="${taxHead.customsTax}"></td>
@@ -403,12 +437,12 @@
 						<th class="column-title">序号</th>
 						<th class="column-title">税单号</th>
 						<th class="column-title">清单号</th>
-						<th class="column-title">缴款书编号</th>
-						<th class="column-title">证件号码</th>
-						<th class="column-title">担保企业代码</th>
-						<th class="column-title">电商企业代码</th>
-						<th class="column-title">物流企业代码</th>
-						<th class="column-title">报关企业代码</th>
+						<th class="column-title">订单号</th>
+						<th class="column-title">运单号</th>
+						<th class="column-title">担保企业</th>
+						<th class="column-title">电商企业</th>
+						<th class="column-title">物流企业</th>
+						<th class="column-title">报关企业</th>
 						<th class="column-title">税款总额</th>
 						<th class="column-title">关税</th>
 						<th class="column-title">增值税</th>
