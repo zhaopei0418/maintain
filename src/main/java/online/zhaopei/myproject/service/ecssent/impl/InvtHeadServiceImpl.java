@@ -45,4 +45,9 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 		return this.invtHeadMapper.getInvtHeadMonthCount();
 	}
 
+	@Override
+	public List<InvtHead> exportInvtHeadList(InvtHead invtHead) {
+		return this.invtHeadMapper.exportInvtHeadList(invtHead);
+	}
+
 }

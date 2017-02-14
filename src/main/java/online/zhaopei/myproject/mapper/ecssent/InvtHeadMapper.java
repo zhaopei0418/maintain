@@ -66,7 +66,15 @@ public interface InvtHeadMapper extends Serializable {
 		@Result(property = "freight", column = "freight"),
 		@Result(property = "currency", column = "currency"),
 		@Result(property = "note", column = "note"),
-		@Result(property = "customsCode", column = "customs_code"),
+		@Result(property = "rtnInfo", column = "rtn_info"),
+		@Result(property = "detailsCode", column = "detailscode"),
+		@Result(property = "auditState", column = "audit_state"),
+		@Result(property = "bwName", column = "bw_name"),
+		@Result(property = "payName", column = "payname"),
+		@Result(property = "goodsValue", column = "goodsvalue"),
+		@Result(property = "distNo", column = "dist_no"),
+		@Result(property = "distStat", column = "dist_stat"),
+		@Result(property = "distTime", column = "dist_time"),
 	})
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadListSql")
 	List<InvtHead> getInvtHeadList(InvtHead invtHead);
@@ -74,6 +82,10 @@ public interface InvtHeadMapper extends Serializable {
 	@ResultMap("invtHeadResult")
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadByHeadGuidSql")
 	InvtHead getInvtHeadByHeadGuid(String headGuid);
+	
+	@ResultMap("invtHeadResult")
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "exportInvtHeadListSql")
+	List<InvtHead> exportInvtHeadList(InvtHead invtHead);
 	
 	@ResultMap("invtHeadResult")
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadByInvtNoSql")

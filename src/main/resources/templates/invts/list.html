@@ -167,6 +167,11 @@
 					$("#appStatusModal .modal-body").html(dataHtml);
 				});
 			}
+
+			function exportInvts() {
+				var formObj = $("#invt_form")
+				window.open("/invts/export?" + formObj.serialize());
+			}
 		</script>
 
 		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
@@ -187,7 +192,10 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>搜索条件</h2>
+					<h2>
+						搜索条件
+						<button class="btn btn-round btn-info" onclick="exportInvts()">导出</button>
+					</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 						</li>

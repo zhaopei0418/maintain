@@ -1,7 +1,12 @@
 package online.zhaopei.myproject.controller;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -524,5 +529,56 @@ public class InvtsController extends BaseController {
 			this.put("9610", "电子商务");
 		}});
 		return mv;
+	}
+	
+	@RequestMapping("export")
+	public ResponseEntity<byte[]> export(InvtHead invtHead) throws IOException {
+		SimpleDateFormat sdfFileName = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		String fileName = "invts_" + sdfFileName.format(Calendar.getInstance().getTime()) + ".csv";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentDispositionFormData("attachment", fileName);
+		File file = new File("export/" + fileName);
+		PrintWriter writer = null;
+		OutputStream output = null;
+		List<InvtHead> invtHeadList = this.invtHeadService.exportInvtHeadList(invtHead);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		try {
+			output = new FileOutputStream(file);
+			output.write(CommonConstant.BOM);
+			output.close();
+			
+			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "UTF-8")));
+			writer.println("海关清单编号,海关状态,海关回执,国检清单编号,国检状态,国检回执,电商企业,订单编号,物流企业,运单编号,支付企业,支付单编号,主单号,申报日期,总货值,核放单号,核放单状态,过卡口时间");
+			for(InvtHead ih : invtHeadList) {
+				writer.print(ih.getInvtNo());
+				writer.print("," + InvtHeadConstant.getAPP_STATUS_MAP().get(ih.getAppStatus()));
+				writer.print(",\"" + ih.getRtnInfo() + "\"");
+				writer.print("," + ih.getDetailsCode());
+				writer.print("," + InvtHeadConstant.getAUDIT_STATE_MAP().get(ih.getAuditState()));
+				writer.print(",\"" + ih.getBwName() + "\"");
+				writer.print("," + ih.getEbcName());
+				writer.print("," + ih.getOrderNo());
+				writer.print("," + ih.getLogisticsName());
+				writer.print("," + ih.getLogisticsNo());
+				writer.print("," + ih.getPayName());
+				writer.print("," + ih.getApplyCode());
+				writer.print("," + ih.getBillNo());
+				writer.print("," + (null == ih.getSysDate() ? "" : sdf.format(ih.getSysDate())));
+				writer.print("," + ih.getGoodsValue());
+				writer.print("," + ih.getDistNo());
+				writer.print("," + InvtHeadConstant.getDIST_STATUS_MAP().get(ih.getDistStat()));
+				writer.print("," + (null == ih.getDistTime() ? "" : sdf.format(ih.getDistTime())));
+				writer.println();
+			}
+			writer.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			output.close();
+			writer.close();
+		}
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 	}
 }

@@ -88,8 +88,6 @@ public class TaxesController extends BaseController {
 			output.close();
 			writer.close();
 		}
-		System.out.println(file.getAbsolutePath());
-		System.out.println(this.getClass().getResource(""));
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 	}
 	

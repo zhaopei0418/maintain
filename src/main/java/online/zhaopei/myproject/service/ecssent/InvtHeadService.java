@@ -16,4 +16,6 @@ public interface InvtHeadService extends Serializable {
 	Long getInvtHeadCount(String countType);
 	
 	List<InvtHead> getInvtHeadMonthCount();
+	
+	List<InvtHead> exportInvtHeadList(InvtHead invtHead);
 }

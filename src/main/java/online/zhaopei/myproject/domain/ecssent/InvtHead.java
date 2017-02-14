@@ -176,6 +176,24 @@ public class InvtHead extends BaseDomain {
 	
 	private Long total;
 	
+	private String rtnInfo;
+	
+	private String detailsCode;
+	
+	private String auditState;
+	
+	private String bwName;
+	
+	private String payName;
+	
+	private Double goodsValue;
+	
+	private String distNo;
+	
+	private String distStat;
+	
+	private Date distTime;
+	
 	public String getHeadGuid() {
 		return headGuid;
 	}
@@ -819,5 +837,77 @@ public class InvtHead extends BaseDomain {
 
 	public void setSysDateStr(String sysDateStr) {
 		this.sysDateStr = sysDateStr;
+	}
+
+	public String getRtnInfo() {
+		return rtnInfo;
+	}
+
+	public void setRtnInfo(String rtnInfo) {
+		this.rtnInfo = rtnInfo;
+	}
+
+	public String getDetailsCode() {
+		return detailsCode;
+	}
+
+	public void setDetailsCode(String detailsCode) {
+		this.detailsCode = detailsCode;
+	}
+
+	public String getAuditState() {
+		return auditState;
+	}
+
+	public void setAuditState(String auditState) {
+		this.auditState = auditState;
+	}
+
+	public String getBwName() {
+		return bwName;
+	}
+
+	public void setBwName(String bwName) {
+		this.bwName = bwName;
+	}
+
+	public String getPayName() {
+		return payName;
+	}
+
+	public void setPayName(String payName) {
+		this.payName = payName;
+	}
+
+	public Double getGoodsValue() {
+		return goodsValue;
+	}
+
+	public void setGoodsValue(Double goodsValue) {
+		this.goodsValue = goodsValue;
+	}
+
+	public String getDistNo() {
+		return distNo;
+	}
+
+	public void setDistNo(String distNo) {
+		this.distNo = distNo;
+	}
+
+	public String getDistStat() {
+		return distStat;
+	}
+
+	public void setDistStat(String distStat) {
+		this.distStat = distStat;
+	}
+
+	public Date getDistTime() {
+		return distTime;
+	}
+
+	public void setDistTime(Date distTime) {
+		this.distTime = distTime;
 	}
 }
