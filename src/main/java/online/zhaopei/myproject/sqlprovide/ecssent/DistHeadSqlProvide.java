@@ -100,11 +100,11 @@ public class DistHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(distHead.getBeginInputDate())) {
-				this.WHERE("to_char(pdh.input_date, 'yyyy-mm-dd') <= '" + distHead.getBeginInputDate() + "'");
+				this.WHERE("to_char(pdh.input_date, 'yyyy-mm-dd') >= '" + distHead.getBeginInputDate() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(distHead.getEndInputDate())) {
-				this.WHERE("to_char(pdh.input_date, 'yyyy-mm-dd') >= '" + distHead.getEndInputDate() + "'");
+				this.WHERE("to_char(pdh.input_date, 'yyyy-mm-dd') <= '" + distHead.getEndInputDate() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(distHead.getInputDateStr())) {
