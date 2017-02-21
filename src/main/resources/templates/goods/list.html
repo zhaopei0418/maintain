@@ -167,7 +167,7 @@
 				});
 			}
 			
-			function exportgoods() {
+			function exportGoods() {
 				var formObj = $("#good_form")
 				// window.location.href = "/goods?" + formObj.serialize();
 				window.open("/goods/export?" + formObj.serialize());
@@ -194,7 +194,7 @@
 				<div class="x_title">
 					<h2>
 						搜索条件
-						<button class="btn btn-round btn-info" onclick="exportgoods()">导出</button>
+						<button class="btn btn-round btn-info" onclick="exportGoods()">导出</button>
 					</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -238,102 +238,80 @@
 										th:value="${good.applyName}" />
 							</div>
 						</div>
-						<!-- <div class="form&#45;group"> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">缴款书编号</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="entDutyNo" placeholder="缴款书编号" -->
-						<!-- 				th:value="${good.entDutyNo}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">入库开始时间</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<div class='input&#45;group date input&#45;date'> -->
-						<!-- 			<input type='text' class="form&#45;control" name="beginSysDate" -->
-						<!-- 					th:value="${good.beginSysDate}" placeholder="申报开始时间" /> -->
-						<!-- 			<span class="input&#45;group&#45;addon"> -->
-						<!-- 				<span class="glyphicon glyphicon&#45;time"></span> -->
-						<!-- 			</span> -->
-						<!-- 		</div> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">入库结束时间</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<div class='input&#45;group date input&#45;date'> -->
-						<!-- 			<input type='text' class="form&#45;control" name="endSysDate" -->
-						<!-- 					th:value="${good.endSysDate}" placeholder="申报结束时间" /> -->
-						<!-- 			<span class="input&#45;group&#45;addon"> -->
-						<!-- 				<span class="glyphicon glyphicon&#45;time"></span> -->
-						<!-- 			</span> -->
-						<!-- 		</div> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">所属关区</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<select class="form&#45;control" name="customsCode"> -->
-						<!-- 			<option th:each="customsCodeEntry : ${customsCodeMap}" th:value="${customsCodeEntry.key}" -->
-						<!-- 					th:text="${customsCodeEntry.key} + '&#45;' + ${customsCodeEntry.value}" -->
-						<!-- 					th:selected="${customsCodeEntry.key == good.customsCode} ? 'selected'"></option> -->
-						<!-- 		</select> -->
-						<!-- 	</div> -->
-						<!-- </div> -->
-						<!-- <div class="form&#45;group"> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">证件号码</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="idNumber" placeholder="证件号码" -->
-						<!-- 				th:value="${good.idNumber}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">物流企业代码</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="logisticsCode" placeholder="物流企业代码" -->
-						<!-- 				th:value="${good.logisticsCode}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">报关企业代码</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="agentCode" placeholder="报关企业代码" -->
-						<!-- 				th:value="${good.agentCode}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">申报日期</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<div class='input&#45;group date input&#45;date'> -->
-						<!-- 			<input type='text' class="form&#45;control" name="sysDateStr" -->
-						<!-- 					th:value="${good.sysDateStr}" placeholder="申报日期" /> -->
-						<!-- 			<span class="input&#45;group&#45;addon"> -->
-						<!-- 				<span class="glyphicon glyphicon&#45;time"></span> -->
-						<!-- 			</span> -->
-						<!-- 		</div> -->
-						<!-- 	</div> -->
-						<!-- </div> -->
-						<!-- <div class="form&#45;group"> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">电商名称</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="ebcName" placeholder="电商名称" -->
-						<!-- 				th:value="${good.ebcName}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">担保企业名称</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="assureName" placeholder="担保企业名称" -->
-						<!-- 				th:value="${good.assureName}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">订单号</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="orderNo" placeholder="订单号" -->
-						<!-- 				th:value="${good.orderNo}" /> -->
-						<!-- 	</div> -->
-                        <!--     <label class="col&#45;sm&#45;1 control&#45;label">运单号</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="logisticsNo" placeholder="运单号" -->
-						<!-- 				th:value="${good.logisticsNo}" /> -->
-						<!-- 	</div> -->
-						<!-- </div> -->
-						<!-- <div class="form&#45;group"> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">物流企业名称</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="logisticsName" placeholder="物流企业名称" -->
-						<!-- 				th:value="${good.logisticsName}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">报关企业名称</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-                        <!--         <input class="form&#45;control" type="text" name="agentName" placeholder="报关企业名称" -->
-						<!-- 				th:value="${good.agentName}" /> -->
-						<!-- 	</div> -->
-						<!-- </div> -->
+						<div class="form-group">
+							<label class="col-sm-1 control-label">商品货号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="goodsNo" placeholder="商品货号"
+										th:value="${good.goodsNo}" />
+							</div>
+							<label class="col-sm-1 control-label">入库开始时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="beginDecTime"
+											th:value="${good.beginDecTime}" placeholder="入库开始时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+							<label class="col-sm-1 control-label">入库结束时间</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="endDecTime"
+											th:value="${good.endDecTime}" placeholder="入库结束时间" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+							<label class="col-sm-1 control-label">状态</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="status">
+									<option th:each="statusEntry : ${status}" th:value="${statusEntry.key}"
+											th:text="${statusEntry.key} + '-' + ${statusEntry.value}"
+											th:selected="${statusEntry.key == good.status} ? 'selected'"></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">备案商品编号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="itemNo" placeholder="备案商品编号"
+										th:value="${good.itemNo}" />
+							</div>
+							<label class="col-sm-1 control-label">申报品名</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="goodsName" placeholder="申报品名"
+										th:value="${good.goodsName}" />
+							</div>
+							<label class="col-sm-1 control-label">上架品名</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="shelfGoodsName" placeholder="上架品名"
+										th:value="${good.shelfGoodsName}" />
+							</div>
+							<label class="col-sm-1 control-label">入库日期</label>
+							<div class="col-sm-2">
+								<div class='input-group date input-date'>
+									<input type='text' class="form-control" name="decTimeStr"
+											th:value="${good.decTimeStr}" placeholder="入库日期" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-time"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">HS编码</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="codeTs" placeholder="HS编码"
+										th:value="${good.codeTs}" />
+							</div>
+							<label class="col-sm-1 control-label">行邮税号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="taxCode" placeholder="行邮税号"
+										th:value="${good.taxCode}" />
+							</div>
+						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
 							<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('good_form')">重置</button>
@@ -419,11 +397,11 @@
 						<td th:text="${good.itemNo}"></td>
 						<td th:text="${good.taxCode}"></td>
 						<td th:text="${good.priceRmb}"></td>
-						<td th:text="${good.unit}"></td>
+						<td th:text="${unit[good.unit]}"></td>
 						<td th:text="${good.codeTs}"></td>
 						<td th:text="${country[good.country]}"></td>
 						<td th:text="${status[good.status]}"></td>
-						<td th:text="${#calendars.format(good.decTime, 'YYYY-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${#calendars.format(good.decTime, 'YYYY-MM-dd')}"></td>
 					</tr>
 				</tbody>
 				<tfoot>

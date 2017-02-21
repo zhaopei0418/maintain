@@ -1,8 +1,11 @@
 package online.zhaopei.myproject.service.para.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import online.zhaopei.myproject.common.tool.ArrayTool;
 import online.zhaopei.myproject.domain.para.Para;
 import online.zhaopei.myproject.mapper.para.UnitMapper;
 import online.zhaopei.myproject.service.para.UnitService;
@@ -21,6 +24,16 @@ public class UnitServiceImpl implements UnitService {
 	@Override
 	public Para getUnitByCode(String unitCode) {
 		return this.unitMapper.getUnitByCode(unitCode);
+	}
+
+	@Override
+	public long countUnits() {
+		return this.unitMapper.countUnits();
+	}
+
+	@Override
+	public Map<String, String> getAllUnit() {
+		return ArrayTool.mapFromListOfMap(this.unitMapper.getAllUnit(), "unit_code", "unit_name");
 	}
 
 }

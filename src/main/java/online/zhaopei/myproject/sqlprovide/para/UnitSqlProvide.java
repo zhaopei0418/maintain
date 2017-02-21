@@ -26,4 +26,21 @@ public class UnitSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+	
+	public String countUnitsSql() {
+		return new SQL() {{
+			this.SELECT("count(1)");
+			this.FROM("unit");
+			
+		}}.toString();
+	}
+	
+	public String getAllUnitSql() {
+		return new SQL() {{
+			this.SELECT("unit_code");
+			this.SELECT("unit_name");
+			this.FROM("unit");
+			
+		}}.toString();
+	}
 }

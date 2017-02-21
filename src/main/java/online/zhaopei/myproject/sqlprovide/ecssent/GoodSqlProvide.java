@@ -90,6 +90,46 @@ public class GoodSqlProvide implements Serializable {
 				goodsSql.append(" and cgl.shelf_goods_name like '%" + good.getShelfGoodsName() + "%'");
 			}
 			
+			if (!StringUtils.isEmpty(good.getStatus())) {
+				goodsSql.append(" and cgl.status = '" + good.getStatus() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getGoodsNo())) {
+				goodsSql.append(" and cgl.goods_no = '" + good.getGoodsNo() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getBeginDecTime())) {
+				goodsSql.append(" and to_char(cgl.dec_time, 'yyyy-mm-dd') >= '" + good.getBeginDecTime() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getEndDecTime())) {
+				goodsSql.append(" and to_char(cgl.dec_time, 'yyyy-mm-dd') <= '" + good.getEndDecTime() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getDecTimeStr())) {
+				goodsSql.append(" and to_char(cgl.dec_time, 'yyyy-mm-dd') = '" + good.getDecTimeStr() + "'"); 
+			}
+			
+			if (!StringUtils.isEmpty(good.getItemNo())) {
+				goodsSql.append(" and cgl.item_no like '" + good.getItemNo() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getGoodsName())) {
+				goodsSql.append(" and cgl.goods_name like '%" + good.getGoodsName() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getShelfGoodsName())) {
+				goodsSql.append(" and cgl.shelf_goods_name like '%" + good.getShelfGoodsName() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getCodeTs())) {
+				goodsSql.append(" and cgl.code_ts like '%" + good.getCodeTs() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getTaxCode())) {
+				goodsSql.append(" and cgl.tax_code like '%" + good.getTaxCode() + "'");
+			}
+			
 			goodsSql.append(" union all");
 			goodsSql.append(" select pgh.seq_no");
 			goodsSql.append(",pgh.cbe_code");
@@ -159,6 +199,46 @@ public class GoodSqlProvide implements Serializable {
 			
 			if (!StringUtils.isEmpty(good.getShelfGoodsName())) {
 				goodsSql.append(" and pgl.shelf_goods_name like '%" + good.getShelfGoodsName() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getStatus())) {
+				goodsSql.append(" and pgl.status = '" + good.getStatus() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getGoodsNo())) {
+				goodsSql.append(" and pgl.goods_no = '" + good.getGoodsNo() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getBeginDecTime())) {
+				goodsSql.append(" and to_char(pgl.dec_time, 'yyyy-mm-dd') >= '" + good.getBeginDecTime() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getEndDecTime())) {
+				goodsSql.append(" and to_char(pgl.dec_time, 'yyyy-mm-dd') <= '" + good.getEndDecTime() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getDecTimeStr())) {
+				goodsSql.append(" and to_char(pgl.dec_time, 'yyyy-mm-dd') = '" + good.getDecTimeStr() + "'"); 
+			}
+			
+			if (!StringUtils.isEmpty(good.getItemNo())) {
+				goodsSql.append(" and pgl.item_no like '" + good.getItemNo() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getGoodsName())) {
+				goodsSql.append(" and pgl.goods_name like '%" + good.getGoodsName() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getShelfGoodsName())) {
+				goodsSql.append(" and pgl.shelf_goods_name like '%" + good.getShelfGoodsName() + "%'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getCodeTs())) {
+				goodsSql.append(" and pgl.code_ts like '%" + good.getCodeTs() + "'");
+			}
+			
+			if (!StringUtils.isEmpty(good.getTaxCode())) {
+				goodsSql.append(" and pgl.tax_code like '%" + good.getTaxCode() + "'");
 			}
 			
 			this.FROM("(" + goodsSql.toString() + ")");

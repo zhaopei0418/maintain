@@ -85,6 +85,12 @@ public class Good extends BaseDomain {
 	
 	private Date decTime;
 	
+	private String beginDecTime;
+	
+	private String endDecTime;
+	
+	private String decTimeStr;
+	
 	private Date updateTime;
 	
 	private Date indbTime;
@@ -449,5 +455,29 @@ public class Good extends BaseDomain {
 
 	public void setIsSimple(String isSimple) {
 		this.isSimple = isSimple;
+	}
+
+	public String getBeginDecTime() {
+		return beginDecTime;
+	}
+
+	public void setBeginDecTime(String beginDecTime) {
+		this.beginDecTime = beginDecTime;
+	}
+
+	public String getEndDecTime() {
+		return endDecTime;
+	}
+
+	public void setEndDecTime(String endDecTime) {
+		this.endDecTime = endDecTime;
+	}
+
+	public String getDecTimeStr() {
+		return decTimeStr;
+	}
+
+	public void setDecTimeStr(String decTimeStr) {
+		this.decTimeStr = decTimeStr;
 	}
 }
