@@ -550,7 +550,7 @@ public class InvtsController extends BaseController {
 			output.close();
 			
 			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "UTF-8")));
-			writer.println("海关清单编号,海关状态,海关回执,国检清单编号,国检状态,国检回执,电商企业,订单编号,物流企业,运单编号,支付企业,支付单编号,主单号,申报日期,总货值,核放单号,核放单状态,过卡口时间");
+			writer.println("海关清单编号,海关状态,海关回执,国检清单编号,国检状态,国检回执,电商企业,订单编号,物流企业,运单编号,支付企业,支付单编号,主单号,申报日期,总货值,收货人地址,总毛重,总净重,核放单号,核放单状态,过卡口时间");
 			for(InvtHead ih : invtHeadList) {
 				writer.print(ih.getInvtNo());
 				writer.print("," + InvtHeadConstant.getAPP_STATUS_MAP().get(ih.getAppStatus()));
@@ -567,6 +567,9 @@ public class InvtsController extends BaseController {
 				writer.print("," + ih.getBillNo());
 				writer.print("," + (null == ih.getSysDate() ? "" : sdf.format(ih.getSysDate())));
 				writer.print("," + ih.getGoodsValue());
+				writer.print(",\"" + ih.getConsigneeAddress() + "\"");
+				writer.print("," + ih.getGrossWeight());
+				writer.print("," + ih.getNetWeight());
 				writer.print("," + ih.getDistNo());
 				writer.print("," + InvtHeadConstant.getDIST_STATUS_MAP().get(ih.getDistStat()));
 				writer.print("," + (null == ih.getDistTime() ? "" : sdf.format(ih.getDistTime())));

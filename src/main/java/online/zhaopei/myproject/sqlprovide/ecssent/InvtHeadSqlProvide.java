@@ -364,6 +364,9 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.SELECT("cih.bill_no");
 			this.SELECT("cih.sys_date");
 			this.SELECT("iih.goodsvalue");
+			this.SELECT("cih.consignee_address");
+			this.SELECT("cih.gross_weight");
+			this.SELECT("cih.net_weight");
 			this.SELECT("pdbl.dist_no");
 			this.SELECT("pdh.dist_stat");
 			this.SELECT("cih.dist_time");
