@@ -65,6 +65,18 @@ public enum InvtHeadConstant implements Serializable {
 	APP_STATUS_504011("-504011"),
 	APP_STATUS_504011_DESC("参数校验不通过"),
 	
+	CUSTOMS_STATUS_12("12"),
+	CUSTOMS_STATUS_12_DESC("人工审核"),
+	CUSTOMS_STATUS_13("13"),
+	CUSTOMS_STATUS_13_DESC("退单"),
+	CUSTOMS_STATUS_23("23"),
+	CUSTOMS_STATUS_23_DESC("审核通过"),
+	CUSTOMS_STATUS_24("24"),
+	CUSTOMS_STATUS_24_DESC("查验"),
+	CUSTOMS_STATUS_25("25"),
+	CUSTOMS_STATUS_25_DESC("挂起"),
+	CUSTOMS_STATUS_26("26"),
+	CUSTOMS_STATUS_26_DESC("放行"),
 	
 	AUDIT_STATE_SUCCESS("success"),
 	AUDIT_STATE_SUCCESS_DESC("入库成功"),
@@ -117,6 +129,8 @@ public enum InvtHeadConstant implements Serializable {
 	private static Map<String, String> DIST_STATUS_MAP = new HashMap<String, String>();
 	
 	private static Map<String, String> AUDIT_STATE_MAP = new HashMap<String, String>();
+	
+	private static Map<String, String> CUSTOMS_STATUS_MAP = new HashMap<String, String>();
 	
 	static {
 		APP_STATUS_MAP.put("", "所有状态");
@@ -172,6 +186,15 @@ public enum InvtHeadConstant implements Serializable {
 		AUDIT_STATE_MAP.put(AUDIT_STATE_XH.value, AUDIT_STATE_XH_DESC.value);
 		AUDIT_STATE_MAP.put(AUDIT_STATE_FX.value, AUDIT_STATE_FX_DESC.value);
 		AUDIT_STATE_MAP.put(AUDIT_STATE_ZK.value, AUDIT_STATE_ZK_DESC.value);
+		
+		CUSTOMS_STATUS_MAP.put("", "所有状态");
+		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_12.toString(), CUSTOMS_STATUS_12_DESC.toString());
+		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_13.toString(), CUSTOMS_STATUS_13_DESC.toString());
+		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_23.toString(), CUSTOMS_STATUS_23_DESC.toString());
+		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_24.toString(), CUSTOMS_STATUS_24_DESC.toString());
+		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_25.toString(), CUSTOMS_STATUS_25_DESC.toString());
+		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_26.toString(), CUSTOMS_STATUS_26_DESC.toString());
+		
 	}
 	
 	private String value;
@@ -195,6 +218,10 @@ public enum InvtHeadConstant implements Serializable {
 
 	public static Map<String, String> getAUDIT_STATE_MAP() {
 		return AUDIT_STATE_MAP;
+	}
+
+	public static Map<String, String> getCUSTOMS_STATUS_MAP() {
+		return CUSTOMS_STATUS_MAP;
 	}
 	
 }
