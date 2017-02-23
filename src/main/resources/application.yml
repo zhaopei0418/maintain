@@ -102,3 +102,7 @@ logging:
       mybatis: TRACE
       springframework: INFO
     online.zhaopei.myproject: TRACE
+
+maintain:
+  ciqDir: /Users/zhaopei/work/logs/ciq/
+  backDir: /Users/zhaopei/work/logs/backCiq/

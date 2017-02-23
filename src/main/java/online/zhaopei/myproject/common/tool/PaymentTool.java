@@ -1,20 +1,60 @@
 package online.zhaopei.myproject.common.tool;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
 import online.zhaopei.myproject.domain.gjpayment.BodyMaster;
 import online.zhaopei.myproject.domain.gjpayment.CbecMessage;
+import online.zhaopei.myproject.domain.gjpayment.CbecMessageCiq;
 import online.zhaopei.myproject.domain.gjpayment.MessageHead;
 
 public final class PaymentTool {
-
+	
+	public static Logger logger = LoggerFactory.getLogger(PaymentTool.class);
+	
+	public static void generateCbecMessageCiq(CbecMessageCiq cbecMessageCiq, String dir, String backDir) {
+		if (null == cbecMessageCiq) {
+			return;
+		}
+		JAXBContext context = null;
+		Marshaller marshaller = null;
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		SimpleDateFormat sdfToday = new SimpleDateFormat("yyyyMMdd");
+		String fileName = "CBEC_MESSAGE_" + sdf.format(calendar.getTime());
+		File cbecMessage = new File(dir + fileName + ".xml");
+		File backCbecMessage = new File(backDir + sdfToday.format(calendar.getTime()) + "/" + fileName + ".xml");
+		File backDirFile = new File(backDir + sdfToday.format(calendar.getTime()));
+		try {
+			context = JAXBContext.newInstance(CbecMessageCiq.class);
+			marshaller = context.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+//			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+			
+			if (!backDirFile.exists()) {
+				backDirFile.mkdir();
+			}
+			
+			marshaller.marshal(cbecMessageCiq, backCbecMessage);
+			marshaller.marshal(cbecMessageCiq, cbecMessage);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.equals(e);
+		}
+	}
+	
 	public static CbecMessage buildCbecMessageByString(String cbecMessageStr, Date appTime) {
 		if (null == cbecMessageStr) {
 			return null;

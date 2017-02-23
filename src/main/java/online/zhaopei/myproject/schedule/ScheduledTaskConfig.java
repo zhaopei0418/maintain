@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -11,7 +12,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import online.zhaopei.myproject.common.tool.PaymentTool;
+import online.zhaopei.myproject.config.ApplicationProp;
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
+import online.zhaopei.myproject.domain.gjpayment.BodyMasterCiq;
+import online.zhaopei.myproject.domain.gjpayment.CbecMessage;
+import online.zhaopei.myproject.domain.gjpayment.CbecMessageCiq;
+import online.zhaopei.myproject.domain.gjpayment.MessageBodyCiq;
+import online.zhaopei.myproject.domain.gjpayment.MessageHeadCiq;
 import online.zhaopei.myproject.domain.gjpayment.PaymentMessage;
 import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
@@ -31,12 +38,20 @@ public class ScheduledTaskConfig {
 	@Autowired
 	private SyncPaymentInfoService syncPaymentInfoService;
 	
+	@Autowired
+	private ApplicationProp app;
+	
 	@Scheduled(initialDelay = 10000, fixedDelay = 60000)
 	public void syncPaymentInfo() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		SimpleDateFormat sdfDay = new SimpleDateFormat("yyyyMMdd");
 		ImpPayHead insertImpPayHead = null;
 		ImpPayHead searchImpPayHead = null;
+		CbecMessage cbecMessage = null;
+		CbecMessageCiq cbecMessageCiq = new CbecMessageCiq();
+		MessageHeadCiq messageHeadCiq = new MessageHeadCiq();
+		MessageBodyCiq messageBodyCiq = new MessageBodyCiq();
+		BodyMasterCiq bodyMasterCiq = new BodyMasterCiq();
 		PaymentMessage searchPm = new PaymentMessage();
 		List<PaymentMessage> resultPaymentMessageList = null;
 		Long lastSyncTime = this.syncPaymentInfoService.getSyncTime();
@@ -54,7 +69,21 @@ public class ScheduledTaskConfig {
 		
 		if (null != resultPaymentMessageList && !resultPaymentMessageList.isEmpty()) {
 			for (PaymentMessage pm : resultPaymentMessageList) {
-				insertImpPayHead = PaymentTool.buildImpPayHeadByCbecMessage(PaymentTool.buildCbecMessageByString(pm.getXmlContent(), pm.getCreatedDate()));
+				cbecMessage = PaymentTool.buildCbecMessageByString(pm.getXmlContent(), pm.getCreatedDate());
+				try {
+					BeanUtils.copyProperties(cbecMessage.getMessageBody().getBodyMaster(), bodyMasterCiq);
+					BeanUtils.copyProperties(cbecMessage.getMessageHead(), messageHeadCiq);
+					bodyMasterCiq.setCoinInsp(bodyMasterCiq.getMonetaryType());
+					bodyMasterCiq.setMonetaryType(null);
+					messageBodyCiq.setBodyMaster(bodyMasterCiq);
+					cbecMessageCiq.setMessageHead(messageHeadCiq);
+					cbecMessageCiq.setMessageBody(messageBodyCiq);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				PaymentTool.generateCbecMessageCiq(cbecMessageCiq, this.app.getCiqDir(), this.app.getBackDir());
+				insertImpPayHead = PaymentTool.buildImpPayHeadByCbecMessage(cbecMessage);
 				
 				if (null != insertImpPayHead) {
 					try {
