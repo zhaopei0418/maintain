@@ -53,6 +53,7 @@ public class ImpPayHeadSqlProvide implements Serializable {
 		return new SQL() {{
 			this.UPDATE("imp_pay_head");
 			
+			OracleTool.set(this, "uuid", impPayHead.getUuid());
 			OracleTool.set(this, "app_time", impPayHead.getAppTime());
 			OracleTool.set(this, "seqno", impPayHead.getSeqNo());
 			OracleTool.set(this, "managercustomscode", impPayHead.getManagerCustomsCode());
