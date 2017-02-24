@@ -70,19 +70,6 @@ public class ScheduledTaskConfig {
 		if (null != resultPaymentMessageList && !resultPaymentMessageList.isEmpty()) {
 			for (PaymentMessage pm : resultPaymentMessageList) {
 				cbecMessage = PaymentTool.buildCbecMessageByString(pm.getXmlContent(), pm.getCreatedDate());
-				try {
-					BeanUtils.copyProperties(cbecMessage.getMessageBody().getBodyMaster(), bodyMasterCiq);
-					BeanUtils.copyProperties(cbecMessage.getMessageHead(), messageHeadCiq);
-					bodyMasterCiq.setCoinInsp(bodyMasterCiq.getMonetaryType());
-					bodyMasterCiq.setMonetaryType(null);
-					messageBodyCiq.setBodyMaster(bodyMasterCiq);
-					cbecMessageCiq.setMessageHead(messageHeadCiq);
-					cbecMessageCiq.setMessageBody(messageBodyCiq);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				PaymentTool.generateCbecMessageCiq(cbecMessageCiq, this.app.getCiqDir(), this.app.getBackDir());
 				insertImpPayHead = PaymentTool.buildImpPayHeadByCbecMessage(cbecMessage);
 				
 				if (null != insertImpPayHead) {
@@ -91,6 +78,16 @@ public class ScheduledTaskConfig {
 						if (0 < this.impPayHeadService.countImpPayHead(searchImpPayHead)) {
 							continue;
 						}
+						
+						BeanUtils.copyProperties(cbecMessage.getMessageBody().getBodyMaster(), bodyMasterCiq);
+						BeanUtils.copyProperties(cbecMessage.getMessageHead(), messageHeadCiq);
+						bodyMasterCiq.setCoinInsp(bodyMasterCiq.getMonetaryType());
+						bodyMasterCiq.setMonetaryType(null);
+						messageBodyCiq.setBodyMaster(bodyMasterCiq);
+						cbecMessageCiq.setMessageHead(messageHeadCiq);
+						cbecMessageCiq.setMessageBody(messageBodyCiq);
+						
+						PaymentTool.generateCbecMessageCiq(cbecMessageCiq, this.app.getCiqDir(), this.app.getBackDir());
 						
 						searchImpPayHead = new ImpPayHead(insertImpPayHead.getPayCode(), insertImpPayHead.getPayTransactionId());
 						if (1 == this.impPayHeadService.countImpPayHead(searchImpPayHead)) {
