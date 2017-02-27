@@ -42,7 +42,8 @@ public class Application extends SpringBootServletInitializer {
 			http.csrf().ignoringAntMatchers("/wechat/**")
 					.and().authorizeRequests()
 					.antMatchers("/js/**", "/css/**", "/fonts/**", "/images/**", "/vendors/**", "/locales/**",
-							"/favicon.ico", "/api/**", "/apidocs/**", "/wechat/**", "/invts/getStatisticsInOutInvtData").permitAll()
+							"/favicon.ico", "/api/**", "/apidocs/**", "/wechat/**", "/invts/getStatisticsInOutInvtData",
+							"/dists/exportExcludeInvts").permitAll()
 //					.antMatchers("/invts").hasRole("a")
 					.anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
 					.logout().permitAll();

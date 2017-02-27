@@ -6,6 +6,8 @@ import org.apache.ibatis.jdbc.SQL;
 
 import com.alibaba.druid.util.StringUtils;
 
+import online.zhaopei.myproject.common.tool.OracleTool;
+
 public class DistBillListSqlProvide implements Serializable {
 
 	/**
@@ -128,6 +130,21 @@ public class DistBillListSqlProvide implements Serializable {
 				orSql += " OR cih.app_status like '%" + searchText + "%')";
 				this.WHERE(orSql);
 			}
+		}}.toString();
+	}
+	
+	public String excludeInvtsSql(final String distNo, final String companyCode) {
+		return new SQL() {{
+			this.SELECT("pdbl.bill_no");
+			this.SELECT("cih.order_no");
+			this.SELECT("cih.logistics_no");
+			this.FROM("pre_dist_bill_list pdbl");
+			this.INNER_JOIN("pre_dist_head pdh on pdh.seq_no = pdbl.seq_no");
+			this.LEFT_OUTER_JOIN("check_mail_good_head cmgh on pdbl.bill_no = cmgh.entry_id");
+			this.LEFT_OUTER_JOIN("ceb2_invt_head cih on cih.invt_no = pdbl.bill_no");
+			this.WHERE("(cmgh.status not in ('26', '24') or cmgh.status is null)");
+			OracleTool.where(this, "pdbl.dist_no", distNo);
+			OracleTool.where(this, "pdh.decl_code", companyCode);
 		}}.toString();
 	}
 }

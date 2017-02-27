@@ -12,4 +12,6 @@ public interface DistBillListService extends Serializable {
 	List<DistBillList> getDistBillListListBySearchText(String seqNo, String searchText);
 	
 	Long countDistBillList(String seqNo);
+	
+	List<DistBillList> excludeInvts(String distNo, String companyCode);
 }

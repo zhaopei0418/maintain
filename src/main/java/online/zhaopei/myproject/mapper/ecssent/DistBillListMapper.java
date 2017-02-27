@@ -3,13 +3,11 @@ package online.zhaopei.myproject.mapper.ecssent;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.mapping.FetchType;
 
 import online.zhaopei.myproject.domain.ecssent.DistBillList;
 import online.zhaopei.myproject.sqlprovide.ecssent.DistBillListSqlProvide;
@@ -68,4 +66,8 @@ public interface DistBillListMapper extends Serializable {
 	@ResultMap("distBillListResult")
 	@SelectProvider(type = DistBillListSqlProvide.class, method = "getDistBillListListBySearchTextSql")
 	List<DistBillList> getDistBillListListBySearchText(String seqNo, String searchText);
+	
+	@ResultMap("distBillListResult")
+	@SelectProvider(type = DistBillListSqlProvide.class, method = "excludeInvtsSql")
+	List<DistBillList> excludeInvts(String distNo, String companyCode);
 }

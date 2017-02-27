@@ -3,6 +3,15 @@
 -- 	constraint 'pk_version_head_guid' primary key ('head_guid')
 -- );
 
+-- 授权企业表，查询导出数据使用
+create table grant_company (
+	authorization_token char(32 byte) not null,
+	company_code varchar2(36 byte) not null,
+	note varchar2(100 char),
+	constraint "pk_gc_auth_token" primary key (authorization_token)
+);
+
+
 create table member (
 	member_name varchar2(30 byte) not null,
 	password char(32 byte) not null,

@@ -35,4 +35,9 @@ public class DistBillListServiceImpl implements DistBillListService {
 		return this.distBillListMapper.countDistBillList(seqNo);
 	}
 
+	@Override
+	public List<DistBillList> excludeInvts(String distNo, String companyCode) {
+		return this.distBillListMapper.excludeInvts(distNo, companyCode);
+	}
+
 }

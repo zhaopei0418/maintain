@@ -1,8 +1,24 @@
 package online.zhaopei.myproject.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +39,10 @@ import online.zhaopei.myproject.constant.InvtHeadConstant;
 import online.zhaopei.myproject.domain.common.DatatablePara;
 import online.zhaopei.myproject.domain.ecssent.DistBillList;
 import online.zhaopei.myproject.domain.ecssent.DistHead;
+import online.zhaopei.myproject.domain.ecssent.GrantCompany;
 import online.zhaopei.myproject.service.ecssent.DistBillListService;
 import online.zhaopei.myproject.service.ecssent.DistHeadService;
+import online.zhaopei.myproject.service.ecssent.GrantCompanyService;
 import online.zhaopei.myproject.service.para.CustomsService;
 
 @Controller
@@ -36,6 +54,10 @@ public class DistsController extends BaseController {
 	 */
 	private static final long serialVersionUID = -1247933637170790663L;
 
+	private static final Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
+	
+	private static final String SALT = "zhaopei";
+	
 	@Autowired
 	private DistHeadService distHeadService ;
 	
@@ -44,6 +66,9 @@ public class DistsController extends BaseController {
 	
 	@Autowired
 	private CustomsService customsService;
+	
+	@Autowired
+	private GrantCompanyService grantCompanyService;
 	
 	@GetMapping("/{seqNo}")
 	public ModelAndView show(@PathVariable String seqNo) {
@@ -94,6 +119,47 @@ public class DistsController extends BaseController {
 		
 		result.add("data", data);
 		return result.toString();
+	}
+	
+	@RequestMapping("exportExcludeInvts")
+	public ResponseEntity<byte[]> export(String authToken, String distNo) throws IOException {
+		SimpleDateFormat sdfFileName = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		String fileName = "exclude_invts_" + sdfFileName.format(Calendar.getInstance().getTime()) + ".csv";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentDispositionFormData("attachment", fileName);
+		File file = new File("export/" + fileName);
+		PrintWriter writer = null;
+		OutputStream output = null;
+		
+		GrantCompany grantCompany = this.grantCompanyService.getGrantCompanyByAuthToken(authToken);
+		
+		List<DistBillList> distBillListList = new ArrayList<DistBillList>();
+		if (null != grantCompany) {
+			distBillListList = this.distBillListService.excludeInvts(distNo, grantCompany.getCompanyCode());	
+		}
+		
+		try {
+			output = new FileOutputStream(file);
+			output.write(CommonConstant.BOM);
+			output.close();
+			
+			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "UTF-8")));
+			writer.println("清单号,订单号,运单号");
+			for(DistBillList dbl : distBillListList) {
+				writer.print(dbl.getBillNo());
+				writer.print("," + dbl.getOrderNo());
+				writer.print("," + dbl.getLogisticsNo());
+				writer.println();
+			}
+			writer.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			output.close();
+			writer.close();
+		}
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping
