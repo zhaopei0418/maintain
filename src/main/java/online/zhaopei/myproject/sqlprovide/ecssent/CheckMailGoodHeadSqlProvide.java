@@ -57,6 +57,7 @@ public class CheckMailGoodHeadSqlProvide implements Serializable {
 			OracleTool.where(this, "logistics_code", checkMailGoodHead.getLogisticsCode());
 			OracleTool.where(this, "logistics_name", checkMailGoodHead.getLogisticsName(), true);
 			OracleTool.where(this, "zyd_code", checkMailGoodHead.getZydCode());
+			OracleTool.where(this, "entry_id", checkMailGoodHead.getEntryId());
 			OracleTool.where(this, "check_date", checkMailGoodHead.getBeginCheckDate(), ">=");
 			OracleTool.where(this, "check_date", checkMailGoodHead.getEndCheckDate(), "<=");
 			OracleTool.where(this, "check_date", checkMailGoodHead.getCheckDateStr(), "=");

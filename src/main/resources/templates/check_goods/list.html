@@ -343,6 +343,11 @@
 											th:selected="${opTypeInspEntry.key == checkMailGoodHead.opTypeInsp} ? 'selected'"></option>
 								</select>
 							</div>
+							<label class="col-sm-1 control-label">清单号</label>
+							<div class="col-sm-2">
+								<input class="form-control" type="text" name="entryId" placeholder="清单号"
+										th:value="${checkMailGoodHead.entryId}" />
+							</div>
                         </div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
