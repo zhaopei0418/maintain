@@ -74,7 +74,10 @@ public interface InvtHeadMapper extends Serializable {
 		@Result(property = "goodsValue", column = "goodsvalue"),
 		@Result(property = "distNo", column = "dist_no"),
 		@Result(property = "distStat", column = "dist_stat"),
+		@Result(property = "customsCode", column = "customs_code"),
 		@Result(property = "distTime", column = "dist_time"),
+		@Result(property = "rtnTime", column = "rtn_time"),
+		@Result(property = "rtnSysDate", column = "rtn_sys_date"),
 	})
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadListSql")
 	List<InvtHead> getInvtHeadList(InvtHead invtHead);

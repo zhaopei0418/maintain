@@ -178,6 +178,10 @@ public class InvtHead extends BaseDomain {
 	
 	private String rtnInfo;
 	
+	private Date rtnTime;
+	
+	private Date rtnSysDate;
+	
 	private String detailsCode;
 	
 	private String auditState;
@@ -845,6 +849,22 @@ public class InvtHead extends BaseDomain {
 
 	public void setRtnInfo(String rtnInfo) {
 		this.rtnInfo = rtnInfo;
+	}
+
+	public Date getRtnTime() {
+		return rtnTime;
+	}
+
+	public void setRtnTime(Date rtnTime) {
+		this.rtnTime = rtnTime;
+	}
+
+	public Date getRtnSysDate() {
+		return rtnSysDate;
+	}
+
+	public void setRtnSysDate(Date rtnSysDate) {
+		this.rtnSysDate = rtnSysDate;
 	}
 
 	public String getDetailsCode() {
