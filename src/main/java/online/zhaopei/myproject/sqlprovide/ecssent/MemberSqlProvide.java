@@ -61,11 +61,12 @@ public class MemberSqlProvide implements Serializable {
 	
 	public String getMemberByUserNameSql(final String userName) {
 		return new SQL() {{
-			this.SELECT("member_name");
+			this.SELECT("code");
+			this.SELECT("name");
 			this.SELECT("password");
 			this.FROM("member");
 			
-			this.WHERE("member_name = '" + userName + "'");
+			this.WHERE("name = '" + userName + "'");
 		}}.toString();
 	}
 }

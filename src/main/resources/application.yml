@@ -5,7 +5,7 @@ spring:
   datasource.ecssent:
     driverClassName: oracle.jdbc.driver.OracleDriver
     dbType: oracle
-    url: jdbc:oracle:thin:@172.16.149.138:1521:XE
+    url: jdbc:oracle:thin:@172.16.149.143:1521:XE
     username: ecssent
     password: 123456
     initialSize: 5
@@ -19,7 +19,7 @@ spring:
     filters: stat,wall,log4j
   datasource.para:
     driverClassName: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@172.16.149.138:1521:XE
+    url: jdbc:oracle:thin:@172.16.149.143:1521:XE
     username: para
     password: 123456
     initialSize: 5
@@ -33,7 +33,7 @@ spring:
     filters: stat,wall,log4j
   datasource.gjent:
     driverClassName: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@172.16.149.138:1521:XE
+    url: jdbc:oracle:thin:@172.16.149.143:1521:XE
     username: ggfw_zhengzhou
     password: 123456
     initialSize: 5
@@ -47,7 +47,7 @@ spring:
     filters: stat,wall,log4j
   datasource.gjpayment:
     driverClassName: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@172.16.149.138:1521:XE
+    url: jdbc:oracle:thin:@172.16.149.143:1521:XE
     username: ggfw_zhengzhou
     password: 123456
     initialSize: 5
@@ -62,7 +62,7 @@ spring:
   datasource.mhin:
     driverClassName: oracle.jdbc.driver.OracleDriver
     dbType: oracle
-    url: jdbc:oracle:thin:@172.16.149.138:1521:XE
+    url: jdbc:oracle:thin:@172.16.149.143:1521:XE
     username: mh
     password: mh
     initialSize: 5
@@ -77,7 +77,7 @@ spring:
   datasource.mhout:
     driverClassName: oracle.jdbc.driver.OracleDriver
     dbType: oracle
-    url: jdbc:oracle:thin:@172.16.149.138:1521:XE
+    url: jdbc:oracle:thin:@172.16.149.143:1521:XE
     username: mh
     password: mh
     initialSize: 5

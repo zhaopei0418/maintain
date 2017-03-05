@@ -21,6 +21,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +38,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import online.zhaopei.myproject.common.tool.ParaTool;
-import online.zhaopei.myproject.common.tool.PaymentTool;
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.InvtHeadConstant;
 import online.zhaopei.myproject.domain.common.DatatablePara;
@@ -501,6 +502,8 @@ public class InvtsController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView index(InvtHead invtHead) {
+//		User user = (User) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+//		System.out.println("111=222=" + user.getUsername());
 		if (null != invtHead && !StringUtils.isEmpty(invtHead.getApplyCode())) {
 			invtHead.setCopNoList(this.impInvtHeadService.getCopNoList(invtHead.getApplyCode()));
 		}

@@ -9,6 +9,10 @@ public class Member extends BaseDomain {
 	 */
 	private static final long serialVersionUID = -3751073918050002548L;
 	
+	private String code;
+	
+	private String name;
+	
 	private String memberName;
 	
 	private String password;
@@ -27,6 +31,22 @@ public class Member extends BaseDomain {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

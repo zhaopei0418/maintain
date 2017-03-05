@@ -11,20 +11,49 @@ create table grant_company (
 	constraint "pk_gc_auth_token" primary key (authorization_token)
 );
 
-
 create table member (
-	member_name varchar2(30 byte) not null,
+	code varchar2(32 byte) not null,
+	name varchar2(30 byte) not null,
 	password char(32 byte) not null,
-	constraint "pk_member_member_name" primary key (member_name)
+	constraint "pk_member_code" primary key (code)
 );
 
 create table role (
-	role_name varchar2(30 byte) not null,
-	constraint "pk_role_role_name" primary key (role_name)
+	code varchar2(32 byte) not null,
+	name varchar2(30 byte) not null,
+	descript varchar2(100 char),
+	constraint "pk_role_code" primary key (code)
 );
 
-create table member_rel_role (
-	role_name varchar2(30 byte) not null,
-	member_name varchar2(30 byte) not null,
-	constraint "pk_member_rel_role_mr_name" primary key (role_name, member_name)
+create table permission (
+	code varchar2(32 byte) not null,
+  name varchar2(30 byte) not null,
+	descript varchar2(100 char),
+	url varchar2(128 byte) not null,
+	constraint "pk_permission_code" primary key (code)
+);
+
+create table sys_group (
+	code varchar2(32 byte) not null,
+	name varchar2(50 char) not null,
+	descript varchar2(100 char),
+	constraint "pk_group_code" primary key (code)
+);
+
+create table group_rel_member (
+	group_code varchar2(32 byte) not null,
+	member_code varchar2(32 byte) not null,
+	constraint "pk_grm_group_member_code" primary key (group_code, member_code)
+);
+
+create table group_rel_role (
+	role_code varchar2(32 byte) not null,
+	group_code varchar2(32 byte) not null,
+	constraint "pk_grr_role_group_code" primary key (role_code, group_code)
+);
+
+create table role_rel_permission (
+	role_code varchar2(32 byte) not null,
+	permission_code varchar2(32 byte) not null,
+	constraint "pk_rrp_role_permission_code" primary key (role_code, permission_code)
 );
