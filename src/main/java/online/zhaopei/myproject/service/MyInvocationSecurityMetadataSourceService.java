@@ -25,8 +25,25 @@ public class MyInvocationSecurityMetadataSourceService implements FilterInvocati
 	@Autowired
 	private PermissionMapper permissionMapper;
 
+	private static List<String> excludeUrlList = new ArrayList<String>();
+	
 	private HashMap<String, Collection<ConfigAttribute>> map = null;
 
+	static {
+		excludeUrlList.add("/js/**");
+		excludeUrlList.add("/css/**");
+		excludeUrlList.add("/fonts/**");
+		excludeUrlList.add("/images/**");
+		excludeUrlList.add("/vendors/**");
+		excludeUrlList.add("/locales/**");
+		excludeUrlList.add("/favicon.ico");
+		excludeUrlList.add("/api/**");
+		excludeUrlList.add("/apidocs/**");
+		excludeUrlList.add("/wechat/**");
+		excludeUrlList.add("/invts/getStatisticsInOutInvtData");
+		excludeUrlList.add("/dists/exportExcludeInvts");
+	}
+	
 	/**
 	 * 加载权限表中所有权限
 	 */
@@ -60,6 +77,13 @@ public class MyInvocationSecurityMetadataSourceService implements FilterInvocati
 		HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
 		AntPathRequestMatcher matcher;
 		String resUrl;
+		
+		for (String url : excludeUrlList) {
+			if(new AntPathRequestMatcher(url).matches(request)) {
+				return null;
+			}
+		}
+		
 		for (Iterator<String> iter = map.keySet().iterator(); iter.hasNext();) {
 			resUrl = iter.next();
 			matcher = new AntPathRequestMatcher(resUrl);

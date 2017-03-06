@@ -55,13 +55,6 @@ public class Application extends SpringBootServletInitializer {
 					.anyRequest().authenticated().and()
 					.formLogin().loginPage("/login").permitAll()
 					.and().logout().permitAll();
-			
-			http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
-//				.authorizeRequests().antMatchers("/js/**", "/css/**", "/fonts/**",
-//					 "/images/**", "/vendors/**", "/locales/**",
-//					 "/favicon.ico", "/api/**", "/apidocs/**", "/wechat/**",
-//					 "/invts/getStatisticsInOutInvtData",
-//					 "/dists/exportExcludeInvts").permitAll();
 		}
 
 		@Override
