@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>新建版本</title>
+</head>
+<body>
+	<div layout:fragment="sidebar-menu">
+		<div th:replace="~{issue :: sidebar-menu }"></div>
+	</div>
+	<div layout:fragment="header"></div>
+	<div layout:fragment="content">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>新建版本</h2>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<br>
+					<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="POST" th:action="${null == version.code} ? '/versions/new' : '/versions/update/' + ${version.code}">
+						<div th:replace="~{issue :: form-line('版本名称', 'name', true, ${version.name}) }"></div>
+						<div th:replace="~{issue :: form-line('版本号', 'versionNo', false, ${version.versionNo}) }"></div>
+						<div th:replace="~{issue :: form-line('基于系统', 'baseSystem', true, ${version.baseSystem}) }"></div>
+						<div th:replace="~{issue :: form-line-textarea('描述', 'description', true, ${version.description}) }"></div>
+						<div th:replace="~{issue :: form-line-date('发送时间', 'sendTime', true, ${#calendars.format(version.sendTime, 'YYYY-MM-dd HH:mm:ss')}) }"></div>
+						<div th:replace="~{issue :: form-radio('是否更新测试', 'isUpdateTest', '1', '是', '0', '否', ${'1' == version.isUpdateTest}) }"></div>
+						<div th:replace="~{issue :: form-line-date('更新测试时间', 'updateTestTime', false, ${null == version.updateTestTime} ? '' : ${#calendars.format(version.updateTestTime, 'YYYY-MM-dd HH:mm:ss')}) }"></div>
+						<div th:replace="~{issue :: form-radio('是否更新正式', 'isUpdateFormal', '1', '是', '0', '否', ${'1' == version.isUpdateFormal}) }"></div>
+						<div th:replace="~{issue :: form-line-date('更新正式时间', 'updateFormalTime', false, ${null == version.updateFormalTime} ? '' : ${#calendars.format(version.updateFormalTime, 'YYYY-MM-dd HH:mm:ss')}) }"></div>
+						<div th:replace="~{issue :: form-radio('测试结果', 'testResult', '1', '通过', '0', '不通过', ${'1' == version.testResult}) }"></div>
+						<div th:replace="~{issue :: form-line-date('测试时间', 'testTime', false, ${null == version.testTime} ? '' : ${#calendars.format(version.testTime, 'YYYY-MM-dd HH:mm:ss')}) }"></div>
+						<div th:replace="~{issue :: form-line-textarea('测试结果描述', 'testResultDescription', false, ${version.testResultDescription}) }"></div>
+						<div th:replace="~{issue :: form-radio('是否是补丁', 'isPatch', '1', '是', '0', '否', ${'1' == version.isPatch}) }"></div>
+
+						<div class="ln_solid"></div>
+						<div class="form-group">
+							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+								<button class="btn btn-primary" type="button" onclick="window.location.href='/versions'">取消</button>
+								<button class="btn btn-primary" type="reset">重置</button>
+								<button type="submit" class="btn btn-success">提交</button>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

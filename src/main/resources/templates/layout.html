@@ -15,6 +15,7 @@
 	<link rel="stylesheet" th:href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.css}" />
 	<link rel="stylesheet" th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" />
 	<link rel="stylesheet" th:href="@{/css/custom.css}" />
+	<link rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.min.css}" />
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/application.js}"></script>
   </head>
@@ -170,13 +171,14 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="javascript:;">个人信息</a></li>
+                    <li><a href="/">数据查询</a></li>
                     <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>
                         <span>设置</span>
                       </a>
                     </li>
-                    <li><a href="javascript:;">帮助</a></li>
+                    <li><a href="/versions">问题管理</a></li>
 					<li><a href="javascript:logout();"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
                   </ul>
                 </li>
@@ -275,12 +277,15 @@
 	</form>
 
 	<script type="text/javascript" th:src="@{/js/moment-with-locales.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/collapse.js}"></script>
+	<script type="text/javascript" th:src="@{/js/transition.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/nprogress/nprogress.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+	<script type="text/javascript" th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>

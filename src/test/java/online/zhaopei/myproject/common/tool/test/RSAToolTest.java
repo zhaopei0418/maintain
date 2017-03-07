@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
 
+import online.zhaopei.myproject.common.tool.MD5Tool;
 import online.zhaopei.myproject.common.tool.RSATool;
 import online.zhaopei.myproject.domain.common.EListRejectMessage;
 import online.zhaopei.myproject.domain.wechat.WeChatMessage;
@@ -113,11 +114,16 @@ public class RSAToolTest {
 
 		String encrypt = RSATool.encryptByPublicKey(ming, RSATool.loadPublicKeyByStr(publicKey));
 
-		// System.out.println("公钥加密后：" + encrypt);
+		System.out.println("公钥加密后：" + encrypt);
 
 		String decrypt = RSATool.decryptByPrivateKey(encrypt, RSATool.loadPrivateKeyByStr(privateKey));
 
-		// System.out.println("么钥解密后：" + decrypt);
+		System.out.println("私钥解密后：" + decrypt);
+	}
+	
+	@Test
+	public void Md5Test() throws Exception {
+		System.out.println("encode===" + MD5Tool.MD5Encode("zhaopei", "UTF-8", false));
 	}
 
 }

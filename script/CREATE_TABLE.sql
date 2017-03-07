@@ -57,3 +57,21 @@ create table role_rel_permission (
 	permission_code varchar2(32 byte) not null,
 	constraint "pk_rrp_role_permission_code" primary key (role_code, permission_code)
 );
+
+create table version (
+	code varchar2(32 byte) not null,
+	name varchar2(150 char) not null,
+	version_no varchar2(20 byte),
+	base_system varchar2(3 char) not null,
+	description varchar2(1000 char) not null,
+	send_time timestamp(6) not null,
+	is_update_test char(1) default '0' not null ,
+	update_test_time timestamp(6),
+	is_update_formal char(1) default '0' not null,
+	update_formal_time timestamp(6),
+	test_result char(1),
+	test_time timestamp(6),
+	test_result_description varchar2(1000 char),
+	is_patch char(1) default '1' not null,
+	constraint "pk_version_code" primary key (code)
+);

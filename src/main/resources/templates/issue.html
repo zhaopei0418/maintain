@@ -12,7 +12,146 @@
 						<li><a href="/invts/statistics">问题统计</a></li>
 					</ul>
 				</li>
+				<li><a><i class="fa fa-home"></i>版本管理<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="/versions">版本查询</a></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
+		<div th:fragment="content-header(titleLeft, formAction)">
+			<div class="title_left">
+				<h3 th:text="${titleLeft}"></h3>
+			</div>
+			<div class="title_right">
+				<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+					<form th:action="${formAction}">
+						<div class="input-group">
+							<input type="text" class="form-control" name="searchText" placeholder="输入关键字...">
+							<span class="input-group-btn">
+								<button class="btn btn-default">搜索</button>
+							</span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<ul th:fragment="page-info(formId, pageInfo, pageList)" class="pagination pagination-lg pull-right">
+			<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+				<a href="javascript:void(0)"
+						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'' + ${formId} + '\', 1);'">首页</a>
+			</li>
+			<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+				<a href="javascript:void(0)"
+						th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'' + ${formId} + '\', ' + ${pageInfo.prePage} + ');'">上页</a>
+			</li>
+			<li th:each="page : ${pageList}"
+					th:class="${page == pageInfo.pageNum} ? 'active'">
+				<a href="javascript:void(0)" th:text="${page}"
+						th:onclick="'goToPageNum(\'' + ${formId} + '\',' + ${page} + ');'"></a>
+			</li>
+			<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+				<a href="javascript:void(0)"
+						th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'' + ${formId} + '\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+			</li>
+			<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+				<a href="javascript:void(0)"
+						th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'' + ${formId} + '\', ' + ${pageInfo.pages} + ');'">尾页</a>
+			</li>
+			<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+			<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+			<li><input type="number" class="input-lg change-page-num" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
+			<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'' + ${formId} + '\', $(\'.change-page-num\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
+			<li>
+				<select title="显示条数" class="input-lg" style="width:60px;" th:onchange="'changePageSize(\'' + ${formId} + '\', this.value);'">
+					<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+							th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+				</select>
+			</li>
+		</ul>
+
+		<span th:fragment="condition-text(labelText, name, value)">
+			<label class="col-sm-1 control-label" th:text="${labelText}"></label>
+			<div class="col-sm-2">
+				<input class="form-control" type="text" th:name="${name}" th:placeholder="${labelText}"
+						th:value="${value}" />
+			</div>
+		</span>
+
+		<span th:fragment="condition-map(labelText, name, value, mapData)">
+			<label class="col-sm-1 control-label" th:text="${labelText}"></label>
+			<div class="col-sm-2">
+				<select class="form-control" th:name="${name}">
+					<option th:each="stat : ${mapData}" th:value="${stat.key}"
+							th:text="${stat.key} + '-' + ${stat.value}"
+							th:selected="${stat.key == value} ? 'selected'"></option>
+				</select>
+			</div>
+		</span>
+
+		<span th:fragment="condition-date(labelText, name, value)">
+			<label class="col-sm-1 control-label" th:text="${labelText}"></label>
+			<div class="col-sm-2">
+				<div class='input-group date input-date'>
+					<input type='text' class="form-control" th:name="${name}"
+							th:value="${value}" th:placeholder="${labelText}" />
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-time"></span>
+					</span>
+				</div>
+			</div>
+		</span>
+
+		<div th:fragment="form-line(labelText, name, required, value)" class="form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+				<span th:text="${labelText}"></span>
+				<span th:if="${required}" class="required">*</span>
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<input type="text" th:name="${name}" th:required="${required} ? 'required'" class="form-control col-md-7 col-xs-12" th:value="${value}">
+			</div>
+		</div>
+
+		<div th:fragment="form-line-textarea(labelText, name, required, value)" class="form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+				<span th:text="${labelText}"></span>
+				<span th:if="${required}" class="required">*</span>
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<textarea th:name="${name}" th:required="${required} ? 'required'" class="form-control" rows="3" th:text="${value}"></textarea>
+			</div>
+		</div>
+
+		<div th:fragment="form-line-date(labelText, name, required, value)" class="form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+				<span th:text="${labelText}"></span>
+				<span th:if="${required}" class="required">*</span>
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class='input-group date input-date-time'>
+					<input type="text" th:name="${name}" th:required="${required} ? 'required'" class="form-control col-md-7 col-xs-12" th:value="${value}">
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div th:fragment="form-radio(labelText, name, trueValue, trueText, falseValue, falseText, defaultValue)" class="form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="${labelText}"></label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="btn-group" data-toggle="buttons">
+					<label th:class="${defaultValue} ? ' btn btn-primary active' : 'btn btn-primary'" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+						<input type="radio" th:checked="${defaultValue} ? 'checked'" th:name="${name}" th:value="${trueValue}" data-parsley-multiple="gender" th:text="${trueText}">
+					</label>
+					<label th:class="${!defaultValue} ? 'btn btn-default active' : 'btn btn-default'" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+						<input type="radio" th:checked="${!defaultValue} ? 'checked'" th:name="${name}" th:value="${falseValue}" data-parsley-multiple="gender" th:text="${falseText}">
+					</label>
+				</div>
+			</div>
+		</div>
+
+		
 	</body>
 </html>

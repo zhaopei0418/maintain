@@ -24,11 +24,17 @@ language = {
 }
 
 $(function() {
+	Parsley.addMessage("zh-CN", "required", "必填项，请输入内容");
+	Parsley.setLocale("zh-CN");
 	$(".input-date").datetimepicker({
 		locale: 'zh-CN',
 		format: 'YYYY-MM-DD'
 	});
 
+	$(".input-date-time").datetimepicker({
+		locale: 'zh-CN',
+		format: 'YYYY-MM-DD HH:mm:ss'
+	});
 
 	$(document).keydown(function(event) {
 		if (13 == event.keyCode) {
