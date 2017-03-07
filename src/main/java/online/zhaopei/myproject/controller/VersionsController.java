@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 
+import online.zhaopei.myproject.constant.VersionConstant;
 import online.zhaopei.myproject.domain.ecssent.Version;
 import online.zhaopei.myproject.service.ecssent.VersionService;
 
@@ -31,6 +32,7 @@ public class VersionsController extends BaseController {
 	public ModelAndView newVersion() {
 		ModelAndView mv = new ModelAndView("versions/form");
 		mv.addObject("version", new Version());
+		mv.addObject("baseSystem", VersionConstant.getBASE_SYSTEM_MAP());
 		return mv;
 	}
 	
@@ -44,6 +46,7 @@ public class VersionsController extends BaseController {
 	public ModelAndView update(@PathVariable(name = "code") String code) {
 		ModelAndView mv = new ModelAndView("versions/form");
 		mv.addObject("version", this.versionService.getVersionByCode(code));
+		mv.addObject("baseSystem", VersionConstant.getBASE_SYSTEM_MAP());
 		return mv;
 	}
 	
@@ -69,6 +72,7 @@ public class VersionsController extends BaseController {
 			this.put("1", "通过");
 			this.put("0", "不通过");
 		}});
+		mv.addObject("baseSystem", VersionConstant.getBASE_SYSTEM_MAP());
 		return mv;
 	}
 }

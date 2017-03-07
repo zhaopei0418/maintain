@@ -22,7 +22,7 @@
 					<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="POST" th:action="${null == version.code} ? '/versions/new' : '/versions/update/' + ${version.code}">
 						<div th:replace="~{issue :: form-line('版本名称', 'name', true, ${version.name}) }"></div>
 						<div th:replace="~{issue :: form-line('版本号', 'versionNo', false, ${version.versionNo}) }"></div>
-						<div th:replace="~{issue :: form-line('基于系统', 'baseSystem', true, ${version.baseSystem}) }"></div>
+						<div th:replace="~{issue :: form-line-select('基于系统', 'baseSystem', true, ${version.baseSystem}, ${baseSystem}) }"></div>
 						<div th:replace="~{issue :: form-line-textarea('描述', 'description', true, ${version.description}) }"></div>
 						<div th:replace="~{issue :: form-line-date('发送时间', 'sendTime', true, ${#calendars.format(version.sendTime, 'YYYY-MM-dd HH:mm:ss')}) }"></div>
 						<div th:replace="~{issue :: form-radio('是否更新测试', 'isUpdateTest', '1', '是', '0', '否', ${'1' == version.isUpdateTest}) }"></div>

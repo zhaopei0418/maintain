@@ -113,6 +113,20 @@
 			</div>
 		</div>
 
+		<div th:fragment="form-line-select(labelText, name, required, value, mapData)" class="form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+				<span th:text="${labelText}"></span>
+				<span th:if="${required}" class="required">*</span>
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<select class="form-control" th:name="${name}" th:required="${required} ? 'required'">
+					<option th:each="stat : ${mapData}" th:value="${stat.key}"
+							th:text="${stat.key} + '-' + ${stat.value}"
+							th:selected="${stat.key == value} ? 'selected'"></option>
+				</select>
+			</div>
+		</div>
+
 		<div th:fragment="form-line-textarea(labelText, name, required, value)" class="form-group">
 			<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
 				<span th:text="${labelText}"></span>

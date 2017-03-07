@@ -297,7 +297,7 @@
 				<thead>
 					<tr class="headings">
 						<th class="column-title">版本名称</th>
-						<th class="column-title">版本号</th>
+						<th class="column-title">基于系统</th>
 						<th class="column-title">发送时间</th>
 						<th class="column-title">是否更新测试</th>
 						<th class="column-title">更新测试时间</th>
@@ -315,7 +315,7 @@
 					</tr>
 					<tr th:each="version,stat : ${versionList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
 						<td th:text="${version.name}"></td>
-						<td th:text="${version.versionNo}"></td>
+						<td th:text="${baseSystem[version.baseSystem]}"></td>
 						<td th:text="${#calendars.format(version.sendTime, 'YYYY-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${trueFalseMap[version.isUpdateTest]}"></td>
 						<td></td>
@@ -334,7 +334,7 @@
 				<tfoot>
 					<tr class="headings">
 						<th class="column-title">版本名称</th>
-						<th class="column-title">版本号</th>
+						<th class="column-title">基于系统</th>
 						<th class="column-title">发送时间</th>
 						<th class="column-title">是否更新测试</th>
 						<th class="column-title">更新测试时间</th>
