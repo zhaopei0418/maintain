@@ -14,165 +14,7 @@
 	</div>
 	<div layout:fragment="content">
 		<script type="text/javascript">
-			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
-				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
-					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
-					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("入库比对结果[" + copNo + "-" + logisticsCode + ":" +
-						logisticsNo + "]");
-					var isPass = false;
-					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
-					dataHtml += "<thead><th>表头序号</th><th>企业内部编号</th><th>航班航次号</th><th>总（提）运单号</th><th>运输方式</th>";
-					dataHtml += "<th>运输工具</th><th>比对结果</th></thead>";
-					dataHtml += "<tbody>";
-					if (null != data) {
-						if (0 == data.length) {
-							$("#appStatusModal .modal-body").html("没有对应的入库明细单");
-						} else {
-							for (var i = 0; i < data.length; i++) {
-								if (0 == i) {
-									dataHtml += "<tr style='background-color: yellow;'>";
-									dataHtml += "<td>" + data[i].versionGuid + "</td>";
-									dataHtml += "<td>" + copNo + "</td>";
-									dataHtml += "<td>" + data[i].invtVoyageNo + "</td>";
-									dataHtml += "<td>" + data[i].invtBillNo + "</td>";
-									dataHtml += "<td>" + data[i].invtTrafMode + "</td>";
-									dataHtml += "<td>" + data[i].invtTrafNo + "</td>";
-									dataHtml += "<td>清单信息</td>";
-									dataHtml += "</tr>";
-								}
-								dataHtml += "<tr>";
-								dataHtml += "<td>" + data[i].deliveryHeadGuid + "</td>";
-								dataHtml += "<td>" + data[i].copNo + "</td>";
-								dataHtml += "<td>" + data[i].deliveryVoyageNo + "</td>";
-								dataHtml += "<td>" + data[i].deliveryBillNo + "</td>";
-								dataHtml += "<td>" + data[i].deliveryTrafMode + "</td>";
-								dataHtml += "<td>" + data[i].deliveryTrafNo + "</td>";
-								isPass = false;
-								if (data[i].deliveryVoyageNo == data[i].invtVoyageNo &&
-									data[i].deliveryBillNo == data[i].invtBillNo &&
-									data[i].deliveryTrafMode == data[i].invtTrafMode &&
-									data[i].deliveryTrafNo == data[i].invtTrafNo) {
-									isPass = true;
-								}
-								dataHtml += "<td>" + (isPass ? "<b style='color:#5cb85c;'><i>通过</i></b>" : "<b style='color:red;'><i>不通过</i></b>") + "</td>";
-								dataHtml += "</tr>";
-							}
-							dataHtml += "</tbody></table>";
-							$("#appStatusModal .modal-body").html(dataHtml);
-						}
-					}
-				})
-			}
-
-			function getCiqStatusByCopNo(copNo, copNo, status) {
-				$.getJSON("/invts/getImpversionListByCopNo/" + copNo, function(data) {
-					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
-					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
-					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
-					dataHtml += "<th>审批时间</th></thead>";
-					dataHtml += "<tbody>";
-					if (null != data) {
-						for(var i = 0; i < data.length; i++) {
-
-							if (null != data) {
-								for (var i = 0; i < data.length; i++) {
-									dataHtml += "<tr>";
-									dataHtml += "<td>" + data[i].applyCode + "</td>"
-									dataHtml += "<td title='" + data[i].payCode +"'>" + data[i].payName + "</td>";
-									if (undefined != data[i].auditState && null != data[i].auditState) {
-										dataHtml += "<td>" + status[data[i].auditState] + "[" + data[i].auditState + "]" + "</td>";
-									} else {
-										dataHtml += "<td></td>";
-									}
-									dataHtml += "<td>" + data[i].bwName + "</td>";
-									dataHtml += "<td>" + data[i].applyDate + "</td>";
-									dataHtml += "</tr>";
-								}
-							}
-						}
-					}
-					dataHtml += "</tbody>";
-					dataHtml += "</table>";
-
-					$("#appStatusModal .modal-body").html(dataHtml);
-				});
-			}
-
-			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
-				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
-					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
-					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
-					dataHtml += "<thead><tr><th>入库时间><th>报文时间</th><th>业务状态</th><th>业务信息</th></thead>";
-					dataHtml += "<tbody>";
-					if (null != data) {
-						for (var i = 0; i < data.length; i++) {
-							dataHtml += "<tr>";
-							dataHtml += "<td>" + data[i].sysDate + "</td>";
-							dataHtml += "<td>" + data[i].rtnTime + "</td>";
-							dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
-							dataHtml += "<td>" + data[i].rtnInfo + "</td>";
-							dataHtml += "</tr>";
-						}
-					}
-					dataHtml += "</tbody>";
-					dataHtml += "</table>";
-
-					$("#appStatusModal .modal-body").html(dataHtml);
-				});
-			}
-
-			function getDistHeadByInvtNo(invtNo, status) {
-				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
-					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
-					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
-					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
-					dataHtml += "<tbody>";
-					if (null != data) {
-						dataHtml += "<tr>";
-						dataHtml += "<td>" + data.distNo + "</td>";
-						dataHtml += "<td>" + data.customsCode + "</td>";
-						dataHtml += "<td title='" + data.declCode + "'>" + data.declName + "</td>";
-						dataHtml += "<td>" + data.distStat + "</td>";
-						dataHtml += "</tr>";
-					}
-					dataHtml += "</tbody>";
-					dataHtml += "<thead><tr><th>录入日期</th><th>申报日期</th><th>退单原因</th><th>备注</th></thead>";
-					dataHtml += "<tbody>";
-					if (null != data) {
-						dataHtml += "<tr>";
-						dataHtml += "<td>" + data.inputDate + "</td>";
-						dataHtml += "<td>" + data.declDate + "</td>";
-						dataHtml += "<td>" + data.returnReason + "</td>";
-						dataHtml += "<td>" + data.note + "</td>";
-						dataHtml += "</tr>";
-					}
-					dataHtml += "</tbody>";
-					dataHtml += "</table>";
-
-					$("#appStatusModal .modal-body").html(dataHtml);
-				});
-			}
 		</script>
-
-		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
-			role="dialog" aria-labelledby="mySmallModalLabel">
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">
-							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-						</button>
-						<h4 class="modal-title">历史状态</h4>
-					</div>
-					<div class="modal-body"></div>
-				</div>
-			</div>
-		</div>
-
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
@@ -200,77 +42,32 @@
 						<div class="form-group">
 							<span th:replace="~{issue :: condition-text('版本名称', 'name', ${version.name}) }"></span>
 							<span th:replace="~{issue :: condition-text('版本号', 'versionNo', ${version.versionNo}) }"></span>
-							<!-- <label class="col&#45;sm&#45;1 control&#45;label">电商名称</label> -->
-							<!-- <div class="col&#45;sm&#45;2"> -->
-							<!-- 	<input class="form&#45;control" type="text" name="ebcName" placeholder="电商名称" -->
-							<!-- 			th:value="${version.ebcName}" /> -->
-							<!-- </div> -->
-							<!-- <label class="col&#45;sm&#45;1 control&#45;label">电商平台代码</label> -->
-							<!-- <div class="col&#45;sm&#45;2"> -->
-							<!-- 	<input class="form&#45;control" type="text" name="ebpCode" placeholder="电商平台代码" -->
-							<!-- 			th:value="${version.ebpCode}" /> -->
-							<!-- </div> -->
-							<!-- <label class="col&#45;sm&#45;1 control&#45;label">电商平台名称</label> -->
-							<!-- <div class="col&#45;sm&#45;2"> -->
-							<!-- 	<input class="form&#45;control" type="text" name="ebpName" placeholder="电商平台名称" -->
-							<!-- 			th:value="${version.ebpName}" /> -->
-							<!-- </div> -->
+							<span th:replace="~{issue :: condition-map('基于系统', 'baseSystem', ${version.baseSystem}, ${baseSystem}) }"></span>
+							<span th:replace="~{issue :: condition-map('是否更新测试', 'isUpdateTest', ${version.isUpdateTest}, ${trueFalseMap}) }"></span>
 						</div>
-						<!-- <div class="form&#45;group"> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">订单号</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="orderNo" placeholder="订单号" -->
-						<!-- 				th:value="${version.orderNo}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">订单状态</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<select class="form&#45;control" name="appStatus"> -->
-						<!-- 			<option th:each="appStat : ${appStatus}" th:value="${appStat.key}" -->
-						<!-- 					th:text="${appStat.key} + '&#45;' + ${appStat.value}" -->
-						<!-- 					th:selected="${appStat.key == version.appStatus} ? 'selected'"></option> -->
-						<!-- 		</select> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">入库开始时间</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<div class='input&#45;group date input&#45;date'> -->
-						<!-- 			<input type='text' class="form&#45;control" name="beginSysDate" -->
-						<!-- 					th:value="${version.beginSysDate}" placeholder="申报开始时间" /> -->
-						<!-- 			<span class="input&#45;group&#45;addon"> -->
-						<!-- 				<span class="glyphicon glyphicon&#45;time"></span> -->
-						<!-- 			</span> -->
-						<!-- 		</div> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">入库结束时间</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<div class='input&#45;group date input&#45;date'> -->
-						<!-- 			<input type='text' class="form&#45;control" name="endSysDate" -->
-						<!-- 					th:value="${version.endSysDate}" placeholder="申报结束时间" /> -->
-						<!-- 			<span class="input&#45;group&#45;addon"> -->
-						<!-- 				<span class="glyphicon glyphicon&#45;time"></span> -->
-						<!-- 			</span> -->
-						<!-- 		</div> -->
-						<!-- 	</div> -->
-						<!-- </div> -->
-						<!-- <div class="form&#45;group"> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">订购人</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="buyerName" placeholder="订购人" -->
-						<!-- 				th:value="${version.buyerName}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">订购人身份证号</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<input class="form&#45;control" type="text" name="buyerIdNumber" placeholder="订购人身份证号" -->
-						<!-- 				th:value="${version.buyerIdNumber}" /> -->
-						<!-- 	</div> -->
-						<!-- 	<label class="col&#45;sm&#45;1 control&#45;label">申报类型</label> -->
-						<!-- 	<div class="col&#45;sm&#45;2"> -->
-						<!-- 		<select class="form&#45;control" name="appType"> -->
-						<!-- 			<option th:each="appStat : ${appType}" th:value="${appStat.key}" -->
-						<!-- 					th:text="${appStat.key} + '&#45;' + ${appStat.value}" -->
-						<!-- 					th:selected="${appStat.key == version.appType} ? 'selected'"></option> -->
-						<!-- 		</select> -->
-						<!-- 	</div> -->
-						<!-- </div> -->
+						<div class="form-group">
+							<span th:replace="~{issue :: condition-map('是否更新正式', 'isUpdateFormal', ${version.isUpdateFormal}, ${trueFalseMap}) }"></span>
+							<span th:replace="~{issue :: condition-map('是否是补丁', 'isPatch', ${version.isPatch}, ${trueFalseMap}) }"></span>
+							<span th:replace="~{issue :: condition-map('测试结果', 'testResult', ${version.testResult}, ${passMap}) }"></span>
+							<span th:replace="~{issue :: condition-date('发送开始时间', 'beginSendTime', ${version.beginSendTime}) }"></span>
+						</div>
+						<div class="form-group">
+							<span th:replace="~{issue :: condition-date('发送结束时间', 'endSendTime', ${version.endSendTime}) }"></span>
+							<span th:replace="~{issue :: condition-date('发送时间', 'sendTimeStr', ${version.sendTimeStr}) }"></span>
+							<span th:replace="~{issue :: condition-date('开始更新测试时间', 'beginUpdateTestTime', ${version.beginUpdateTestTime}) }"></span>
+							<span th:replace="~{issue :: condition-date('结束更新测试时间', 'endUpdateTestTime', ${version.endUpdateTestTime}) }"></span>
+						</div>
+						<div class="form-group">
+							<span th:replace="~{issue :: condition-date('更新测试时间', 'updateTestTimeStr', ${version.updateTestTimeStr}) }"></span>
+							<span th:replace="~{issue :: condition-date('开始更新正式时间', 'beginUpdateFormalTime', ${version.beginUpdateFormalTime}) }"></span>
+							<span th:replace="~{issue :: condition-date('结束更新正式时间', 'endUpdateFormalTime', ${version.endUpdateFormalTime}) }"></span>
+							<span th:replace="~{issue :: condition-date('更新正式时间', 'updateFormalTimeStr', ${version.updateFormalTimeStr}) }"></span>
+						</div>
+						<div class="form-group">
+							<span th:replace="~{issue :: condition-date('开始测试时间', 'beginTestTime', ${version.beginTestTime}) }"></span>
+							<span th:replace="~{issue :: condition-date('结束测试时间', 'endTestTime', ${version.endTestTime}) }"></span>
+							<span th:replace="~{issue :: condition-date('测试时间', 'testTimeStr', ${version.testTimeStr}) }"></span>
+						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
 							<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('version_form')">重置</button>
