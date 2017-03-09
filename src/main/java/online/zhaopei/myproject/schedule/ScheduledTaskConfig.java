@@ -1,5 +1,6 @@
 package online.zhaopei.myproject.schedule;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -31,16 +32,29 @@ public class ScheduledTaskConfig {
 
 	@Autowired
 	private ImpPayHeadService impPayHeadService;
-	
+
 	@Autowired
 	private PaymentMessageService paymentMessageService;
-	
+
 	@Autowired
 	private SyncPaymentInfoService syncPaymentInfoService;
-	
+
 	@Autowired
 	private ApplicationProp app;
-	
+
+	@Scheduled(cron = "0 0 1 * * *")
+	public void deleteExportFile() throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String regex = "^[a-z_]{1,}" + sdf.format(Calendar.getInstance().getTime()) + "[0-9]{9}.csv$";
+		File file = new File("export");
+		if (file.isDirectory()) {
+			File[] children = file.listFiles();
+			for (File f : children)
+				if (!f.getName().matches(regex))
+					f.delete();
+		}
+	}
+
 	@Scheduled(initialDelay = 10000, fixedDelay = 60000)
 	public void syncPaymentInfo() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -55,30 +69,30 @@ public class ScheduledTaskConfig {
 		PaymentMessage searchPm = new PaymentMessage();
 		List<PaymentMessage> resultPaymentMessageList = null;
 		Long lastSyncTime = this.syncPaymentInfoService.getSyncTime();
-		
+
 		if (null != lastSyncTime && 10000000000000L < lastSyncTime) {
 			searchPm.setBeginCreateDate(String.valueOf(lastSyncTime));
 		}
-		
+
 		Calendar yesterdayCalendar = Calendar.getInstance();
 		yesterdayCalendar.add(Calendar.DAY_OF_YEAR, -1);
 		searchPm.setBeginDateNum(Long.valueOf(sdfDay.format(yesterdayCalendar.getTime()) + "00"));
 		searchPm.setXmlContent("<BILLMODE>0</BILLMODE>");
 		searchPm.setOrderBy("created_date asc");
 		resultPaymentMessageList = this.paymentMessageService.getPaymentMessageList(searchPm);
-		
+
 		if (null != resultPaymentMessageList && !resultPaymentMessageList.isEmpty()) {
 			for (PaymentMessage pm : resultPaymentMessageList) {
 				cbecMessage = PaymentTool.buildCbecMessageByString(pm.getXmlContent(), pm.getCreatedDate());
 				insertImpPayHead = PaymentTool.buildImpPayHeadByCbecMessage(cbecMessage);
-				
+
 				if (null != insertImpPayHead) {
 					try {
 						searchImpPayHead = new ImpPayHead(insertImpPayHead.getUuid());
 						if (0 < this.impPayHeadService.countImpPayHead(searchImpPayHead)) {
 							continue;
 						}
-						
+
 						BeanUtils.copyProperties(cbecMessage.getMessageBody().getBodyMaster(), bodyMasterCiq);
 						BeanUtils.copyProperties(cbecMessage.getMessageHead(), messageHeadCiq);
 						bodyMasterCiq.setCoinInsp(bodyMasterCiq.getMonetaryType());
@@ -86,10 +100,11 @@ public class ScheduledTaskConfig {
 						messageBodyCiq.setBodyMaster(bodyMasterCiq);
 						cbecMessageCiq.setMessageHead(messageHeadCiq);
 						cbecMessageCiq.setMessageBody(messageBodyCiq);
-						
+
 						PaymentTool.generateCbecMessageCiq(cbecMessageCiq, this.app.getCiqDir(), this.app.getBackDir());
-						
-						searchImpPayHead = new ImpPayHead(insertImpPayHead.getPayCode(), insertImpPayHead.getPayTransactionId());
+
+						searchImpPayHead = new ImpPayHead(insertImpPayHead.getPayCode(),
+								insertImpPayHead.getPayTransactionId());
 						if (1 == this.impPayHeadService.countImpPayHead(searchImpPayHead)) {
 							this.impPayHeadService.updateImpPayHead(insertImpPayHead);
 						} else {
