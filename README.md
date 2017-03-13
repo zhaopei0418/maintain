@@ -22,7 +22,7 @@ bootstrap 地址：http://getbootstrap.com/css/
 
 添加基于Jersey的RestfulAPI
 ```
-文档地址: localhost:8080/apidocs/index.html
+文档地址: https://localhost:8443/apidocs/index.html
 ```
 
 **maven**
