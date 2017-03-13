@@ -1,5 +1,11 @@
 server:
-  port: 8080
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: zhaopei
+    keyStoreType: PKCS12
+    keyAlias: undertom
 
 spring:
   datasource.ecssent:

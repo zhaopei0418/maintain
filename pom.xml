@@ -6,7 +6,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>maintain</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 
 	<properties>
 		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>

@@ -13,8 +13,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import online.zhaopei.myproject.config.Md5PasswordConfig;
+import online.zhaopei.myproject.filter.CustomUsernamePasswordAuthenticationFilter;
 import online.zhaopei.myproject.service.MyFilterSecurityInterceptor;
 
 @SpringBootApplication
@@ -42,10 +44,14 @@ public class Application extends SpringBootServletInitializer {
 		@Autowired
 		private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
 
+		@Autowired
+		private CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter;
+		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().ignoringAntMatchers("/wechat/**").and()
 			.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
+//			.addFilterBefore(this.customUsernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 					.antMatchers("/js/**", "/css/**", "/fonts/**",
 						"/images/**", "/vendors/**", "/locales/**",
