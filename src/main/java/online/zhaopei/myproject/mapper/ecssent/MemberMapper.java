@@ -29,7 +29,7 @@ public interface MemberMapper extends Serializable {
 	int updateMember(Member member);
 	
 	@Results(id = "memberResult", value = {
-		@Result(property = "memberName", column = "member_name", id = true),
+		@Result(property = "companyCode", column = "company_code"),
 		@Result(property = "password", column = "password"),
 	})
 	@SelectProvider(type = MemberSqlProvide.class, method = "getMemberListSql")

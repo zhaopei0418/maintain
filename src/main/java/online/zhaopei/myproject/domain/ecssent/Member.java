@@ -13,16 +13,36 @@ public class Member extends BaseDomain {
 	
 	private String name;
 	
-	private String memberName;
+	private String nickname;
 	
 	private String password;
+	
+	private String email;
+	
+	private String companyCode;
 
-	public String getMemberName() {
-		return memberName;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
 	}
 
 	public String getPassword() {

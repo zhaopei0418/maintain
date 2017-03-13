@@ -18,7 +18,7 @@ public class MemberSqlProvide implements Serializable {
 		return new SQL() {{
 			this.INNER_JOIN("member");
 			
-			OracleTool.values(this, "member_name", member.getMemberName());
+			OracleTool.values(this, "member_name", member.getName());
 			OracleTool.values(this, "password", member.getPassword());
 		}}.toString();
 	}
@@ -28,7 +28,7 @@ public class MemberSqlProvide implements Serializable {
 			this.SELECT("count(1)");
 			this.FROM("member");
 			
-			OracleTool.where(this, "member_name", member.getMemberName());
+			OracleTool.where(this, "member_name", member.getName());
 		}}.toString();
 	}
 	
@@ -36,7 +36,7 @@ public class MemberSqlProvide implements Serializable {
 		return new SQL() {{
 			this.DELETE_FROM("member");
 			
-			OracleTool.where(this, "member_name", member.getMemberName());
+			OracleTool.where(this, "member_name", member.getName());
 		}}.toString();
 	}
 	
@@ -44,18 +44,18 @@ public class MemberSqlProvide implements Serializable {
 		return new SQL() {{
 			this.UPDATE("member");
 			OracleTool.set(this, "password", member.getPassword());
-			OracleTool.where(this, "member_name", member.getMemberName());
+			OracleTool.where(this, "member_name", member.getName());
 		}}.toString();
 	}
 	
 	public String getMemberListSql(final Member member) {
 		return new SQL() {{
-			this.SELECT("member_name");
+			this.SELECT("name");
 			this.SELECT("password");
 			
 			this.FROM("memeber");
 			
-			OracleTool.where(this, "member_name", member.getMemberName());
+			OracleTool.where(this, "member_name", member.getName());
 		}}.toString();
 	}
 	
@@ -64,6 +64,9 @@ public class MemberSqlProvide implements Serializable {
 			this.SELECT("code");
 			this.SELECT("name");
 			this.SELECT("password");
+			this.SELECT("nickname");
+			this.SELECT("email");
+			this.SELECT("company_code");
 			this.FROM("member");
 			
 			this.WHERE("name = '" + userName + "'");

@@ -14,7 +14,10 @@ create table grant_company (
 create table member (
 	code varchar2(32 byte) not null,
 	name varchar2(30 byte) not null,
+	nickname varchar2(100 char),
 	password char(32 byte) not null,
+	email varchar2(128 byte),
+	company_code varchar2(36 byte),
 	constraint "pk_member_code" primary key (code)
 );
 
@@ -27,7 +30,7 @@ create table role (
 
 create table permission (
 	code varchar2(32 byte) not null,
-  name varchar2(30 byte) not null,
+	name varchar2(30 byte) not null,
 	descript varchar2(100 char),
 	url varchar2(128 byte) not null,
 	constraint "pk_permission_code" primary key (code)

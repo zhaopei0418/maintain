@@ -5,12 +5,14 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import online.zhaopei.myproject.constant.CommonConstant;
+import online.zhaopei.myproject.domain.AuthUser;
 import online.zhaopei.myproject.domain.BaseDomain;
 
 public class BaseController implements Serializable {
@@ -19,6 +21,10 @@ public class BaseController implements Serializable {
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 5981385211055602164L;
+	
+	public static AuthUser getCurrUser() {
+		return (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
 	
 	private <T extends BaseDomain> T initPageInfo(T baseDomain, Class<T> clzz) {
 		T result = baseDomain;
