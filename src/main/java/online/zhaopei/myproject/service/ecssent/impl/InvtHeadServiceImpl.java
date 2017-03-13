@@ -50,4 +50,14 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 		return this.invtHeadMapper.exportInvtHeadList(invtHead);
 	}
 
+	@Override
+	public List<String> getReleaseBackStaggeredInvtList() {
+		return this.invtHeadMapper.getReleaseBackStaggeredInvtList();
+	}
+
+	@Override
+	public void updateInvtHeadStatus(String headGuid, String status) {
+		this.invtHeadMapper.updateInvtHeadStatus(headGuid, status);
+	}
+
 }

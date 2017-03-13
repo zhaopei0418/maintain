@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
@@ -105,4 +106,10 @@ public interface InvtHeadMapper extends Serializable {
 	@ResultMap("invtHeadResult")
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadMonthCountSql")
 	List<InvtHead> getInvtHeadMonthCount();
+	
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getReleaseBackStaggeredInvtListSql")
+	List<String> getReleaseBackStaggeredInvtList();
+	
+	@UpdateProvider(type = InvtHeadSqlProvide.class, method = "updateInvtHeadStatusSql")
+	int updateInvtHeadStatus(String headGuid, String status);
 }

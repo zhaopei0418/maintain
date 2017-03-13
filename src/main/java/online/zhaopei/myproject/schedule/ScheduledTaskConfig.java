@@ -21,6 +21,7 @@ import online.zhaopei.myproject.domain.gjpayment.CbecMessageCiq;
 import online.zhaopei.myproject.domain.gjpayment.MessageBodyCiq;
 import online.zhaopei.myproject.domain.gjpayment.MessageHeadCiq;
 import online.zhaopei.myproject.domain.gjpayment.PaymentMessage;
+import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
 import online.zhaopei.myproject.service.para.SyncPaymentInfoService;
@@ -40,6 +41,9 @@ public class ScheduledTaskConfig {
 	private SyncPaymentInfoService syncPaymentInfoService;
 
 	@Autowired
+	private InvtHeadService invtHeadService;
+	
+	@Autowired
 	private ApplicationProp app;
 
 	@Scheduled(cron = "0 0 1 * * *")
@@ -55,6 +59,17 @@ public class ScheduledTaskConfig {
 		}
 	}
 
+	@Scheduled(fixedDelay = 300000)
+	public void modifyInvtStatus() throws Exception {
+		List<String> headGuidList = this.invtHeadService.getReleaseBackStaggeredInvtList();
+		
+		if (null != headGuidList && !headGuidList.isEmpty()) {
+			for (String headGuid : headGuidList) {
+				this.invtHeadService.updateInvtHeadStatus(headGuid, "100");
+			}
+		}
+	}
+	
 	@Scheduled(initialDelay = 10000, fixedDelay = 60000)
 	public void syncPaymentInfo() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");

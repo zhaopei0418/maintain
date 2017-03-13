@@ -422,4 +422,21 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+	
+	public String getReleaseBackStaggeredInvtListSql() {
+		return new SQL() {{
+			this.SELECT("cih.head_guid");
+			this.FROM("rtn_status_group rsg");
+			this.INNER_JOIN("rtn_status_group rsg1 on rsg.rtn_status = '100' and rsg1.rtn_status = '800' and rsg.biz_guid = rsg1.biz_guid and rsg.max_rtn_time > rsg1.max_rtn_time and rsg.max_sys_date <= rsg1.max_sys_date");
+			this.INNER_JOIN("ceb2_invt_head cih on cih.head_guid = rsg.biz_guid and cih.app_status = '800'");
+		}}.toString();
+	}
+	
+	public String updateInvtHeadStatusSql(final String headGuid, final String status) {
+		return new SQL() {{
+			this.UPDATE("ceb2_invt_head");
+			this.SET("app_status = '" + status + "'");
+			this.WHERE("head_guid = '" + headGuid + "'");
+		}}.toString();
+	}
 }

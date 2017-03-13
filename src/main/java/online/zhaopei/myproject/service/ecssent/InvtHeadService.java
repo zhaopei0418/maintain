@@ -18,4 +18,8 @@ public interface InvtHeadService extends Serializable {
 	List<InvtHead> getInvtHeadMonthCount();
 	
 	List<InvtHead> exportInvtHeadList(InvtHead invtHead);
+	
+	List<String> getReleaseBackStaggeredInvtList();
+	
+	void updateInvtHeadStatus(String headGuid, String status);
 }
