@@ -115,11 +115,11 @@
 						<td th:text="${baseSystem[version.baseSystem]}"></td>
 						<td th:text="${#calendars.format(version.sendTime, 'YYYY-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${trueFalseMap[version.isUpdateTest]}"></td>
-						<td></td>
+						<td th:text="${#calendars.format(version.updateTestTime, 'YYYY-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${trueFalseMap[version.isUpdateFormal]}"></td>
-						<td></td>
+						<td th:text="${#calendars.format(version.updateFormalTime, 'YYYY-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${passMap[version.testResult]}"></td>
-						<td></td>
+						<td th:text="${#calendars.format(version.testTime, 'YYYY-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${trueFalseMap[version.isPatch]}"></td>
 						<td>
 							<a class="btn btn-info btn-round" th:href="@{'/versions/update/' + ${version.code} }">
