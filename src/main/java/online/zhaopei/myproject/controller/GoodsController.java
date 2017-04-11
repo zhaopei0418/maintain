@@ -21,11 +21,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
 
 import online.zhaopei.myproject.common.tool.ParaTool;
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.constant.GoodConstant;
+import online.zhaopei.myproject.domain.AuthUser;
 import online.zhaopei.myproject.domain.ecssent.Good;
 import online.zhaopei.myproject.service.ecssent.GoodService;
 import online.zhaopei.myproject.service.para.CountryService;
@@ -51,6 +53,15 @@ public class GoodsController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView index(Good good) {
+		AuthUser currUser = BaseController.getCurrUser();
+		
+		if (!StringUtils.isEmpty(currUser.getMember().getCompanyCode())) {
+			if (null == good) {
+				good = new Good();
+			}
+			good.setApplyCode(currUser.getMember().getCompanyCode());
+		}
+		
 		PageInfo<Good> pageInfo = this.getPageInfo(good, Good.class, this.goodService, "getGoodList");
 		ModelAndView mv = this.buildBaseModelAndView("goods/list", pageInfo);
 		mv.addObject("good", good);

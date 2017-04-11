@@ -22,11 +22,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
 
 import online.zhaopei.myproject.common.tool.ParaTool;
 import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.domain.AuthUser;
+import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.ecssent.TaxHead;
 import online.zhaopei.myproject.service.ecssent.TaxHeadService;
 import online.zhaopei.myproject.service.para.CustomsService;
@@ -95,6 +97,16 @@ public class TaxesController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView index(TaxHead taxHead) {
+		
+		AuthUser currUser = BaseController.getCurrUser();
+		
+		if (!StringUtils.isEmpty(currUser.getMember().getCompanyCode())) {
+			if (null == taxHead) {
+				taxHead = new TaxHead();
+			}
+			taxHead.setAgentCode(currUser.getMember().getCompanyCode());
+		}
+		
 		PageInfo<TaxHead> pageInfo = this.getPageInfo(taxHead, TaxHead.class, this.taxHeadService, "getTaxHeadList");
 		ModelAndView mv = this.buildBaseModelAndView("taxes/list", pageInfo);
 		mv.addObject("taxHead", taxHead);

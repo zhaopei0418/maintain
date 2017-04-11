@@ -501,6 +501,16 @@ public class InvtsController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView index(InvtHead invtHead) {
+		
+		AuthUser currUser = BaseController.getCurrUser();
+		
+		if (!StringUtils.isEmpty(currUser.getMember().getCompanyCode())) {
+			if (null == invtHead) {
+				invtHead = new InvtHead();
+			}
+			invtHead.setAgentCode(currUser.getMember().getCompanyCode());
+		}
+		
 		if (null != invtHead && !StringUtils.isEmpty(invtHead.getApplyCode())) {
 			invtHead.setCopNoList(this.impInvtHeadService.getCopNoList(invtHead.getApplyCode()));
 		}
