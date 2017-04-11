@@ -134,126 +134,150 @@ public class InvtHeadSqlProvide implements Serializable {
 	public String getInvtHeadListSql(final InvtHead invtHead) {
 		final InvtHeadSqlProvide self = this;
 		return new SQL() {{
-			for(String field : self.selectField()) {
-				this.SELECT(field);
-			}
+			this.SELECT("cih.head_guid");
+			this.SELECT("cih.app_status");
+			this.SELECT("cih.app_time");
+			this.SELECT("cih.sys_date");
+			this.SELECT("cih.app_sender_id");
+			this.SELECT("cih.order_no");
+			this.SELECT("cih.ebc_code");
+			this.SELECT("cih.ebc_name");
+			this.SELECT("cih.logistics_no");
+			this.SELECT("cih.logistics_code");
+			this.SELECT("cih.logistics_name");
+			this.SELECT("cih.cop_no");
+			this.SELECT("cih.pre_no");
+			this.SELECT("cih.invt_no");
+			this.SELECT("cih.agent_code");
+			this.SELECT("cih.agent_name");
+			this.SELECT("cih.area_code");
+			this.SELECT("cih.area_name");
+			this.SELECT("cih.customs_code");
+			this.SELECT("cih.dist_status");
+			this.SELECT("cih.trade_mode");
+			this.SELECT("pdbl.dist_no");
+			
 			this.FROM("ceb2_invt_head cih");
 			
 			if (!StringUtils.isEmpty(invtHead.getDistinct())) {
 				this.INNER_JOIN("(select min(head_guid) as inner_head_guid from ceb2_invt_head group by ebc_code, order_no) cih1 on cih.head_guid = cih1.inner_head_guid");
 			}
 			
+			if (!StringUtils.isEmpty(invtHead.getDistNo())) {
+				this.INNER_JOIN("pre_dist_bill_list pdbl on pdbl.bill_no = cih.invt_no and pdbl.dist_no = '" + invtHead.getDistNo() + "'");
+			}
+			
 			if (!StringUtils.isEmpty(invtHead.getSearchText())) {
-				this.WHERE("invt_no like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cop_no like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("ebc_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("ebc_name like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("order_no like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("agent_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("agent_name like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("logistics_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("logistics_name like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("logistics_no like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("area_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("area_name like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("customs_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("trade_mode like '%" + invtHead.getSearchText() + "%'");
+				this.WHERE("cih.invt_no like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.cop_no like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.ebc_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.ebc_name like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.order_no like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.agent_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.agent_name like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.logistics_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.logistics_name like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.logistics_no like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.area_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.area_name like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.customs_code like '%" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.trade_mode like '%" + invtHead.getSearchText() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getHeadGuid())) {
-				this.WHERE("head_guid = '" + invtHead.getHeadGuid() + "'");
+				this.WHERE("cih.head_guid = '" + invtHead.getHeadGuid() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAppStatus())) {
-				this.WHERE("app_status = '" + invtHead.getAppStatus() + "'");
+				this.WHERE("cih.app_status = '" + invtHead.getAppStatus() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getBeginAppTime())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') >= '" + invtHead.getBeginAppTime() + "'");
+				this.WHERE("to_char(cih.sys_date, 'yyyy-mm-dd') >= '" + invtHead.getBeginAppTime() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEndAppTime())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + invtHead.getEndAppTime() + "'");
+				this.WHERE("to_char(cih.sys_date, 'yyyy-mm-dd') <= '" + invtHead.getEndAppTime() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getSysDateStr())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') = '" + invtHead.getSysDateStr() + "'");
+				this.WHERE("to_char(cih.sys_date, 'yyyy-mm-dd') = '" + invtHead.getSysDateStr() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAppSenderId())) {
-				this.WHERE("app_sender_id = '" + invtHead.getAppSenderId() + "'");
+				this.WHERE("cih.app_sender_id = '" + invtHead.getAppSenderId() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getOrderNo())) {
-				this.WHERE("order_no like '%" + invtHead.getOrderNo() + "%'");
+				this.WHERE("cih.order_no like '%" + invtHead.getOrderNo() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEbcCode())) {
-				this.WHERE("ebc_code = '" + invtHead.getEbcCode() + "'");
+				this.WHERE("cih.ebc_code = '" + invtHead.getEbcCode() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEbcName())) {
-				this.WHERE("ebc_name like '%" + invtHead.getEbcName() + "%'");
+				this.WHERE("cih.ebc_name like '%" + invtHead.getEbcName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsNo())) {
-				this.WHERE("logistics_no like '%" + invtHead.getLogisticsNo() + "%'");
+				this.WHERE("cih.logistics_no like '%" + invtHead.getLogisticsNo() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsCode())) {
-				this.WHERE("logistics_code = '" + invtHead.getLogisticsCode() + "'");
+				this.WHERE("cih.logistics_code = '" + invtHead.getLogisticsCode() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsName())) {
-				this.WHERE("logistics_name like '%" + invtHead.getLogisticsName() + "%'");
+				this.WHERE("cih.logistics_name like '%" + invtHead.getLogisticsName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getCopNo())) {
-				this.WHERE("cop_no = '" + invtHead.getCopNo() + "'");
+				this.WHERE("cih.cop_no = '" + invtHead.getCopNo() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getInvtNo())) {
-				this.WHERE("invt_no like '%" + invtHead.getInvtNo() + "%'");
+				this.WHERE("cih.invt_no like '%" + invtHead.getInvtNo() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAgentCode())) {
-				this.WHERE("agent_code = '" + invtHead.getAgentCode() + "'");
+				this.WHERE("cih.agent_code = '" + invtHead.getAgentCode() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAgentName())) {
-				this.WHERE("agent_name like '%" + invtHead.getAgentName() + "%'");
+				this.WHERE("cih.agent_name like '%" + invtHead.getAgentName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAreaCode())) {
-				this.WHERE("area_code = '" + invtHead.getAreaCode() + "'");
+				this.WHERE("cih.area_code = '" + invtHead.getAreaCode() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAreaName())) {
-				this.WHERE("area_name like '%" + invtHead.getAreaName() + "%'");
+				this.WHERE("cih.area_name like '%" + invtHead.getAreaName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getDistStatus())) {
-				this.WHERE("dist_status = '" + invtHead.getDistStatus() + "'");
+				this.WHERE("cih.dist_status = '" + invtHead.getDistStatus() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getCustomsCode())) {
-				this.WHERE("customs_code = '" + invtHead.getCustomsCode() + "'");
+				this.WHERE("cih.customs_code = '" + invtHead.getCustomsCode() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getTradeMode())) {
-				this.WHERE("trade_mode = '" + invtHead.getTradeMode() + "'");
+				this.WHERE("cih.trade_mode = '" + invtHead.getTradeMode() + "'");
 			}
 			
-			OracleTool.where(this, "bill_no", invtHead.getBillNo());
-			OracleTool.where(this, "voyage_no", invtHead.getVoyageNo());
-			OracleTool.where(this, "buyer_telephone", invtHead.getBuyerTelephone());
-			OracleTool.where(this, "buyer_id_number", invtHead.getBuyerIdNumber());
+			OracleTool.where(this, "cih.bill_no", invtHead.getBillNo());
+			OracleTool.where(this, "cih.voyage_no", invtHead.getVoyageNo());
+			OracleTool.where(this, "cih.buyer_telephone", invtHead.getBuyerTelephone());
+			OracleTool.where(this, "cih.buyer_id_number", invtHead.getBuyerIdNumber());
 			
 			if (!StringUtils.isEmpty(invtHead.getDeclareStatus())) {
 				if ("1".equals(invtHead.getDeclareStatus())) {
-					this.WHERE("app_status in ('1', '01', '100')");
+					this.WHERE("cih.app_status in ('1', '01', '100')");
 				} else {
-					this.WHERE("app_status not in ('1', '01', '100')");
+					this.WHERE("cih.app_status not in ('1', '01', '100')");
 				}
 			}
 			
@@ -264,7 +288,7 @@ public class InvtHeadSqlProvide implements Serializable {
 				}
 				stringBufferIn.deleteCharAt(stringBufferIn.length() - 1);
 				stringBufferIn.append(")");
-				this.WHERE("cop_no in " + stringBufferIn.toString());
+				this.WHERE("cih.cop_no in " + stringBufferIn.toString());
 			}
 			
 		}}.toString();

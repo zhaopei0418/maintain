@@ -388,6 +388,7 @@
 										th:value="${invtHead.buyerTelephone}" />
 							</div>
 							<span th:replace="~{issue :: condition-text('身份证号', 'buyerIdNumber', ${invtHead.buyerIdNumber}) }"></span>
+							<span th:replace="~{issue :: condition-text('核放单号', 'distNo', ${invtHead.distNo}) }"></span>
 						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
