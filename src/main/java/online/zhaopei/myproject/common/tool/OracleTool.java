@@ -26,6 +26,14 @@ public class OracleTool {
 		return String.valueOf(num);
 	}
 	
+	public static String toString(Integer num) {
+		return String.valueOf(num);
+	}
+	
+	public static String toString(Long num) {
+		return String.valueOf(num);
+	}
+	
 	public static void where(SQL sql, String column, String value) {
 		where(sql, column, value, "=", false);
 	}
@@ -70,6 +78,18 @@ public class OracleTool {
 		}
 	}
 	
+	public static void values(SQL sql, String column, Integer value) {
+		if (null != value) {
+			sql.VALUES(column, toString(value));
+		}
+	}
+	
+	public static void values(SQL sql, String column, Long value) {
+		if (null != value) {
+			sql.VALUES(column, toString(value));
+		}
+	}
+	
 	public static void values(SQL sql, String column, Double value) {
 		if (null != value) {
 			sql.VALUES(column, toString(value));
@@ -93,6 +113,14 @@ public class OracleTool {
 	}
 	
 	public static void set(SQL sql, String column, Double value) {
+		sql.SET(column + " = " + (null == value ? "null" : value));
+	}
+	
+	public static void set(SQL sql, String column, Integer value) {
+		sql.SET(column + " = " + (null == value ? "null" : value));
+	}
+	
+	public static void set(SQL sql, String column, Long value) {
 		sql.SET(column + " = " + (null == value ? "null" : value));
 	}
 	

@@ -65,7 +65,7 @@ create table version (
 	code varchar2(32 byte) not null,
 	name varchar2(150 char) not null,
 	version_no varchar2(20 byte),
-	base_system varchar2(3 char) not null,
+	base_system varchar2(3 byte) not null,
 	description varchar2(1000 char) not null,
 	send_time timestamp(6) not null,
 	is_update_test char(1) default '0' not null ,
@@ -77,4 +77,33 @@ create table version (
 	test_result_description varchar2(1000 char),
 	is_patch char(1) default '1' not null,
 	constraint "pk_version_code" primary key (code)
+);
+
+create table issue (
+	code varchar2(32 byte) not null,
+	title varchar2(50 char) not null,
+	description varchar2(1000 char),
+	cause varchar2(1000 char),
+	base_system varchar2(3 byte) not null,
+	version_no varchar2(20 byte),
+	happen_time timestamp(6) not null,
+	type varchar2(3 byte),
+	severe_level varchar2(3 byte),
+	status varchar2(3 byte) not null,
+	note varchar2(1000 char),
+	create_member varchar2(32 byte) not null,
+	constraint "pk_issue_code" primary key (code)
+);
+
+create table member_rel_issue (
+	issue_code varchar2(32 byte) not null,
+	member_code varchar2(32 byte) not null,
+	constraint "pk_issue_member_code" primary key(issue_code, member_code)
+);
+
+create table server_system (
+	ip varchar2(20 byte) not null,
+	port number(5) not null,
+	description varchar2(100 char) not null,
+	constraint "pk_server_system_ip" primary key (ip)
 );
