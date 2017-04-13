@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +29,17 @@ public class ServersController extends BaseController {
 
 	@Autowired
 	private ServerSystemService serverSystemService;
-	
+
 	@RequestMapping
 	public ModelAndView index(ServerSystem serverSystem) {
-		PageInfo<ServerSystem> pageInfo = this.getPageInfo(serverSystem, ServerSystem.class, this.serverSystemService, "getServerSystemList");
+		PageInfo<ServerSystem> pageInfo = this.getPageInfo(serverSystem, ServerSystem.class, this.serverSystemService,
+				"getServerSystemList");
 		ModelAndView mv = this.buildBaseModelAndView("servers/list", pageInfo);
 		mv.addObject("serverSystem", serverSystem);
 		mv.addObject("serverSystemList", pageInfo.getList());
 		return mv;
 	}
-	
+
 	@RequestMapping("info/{ip}/{port}")
 	public ModelAndView info(@PathVariable String ip, @PathVariable String port) {
 		ModelAndView mv = new ModelAndView("servers/info");
@@ -67,7 +70,7 @@ public class ServersController extends BaseController {
 		mv.addObject("serverSystemList", serverSystemList);
 		return mv;
 	}
-	
+
 	@RequestMapping("info")
 	public ModelAndView info() {
 		ModelAndView mv = new ModelAndView("servers/index");

@@ -1,6 +1,7 @@
 package online.zhaopei.myproject.common.tool;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -44,15 +45,33 @@ public final class HttpClientTool {
 	}
 	
 	public static List<FileSystemInfo> getFileSystemInfoListJson(String url) {
-		return getJson(url + "fileSystemList", List.class);
+		Gson gson = new Gson();
+		String result = get(url + "fileSystemList");
+		if (!StringUtils.isEmpty(result)) {
+			return Arrays.asList(gson.fromJson(result, FileSystemInfo[].class));
+		} else {
+			return null;
+		}
 	}
 	
 	public static List<NetInterfaceInfo> getNetInterfaceInfoListJson(String url) {
-		return getJson(url + "netInterfaceInfo", List.class);
+		Gson gson = new Gson();
+		String result = get(url + "netInterfaceInfo");
+		if (!StringUtils.isEmpty(result)) {
+			return Arrays.asList(gson.fromJson(result, NetInterfaceInfo[].class));
+		} else {
+			return null;
+		}
 	}
 	
 	public static List<NetInterfaceInfo> getNetworkInterfaceInfoListJson(String url) {
-		return getJson(url + "networkInterfaceInfo", List.class);
+		Gson gson = new Gson();
+		String result = get(url + "networkInterfaceInfo");
+		if (!StringUtils.isEmpty(result)) {
+			return Arrays.asList(gson.fromJson(result, NetInterfaceInfo[].class));
+		} else {
+			return null;
+		}
 	}
 	
 	public static <T> T getJson(String url, Class<T> clazz) {

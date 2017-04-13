@@ -5,15 +5,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import org.hyperic.sigar.CpuPerc;
+import org.hyperic.sigar.Mem;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import online.zhaopei.myproject.common.tool.HttpClientTool;
+import online.zhaopei.myproject.common.tool.MailTool;
 import online.zhaopei.myproject.common.tool.PaymentTool;
 import online.zhaopei.myproject.config.ApplicationProp;
+import online.zhaopei.myproject.domain.ecssent.FileSystemInfo;
+import online.zhaopei.myproject.domain.ecssent.ServerSystem;
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
 import online.zhaopei.myproject.domain.gjpayment.BodyMasterCiq;
 import online.zhaopei.myproject.domain.gjpayment.CbecMessage;
@@ -22,6 +29,7 @@ import online.zhaopei.myproject.domain.gjpayment.MessageBodyCiq;
 import online.zhaopei.myproject.domain.gjpayment.MessageHeadCiq;
 import online.zhaopei.myproject.domain.gjpayment.PaymentMessage;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
+import online.zhaopei.myproject.service.ecssent.ServerSystemService;
 import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
 import online.zhaopei.myproject.service.para.SyncPaymentInfoService;
@@ -42,6 +50,12 @@ public class ScheduledTaskConfig {
 
 	@Autowired
 	private InvtHeadService invtHeadService;
+	
+	@Autowired
+	private ServerSystemService serverSystemService;
+
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Autowired
 	private ApplicationProp app;
@@ -68,6 +82,41 @@ public class ScheduledTaskConfig {
 				this.invtHeadService.updateInvtHeadStatus(headGuid, "100");
 			}
 		}
+	}
+	
+	@Scheduled(fixedDelay = 600000)
+	public void checkServer() throws Exception {
+		List<ServerSystem> serverSystemList = this.serverSystemService.getServerSystemList(new ServerSystem());
+		String url = null;
+		Mem mem = null;
+		CpuPerc cpuPerc = null;
+		List<FileSystemInfo> fileSystemInfoList = null;
+		for (ServerSystem ss : serverSystemList) {
+			url = "http://" + ss.getIp() + ":" + ss.getPort() + "/";
+			try {
+				mem = HttpClientTool.getMemJson(url);
+				if (80 < mem.getUsedPercent()) {
+					MailTool.sendDefaultMail(mailSender, "内存使用率超过85%", "服务器：[" + ss.getIp() + "]\r\n 内存使用率超过80%，请即时查看处理。");
+				}
+				
+				cpuPerc = HttpClientTool.getCpuPercJson(url);
+				if (0.2 > cpuPerc.getIdle()) {
+					MailTool.sendDefaultMail(mailSender, "CPU使用率超过85%", "服务器：[" + ss.getIp() + "]\r\n CPU使用率超过85%，请即时查看处理。");
+				}
+				
+				fileSystemInfoList = HttpClientTool.getFileSystemInfoListJson(url);
+				for (FileSystemInfo fsi : fileSystemInfoList) {
+					if (0.8 < fsi.getFileSystemUsage().getUsePercent()) {
+						MailTool.sendDefaultMail(mailSender, "硬盘:[" + fsi.getFileSystem().getDirName() + "] 使用率超过85%", "服务器：[" + ss.getIp() + "]\r\n 硬盘:[" 
+								+ fsi.getFileSystem().getDirName() + "]使用率超过85%，请即时查看处理。");
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
 	}
 	
 	@Scheduled(initialDelay = 10000, fixedDelay = 60000)

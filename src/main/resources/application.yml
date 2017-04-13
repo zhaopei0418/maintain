@@ -100,6 +100,10 @@ spring:
   jackson:
     date-format: yyyy-MM-dd kk:mm:ss.SSS
     time-zone: GMT+8
+  mail:
+    host: smtp.126.com
+    username: sender000@126.com
+    password: password
 
 logging:
   file: maintain.log
