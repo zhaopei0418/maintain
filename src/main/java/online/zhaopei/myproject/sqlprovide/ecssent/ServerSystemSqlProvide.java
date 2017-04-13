@@ -14,6 +14,16 @@ public class ServerSystemSqlProvide implements Serializable {
 	 */
 	private static final long serialVersionUID = -6215325673863055772L;
 
+	public String getServerSystemByIpSql(final String ip) {
+		return new SQL() {{
+			this.SELECT("ip");
+			this.SELECT("port");
+			this.SELECT("description");
+			this.FROM("server_system");
+			
+			this.WHERE("ip = '" + ip + "'");
+		}}.toString();
+	}
 	
 	public String getServerSystemListSql(final ServerSystem serverSystem) {
 		return new SQL() {{

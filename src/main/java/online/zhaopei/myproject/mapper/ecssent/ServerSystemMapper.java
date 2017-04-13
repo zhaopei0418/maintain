@@ -16,6 +16,9 @@ public interface ServerSystemMapper extends Serializable {
 	@SelectProvider(type = ServerSystemSqlProvide.class, method = "getServerSystemListSql")
 	List<ServerSystem> getServerSystemList(ServerSystem serverSystem);
 	
+	@SelectProvider(type = ServerSystemSqlProvide.class, method = "getServerSystemByIpSql")
+	ServerSystem getServerSystemByIp(String ip);
+	
 	@InsertProvider(type = ServerSystemSqlProvide.class, method = "insertServerSystemSql")
 	int insertServerSystem(ServerSystem serverSystem);
 	

@@ -9,6 +9,8 @@ public interface ServerSystemService extends Serializable {
 
 	List<ServerSystem> getServerSystemList(ServerSystem serverSystem);
 	
+	ServerSystem getServerSystemByIp(String ip);
+	
 	void insertServerSystem(ServerSystem serverSystem);
 	
 	void updateServerSystem(ServerSystem serverSystem);

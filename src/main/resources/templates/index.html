@@ -6,6 +6,13 @@
 <title>数据统计</title>
 </head>
 <body>
+	<li layout:fragment="servers-info"><a><i class="fa fa-home"></i>服务器监控管理<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li th:each="serverSystem : ${serverSystemList}">
+				<a th:href="@{'/servers/info/' + ${serverSystem.ip} + '/' + ${serverSystem.port}}" th:text="${serverSystem.description}"></a>
+			</li>
+		</ul>
+	</li>
 	<div class="row tile_count" layout:fragment="header">
 		<div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
 			<span class="count_top"><i class="fa fa-user"></i>今天清单数</span>

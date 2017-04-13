@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.PageHelper;
 
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
+import online.zhaopei.myproject.domain.ecssent.ServerSystem;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
+import online.zhaopei.myproject.service.ecssent.ServerSystemService;
 
 @Controller
 @RequestMapping("/")
@@ -26,12 +28,16 @@ public class ApplicationController implements Serializable {
 	@Autowired
 	private InvtHeadService invtHeadService;
 	
+	@Autowired
+	private ServerSystemService serverSystemService;
+	
 	@RequestMapping
 	public ModelAndView index() {
 		InvtHead invtHead = new InvtHead();
 		ModelAndView mv = new ModelAndView("index");
 		PageHelper.startPage(1, 10);
 		List<InvtHead> invtHeadCountList = this.invtHeadService.getDeclareTopTenSql(invtHead);
+		List<ServerSystem> serverSystemList = this.serverSystemService.getServerSystemList(new ServerSystem());
 		PageHelper.startPage(1, 10);
 		invtHead.setAppStatus("800");
 		Long dayCount = 0L, weekCount = 0L, monthCount = 0L, yearCount = 0L;
@@ -66,6 +72,8 @@ public class ApplicationController implements Serializable {
 		mv.addObject("fromWeek", 0L == preWeekCount ? 0 : Double.valueOf(df.format((Double.valueOf(dayCount) - Double.valueOf(preWeekCount)) / Double.valueOf(preWeekCount) * 100)));
 		mv.addObject("fromMonth", 0L == preMonthCount ? 0 : Double.valueOf(df.format((Double.valueOf(dayCount) - Double.valueOf(preMonthCount)) / Double.valueOf(preMonthCount) * 100)));
 		mv.addObject("fromYear", 0L == preYearCount ? 0 : Double.valueOf(df.format((Double.valueOf(dayCount) - Double.valueOf(preYearCount)) / Double.valueOf(preYearCount) * 100)));
+		
+		mv.addObject("serverSystemList", serverSystemList);
 
 		return mv;
 	}

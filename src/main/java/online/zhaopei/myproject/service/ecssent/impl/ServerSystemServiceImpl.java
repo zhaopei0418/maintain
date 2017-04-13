@@ -40,4 +40,9 @@ public class ServerSystemServiceImpl implements ServerSystemService {
 		this.serverSystemMapper.deleteServerSystem(ip);
 	}
 
+	@Override
+	public ServerSystem getServerSystemByIp(String ip) {
+		return this.serverSystemMapper.getServerSystemByIp(ip);
+	}
+
 }
