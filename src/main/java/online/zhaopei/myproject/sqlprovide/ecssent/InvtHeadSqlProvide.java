@@ -398,6 +398,11 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.SELECT("cih.dist_time");
 			
 			this.FROM("ceb2_invt_head cih");
+			
+			if (!StringUtils.isEmpty(invtHead.getDistNo())) {
+				this.INNER_JOIN("pre_dist_bill_list pdbl on pdbl.bill_no = cih.invt_no and pdbl.dist_no = '" + invtHead.getDistNo() + "'");
+			}
+			
 			this.LEFT_OUTER_JOIN("imp_invt_head@ggfw_zhengzhou iih on iih.order_no = cih.order_no and iih.ebc_code = cih.ebc_code and iih.logistics_code = cih.logistics_code and iih.logistics_no = cih.logistics_no");
 			this.LEFT_OUTER_JOIN("ceb2_pub_rtn cpr on cpr.biz_guid = cih.head_guid and cpr.rtn_status = cih.app_status left outer join (select tt.biz_guid, tt.rtn_status,max(tt.sys_date) as max_sys_date from ceb2_pub_rtn tt group by tt.biz_guid, tt.rtn_status) tt0 on tt0.biz_guid = cpr.biz_guid and tt0.rtn_status = cpr.rtn_status and tt0.max_sys_date = cpr.sys_date");
 			this.LEFT_OUTER_JOIN("pre_dist_bill_list pdbl on pdbl.bill_no = cih.invt_no left outer join pre_dist_head pdh on pdh.seq_no = pdbl.seq_no");
