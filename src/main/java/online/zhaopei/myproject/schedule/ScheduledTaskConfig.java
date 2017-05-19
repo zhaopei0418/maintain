@@ -73,7 +73,7 @@ public class ScheduledTaskConfig {
 		}
 	}
 
-	@Scheduled(fixedDelay = 300000)
+	@Scheduled(cron = "0 0 */2 * * *")
 	public void modifyInvtStatus() throws Exception {
 		List<String> headGuidList = this.invtHeadService.getReleaseBackStaggeredInvtList();
 		
