@@ -99,7 +99,7 @@ public final class PaymentTool {
 		impPayHead.setPayCode(bodyMaster.getPayEnterpriseCode());
 		impPayHead.setPayName(bodyMaster.getPayEnterpriseName());
 		impPayHead.setPayTransactionId(bodyMaster.getPayNumber());
-		impPayHead.setEbpCode(bodyMaster.getEcpCode());
+		impPayHead.setEbpCode(null == bodyMaster.getEcpCode() ? bodyMaster.getCbeCode() : bodyMaster.getEcpCode());
 		impPayHead.setEbpName(bodyMaster.getEcpName());
 		impPayHead.setPaymentType(bodyMaster.getPaymentType());
 		impPayHead.setCurrency(bodyMaster.getMonetaryType());
