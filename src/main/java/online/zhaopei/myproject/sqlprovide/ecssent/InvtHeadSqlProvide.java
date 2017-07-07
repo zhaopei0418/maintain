@@ -132,7 +132,6 @@ public class InvtHeadSqlProvide implements Serializable {
 	}
 	
 	public String getInvtHeadListSql(final InvtHead invtHead) {
-		final InvtHeadSqlProvide self = this;
 		return new SQL() {{
 			this.SELECT("cih.head_guid");
 			this.SELECT("cih.app_status");
@@ -155,6 +154,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.SELECT("cih.customs_code");
 			this.SELECT("cih.dist_status");
 			this.SELECT("cih.trade_mode");
+			this.SELECT("cih.cus_status");
 			
 			this.FROM("ceb2_invt_head cih");
 			
@@ -271,6 +271,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			OracleTool.where(this, "cih.voyage_no", invtHead.getVoyageNo());
 			OracleTool.where(this, "cih.buyer_telephone", invtHead.getBuyerTelephone());
 			OracleTool.where(this, "cih.buyer_id_number", invtHead.getBuyerIdNumber());
+			OracleTool.where(this, "cih.cus_status", invtHead.getCusStatus());
 			
 			if (!StringUtils.isEmpty(invtHead.getDeclareStatus())) {
 				if ("1".equals(invtHead.getDeclareStatus())) {

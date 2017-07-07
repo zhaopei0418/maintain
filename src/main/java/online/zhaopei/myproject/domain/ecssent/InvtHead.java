@@ -198,6 +198,8 @@ public class InvtHead extends BaseDomain {
 	
 	private Date distTime;
 	
+	private String cusStatus;
+	
 	public String getHeadGuid() {
 		return headGuid;
 	}
@@ -929,5 +931,13 @@ public class InvtHead extends BaseDomain {
 
 	public void setDistTime(Date distTime) {
 		this.distTime = distTime;
+	}
+
+	public String getCusStatus() {
+		return cusStatus;
+	}
+
+	public void setCusStatus(String cusStatus) {
+		this.cusStatus = cusStatus;
 	}
 }

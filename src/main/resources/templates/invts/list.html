@@ -389,6 +389,7 @@
 							</div>
 							<span th:replace="~{issue :: condition-text('身份证号', 'buyerIdNumber', ${invtHead.buyerIdNumber}) }"></span>
 							<span th:replace="~{issue :: condition-text('核放单号', 'distNo', ${invtHead.distNo}) }"></span>
+                            <span th:replace="~{issue :: condition-map('海关状态', 'cusStatus', ${invtHead.cusStatus}, ${cusStatus}) }"></span>
 						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
@@ -477,6 +478,7 @@
 						<th class="column-title">申报日期</th>
 						<th class="column-title">关区</th>
 						<th class="column-title">清单状态</th>
+						<th class="column-title">海关状态</th>
 						<th class="column-title">出区状态</th>
 						<th class="column-title">国检状态</th>
 						<th class="column-title">比对入库明细单</th>
@@ -534,6 +536,13 @@
 							<span th:case="03" class="btn btn-round btn-success btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
 							<span th:case="*" class="btn btn-round btn-info btn-xs" th:text="${appStatus[invtHead.appStatus]}"></span>
 						</td>
+						<td th:switch="${invtHead.cusStatus}">
+							<span th:case="24" class="btn btn-round btn-warning btn-xs" th:text="${cusStatus[invtHead.cusStatus]}"></span>
+							<span th:case="13" class="btn btn-round btn-warning btn-xs" th:text="${cusStatus[invtHead.cusStatus]}"></span>
+							<span th:case="23" class="btn btn-round btn-warning btn-xs" th:text="${cusStatus[invtHead.cusStatus]}"></span>
+							<span th:case="26" class="btn btn-success btn-round btn-xs" th:text="${cusStatus[invtHead.cusStatus]}"></span>
+							<span th:case="*" class="btn btn-round btn-info btn-xs" th:text="${cusStatus[invtHead.cusStatus]}"></span>
+						</td>
 						<td th:switch="${invtHead.distStatus}" th:onclick="'getDistHeadByInvtNo(\'' + ${invtHead.invtNo} + '\', ' + ${appStatusJson} + ')'"
 							title="点击查看所绑的核放单信息">
 							<span th:case="1" class="btn btn-round btn-danger btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
@@ -558,6 +567,7 @@
 						<th class="column-title">申报日期</th>
 						<th class="column-title">关区</th>
 						<th class="column-title">清单状态</th>
+						<th class="column-title">海关状态</th>
 						<th class="column-title">出区状态</th>
 						<th class="column-title">国检状态</th>
 						<th class="column-title">比对入库明细单</th>

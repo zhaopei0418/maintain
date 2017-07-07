@@ -521,6 +521,7 @@ public class InvtsController extends BaseController {
 		mv.addObject("invtHead", invtHead);
 		mv.addObject("invtHeadList", pageInfo.getList());
 		mv.addObject("appStatus", InvtHeadConstant.getAPP_STATUS_MAP());
+		mv.addObject("cusStatus", InvtHeadConstant.getCUSTOMS_STATUS_MAP());
 		mv.addObject("appStatusJson", new Gson().toJson(InvtHeadConstant.getAPP_STATUS_MAP()));
 		mv.addObject("auditStatusJson", new Gson().toJson(InvtHeadConstant.getAUDIT_STATE_MAP()));
 		mv.addObject("distStatus", InvtHeadConstant.getDIST_STATUS_MAP());
