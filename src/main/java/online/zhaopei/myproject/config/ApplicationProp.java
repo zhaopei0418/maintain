@@ -17,6 +17,10 @@ public class ApplicationProp implements Serializable {
 	private String ciqDir;
 	
 	private String backDir;
+	
+	private String reissueTmpDir;
+	
+	private String reissueDir;
 
 	public String getCiqDir() {
 		return ciqDir;
@@ -32,5 +36,21 @@ public class ApplicationProp implements Serializable {
 
 	public void setBackDir(String backDir) {
 		this.backDir = backDir;
+	}
+
+	public String getReissueTmpDir() {
+		return reissueTmpDir;
+	}
+
+	public void setReissueTmpDir(String reissueTmpDir) {
+		this.reissueTmpDir = reissueTmpDir;
+	}
+
+	public String getReissueDir() {
+		return reissueDir;
+	}
+
+	public void setReissueDir(String reissueDir) {
+		this.reissueDir = reissueDir;
 	}
 }

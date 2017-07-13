@@ -116,3 +116,5 @@ logging:
 maintain:
   ciqDir: /Users/zhaopei/work/logs/ciq/
   backDir: /Users/zhaopei/work/logs/backCiq/
+  reissueTmpDir: /Users/zhaopei/work/logs/ciq/
+  reissueDir: /Users/zhaopei/work/logs/backCiq/

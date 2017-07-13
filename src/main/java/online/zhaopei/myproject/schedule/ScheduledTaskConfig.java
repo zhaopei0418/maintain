@@ -84,7 +84,7 @@ public class ScheduledTaskConfig {
 		}
 	}
 	
-	@Scheduled(fixedDelay = 600000)
+//	@Scheduled(fixedDelay = 600000)
 	public void checkServer() throws Exception {
 		List<ServerSystem> serverSystemList = this.serverSystemService.getServerSystemList(new ServerSystem());
 		String url = null;
