@@ -271,7 +271,11 @@ public class InvtHeadSqlProvide implements Serializable {
 			OracleTool.where(this, "cih.voyage_no", invtHead.getVoyageNo());
 			OracleTool.where(this, "cih.buyer_telephone", invtHead.getBuyerTelephone());
 			OracleTool.where(this, "cih.buyer_id_number", invtHead.getBuyerIdNumber());
-			OracleTool.where(this, "cih.cus_status", invtHead.getCusStatus());
+			if ("00".equals(invtHead.getCusStatus())) {
+				this.WHERE("cih.cus_status is null");
+			} else {
+				OracleTool.where(this, "cih.cus_status", invtHead.getCusStatus());
+			}
 			
 			if (!StringUtils.isEmpty(invtHead.getDeclareStatus())) {
 				if ("1".equals(invtHead.getDeclareStatus())) {

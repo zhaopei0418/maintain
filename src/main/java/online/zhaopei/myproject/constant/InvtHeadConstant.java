@@ -65,6 +65,8 @@ public enum InvtHeadConstant implements Serializable {
 	APP_STATUS_504011("-504011"),
 	APP_STATUS_504011_DESC("参数校验不通过"),
 	
+	CUSTOMS_STATUS_00("00"),
+	CUSTOMS_STATUS_00_DESC("空"),
 	CUSTOMS_STATUS_12("12"),
 	CUSTOMS_STATUS_12_DESC("人工审核"),
 	CUSTOMS_STATUS_13("13"),
@@ -188,6 +190,7 @@ public enum InvtHeadConstant implements Serializable {
 		AUDIT_STATE_MAP.put(AUDIT_STATE_ZK.value, AUDIT_STATE_ZK_DESC.value);
 		
 		CUSTOMS_STATUS_MAP.put("", "所有状态");
+		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_00.toString(), CUSTOMS_STATUS_00_DESC.toString());
 		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_12.toString(), CUSTOMS_STATUS_12_DESC.toString());
 		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_13.toString(), CUSTOMS_STATUS_13_DESC.toString());
 		CUSTOMS_STATUS_MAP.put(CUSTOMS_STATUS_23.toString(), CUSTOMS_STATUS_23_DESC.toString());
