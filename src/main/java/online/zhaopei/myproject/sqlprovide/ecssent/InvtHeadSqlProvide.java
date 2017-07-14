@@ -154,6 +154,8 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.SELECT("cih.customs_code");
 			this.SELECT("cih.dist_status");
 			this.SELECT("cih.trade_mode");
+			this.SELECT("cih.buyer_name");
+			this.SELECT("cih.buyer_id_number");
 			this.SELECT("cih.cus_status");
 			
 			this.FROM("ceb2_invt_head cih");

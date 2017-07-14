@@ -475,6 +475,7 @@
 						<th class="column-title">订单号</th>
 						<th class="column-title">物流企业</th>
 						<th class="column-title">运单号</th>
+						<th class="column-title">身份证号</th>
 						<th class="column-title">申报日期</th>
 						<th class="column-title">关区</th>
 						<th class="column-title">清单状态</th>
@@ -518,6 +519,10 @@
 						<td>
 							<a th:text="${invtHead.logisticsNo}"
 								th:href="@{'/logistics?logisticsNo=' + ${invtHead.logisticsNo}}"></a>
+						</td>
+                        <td th:title="${invtHead.buyerName}">
+							<a th:text="${invtHead.buyerIdNumber}"
+								th:href="@{'/persons?certId=' + ${invtHead.buyerIdNumber}}"></a>
 						</td>
 						<td th:text="${#calendars.format(invtHead.sysDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${customsCodeMap[invtHead.customsCode]}" th:title="${invtHead.customsCode}"></td>
@@ -564,6 +569,7 @@
 						<th class="column-title">订单号</th>
 						<th class="column-title">物流企业</th>
 						<th class="column-title">运单号</th>
+						<th class="column-title">身份证号</th>
 						<th class="column-title">申报日期</th>
 						<th class="column-title">关区</th>
 						<th class="column-title">清单状态</th>
