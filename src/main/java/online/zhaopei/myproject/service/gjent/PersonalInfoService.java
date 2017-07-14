@@ -10,4 +10,6 @@ public interface PersonalInfoService extends Serializable {
 	PersonalInfo getPersonById(String id);
 	
 	List<PersonalInfo> getPersonalInfoList(PersonalInfo personalInfo);
+	
+	void clearErrorCount(String uuid);
 }

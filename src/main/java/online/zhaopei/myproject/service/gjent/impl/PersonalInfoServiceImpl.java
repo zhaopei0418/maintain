@@ -30,4 +30,9 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
 		return this.personalInfoMapper.getPersonalInfoList(personalInfo);
 	}
 
+	@Override
+	public void clearErrorCount(String uuid) {
+		this.personalInfoMapper.clearErrorCount(uuid);
+	}
+
 }

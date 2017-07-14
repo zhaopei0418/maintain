@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import online.zhaopei.myproject.domain.gjent.PersonalInfo;
 import online.zhaopei.myproject.sqlprovide.gjent.PersonalInfoSqlProvide;
@@ -44,4 +45,7 @@ public interface PersonalInfoMapper extends Serializable {
 	@ResultMap("personalInfoResult")
 	@SelectProvider(type = PersonalInfoSqlProvide.class, method = "getPersonalInfoListSql")
 	List<PersonalInfo> getPersonalInfoList(PersonalInfo personalInfo);
+	
+	@UpdateProvider(type = PersonalInfoSqlProvide.class, method = "clearErrorCountSql")
+	Integer clearErrorCount(String uuid);
 }

@@ -32,4 +32,10 @@ public class PersonsController extends BaseController {
 		mv.addObject("checkFlag", PersonalInfoConstant.getCHECK_FLAG_MAP());
 		return mv;
 	}
+	
+	@RequestMapping("/reAuthentication")
+	public ModelAndView reAuthentication(String uuid) {
+		this.personalInfoService.clearErrorCount(uuid);
+		return new ModelAndView("redirect:");
+	}
 }

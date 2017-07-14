@@ -253,6 +253,7 @@
 											th:selected="${appStat.key == personalInfo.checkFlag} ? 'selected'"></option>
 								</select>
 							</div>
+							<span th:replace="~{issue :: condition-text('错误次数', 'errorCount', ${personalInfo.errorCount}) }"></span>
 						</div>
 						<div class="pull-right form-group no-margin-right">
 							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
@@ -319,6 +320,8 @@
 						<th class="column-title">验证时间</th>
 						<th class="column-title">验证结果</th>
 						<th class="column-title">验证结果描述</th>
+						<th class="column-title">错误次数</th>
+						<th class="column-title">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -337,6 +340,10 @@
 							<span th:case="*" class="btn btn-round btn-info btn-xs">无信息</span>
 						</td>
 						<td th:text="${personalInfo.checkMark}"></td>
+						<td th:text="${personalInfo.errorCount}"></td>
+                        <td>
+                            <a th:if="${3 == personalInfo.errorCount}" class="btn btn-info btn-xs" th:href="@{'/persons/reAuthentication?uuid=' + ${personalInfo.uuid}}">重新认证</a>
+                        </td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -348,6 +355,8 @@
 						<th class="column-title">验证时间</th>
 						<th class="column-title">验证结果</th>
 						<th class="column-title">验证结果描述</th>
+						<th class="column-title">错误次数</th>
+						<th class="column-title">操作</th>
 					</tr>
 				</tfoot>
 			</table>

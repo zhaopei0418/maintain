@@ -6,8 +6,8 @@ import org.apache.ibatis.jdbc.SQL;
 
 import com.alibaba.druid.util.StringUtils;
 
+import online.zhaopei.myproject.common.tool.OracleTool;
 import online.zhaopei.myproject.domain.gjent.PersonalInfo;
-import sun.swing.StringUIClientPropertyKey;
 
 public class PersonalInfoSqlProvide implements Serializable {
 
@@ -33,6 +33,7 @@ public class PersonalInfoSqlProvide implements Serializable {
 			this.SELECT("checkmark");
 			this.SELECT("checkflag");
 			this.SELECT("perphone");
+			this.SELECT("error_count");
 			this.SELECT("sys_date");
 			this.FROM("personal_info");
 			
@@ -75,7 +76,16 @@ public class PersonalInfoSqlProvide implements Serializable {
 			if (!StringUtils.isEmpty(personalInfo.getCheckFlag())) {
 				this.WHERE("checkflag = '" + personalInfo.getCheckFlag() + "'");
 			}
+			OracleTool.where(this, "error_count", personalInfo.getErrorCount());
 			
+		}}.toString();
+	}
+	
+	public String clearErrorCountSql(final String uuid) {
+		return new SQL(){{
+			this.UPDATE("personal_info");
+			this.SET("error_count = 0");
+			this.WHERE("uuid = '" + uuid + "'");
 		}}.toString();
 	}
 }
