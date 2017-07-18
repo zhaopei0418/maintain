@@ -134,35 +134,11 @@
 				});
 			}
 			
-			function getDistHeadByInvtNo(invtNo, status) {
-				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+			function getMsgInfo(msgGuid) {
+				$.getJSON("/dxps/receDetail/" + msgGuid, function(data) {
 					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
-					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
-					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
-					dataHtml += "<tbody>";
-					if (null != data) {
-						dataHtml += "<tr>";
-						dataHtml += "<td>" + data.distNo + "</td>";
-						dataHtml += "<td>" + data.customsCode + "</td>";
-						dataHtml += "<td title='" + data.declCode + "'>" + data.declName + "</td>";
-						dataHtml += "<td>" + data.distStat + "</td>";
-						dataHtml += "</tr>";
-					}
-					dataHtml += "</tbody>";
-					dataHtml += "<thead><tr><th>录入日期</th><th>申报日期</th><th>退单原因</th><th>备注</th></thead>";
-					dataHtml += "<tbody>";
-					if (null != data) {
-						dataHtml += "<tr>";
-						dataHtml += "<td>" + data.inputDate + "</td>";
-						dataHtml += "<td>" + data.declDate + "</td>";
-						dataHtml += "<td>" + data.returnReason + "</td>";
-						dataHtml += "<td>" + data.note + "</td>";
-						dataHtml += "</tr>";
-					}
-					dataHtml += "</tbody>";
-					dataHtml += "</table>";
-					
+					$("#appStatusModal .modal-title").text("报文详情[" + msgGuid + "]");
+                    var dataHtml = "<textarea style='width: 100%; min-height:500px; overflow:auto;' readonly>" + data.bizBlob + "</textarea>";
 					$("#appStatusModal .modal-body").html(dataHtml);
 				});
 			}
@@ -351,8 +327,11 @@
 						<td colspan="30">没有数据</td>
 					</tr>
 					<tr th:each="dxpReceEnd,stat : ${dxpReceEndList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
-						<td th:text="${dxpReceEnd.msgGuid}"></td>
-						<td th:text="${dxpReceEnd.msgId}"></td>
+                        <td th:text="${dxpReceEnd.msgGuid}" th:onclick="'getMsgInfo(\'' + ${dxpReceEnd.msgGuid} + '\')'"></td>
+						<td th:text="${dxpReceEnd.msgId}">
+							<a href="javascript:void(0)" th:text="${dxpReceEnd.msgId}"
+								th:onclick="'addFormParaQuery(\'dxp_rece_form\', \'msgId\', \'' + ${dxpReceEnd.msgId} + '\')'"></a>
+                        </td>
 						<td th:text="${msgType[dxpReceEnd.msgType]} + '[' + ${dxpReceEnd.msgType} + ']'"></td>
 						<td th:text="${dxpMode[dxpReceEnd.dxpMode]} + '[' + ${dxpReceEnd.dxpMode} + ']'"></td>
 						<td th:text="${dxpStatus[#strings.toString(dxpReceEnd.dxpStatus)]} + '[' + ${dxpReceEnd.dxpStatus} + ']'"></td>

@@ -1,8 +1,12 @@
 package online.zhaopei.myproject.domain.ecssent;
 
+import java.sql.Blob;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import online.zhaopei.myproject.domain.BaseDomain;
+import online.zhaopei.myproject.jsonserialize.CustomJsonSerializer;
 
 public class DxpReceMsg extends BaseDomain {
 
@@ -17,9 +21,9 @@ public class DxpReceMsg extends BaseDomain {
 	
 	private Integer msgSize;
 	
-	private String msgBlob;
+	private byte[] msgBlob;
 	
-	private String bizBlob;
+	private byte[] bizBlob;
 	
 	private String note;
 	
@@ -57,19 +61,21 @@ public class DxpReceMsg extends BaseDomain {
 		this.msgSize = msgSize;
 	}
 
-	public String getMsgBlob() {
+	@JsonSerialize(using = CustomJsonSerializer.ByteArraySerializer.class)
+	public byte[] getMsgBlob() {
 		return msgBlob;
 	}
 
-	public void setMsgBlob(String msgBlob) {
+	public void setMsgBlob(byte[] msgBlob) {
 		this.msgBlob = msgBlob;
 	}
 
-	public String getBizBlob() {
+	@JsonSerialize(using = CustomJsonSerializer.ByteArraySerializer.class)
+	public byte[] getBizBlob() {
 		return bizBlob;
 	}
 
-	public void setBizBlob(String bizBlob) {
+	public void setBizBlob(byte[] bizBlob) {
 		this.bizBlob = bizBlob;
 	}
 

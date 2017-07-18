@@ -1,10 +1,12 @@
 package online.zhaopei.myproject.mapper.ecssent;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.type.JdbcType;
 
 import online.zhaopei.myproject.domain.ecssent.DxpReceMsg;
 import online.zhaopei.myproject.sqlprovide.ecssent.DxpReceMsgSqlProvide;
