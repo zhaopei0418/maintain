@@ -31,6 +31,7 @@ import online.zhaopei.myproject.domain.gjpayment.PaymentMessage;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 import online.zhaopei.myproject.service.ecssent.ServerSystemService;
 import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
+import online.zhaopei.myproject.service.gjent.PersonalInfoService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
 import online.zhaopei.myproject.service.para.SyncPaymentInfoService;
 
@@ -50,6 +51,9 @@ public class ScheduledTaskConfig {
 
 	@Autowired
 	private InvtHeadService invtHeadService;
+	
+	@Autowired
+	private PersonalInfoService personalInfoService;
 	
 	@Autowired
 	private ServerSystemService serverSystemService;
@@ -73,6 +77,14 @@ public class ScheduledTaskConfig {
 		}
 	}
 
+	/**
+	 * 每隔1小时间清空一下没有认证的身份信息，重新认证
+	 */
+//	@Scheduled(cron = "0 0 */1 * * *")
+	public void clearErrorCount() throws Exception {
+		this.personalInfoService.clearErrorCount();
+	}
+	
 	@Scheduled(cron = "0 0 */2 * * *")
 	public void modifyInvtStatus() throws Exception {
 		List<String> headGuidList = this.invtHeadService.getReleaseBackStaggeredInvtList();

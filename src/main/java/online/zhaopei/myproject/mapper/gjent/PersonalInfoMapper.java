@@ -48,4 +48,7 @@ public interface PersonalInfoMapper extends Serializable {
 	
 	@UpdateProvider(type = PersonalInfoSqlProvide.class, method = "clearErrorCountSql")
 	Integer clearErrorCount(String uuid);
+	
+	@UpdateProvider(type = PersonalInfoSqlProvide.class, method = "clearErrorCountAllSql")
+	Integer clearErrorCountAll();
 }

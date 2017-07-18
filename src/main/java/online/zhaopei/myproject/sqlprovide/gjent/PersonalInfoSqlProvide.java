@@ -88,4 +88,13 @@ public class PersonalInfoSqlProvide implements Serializable {
 			this.WHERE("uuid = '" + uuid + "'");
 		}}.toString();
 	}
+	
+	public String clearErrorCountAllSql() {
+		return new SQL(){{
+			this.UPDATE("personal_info");
+			this.SET("error_count = 0");
+			this.WHERE("is_check = 'N'");
+			this.WHERE("error_count = 3");
+		}}.toString();
+	}
 }
