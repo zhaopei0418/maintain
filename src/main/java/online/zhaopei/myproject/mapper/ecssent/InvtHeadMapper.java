@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
@@ -112,5 +113,8 @@ public interface InvtHeadMapper extends Serializable {
 	List<String> getReleaseBackStaggeredInvtList();
 	
 	@UpdateProvider(type = InvtHeadSqlProvide.class, method = "updateInvtHeadStatusSql")
-	int updateInvtHeadStatus(String headGuid, String status);
+	Integer updateInvtHeadStatus(String headGuid, String status);
+	
+	@UpdateProvider(type = InvtHeadSqlProvide.class, method = "updateInvtStatusAndInvtNoSql")
+	Integer updateInvtStatusAndInvtNo(InvtHead invtHead);
 }

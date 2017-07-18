@@ -60,4 +60,9 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 		this.invtHeadMapper.updateInvtHeadStatus(headGuid, status);
 	}
 
+	@Override
+	public void updateInvtStatusAndInvtNo(InvtHead invtHead) {
+		this.invtHeadMapper.updateInvtStatusAndInvtNo(invtHead);
+	}
+
 }

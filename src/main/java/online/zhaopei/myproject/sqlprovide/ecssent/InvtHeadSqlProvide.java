@@ -475,4 +475,22 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.WHERE("head_guid = '" + headGuid + "'");
 		}}.toString();
 	}
+	
+	public String updateInvtStatusAndInvtNoSql(final InvtHead invtHead) {
+		return new SQL(){{
+			this.UPDATE("ceb2_invt_head");
+			OracleTool.set(this, "app_status", invtHead.getAppStatus());
+			if (!StringUtils.isEmpty(invtHead.getInvtNo())) {
+				OracleTool.set(this, "invt_no", invtHead.getInvtNo());
+			}
+			if (StringUtils.isEmpty(invtHead.getOrderNo()) && StringUtils.isEmpty(invtHead.getCopNo())
+					&& StringUtils.isEmpty(invtHead.getHeadGuid())) {
+				this.WHERE("1 = 2");
+			} else {
+				OracleTool.where(this, "order_no", invtHead.getOrderNo());
+				OracleTool.where(this, "cop_no", invtHead.getCopNo());
+				OracleTool.where(this, "head_guid", invtHead.getHeadGuid());
+			}
+		}}.toString();
+	}
 }

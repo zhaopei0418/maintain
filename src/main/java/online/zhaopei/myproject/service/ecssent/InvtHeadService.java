@@ -22,4 +22,6 @@ public interface InvtHeadService extends Serializable {
 	List<String> getReleaseBackStaggeredInvtList();
 	
 	void updateInvtHeadStatus(String headGuid, String status);
+	
+	void updateInvtStatusAndInvtNo(InvtHead invtHead);
 }

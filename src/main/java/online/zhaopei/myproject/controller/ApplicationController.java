@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.PageHelper;
 
 import online.zhaopei.myproject.config.ApplicationProp;
+import online.zhaopei.myproject.constant.InvtHeadConstant;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.ecssent.ServerSystem;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
@@ -122,6 +123,19 @@ public class ApplicationController implements Serializable {
 				}
 			}
 		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("/modifyInvt")
+	public ModelAndView modifyInvt(InvtHead invtHead) {
+		ModelAndView mv = new ModelAndView("invts/modify_invt");
+		
+		if (null != invtHead && StringUtils.isNotEmpty(invtHead.getAppStatus())) {
+			this.invtHeadService.updateInvtStatusAndInvtNo(invtHead);
+			mv.addObject("result", true);
+		}
+		mv.addObject("appStatus", InvtHeadConstant.getAPP_STATUS_MAP());
 		
 		return mv;
 	}
