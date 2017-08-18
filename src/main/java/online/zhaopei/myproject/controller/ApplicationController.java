@@ -90,7 +90,7 @@ public class ApplicationController implements Serializable {
 	}
 	
 	@RequestMapping("/reissue")
-	public ModelAndView reissue(String invtNo) {
+	public ModelAndView reissue(String invtNo, String distNo) {
 		ModelAndView mv = new ModelAndView("invts/reissue");
 		String[] invtNos = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -99,8 +99,28 @@ public class ApplicationController implements Serializable {
 		File reissueTmpFile = null;
 		File reissueFile = null;
 		PrintWriter reissuePw = null;
-		if (!StringUtils.isEmpty(invtNo)) {
-			try {
+		InvtHead invtHead = null;
+		List<InvtHead> invtHeadList = null;
+		try {
+			if (StringUtils.isNotEmpty(distNo)) {
+				invtHead = new InvtHead();
+				invtHead.setDistNo(distNo);
+				invtHead.setCusStatus("00");
+				invtHeadList = this.invtHeadService.getInvtHeadList(invtHead);
+				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + suffix;
+				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
+				reissueFile = new File(this.app.getReissueDir() + reissueFileName);
+				reissuePw = new PrintWriter(reissueTmpFile);
+				for (InvtHead ih : invtHeadList) {
+					reissuePw.println(ih.getInvtNo());
+				}
+				reissuePw.flush();
+				reissuePw.close();
+				reissuePw = null;
+				FileUtils.copyFile(reissueTmpFile, reissueFile);
+				reissueTmpFile.delete();
+				mv.addObject("result", true);
+			} else if (StringUtils.isNotEmpty(invtNo)) {
 				invtNos = invtNo.trim().split(",");
 				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + suffix;
 				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
@@ -115,12 +135,12 @@ public class ApplicationController implements Serializable {
 				FileUtils.copyFile(reissueTmpFile, reissueFile);
 				reissueTmpFile.delete();
 				mv.addObject("result", true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (null != reissuePw) {
-					reissuePw.close();
-				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (null != reissuePw) {
+				reissuePw.close();
 			}
 		}
 		
