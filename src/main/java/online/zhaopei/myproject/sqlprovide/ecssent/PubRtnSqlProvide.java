@@ -34,4 +34,12 @@ public class PubRtnSqlProvide implements Serializable {
 			this.ORDER_BY("sys_date desc");
 		}}.toString();
 	}
+	
+	public String countPubRtnByBizGuidSql(final String bizGuid) {
+		return new SQL() {{
+			this.SELECT("count(1)");
+			this.FROM("ceb2_pub_rtn");
+			this.WHERE("biz_guid = '" + bizGuid + "'");
+		}}.toString();
+	}
 }

@@ -24,4 +24,8 @@ public interface InvtHeadService extends Serializable {
 	void updateInvtHeadStatus(String headGuid, String status);
 	
 	void updateInvtStatusAndInvtNo(InvtHead invtHead);
+	
+	void deleteInvtHeadByHeadGuid(String headGuid);
+	
+	List<InvtHead> getInvtHeadListByRepeatInvtNo();
 }

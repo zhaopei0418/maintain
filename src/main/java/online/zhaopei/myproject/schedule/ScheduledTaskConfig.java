@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import online.zhaopei.myproject.common.tool.PaymentTool;
 import online.zhaopei.myproject.config.ApplicationProp;
+import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
 import online.zhaopei.myproject.domain.gjpayment.BodyMasterCiq;
 import online.zhaopei.myproject.domain.gjpayment.CbecMessage;
@@ -23,6 +24,7 @@ import online.zhaopei.myproject.domain.gjpayment.MessageBodyCiq;
 import online.zhaopei.myproject.domain.gjpayment.MessageHeadCiq;
 import online.zhaopei.myproject.domain.gjpayment.PaymentMessage;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
+import online.zhaopei.myproject.service.ecssent.PubRtnService;
 import online.zhaopei.myproject.service.ecssent.ServerSystemService;
 import online.zhaopei.myproject.service.ecssent.VeHeadService;
 import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
@@ -60,6 +62,9 @@ public class ScheduledTaskConfig {
 	private VeHeadService veHeadService;
 	
 	@Autowired
+	private PubRtnService pubRtnService;
+	
+	@Autowired
 	private ApplicationProp app;
 
 	@Scheduled(cron = "0 0 1 * * *")
@@ -81,6 +86,21 @@ public class ScheduledTaskConfig {
 //	@Scheduled(cron = "0 0 */1 * * *")
 	public void clearErrorCount() throws Exception {
 		this.personalInfoService.clearErrorCount();
+	}
+	
+	/**
+	 * 每隔五分钟清空一下重复的清单号的清单
+	 */
+	@Scheduled(fixedDelay = 600000)
+	public void deleteRepeatInvtNo() throws Exception {
+		List<InvtHead> invtHeadList = this.invtHeadService.getInvtHeadListByRepeatInvtNo();
+		if (null != invtHeadList && !invtHeadList.isEmpty()) {
+			for (InvtHead ih : invtHeadList) {
+				if (0 == this.pubRtnService.countPubRtnByBizGuid(ih.getHeadGuid())) {
+					this.invtHeadService.deleteInvtHeadByHeadGuid(ih.getHeadGuid());
+				}
+			}
+		}
 	}
 	
 	@Scheduled(cron = "0 0 */2 * * *")

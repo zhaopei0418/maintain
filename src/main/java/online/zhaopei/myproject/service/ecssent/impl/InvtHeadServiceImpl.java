@@ -65,4 +65,14 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 		this.invtHeadMapper.updateInvtStatusAndInvtNo(invtHead);
 	}
 
+	@Override
+	public void deleteInvtHeadByHeadGuid(String headGuid) {
+		this.invtHeadMapper.deleteInvtHeadByHeadGuid(headGuid);
+	}
+
+	@Override
+	public List<InvtHead> getInvtHeadListByRepeatInvtNo() {
+		return this.invtHeadMapper.getInvtHeadListByRepeatInvtNo();
+	}
+
 }

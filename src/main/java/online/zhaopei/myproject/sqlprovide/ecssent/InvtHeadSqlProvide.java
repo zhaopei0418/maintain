@@ -493,4 +493,19 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+	
+	public String getInvtHeadListByRepeatInvtNoSql() {
+		return new SQL() {{
+			this.SELECT("head_guid");
+			this.FROM("ceb2_invt_head");
+			this.WHERE("invt_no in (SELECT invt_no FROM ceb2_invt_head WHERE (invt_no is not null AND app_status = '800') GROUP BY invt_no HAVING (count(1) > 1))");
+		}}.toString();
+	}
+	
+	public String deleteInvtHeadByHeadGuidSql(final String headGuid) {
+		return new SQL() {{
+			this.DELETE_FROM("ceb2_invt_head");
+			this.WHERE("head_guid = '" + headGuid + "'");
+		}}.toString();
+	}
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.type.JdbcType;
@@ -29,4 +30,8 @@ public interface PubRtnMapper extends Serializable {
 	})
 	@SelectProvider(type = PubRtnSqlProvide.class, method = "getPubRtnListByBizGuidSql")
 	List<PubRtn> getPubRtnListByBizGuid(String bizGuid);
+	
+	@ResultType(Long.class)
+	@SelectProvider(type = PubRtnSqlProvide.class, method = "countPubRtnByBizGuidSql")
+	Long countPubRtnByBizGuid(String bizGuid);
 }

@@ -3,6 +3,7 @@ package online.zhaopei.myproject.mapper.ecssent;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -98,12 +99,19 @@ public interface InvtHeadMapper extends Serializable {
 	InvtHead getInvtHeadByInvtNo(String invtNo);
 	
 	@ResultMap("invtHeadResult")
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadListByRepeatInvtNoSql")
+	List<InvtHead> getInvtHeadListByRepeatInvtNo();
+	
+	@ResultMap("invtHeadResult")
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getDeclareTopTenSql")
 	List<InvtHead> getDeclareTopTen(InvtHead invtHead);
 	
 	@ResultType(Long.class)
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadCountSql")
 	Long getInvtHeadCount(String countType);
+	
+	@DeleteProvider(type = InvtHeadSqlProvide.class, method = "deleteInvtHeadByHeadGuidSql")
+	Integer deleteInvtHeadByHeadGuid(String headGuid);
 	
 	@ResultMap("invtHeadResult")
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtHeadMonthCountSql")

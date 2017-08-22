@@ -27,4 +27,9 @@ public class PubRtnServiceImpl implements PubRtnService {
 		return this.pubRtnMapper.getPubRtnListByBizGuid(bizGuid);
 	}
 
+	@Override
+	public Long countPubRtnByBizGuid(String bizGuid) {
+		return this.pubRtnMapper.countPubRtnByBizGuid(bizGuid);
+	}
+
 }
