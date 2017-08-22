@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import online.zhaopei.myproject.domain.ecssent.VeHead;
 import online.zhaopei.myproject.sqlprovide.ecssent.VeHeadSqlProvide;
@@ -61,4 +62,7 @@ public interface VeHeadMapper extends Serializable {
 	@ResultMap("veHeadResult")
 	@SelectProvider(type = VeHeadSqlProvide.class, method = "getVeHeadByVeNoSql")
 	VeHead getVeHeadByVeNo(String veNo);
+	
+	@UpdateProvider(type = VeHeadSqlProvide.class, method = "syncVeENoSql")
+	Integer syncVeENo();
 }

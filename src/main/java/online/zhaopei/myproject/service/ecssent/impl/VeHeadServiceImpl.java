@@ -30,4 +30,9 @@ public class VeHeadServiceImpl implements VeHeadService {
 		return this.veHeadMapper.getVeHeadByVeNo(veNo);
 	}
 
+	@Override
+	public void syncVeENo() {
+		this.veHeadMapper.syncVeENo();
+	}
+
 }

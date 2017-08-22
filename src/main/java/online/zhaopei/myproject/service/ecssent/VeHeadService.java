@@ -10,4 +10,6 @@ public interface VeHeadService extends Serializable {
 	List<VeHead> getVeHeadList(VeHead veHead);
 	
 	VeHead getVeHeadByVeNo(String veNo);
+	
+	void syncVeENo();
 }
