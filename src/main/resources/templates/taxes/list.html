@@ -383,6 +383,7 @@
 					<tr class="headings">
 						<th class="column-title">序号</th>
 						<th class="column-title">税单号</th>
+						<th class="column-title">缴款通知书号</th>
 						<th class="column-title">清单号</th>
 						<th class="column-title">订单号</th>
 						<th class="column-title">运单号</th>
@@ -405,6 +406,7 @@
 					<tr th:each="taxHead,stat : ${taxHeadList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
 						<td th:text="${stat.count}"></td>
 						<td th:text="${taxHead.taxNo}"></td>
+						<td th:text="${taxHead.entDutyNo}"></td>
 						<td th:text="${taxHead.invtNo}"></td>
 						<td th:text="${taxHead.orderNo}"></td>
 						<td th:text="${taxHead.logisticsNo}"></td>
@@ -436,6 +438,7 @@
 					<tr class="headings">
 						<th class="column-title">序号</th>
 						<th class="column-title">税单号</th>
+						<th class="column-title">缴款通知书号</th>
 						<th class="column-title">清单号</th>
 						<th class="column-title">订单号</th>
 						<th class="column-title">运单号</th>
