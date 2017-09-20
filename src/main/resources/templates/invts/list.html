@@ -168,6 +168,10 @@
 				});
 			}
 
+			function reissueInvt(invtNo) {
+			    $.get("/reissue", {"invtNo": invtNo});
+			}
+
 			function exportInvts() {
 				var formObj = $("#invt_form")
 				window.open("/invts/export?" + formObj.serialize());
@@ -483,6 +487,7 @@
 						<th class="column-title">出区状态</th>
 						<th class="column-title">国检状态</th>
 						<th class="column-title">比对入库明细单</th>
+						<th class="column-title">补发此清单</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -557,6 +562,7 @@
 						</td>
 						<td><button class="btn btn-info btn-xs" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.copNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
 						<td><button th:disabled="${'9610' != invtHead.tradeMode}" class="btn btn-info btn-xs" th:onclick="'comparisonDelivery(\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\',\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\')'">比对</button></td>
+						<td><button class="btn btn-info btn-xs" th:onclick="'reissueInvt(\'' + ${invtHead.invtNo} + '\')'">补发</button></td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -577,6 +583,7 @@
 						<th class="column-title">出区状态</th>
 						<th class="column-title">国检状态</th>
 						<th class="column-title">比对入库明细单</th>
+						<th class="column-title">补发此清单</th>
 					</tr>
 				</tfoot>
 			</table>
