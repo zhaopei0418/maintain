@@ -157,7 +157,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.SELECT("cih.buyer_name");
 			this.SELECT("cih.buyer_id_number");
 			this.SELECT("cih.cus_status");
-			
+
 			this.FROM("ceb2_invt_head cih");
 			
 			if (!StringUtils.isEmpty(invtHead.getDistinct())) {
@@ -275,6 +275,21 @@ public class InvtHeadSqlProvide implements Serializable {
 			OracleTool.where(this, "cih.buyer_id_number", invtHead.getBuyerIdNumber());
 			if ("00".equals(invtHead.getCusStatus())) {
 				this.WHERE("cih.cus_status is null");
+			} else if ("010".equals(invtHead.getCusStatus())) { //不一致
+				this.WHERE("((cih.cus_status = '26' and cih.app_status != '800')"
+						+ " or (cih.cus_status = '24' and cih.app_status != '500')"
+						+ " or (cih.cus_status = '12' and cih.app_status != '300')"
+						+ " or (cih.cus_status = '23' and cih.app_status != '400')"
+						+ " or (cih.cus_status = '13' and cih.app_status != '100')"
+						+ " or (cih.cus_status = '25' and cih.app_status != '600')"
+						+ " or (cih.cus_status is null and cih.app_status is not null))");
+			} else if ("101".equals(invtHead.getCusStatus())) { //一致
+				this.WHERE("((cih.cus_status = '26' and cih.app_status = '800')"
+						+ " or (cih.cus_status = '24' and cih.app_status = '500')"
+						+ " or (cih.cus_status = '12' and cih.app_status = '300')"
+						+ " or (cih.cus_status = '23' and cih.app_status = '400')"
+						+ " or (cih.cus_status = '13' and cih.app_status = '100')"
+						+ " or (cih.cus_status = '25' and cih.app_status = '600'))");
 			} else {
 				OracleTool.where(this, "cih.cus_status", invtHead.getCusStatus());
 			}
@@ -405,11 +420,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.SELECT("cih.dist_time");
 			
 			this.FROM("ceb2_invt_head cih");
-			
-			if (!StringUtils.isEmpty(invtHead.getDistNo())) {
-				this.INNER_JOIN("pre_dist_bill_list pdbl on pdbl.bill_no = cih.invt_no and pdbl.dist_no = '" + invtHead.getDistNo() + "'");
-			}
-			
+
 			this.LEFT_OUTER_JOIN("imp_invt_head@ggfw_zhengzhou iih on iih.order_no = cih.order_no and iih.ebc_code = cih.ebc_code and iih.logistics_code = cih.logistics_code and iih.logistics_no = cih.logistics_no");
 			this.LEFT_OUTER_JOIN("ceb2_pub_rtn cpr on cpr.biz_guid = cih.head_guid and cpr.rtn_status = cih.app_status left outer join (select tt.biz_guid, tt.rtn_status,max(tt.sys_date) as max_sys_date from ceb2_pub_rtn tt group by tt.biz_guid, tt.rtn_status) tt0 on tt0.biz_guid = cpr.biz_guid and tt0.rtn_status = cpr.rtn_status and tt0.max_sys_date = cpr.sys_date");
 			this.LEFT_OUTER_JOIN("pre_dist_bill_list pdbl on pdbl.bill_no = cih.invt_no left outer join pre_dist_head pdh on pdh.seq_no = pdbl.seq_no");
@@ -438,7 +449,8 @@ public class InvtHeadSqlProvide implements Serializable {
 			OracleTool.where(this, "cih.bill_no", invtHead.getBillNo());
 			OracleTool.where(this, "cih.voyage_no", invtHead.getVoyageNo());
 			OracleTool.where(this, "cih.buyer_telephone", invtHead.getBuyerTelephone());
-			
+			OracleTool.where(this, "pdbl.dist_no", invtHead.getDistNo());
+
 			if (!StringUtils.isEmpty(invtHead.getDeclareStatus())) {
 				if ("1".equals(invtHead.getDeclareStatus())) {
 					this.WHERE("cih.app_status in ('1', '01', '100')");
@@ -506,6 +518,24 @@ public class InvtHeadSqlProvide implements Serializable {
 		return new SQL() {{
 			this.DELETE_FROM("ceb2_invt_head");
 			this.WHERE("head_guid = '" + headGuid + "'");
+		}}.toString();
+	}
+	
+	public String getInvtListSql(String key) {
+		return new SQL() {{
+			this.SELECT("cop_no");
+			this.SELECT("app_status");
+			this.FROM("ceb2_invt_head");
+		}}.toString();
+	}
+
+	public String syncInvtNoStatusSql(String cusStatus, String status) {
+		return new SQL() {{
+			this.UPDATE("ceb2_invt_head cih");
+			this.SET("cih.app_status = '" + status + "'");
+			this.SET("cih.invt_no = (select cmgh.entry_id from check_mail_good_head cmgh where cmgh.logistics_no = cih.logistics_no and cmgh.logistics_code = cih.logistics_code and cmgh.order_no = cih.order_no and cmgh.status = '" + cusStatus + "')");
+			this.WHERE("cih.app_status in ('03', '2')");
+			this.WHERE("cih.cus_status = '" + cusStatus + "'");
 		}}.toString();
 	}
 }

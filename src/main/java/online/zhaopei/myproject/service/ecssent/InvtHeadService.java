@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
+import online.zhaopei.myproject.resource.InvtResource;
 
 public interface InvtHeadService extends Serializable {
 
@@ -28,4 +29,8 @@ public interface InvtHeadService extends Serializable {
 	void deleteInvtHeadByHeadGuid(String headGuid);
 	
 	List<InvtHead> getInvtHeadListByRepeatInvtNo();
+	
+	List<InvtResource> getInvtList(String key);
+
+	void syncInvtNoStatus(String cusStatus, String status);
 }

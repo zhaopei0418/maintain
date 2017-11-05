@@ -22,3 +22,4 @@ WebContent/.idea/
 # Package Files #
 *.war
 *.ear
+*.iml

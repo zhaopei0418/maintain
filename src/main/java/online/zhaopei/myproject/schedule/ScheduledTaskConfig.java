@@ -89,7 +89,7 @@ public class ScheduledTaskConfig {
 	}
 	
 	/**
-	 * 每隔五分钟清空一下重复的清单号的清单
+	 * 每隔10分钟清空一下重复的清单号的清单
 	 */
 	@Scheduled(fixedDelay = 600000)
 	public void deleteRepeatInvtNo() throws Exception {
@@ -101,6 +101,16 @@ public class ScheduledTaskConfig {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 每隔10分钟同步一下企业端的清单状态
+	 * @throws Exception
+	 */
+	@Scheduled(fixedDelay = 600000)
+	public void syncInvtNoStatus() throws Exception {
+		this.invtHeadService.syncInvtNoStatus("26", "800");
+		this.invtHeadService.syncInvtNoStatus("24", "500");
 	}
 	
 	@Scheduled(cron = "0 0 */2 * * *")
@@ -115,7 +125,7 @@ public class ScheduledTaskConfig {
 	}
 	
 	/**
-	 * 每隔五分钟同步一下电子车牌号
+	 * 每隔10分钟同步一下电子车牌号
 	 * @throws Exception
 	 */
 	@Scheduled(fixedDelay = 600000)

@@ -9,11 +9,11 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
+import online.zhaopei.myproject.resource.InvtResource;
 import online.zhaopei.myproject.sqlprovide.ecssent.InvtHeadSqlProvide;
 
 public interface InvtHeadMapper extends Serializable {
@@ -125,4 +125,14 @@ public interface InvtHeadMapper extends Serializable {
 	
 	@UpdateProvider(type = InvtHeadSqlProvide.class, method = "updateInvtStatusAndInvtNoSql")
 	Integer updateInvtStatusAndInvtNo(InvtHead invtHead);
+	
+	@Results(id = "mobileInvt", value = {
+		@Result(property = "copNo", column = "cop_no"),
+		@Result(property = "appStatus", column = "app_status"),
+	})
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getInvtListSql")
+	List<InvtResource> getInvtList(String key);
+
+	@UpdateProvider(type = InvtHeadSqlProvide.class, method = "syncInvtNoStatusSql")
+	Integer syncInvtNoStatus(String cusStatus, String status);
 }

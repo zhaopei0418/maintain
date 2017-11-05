@@ -91,9 +91,10 @@ public class ApplicationController implements Serializable {
 	
 	@RequestMapping("/reissue")
 	public ModelAndView reissue(String invtNo, String distNo) {
+		System.out.println("invtNo=" + invtNo);
 		ModelAndView mv = new ModelAndView("invts/reissue");
 		String[] invtNos = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		String suffix = "BuFaZbq.txt";
 		String reissueFileName = null;
 		File reissueTmpFile = null;
@@ -105,9 +106,9 @@ public class ApplicationController implements Serializable {
 			if (StringUtils.isNotEmpty(distNo)) {
 				invtHead = new InvtHead();
 				invtHead.setDistNo(distNo);
-				invtHead.setCusStatus("00");
+				invtHead.setCusStatus("010");
 				invtHeadList = this.invtHeadService.getInvtHeadList(invtHead);
-				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + suffix;
+				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + "_" + suffix;
 				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
 				reissueFile = new File(this.app.getReissueDir() + reissueFileName);
 				reissuePw = new PrintWriter(reissueTmpFile);
@@ -118,11 +119,10 @@ public class ApplicationController implements Serializable {
 				reissuePw.close();
 				reissuePw = null;
 				FileUtils.copyFile(reissueTmpFile, reissueFile);
-				reissueTmpFile.delete();
 				mv.addObject("result", true);
 			} else if (StringUtils.isNotEmpty(invtNo)) {
 				invtNos = invtNo.trim().split(",");
-				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + suffix;
+				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + "_" + suffix;
 				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
 				reissueFile = new File(this.app.getReissueDir() + reissueFileName);
 				reissuePw = new PrintWriter(reissueTmpFile);
@@ -133,7 +133,6 @@ public class ApplicationController implements Serializable {
 				reissuePw.close();
 				reissuePw = null;
 				FileUtils.copyFile(reissueTmpFile, reissueFile);
-				reissueTmpFile.delete();
 				mv.addObject("result", true);
 			}
 		} catch (Exception e) {

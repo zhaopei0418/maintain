@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.mapper.ecssent.InvtHeadMapper;
+import online.zhaopei.myproject.resource.InvtResource;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 
 @Service
@@ -73,6 +74,16 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 	@Override
 	public List<InvtHead> getInvtHeadListByRepeatInvtNo() {
 		return this.invtHeadMapper.getInvtHeadListByRepeatInvtNo();
+	}
+
+	@Override
+	public List<InvtResource> getInvtList(String key) {
+		return this.invtHeadMapper.getInvtList(key);
+	}
+
+	@Override
+	public void syncInvtNoStatus(String cusStatus, String status) {
+		this.invtHeadMapper.syncInvtNoStatus(cusStatus, status);
 	}
 
 }
