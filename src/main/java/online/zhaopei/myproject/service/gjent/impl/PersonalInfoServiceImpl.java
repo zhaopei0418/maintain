@@ -40,4 +40,9 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
 		this.personalInfoMapper.clearErrorCountAll();
 	}
 
+	@Override
+	public List<PersonalInfo> statisticsPersonalInfo(PersonalInfo personalInfo) {
+		return this.personalInfoMapper.statisticsPersonalInfo(personalInfo);
+	}
+
 }

@@ -97,4 +97,68 @@ public class PersonalInfoSqlProvide implements Serializable {
 			this.WHERE("error_count = 3");
 		}}.toString();
 	}
+
+	public String statisticsPersonalInfoSql(final PersonalInfo personalInfo) {
+		return new SQL() {{
+			StringBuffer sBuffer = new StringBuffer("");
+			this.SELECT("(case when pil11.group_one is null then ioh1.group_one else pil11.group_one end) group_one");
+			if (!StringUtils.isEmpty(personalInfo.getGroupTwo())) {
+				this.SELECT("(case when pil11.group_two is null then ioh1.group_two else pil11.group_two end) group_two");
+			}
+			this.SELECT("pil11.sum_request_num");
+			this.SELECT("pil11.sum_response_num");
+			this.SELECT("pil11.num personal_num");
+			this.SELECT("ioh1.num order_num");
+			sBuffer.append("(select decode(grouping(" + personalInfo.getGroupOne() + "), 1, '总计', " + personalInfo.getGroupOne() + ") group_one,");
+			if (!StringUtils.isEmpty(personalInfo.getGroupTwo())) {
+				sBuffer.append("decode(grouping(" + personalInfo.getGroupTwo() + "), 1, '小计', " + personalInfo.getGroupTwo() + ") group_two,");
+			}
+			sBuffer.append("sum(pil1.request_num) sum_request_num, sum(pil1.response_num) sum_response_num, count(1) num from ");
+			sBuffer.append("(select (length(pil.request_msg) - length(replace(pil.request_msg, 'ROW FSD'))) / length('ROW FSD') request_num,");
+			sBuffer.append("(length(pil.response_msg) - length(replace(pil.response_msg, 'ROW no'))) / length('ROW no') response_num, pil.sys_date from personal_info_log pil) pil1 where 1 = 1");
+			if (!StringUtils.isEmpty(personalInfo.getBeginSysDate())) {
+				sBuffer.append(" and to_char(pil1.sys_date, 'yyyy-mm-dd') >= '" + personalInfo.getBeginSysDate() + "'");
+			}
+			if (!StringUtils.isEmpty(personalInfo.getEndSysDate())) {
+				sBuffer.append(" and to_char(pil1.sys_date, 'yyyy-mm-dd') <= '" + personalInfo.getEndSysDate() + "'");
+			}
+			if (!StringUtils.isEmpty(personalInfo.getSysDateStr())) {
+				sBuffer.append(" and to_char(pil1.sys_date, 'yyyy-mm-dd') = '" + personalInfo.getSysDateStr() + "'");
+			}
+			sBuffer.append(" group by rollup(" + personalInfo.getGroupOne());
+			if (!StringUtils.isEmpty(personalInfo.getGroupTwo())) {
+			    sBuffer.append("," + personalInfo.getGroupTwo());
+			}
+			sBuffer.append(")) pil11 full outer join ");
+			sBuffer.append("(select decode(grouping(" + personalInfo.getGroupOne() + "), 1, '总计', " + personalInfo.getGroupOne() + ") group_one,");
+			if (!StringUtils.isEmpty(personalInfo.getGroupTwo())) {
+				sBuffer.append("decode(grouping(" + personalInfo.getGroupTwo() + "), 1, '小计', " + personalInfo.getGroupTwo() + ") group_two,");
+			}
+			sBuffer.append(" count(1) num from imp_ord_head pil1 where 1 = 1");
+			if (!StringUtils.isEmpty(personalInfo.getBeginSysDate())) {
+				sBuffer.append(" and to_char(pil1.sys_date, 'yyyy-mm-dd') >= '" + personalInfo.getBeginSysDate() + "'");
+			}
+			if (!StringUtils.isEmpty(personalInfo.getEndSysDate())) {
+				sBuffer.append(" and to_char(pil1.sys_date, 'yyyy-mm-dd') <= '" + personalInfo.getEndSysDate() + "'");
+			}
+			if (!StringUtils.isEmpty(personalInfo.getSysDateStr())) {
+				sBuffer.append(" and to_char(pil1.sys_date, 'yyyy-mm-dd') = '" + personalInfo.getSysDateStr() + "'");
+			}
+			sBuffer.append(" group by rollup(" + personalInfo.getGroupOne());
+			if (!StringUtils.isEmpty(personalInfo.getGroupTwo())) {
+				sBuffer.append("," + personalInfo.getGroupTwo());
+			}
+			sBuffer.append(")) ioh1 on ");
+			sBuffer.append(" pil11.group_one = ioh1.group_one ");
+			if (!StringUtils.isEmpty(personalInfo.getGroupTwo())) {
+				sBuffer.append("and pil11.group_two = ioh1.group_two");
+			}
+			this.FROM(sBuffer.toString());
+			if (!StringUtils.isEmpty(personalInfo.getGroupTwo())) {
+				this.ORDER_BY("(case when pil11.group_one is null then ioh1.group_one else pil11.group_one end), (case when pil11.group_two is null then ioh1.group_two else pil11.group_two end)");
+            } else {
+				this.ORDER_BY("(case when pil11.group_one is null then ioh1.group_one else pil11.group_one end)");
+			}
+		}}.toString();
+	}
 }

@@ -26,6 +26,8 @@ public class PersonalInfo extends BaseDomain {
 	private String beginSysDate;
 	
 	private String endSysDate;
+
+	private String sysDateStr;
 	
 	private String authWay;
 	
@@ -56,6 +58,18 @@ public class PersonalInfo extends BaseDomain {
 	private String ebpCode;
 	
 	private String searchText;
+
+	private String groupOne;
+
+	private String groupTwo;
+
+	private Long sumRequestNum;
+
+	private Long sumResponseNum;
+
+	private Long personalNum;
+
+	private Long orderNum;
 
 	public String getUuid() {
 		return uuid;
@@ -233,11 +247,67 @@ public class PersonalInfo extends BaseDomain {
 		this.endSysDate = endSysDate;
 	}
 
+	public String getSysDateStr() {
+		return sysDateStr;
+	}
+
+	public void setSysDateStr(String sysDateStr) {
+		this.sysDateStr = sysDateStr;
+	}
+
 	public String getSearchText() {
 		return searchText;
 	}
 
 	public void setSearchText(String searchText) {
 		this.searchText = searchText;
+	}
+
+	public String getGroupOne() {
+		return groupOne;
+	}
+
+	public void setGroupOne(String groupOne) {
+		this.groupOne = groupOne;
+	}
+
+	public String getGroupTwo() {
+		return groupTwo;
+	}
+
+	public void setGroupTwo(String groupTwo) {
+		this.groupTwo = groupTwo;
+	}
+
+	public Long getSumRequestNum() {
+		return sumRequestNum;
+	}
+
+	public void setSumRequestNum(Long sumRequestNum) {
+		this.sumRequestNum = sumRequestNum;
+	}
+
+	public Long getSumResponseNum() {
+		return sumResponseNum;
+	}
+
+	public void setSumResponseNum(Long sumResponseNum) {
+		this.sumResponseNum = sumResponseNum;
+	}
+
+	public Long getPersonalNum() {
+		return personalNum;
+	}
+
+	public void setPersonalNum(Long personalNum) {
+		this.personalNum = personalNum;
+	}
+
+	public Long getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Long orderNum) {
+		this.orderNum = orderNum;
 	}
 }
