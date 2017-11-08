@@ -534,7 +534,10 @@ public class InvtHeadSqlProvide implements Serializable {
 			this.UPDATE("ceb2_invt_head cih");
 			this.SET("cih.app_status = '" + status + "'");
 			this.SET("cih.invt_no = (select cmgh.entry_id from check_mail_good_head cmgh where cmgh.logistics_no = cih.logistics_no and cmgh.logistics_code = cih.logistics_code and cmgh.order_no = cih.order_no and cmgh.status = '" + cusStatus + "')");
-			this.WHERE("cih.app_status in ('03', '2')");
+			if ("24".equals(cusStatus)) {
+				this.WHERE("cih.trade_mode = '1210'");
+			}
+			this.WHERE("cih.app_status in ('03', '2', '300')");
 			this.WHERE("cih.cus_status = '" + cusStatus + "'");
 		}}.toString();
 	}
