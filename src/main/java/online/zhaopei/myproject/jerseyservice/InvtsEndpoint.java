@@ -32,8 +32,8 @@ import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 
 @Component
 @Path("/v1/invts")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Consumes({MediaType.APPLICATION_JSON + ";charset=UTF-8", MediaType.TEXT_PLAIN + ";charset=UTF-8"})
+@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Api(value = "清单相关接口", produces = "application/json")
 public class InvtsEndpoint {
 

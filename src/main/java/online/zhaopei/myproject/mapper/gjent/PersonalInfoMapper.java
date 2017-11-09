@@ -61,4 +61,8 @@ public interface PersonalInfoMapper extends Serializable {
     @ResultMap("personalInfoResult")
     @SelectProvider(type = PersonalInfoSqlProvide.class, method = "statisticsPersonalInfoSql")
     List<PersonalInfo> statisticsPersonalInfo(PersonalInfo personalInfo);
+
+    @ResultMap("personalInfoResult")
+    @SelectProvider(type = PersonalInfoSqlProvide.class, method = "getPersonalInfoByNameCertIdSql")
+    PersonalInfo getPersonalInfoByNameCertId(String name, String certId);
 }

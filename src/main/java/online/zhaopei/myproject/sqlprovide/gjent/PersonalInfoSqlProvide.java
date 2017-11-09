@@ -23,6 +23,16 @@ public class PersonalInfoSqlProvide implements Serializable {
 			this.WHERE("certid = #{id}");
 		}}.toString();
 	}
+
+	public String getPersonalInfoByNameCertIdSql(final String name, String certId) {
+		return new SQL() {{
+			this.SELECT("checkmark");
+			this.SELECT("checkflag");
+			this.FROM("personal_info");
+			OracleTool.where(this, "pername", name);
+			OracleTool.where(this, "certid", certId);
+		}}.toString();
+	}
 	
 	public String getPersonalInfoListSql(final PersonalInfo personalInfo) {
 		return new SQL() {{

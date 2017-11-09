@@ -45,4 +45,9 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
 		return this.personalInfoMapper.statisticsPersonalInfo(personalInfo);
 	}
 
+	@Override
+	public PersonalInfo getPersonalInfoByNameCertId(String name, String certId) {
+		return this.personalInfoMapper.getPersonalInfoByNameCertId(name, certId);
+	}
+
 }

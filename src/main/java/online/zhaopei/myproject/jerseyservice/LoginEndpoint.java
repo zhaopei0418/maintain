@@ -20,11 +20,11 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import online.zhaopei.myproject.resource.ResultResource;
 
-@Component
-@Path("/v1/login")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-@Api(value = "用户登录接口", produces = "application/json")
+//@Component
+//@Path("/v1/login")
+//@Consumes(MediaType.APPLICATION_JSON)
+//@Produces(MediaType.APPLICATION_JSON)
+//@Api(value = "用户登录接口", produces = "application/json")
 public class LoginEndpoint {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginEndpoint.class);

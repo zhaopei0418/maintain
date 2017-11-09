@@ -3,6 +3,7 @@ package online.zhaopei.myproject.config;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.ApplicationPath;
 
+import online.zhaopei.myproject.jerseyservice.PersonalEndpoint;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ public class JerseyConfig extends ResourceConfig {
 	private void registerEndpoints() {
 		this.register(LoginEndpoint.class);
 		this.register(InvtsEndpoint.class);
+		this.register(PersonalEndpoint.class);
 	}
 
 	private void configureSwagger() {

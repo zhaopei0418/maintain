@@ -16,4 +16,6 @@ public interface PersonalInfoService extends Serializable {
 	void clearErrorCount();
 
 	List<PersonalInfo> statisticsPersonalInfo(PersonalInfo personalInfo);
+
+	PersonalInfo getPersonalInfoByNameCertId(String name, String certId);
 }
