@@ -199,6 +199,10 @@ public class InvtHead extends BaseDomain {
 	private Date distTime;
 	
 	private String cusStatus;
+
+	private String searchCompanyCode;
+
+	private String exactOrderNo;
 	
 	public String getHeadGuid() {
 		return headGuid;
@@ -939,5 +943,21 @@ public class InvtHead extends BaseDomain {
 
 	public void setCusStatus(String cusStatus) {
 		this.cusStatus = cusStatus;
+	}
+
+	public String getSearchCompanyCode() {
+		return searchCompanyCode;
+	}
+
+	public void setSearchCompanyCode(String searchCompanyCode) {
+		this.searchCompanyCode = searchCompanyCode;
+	}
+
+	public String getExactOrderNo() {
+		return exactOrderNo;
+	}
+
+	public void setExactOrderNo(String exactOrderNo) {
+		this.exactOrderNo = exactOrderNo;
 	}
 }

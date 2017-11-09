@@ -184,7 +184,8 @@ public class InvtHeadSqlProvide implements Serializable {
 				this.OR().WHERE("cih.customs_code like '%" + invtHead.getSearchText() + "%'");
 				this.OR().WHERE("cih.trade_mode like '%" + invtHead.getSearchText() + "%'");
 			}
-			
+
+
 			if (!StringUtils.isEmpty(invtHead.getHeadGuid())) {
 				this.WHERE("cih.head_guid = '" + invtHead.getHeadGuid() + "'");
 			}
@@ -311,7 +312,18 @@ public class InvtHeadSqlProvide implements Serializable {
 				stringBufferIn.append(")");
 				this.WHERE("cih.cop_no in " + stringBufferIn.toString());
 			}
-			
+
+			OracleTool.where(this, "order_no", invtHead.getExactOrderNo());
+			OracleTool.where(this, "ebp_code", invtHead.getEbpCode());
+
+			if (!StringUtils.isEmpty(invtHead.getSearchCompanyCode())) {
+			    StringBuffer strBuffer = new StringBuffer();
+			    strBuffer.append("(cih.ebc_code = '" + invtHead.getSearchCompanyCode() + "'");
+			    strBuffer.append(" or cih.agent_code = '" + invtHead.getSearchCompanyCode() + "'");
+			    strBuffer.append(" or cih.logistics_code = '" + invtHead.getSearchCompanyCode() + "')");
+				this.WHERE(strBuffer.toString());
+			}
+
 		}}.toString();
 	}
 	

@@ -30,4 +30,9 @@ public class UserUserServiceImpl implements UserUserService {
 		return this.userUserMapper.getUserByUserId(userId);
 	}
 
+	@Override
+	public Integer countUserByLoginNameAndPassword(String loginName, String password) {
+		return this.userUserMapper.countUserByLoginNameAndPassword(loginName, password);
+	}
+
 }

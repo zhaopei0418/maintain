@@ -19,4 +19,13 @@ public class InvtHeadSqlProvideTest {
 		System.out.println(ihsp.syncInvtNoStatusSql("24", "500"));
 	}
 
+	@Test
+	public void testGetInvtHeadListSql() {
+		InvtHeadSqlProvide ihsp = new InvtHeadSqlProvide();
+		InvtHead ih = new InvtHead();
+		ih.setSearchCompanyCode("4102");
+		ih.setExactOrderNo("123123");
+		System.out.println(ihsp.getInvtHeadListSql(ih));
+	}
+
 }

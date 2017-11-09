@@ -10,4 +10,6 @@ public interface UserUserService extends Serializable {
 	List<UserUser> getUsers(UserUser user);
 	
 	UserUser getUserByUserId(String userId);
+
+	Integer countUserByLoginNameAndPassword(String loginName, String password);
 }

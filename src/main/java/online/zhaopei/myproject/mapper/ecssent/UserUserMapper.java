@@ -3,10 +3,7 @@ package online.zhaopei.myproject.mapper.ecssent;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import online.zhaopei.myproject.domain.ecssent.UserUser;
 import online.zhaopei.myproject.sqlprovide.ecssent.UserUserSqlProvide;
@@ -24,4 +21,8 @@ public interface UserUserMapper extends Serializable {
 	@ResultMap(value = "userUserResult")
 	@SelectProvider(type = UserUserSqlProvide.class, method = "getUserByUserIdSql")
 	UserUser getUserByUserId(String userId);
+
+	@SelectProvider(type = UserUserSqlProvide.class, method =  "countUserByLoginNameAndPasswordSql")
+	@ResultType(Integer.class)
+	Integer countUserByLoginNameAndPassword(String loginName, String password);
 }

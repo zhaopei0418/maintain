@@ -2,6 +2,7 @@ package online.zhaopei.myproject.sqlprovide.ecssent;
 
 import java.io.Serializable;
 
+import online.zhaopei.myproject.common.tool.OracleTool;
 import org.apache.ibatis.jdbc.SQL;
 
 import com.alibaba.druid.util.StringUtils;
@@ -41,6 +42,15 @@ public class UserUserSqlProvide implements Serializable {
 			this.SELECT("user_id, login_name, user_name");
 			this.FROM("user_user");
 			this.WHERE("user_id = '" + userId + "'");
+		}}.toString();
+	}
+
+	public String countUserByLoginNameAndPasswordSql(final String loginName, final String password) {
+		return new SQL() {{
+			this.SELECT("count(1)");
+			this.FROM("user_user");
+			OracleTool.where(this, "login_name", loginName);
+			OracleTool.where(this, "password", password);
 		}}.toString();
 	}
 }
