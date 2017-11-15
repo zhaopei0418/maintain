@@ -33,4 +33,6 @@ public interface InvtHeadService extends Serializable {
 	List<InvtResource> getInvtList(String key);
 
 	void syncInvtNoStatus(String cusStatus, String status);
+
+	Integer countInvtHead(InvtHead invtHead);
 }

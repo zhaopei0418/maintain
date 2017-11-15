@@ -135,4 +135,8 @@ public interface InvtHeadMapper extends Serializable {
 
 	@UpdateProvider(type = InvtHeadSqlProvide.class, method = "syncInvtNoStatusSql")
 	Integer syncInvtNoStatus(String cusStatus, String status);
+
+	@ResultType(Integer.class)
+	@SelectProvider(type = InvtHeadSqlProvide.class, method = "countInvtHeadSql")
+	Integer countInvtHead(InvtHead invtHead);
 }

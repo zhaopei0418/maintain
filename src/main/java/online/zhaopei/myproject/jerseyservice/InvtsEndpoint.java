@@ -71,13 +71,16 @@ public class InvtsEndpoint {
     public Response isBindDist(@ApiParam(required = true, value = "企业代码") @QueryParam("companyCode") String companyCode,
 							   @ApiParam(required = true, value = "密码") @QueryParam("password") String password,
 							   @ApiParam(value = "电商平台代码") @QueryParam("ebpCode") String ebpCode,
-							   @ApiParam(required = true, value = "订单号") @QueryParam("orderNo") String orderNo) {
+							   @ApiParam(value = "订单号") @QueryParam("orderNo") String orderNo,
+								@ApiParam(value = "运单号") @QueryParam("logisticsNo") String logisticsNo) {
 		DistResource dr = new DistResource();
 		InvtHead ih = null;
+		int ihc = 0;
 		List<InvtHead> ihList = null;
-		if (StringUtils.isEmpty(companyCode) || StringUtils.isEmpty(password) || StringUtils.isEmpty(orderNo)) {
+		if (StringUtils.isEmpty(companyCode) || StringUtils.isEmpty(password)
+				|| (StringUtils.isEmpty(orderNo) && StringUtils.isEmpty(logisticsNo))) {
 			dr.setStatus("2");
-			dr.setInfo("companyCode,password,orderNo均不能为空，请检查参数!");
+			dr.setInfo("companyCode,password,orderNo与logisticsNo不能同时为空,其他均不能为空，请检查参数!");
 		} else {
 		    if (0 == this.userUserService.countUserByLoginNameAndPassword(companyCode, password)) {
 		    	dr.setStatus("2");
@@ -85,21 +88,17 @@ public class InvtsEndpoint {
 			} else {
 		    	ih = new InvtHead();
 		    	ih.setEbpCode(ebpCode);
-		    	ih.setExactOrderNo(orderNo);
+		    	ih.setOrderNo(orderNo);
+		    	ih.setLogisticsNo(logisticsNo);
 		    	ih.setSearchCompanyCode(companyCode);
-		    	ihList = this.invtHeadService.getInvtHeadList(ih);
-		    	if (null == ihList || ihList.isEmpty()) {
-		    		dr.setStatus("2");
-		    		dr.setInfo("没有此企业代码[" + companyCode + "]下此订单号[" + orderNo + "]相关清单!");
+		    	ih.setDistStat("2");
+		    	ihc = this.invtHeadService.countInvtHead(ih);
+		    	if (0 == ihc) {
+					dr.setStatus("0");
+					dr.setInfo("不可以绑");
 				} else {
-		    		ih = ihList.get(0);
-		    		if ("24".equals(ih.getCusStatus()) || "26".equals(ih.getCusStatus())) {
-		    			dr.setStatus("1");
-		    			dr.setInfo("可以绑");
-					} else {
-		    			dr.setStatus("0");
-		    			dr.setInfo("不可以绑");
-					}
+					dr.setStatus("1");
+					dr.setInfo("可以绑");
 				}
 			}
 		}

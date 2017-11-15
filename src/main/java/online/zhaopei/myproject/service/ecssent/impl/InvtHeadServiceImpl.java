@@ -86,4 +86,9 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 		this.invtHeadMapper.syncInvtNoStatus(cusStatus, status);
 	}
 
+	@Override
+	public Integer countInvtHead(InvtHead invtHead) {
+		return this.invtHeadMapper.countInvtHead(invtHead);
+	}
+
 }

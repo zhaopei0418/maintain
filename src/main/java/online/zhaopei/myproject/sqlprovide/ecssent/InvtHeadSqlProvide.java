@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.sun.tools.corba.se.idl.constExpr.Or;
 import org.apache.ibatis.jdbc.SQL;
 
 import com.alibaba.druid.util.StringUtils;
@@ -314,6 +315,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 
 			OracleTool.where(this, "order_no", invtHead.getExactOrderNo());
+			OracleTool.where(this, "logistics_no", invtHead.getExactLogisticsNo());
 			OracleTool.where(this, "ebp_code", invtHead.getEbpCode());
 
 			if (!StringUtils.isEmpty(invtHead.getSearchCompanyCode())) {
@@ -551,6 +553,26 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			this.WHERE("cih.app_status in ('03', '2', '300')");
 			this.WHERE("cih.cus_status = '" + cusStatus + "'");
+		}}.toString();
+	}
+
+	public String countInvtHeadSql(final InvtHead invtHead) {
+		return new SQL(){{
+			this.SELECT("count(1)");
+			this.FROM("ceb2_invt_head");
+			OracleTool.where(this, "ebp_code", invtHead.getEbpCode());
+			OracleTool.where(this, "order_no", invtHead.getOrderNo());
+			OracleTool.where(this, "logistics_no", invtHead.getLogisticsNo());
+			if ("2".equals(invtHead.getDistStat())) {
+				this.WHERE("cus_status in ('24', '26')");
+			}
+			if (!StringUtils.isEmpty(invtHead.getSearchCompanyCode())) {
+				StringBuffer strBuffer = new StringBuffer();
+				strBuffer.append("(ebc_code = '" + invtHead.getSearchCompanyCode() + "'");
+				strBuffer.append(" or agent_code = '" + invtHead.getSearchCompanyCode() + "'");
+				strBuffer.append(" or logistics_code = '" + invtHead.getSearchCompanyCode() + "')");
+				this.WHERE(strBuffer.toString());
+			}
 		}}.toString();
 	}
 }
