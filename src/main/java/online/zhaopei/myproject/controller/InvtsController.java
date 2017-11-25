@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import online.zhaopei.myproject.common.tool.ExportTool;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -547,17 +548,20 @@ public class InvtsController extends BaseController {
 	public ResponseEntity<byte[]> export(InvtHead invtHead) throws IOException {
 		SimpleDateFormat sdfFileName = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		String fileName = "invts_" + sdfFileName.format(Calendar.getInstance().getTime()) + ".csv";
+		String sqlFileName = "export_" + sdfFileName.format(Calendar.getInstance().getTime()) + ".csv";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		headers.setContentDispositionFormData("attachment", fileName);
 		File file = new File("export/" + fileName);
+		File sqlFile = new File("export/" + sqlFileName);
 		PrintWriter writer = null;
-		OutputStream output = null;
-		List<InvtHead> invtHeadList = this.invtHeadService.exportInvtHeadList(invtHead);
+		//List<InvtHead> invtHeadList = this.invtHeadService.exportInvtHeadList(invtHead);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		try {
-			output = new FileOutputStream(file);
+			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sqlFile), "GBK")));
+			writer.println(ExportTool.buildExportSql(invtHead));
+			/*output = new FileOutputStream(file);
 			output.write(CommonConstant.BOM);
 			output.close();
 			
@@ -588,13 +592,17 @@ public class InvtsController extends BaseController {
 				writer.print("," + InvtHeadConstant.getDIST_STATUS_MAP().get(ih.getDistStat()));
 				writer.print("," + (null == ih.getDistTime() ? "" : sdf.format(ih.getDistTime())));
 				writer.println();
-			}
-			writer.flush();
+			}*/
+			writer.close();
+			ExportTool.generateExportFile(0, sqlFile.getAbsolutePath(), file.getAbsolutePath());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			output.close();
-			writer.close();
+		    try {
+				writer.close();
+			} catch (Exception e) {
+		    	e.printStackTrace();
+			}
 		}
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 	}

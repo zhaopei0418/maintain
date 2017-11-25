@@ -36,3 +36,17 @@ bootstrap 地址：http://getbootstrap.com/css/
 ```
 
 用druid配置连接三个数据库
+
+**添加JNI方法**
+## 生成头文件命令
+```
+    javah -jni -classpath  /Users/zhaopei/project/maintain/target/classes -d /Users/zhaopei/project/maintain/jni online.zhaopei.myproject.common.tool.ExportTool
+```
+## 生成mac os动态库命令
+```
+    gcc -I $JAVA_HOME/include -I $JAVA_HOME/include/darwin -dynamiclib -current_version 1.0 -o /Users/zhaopei/project/maintain/lib/libexport.dylib /Users/zhaopei/project/maintain/jni/ExportToolJNI.c
+```
+## 生成windows dll命令
+```
+    gcc -Wl,--add-stdcall-alias -I"%JAVA_HOME%\include" -I"%JAVA_HOME%\include\win32" -shared -o lib/export.dll jni/ExportToolJNI.c
+```

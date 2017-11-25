@@ -64,7 +64,11 @@ public class CheckMailGoodHeadSqlProvide implements Serializable {
 			OracleTool.where(this, "message_time", checkMailGoodHead.getBeginMessageTime(), ">=");
 			OracleTool.where(this, "message_time", checkMailGoodHead.getEndMessageTime(), "<=");
 			OracleTool.where(this, "message_time", checkMailGoodHead.getMessageTimeStr(), "=");
-			OracleTool.where(this, "status", checkMailGoodHead.getStatus());
+			if ("00".equals(checkMailGoodHead.getStatus())) {
+				this.WHERE("status is null");
+			} else {
+				OracleTool.where(this, "status", checkMailGoodHead.getStatus());
+			}
 			OracleTool.where(this, "status_insp", checkMailGoodHead.getStatusInsp());
 			OracleTool.where(this, "customs_code", checkMailGoodHead.getCustomsCode());
 			OracleTool.where(this, "op_type", checkMailGoodHead.getOpType());
