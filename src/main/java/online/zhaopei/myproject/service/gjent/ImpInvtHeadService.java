@@ -12,4 +12,6 @@ public interface ImpInvtHeadService extends Serializable {
 	List<ImpInvtHead> getInvtHeadListByCopNo(String copNo);
 	
 	List<String> getCopNoList(String applyCode);
+
+	List<ImpInvtHead> getInvtHeadListByOrderNoLogisticsNo(String ebcCode, String orderNo, String logisticsCode, String logisticsNo);
 }

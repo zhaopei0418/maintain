@@ -204,6 +204,12 @@ public class InvtsController extends BaseController {
 	public List<ImpInvtHead> getImpInvtHeadListByCopNo(@PathVariable("copNo") String copNo) {
 		 return this.impInvtHeadService.getInvtHeadListByCopNo(copNo);
 	}
+
+	@GetMapping("/getImpInvtHeadListByOrderNoLogisticsNo")
+	@ResponseBody
+	public List<ImpInvtHead> getImpInvtHeadListByOrderNoLogisticsNo(String ebcCode, String orderNo, String logisticsCode, String logisticsNo) {
+		return this.impInvtHeadService.getInvtHeadListByOrderNoLogisticsNo(ebcCode, orderNo, logisticsCode, logisticsNo);
+	}
 	
 	@GetMapping("/getPubRtnListByBizGuid/{bizGuid}")
 	@ResponseBody
@@ -498,7 +504,7 @@ public class InvtsController extends BaseController {
 			this.put("9610", "电子商务");
 		}});
 		return mv;
-	}
+	}
 	
 	@RequestMapping
 	public ModelAndView index(InvtHead invtHead) {

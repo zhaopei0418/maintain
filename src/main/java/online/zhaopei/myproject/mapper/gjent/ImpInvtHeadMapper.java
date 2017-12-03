@@ -33,7 +33,11 @@ public interface ImpInvtHeadMapper extends Serializable {
 	@ResultMap(value = "impInvtHeadResult")
 	@SelectProvider(type = ImpInvtHeadSqlProvide.class, method = "getInvtHeadListByCopNoSql")
 	List<ImpInvtHead> getInvtHeadListByCopNo(String copNo);
-	
+
+	@ResultMap(value = "impInvtHeadResult")
+	@SelectProvider(type = ImpInvtHeadSqlProvide.class, method = "getInvtHeadListByOrderNoLogisticsNoSql")
+	List<ImpInvtHead> getInvtHeadListByOrderNoLogisticsNo(String ebcCode, String orderNo, String logisticsCode, String logisticsNo);
+
 	@ResultType(String.class)
 	@SelectProvider(type = ImpInvtHeadSqlProvide.class, method = "getCopNoListSql")
 	List<String> getCopNoList(String applyCode);

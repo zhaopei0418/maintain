@@ -56,6 +56,27 @@ public class ImpInvtHeadSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+
+	public String getInvtHeadListByOrderNoLogisticsNoSql(final String ebcCode, final String orderNo, final String logisticsCode, final String logisticsNo) {
+		return new SQL(){{
+			this.SELECT("guid");
+			this.SELECT("pre_no");
+			this.SELECT("invt_no");
+			this.SELECT("detailscode");
+			this.SELECT("applycode");
+			this.SELECT("audit_state");
+			this.SELECT("bw_name");
+			this.SELECT("apply_date");
+			this.SELECT("payecode");
+			this.SELECT("payename");
+			this.FROM("imp_invt_head");
+
+			this.WHERE("ebc_code = '" + ebcCode + "'");
+			this.WHERE("order_no = '" + orderNo + "'");
+			this.WHERE("logistics_code = '" + logisticsCode + "'");
+			this.WHERE("logistics_no = '" + logisticsNo + "'");
+		}}.toString();
+	}
 	
 	public String getCopNoListSql(final String applyCode) {
 		return new SQL() {{

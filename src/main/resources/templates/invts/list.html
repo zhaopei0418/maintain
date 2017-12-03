@@ -76,10 +76,11 @@
 				})
 			}
 			
-			function getCiqStatusByCopNo(copNo, copNo, status) {
-				$.getJSON("/invts/getImpInvtHeadListByCopNo/" + copNo, function(data) {
+			function getCiqStatusByCopNo(ebcCode, orderNo, logisticsCode, logisticsNo, status) {
+				$.getJSON("/invts/getImpInvtHeadListByOrderNoLogisticsNo?ebcCode=" + ebcCode +
+					"&orderNo=" + orderNo + "&logisticsCode=" + logisticsCode + "&logisticsNo=" + logisticsNo, function(data) {
 					$("#appStatusModal").modal("show");
-					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
+					$("#appStatusModal .modal-title").text("国检状态[" + orderNo + ":" + logisticsNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
 					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
 					dataHtml += "<th>审批时间</th></thead>";
@@ -560,7 +561,7 @@
 							<span th:case="8" class="btn btn-round btn-success btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
 							<span th:case="*" class="btn btn-round btn-info btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
 						</td>
-						<td><button class="btn btn-info btn-xs" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.copNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
+						<td><button class="btn btn-info btn-xs" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.ebcCode} + '\',\'' + ${invtHead.orderNo} + '\',\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
 						<td><button th:disabled="${'9610' != invtHead.tradeMode}" class="btn btn-info btn-xs" th:onclick="'comparisonDelivery(\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\',\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\')'">比对</button></td>
 						<td><button class="btn btn-info btn-xs" th:onclick="'reissueInvt(\'' + ${invtHead.invtNo} + '\')'">补发</button></td>
 					</tr>
