@@ -498,7 +498,7 @@ public class InvtsController extends BaseController {
 			this.put("9610", "电子商务");
 		}});
 		return mv;
-	}
+	}
 	
 	@RequestMapping
 	public ModelAndView index(InvtHead invtHead) {

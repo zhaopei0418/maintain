@@ -90,7 +90,7 @@ public class ApplicationController implements Serializable {
 	}
 	
 	@RequestMapping("/reissue")
-	public ModelAndView reissue(String invtNo, String distNo) {
+	public ModelAndView reissue(String invtNo, String distNo, String billNo) {
 		System.out.println("invtNo=" + invtNo);
 		ModelAndView mv = new ModelAndView("invts/reissue");
 		String[] invtNos = null;
@@ -103,9 +103,13 @@ public class ApplicationController implements Serializable {
 		InvtHead invtHead = null;
 		List<InvtHead> invtHeadList = null;
 		try {
-			if (StringUtils.isNotEmpty(distNo)) {
+			if (StringUtils.isNotEmpty(distNo) || StringUtils.isNotEmpty(billNo)) {
 				invtHead = new InvtHead();
-				invtHead.setDistNo(distNo);
+				if (StringUtils.isNotEmpty(distNo)) {
+					invtHead.setDistNo(distNo);
+				} else {
+					invtHead.setBillNo(billNo);
+				}
 				invtHead.setCusStatus("010");
 				invtHeadList = this.invtHeadService.getInvtHeadList(invtHead);
 				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + "_" + suffix;
