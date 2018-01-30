@@ -107,10 +107,10 @@ public class ScheduledTaskConfig {
 	 * 每隔10分钟同步一下企业端的清单状态
 	 * @throws Exception
 	 */
-	//@Scheduled(fixedDelay = 600000)
+	@Scheduled(fixedDelay = 600000)
 	public void syncInvtNoStatus() throws Exception {
-		//this.invtHeadService.syncInvtNoStatus("26", "800");
-		//this.invtHeadService.syncInvtNoStatus("24", "500");
+		this.invtHeadService.syncInvtNoStatus("26", "800");
+		this.invtHeadService.syncInvtNoStatus("24", "500");
 	}
 	
 	@Scheduled(cron = "0 0 */2 * * *")

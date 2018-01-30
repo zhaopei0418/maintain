@@ -205,6 +205,8 @@ public class InvtHead extends BaseDomain {
 	private String exactOrderNo;
 
 	private String exactLogisticsNo;
+
+	private String exactInvtNo;
 	
 	public String getHeadGuid() {
 		return headGuid;
@@ -969,5 +971,13 @@ public class InvtHead extends BaseDomain {
 
 	public void setExactLogisticsNo(String exactLogisticsNo) {
 		this.exactLogisticsNo = exactLogisticsNo;
+	}
+
+	public String getExactInvtNo() {
+		return exactInvtNo;
+	}
+
+	public void setExactInvtNo(String exactInvtNo) {
+		this.exactInvtNo = exactInvtNo;
 	}
 }

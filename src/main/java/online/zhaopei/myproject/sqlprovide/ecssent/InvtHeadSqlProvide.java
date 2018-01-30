@@ -314,9 +314,10 @@ public class InvtHeadSqlProvide implements Serializable {
 				this.WHERE("cih.cop_no in " + stringBufferIn.toString());
 			}
 
-			OracleTool.where(this, "order_no", invtHead.getExactOrderNo());
-			OracleTool.where(this, "logistics_no", invtHead.getExactLogisticsNo());
-			OracleTool.where(this, "ebp_code", invtHead.getEbpCode());
+			OracleTool.where(this, "cih.invt_no", invtHead.getExactInvtNo());
+			OracleTool.where(this, "cih.order_no", invtHead.getExactOrderNo());
+			OracleTool.where(this, "cih.logistics_no", invtHead.getExactLogisticsNo());
+			OracleTool.where(this, "cih.ebp_code", invtHead.getEbpCode());
 
 			if (!StringUtils.isEmpty(invtHead.getSearchCompanyCode())) {
 			    StringBuffer strBuffer = new StringBuffer();
@@ -551,7 +552,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			if ("24".equals(cusStatus)) {
 				this.WHERE("cih.trade_mode = '1210'");
 			}
-			this.WHERE("cih.app_status in ('03', '2', '300')");
+			this.WHERE("cih.app_status in ('03', '2', '300', '02')");
 			this.WHERE("cih.cus_status = '" + cusStatus + "'");
 		}}.toString();
 	}

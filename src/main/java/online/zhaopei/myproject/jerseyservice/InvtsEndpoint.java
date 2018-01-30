@@ -1,49 +1,48 @@
 package online.zhaopei.myproject.jerseyservice;
 
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
+import io.swagger.annotations.*;
+import online.zhaopei.myproject.config.ApplicationProp;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.resource.DistResource;
+import online.zhaopei.myproject.resource.InvtResource;
+import online.zhaopei.myproject.resource.ReissueResource;
+import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 import online.zhaopei.myproject.service.ecssent.UserUserService;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.github.pagehelper.PageHelper;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import online.zhaopei.myproject.resource.InvtResource;
-import online.zhaopei.myproject.service.ecssent.InvtHeadService;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Component
 @Path("/v1/invts")
-@Consumes({MediaType.APPLICATION_JSON + ";charset=UTF-8", MediaType.TEXT_PLAIN + ";charset=UTF-8"})
+@Consumes({MediaType.APPLICATION_JSON + ";charset=UTF-8", MediaType.TEXT_PLAIN + ";charset=UTF-8",
+MediaType.APPLICATION_FORM_URLENCODED + ";charset=UTF-8", MediaType.MULTIPART_FORM_DATA + ";charset=UTF-8"})
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Api(value = "清单相关接口", produces = "application/json")
 public class InvtsEndpoint {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(InvtsEndpoint.class);
+	private static final Log LOGGER = LogFactory.getLog(InvtsEndpoint.class);
 
 	@Autowired
 	private InvtHeadService invtHeadService;
 
 	@Autowired
 	private UserUserService userUserService;
+
+	@Autowired
+	private ApplicationProp app;
 	
 	/**@GET					//JAX-RS Annotation
 	@ApiOperation(				//Swagger Annotation
@@ -102,6 +101,98 @@ public class InvtsEndpoint {
 				}
 			}
 		}
-		return Response.ok(dr).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(dr).build();
+	}
+
+	@GET
+    @Path("getInvtDetail")
+	@ApiOperation(
+			value = "查看清单状态",
+			response = InvtResource.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "成功", response = InvtResource.class),
+			@ApiResponse(code = 500, message = "服务器出错")})
+	public Response getInvtDetail(@ApiParam("订单号") @QueryParam("orderNo") String orderNo,
+								  @ApiParam("清单号") @QueryParam("invtNo") String invtNo,
+								  @ApiParam("核放单号") @QueryParam("distNo") String distNo) {
+		return Response.ok(getInvtResource(orderNo, invtNo, distNo, true)).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	private List<InvtResource> getInvtResource(String orderNo, String invtNo, String distNo, boolean consistent) {
+		List<InvtResource> invtList = new ArrayList<InvtResource>();
+		InvtResource invtResource = null;
+		InvtHead ih = null;
+		List<InvtHead> ihList = null;
+		if (StringUtils.isNotEmpty(orderNo) || StringUtils.isNotEmpty(invtNo)
+				|| StringUtils.isNotEmpty(distNo)) {
+			ih = new InvtHead();
+			ih.setExactOrderNo(orderNo);
+			ih.setExactInvtNo(invtNo);
+			ih.setDistNo(distNo);
+			if (!consistent) {
+				ih.setCusStatus("010");
+			}
+			ihList = invtHeadService.getInvtHeadList(ih);
+			if (null != ihList && !ihList.isEmpty()) {
+				for (InvtHead tih : ihList) {
+					invtResource = new InvtResource();
+					invtResource.setAppStatus(tih.getAppStatus());
+					invtResource.setCopNo(tih.getCopNo());
+					invtResource.setCusStatus(tih.getCusStatus());
+					invtResource.setInvtNo(tih.getInvtNo());
+					invtResource.setOrderNo(tih.getOrderNo());
+					invtList.add(invtResource);
+				}
+			}
+		}
+		return invtList;
+	}
+
+	@POST
+	@Path("reissue")
+	@ApiOperation(
+			value = "补发清单",
+			response = ReissueResource.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "成功", response = ReissueResource.class),
+			@ApiResponse(code = 500, message = "服务器出错")})
+	public Response reissue(@ApiParam("订单号") @FormParam("orderNo") String orderNo,
+								  @ApiParam("清单号") @FormParam("invtNo") String invtNo,
+								  @ApiParam("核放单号") @FormParam("distNo") String distNo) {
+		int count = 0;
+		LOGGER.info("orderNo=[" + orderNo + "] invtNo=[" + invtNo + "] distNo=[" + distNo + "]");
+		ReissueResource reissueResource = new ReissueResource();
+		List<InvtResource> invtList = getInvtResource(orderNo, invtNo, distNo, false);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		String suffix = "BuFaZbq.txt";
+		String reissueFileName = null;
+		File reissueTmpFile = null;
+		File reissueFile = null;
+		PrintWriter reissuePw = null;
+		if (null != invtList && !invtList.isEmpty()) {
+			try {
+				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + "_" + suffix;
+				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
+				reissueFile = new File(this.app.getReissueDir() + reissueFileName);
+				reissuePw = new PrintWriter(reissueTmpFile);
+				LOGGER.info("开始写文件");
+				for (InvtResource ir : invtList) {
+					reissuePw.println(ir.getInvtNo());
+				}
+				reissuePw.flush();
+				reissuePw.close();
+				reissuePw = null;
+				FileUtils.copyFile(reissueTmpFile, reissueFile);
+				count++;
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (null != reissuePw) {
+					reissuePw.close();
+				}
+			}
+		}
+		reissueResource.setReissueAmount(count);
+		return Response.ok(reissueResource).header("Access-Control-Allow-Origin", "*").build();
 	}
 }
