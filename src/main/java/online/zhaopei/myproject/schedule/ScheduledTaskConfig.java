@@ -211,6 +211,9 @@ public class ScheduledTaskConfig {
 						cbecMessageCiq.setMessageBody(messageBodyCiq);
 
 						PaymentTool.generateCbecMessageCiq(cbecMessageCiq, this.app.getCiqDir(), this.app.getBackDir());
+						bodyMasterCiq.setPayEnterpriseCode("4100300536");
+						bodyMasterCiq.setCoinInsp("156");
+						PaymentTool.generateCbecMessageCiq(cbecMessageCiq, this.app.getUnifiedCiqDir(), this.app.getUnifiedBackDir());
 
 						searchImpPayHead = new ImpPayHead(insertImpPayHead.getPayCode(),
 								insertImpPayHead.getPayTransactionId());

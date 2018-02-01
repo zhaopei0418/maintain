@@ -115,7 +115,7 @@ public class InvtsEndpoint {
 	public Response getInvtDetail(@ApiParam("订单号") @QueryParam("orderNo") String orderNo,
 								  @ApiParam("清单号") @QueryParam("invtNo") String invtNo,
 								  @ApiParam("核放单号") @QueryParam("distNo") String distNo) {
-		return Response.ok(getInvtResource(orderNo, invtNo, distNo, true)).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(getInvtResource(orderNo, invtNo, distNo, true)).build();
 	}
 
 	private List<InvtResource> getInvtResource(String orderNo, String invtNo, String distNo, boolean consistent) {
@@ -160,7 +160,7 @@ public class InvtsEndpoint {
 								  @ApiParam("清单号") @FormParam("invtNo") String invtNo,
 								  @ApiParam("核放单号") @FormParam("distNo") String distNo) {
 		int count = 0;
-		LOGGER.info("orderNo=[" + orderNo + "] invtNo=[" + invtNo + "] distNo=[" + distNo + "]");
+		LOGGER.info("reissue[]orderNo=[" + orderNo + "] invtNo=[" + invtNo + "] distNo=[" + distNo + "]");
 		ReissueResource reissueResource = new ReissueResource();
 		List<InvtResource> invtList = getInvtResource(orderNo, invtNo, distNo, false);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
@@ -183,7 +183,7 @@ public class InvtsEndpoint {
 				reissuePw.close();
 				reissuePw = null;
 				FileUtils.copyFile(reissueTmpFile, reissueFile);
-				count++;
+				count = invtList.size();
 			} catch(Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -193,6 +193,28 @@ public class InvtsEndpoint {
 			}
 		}
 		reissueResource.setReissueAmount(count);
-		return Response.ok(reissueResource).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(reissueResource).build();
+	}
+
+	@GET
+	@Path("countReissue")
+	@ApiOperation(
+			value = "统计需要补发清单个数",
+			response = ReissueResource.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "成功", response = ReissueResource.class),
+			@ApiResponse(code = 500, message = "服务器出错")})
+	public Response countReissue(@ApiParam("订单号") @QueryParam("orderNo") String orderNo,
+							@ApiParam("清单号") @QueryParam("invtNo") String invtNo,
+							@ApiParam("核放单号") @QueryParam("distNo") String distNo) {
+		int count = 0;
+		LOGGER.info("countReissue[]orderNo=[" + orderNo + "] invtNo=[" + invtNo + "] distNo=[" + distNo + "]");
+		ReissueResource reissueResource = new ReissueResource();
+		List<InvtResource> invtList = getInvtResource(orderNo, invtNo, distNo, false);
+		if (null != invtList && !invtList.isEmpty()) {
+			count = invtList.size();
+		}
+		reissueResource.setReissueAmount(count);
+		return Response.ok(reissueResource).build();
 	}
 }

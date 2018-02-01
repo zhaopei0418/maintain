@@ -40,14 +40,16 @@ public final class JAXBTool {
 	public static <T> String buildXml(Class<T> clazz, Object obj) {
 		return buildXml(clazz, obj, true, "UTF-8", true, true);
 	}
-	
-	public static <T> String buildXml(Class<T> clazz, Object obj, boolean isFormatted, String charset, boolean isFragment, boolean isEscape) {
+
+	public static <T> Marshaller getMarshaller(Class<T> clazz, boolean isFormatted, String charset, boolean isFragment, boolean isEscape) {
+		JAXBContext jc = null;
+		Marshaller m = null;
 		try {
-			JAXBContext jc = JAXBContext.newInstance(clazz);
-			Marshaller m = jc.createMarshaller();
+			jc = JAXBContext.newInstance(clazz);
+			m = jc.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, isFormatted);
 			m.setProperty(Marshaller.JAXB_ENCODING, charset);
-			m.setProperty(Marshaller.JAXB_FRAGMENT, isFormatted);
+			m.setProperty(Marshaller.JAXB_FRAGMENT, isFragment);
 			if (isEscape) {
 				m.setProperty("com.sun.xml.bind.marshaller.CharacterEscapeHandler", new CharacterEscapeHandler() {
 					@Override
@@ -56,6 +58,15 @@ public final class JAXBTool {
 					}
 				});
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return m;
+	}
+
+	public static <T> String buildXml(Class<T> clazz, Object obj, boolean isFormatted, String charset, boolean isFragment, boolean isEscape) {
+		try {
+			Marshaller m = getMarshaller(clazz, isFormatted, charset, isFragment, isEscape);
 			StringWriter writer = new StringWriter();
 			m.marshal(obj, writer);
 			return writer.toString();

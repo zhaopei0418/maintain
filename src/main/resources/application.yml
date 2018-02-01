@@ -115,6 +115,8 @@ logging:
 
 maintain:
   ciqDir: /Users/zhaopei/work/logs/ciq/
+  unifiedCiqDir: /Users/zhaopei/work/logs/unifiedCiq/
   backDir: /Users/zhaopei/work/logs/backCiq/
+  unifiedBackDir: /Users/zhaopei/work/logs/unifiedBackCiq/
   reissueTmpDir: /Users/zhaopei/work/logs/ciq/
   reissueDir: /Users/zhaopei/work/logs/backCiq/

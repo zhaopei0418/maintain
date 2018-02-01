@@ -67,6 +67,6 @@ public class PersonalEndpoint {
             }
         }
 
-        return Response.ok(pr).header("Access-Control-Allow-Origin", "*").build();
+        return Response.ok(pr).build();
     }
 }

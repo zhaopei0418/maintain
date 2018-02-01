@@ -22,6 +22,10 @@ public class ApplicationProp implements Serializable {
 	
 	private String reissueDir;
 
+	private String unifiedCiqDir;
+
+	private String unifiedBackDir;
+
 	public String getCiqDir() {
 		return ciqDir;
 	}
@@ -52,5 +56,21 @@ public class ApplicationProp implements Serializable {
 
 	public void setReissueDir(String reissueDir) {
 		this.reissueDir = reissueDir;
+	}
+
+	public String getUnifiedCiqDir() {
+		return unifiedCiqDir;
+	}
+
+	public void setUnifiedCiqDir(String unifiedCiqDir) {
+		this.unifiedCiqDir = unifiedCiqDir;
+	}
+
+	public String getUnifiedBackDir() {
+		return unifiedBackDir;
+	}
+
+	public void setUnifiedBackDir(String unifiedBackDir) {
+		this.unifiedBackDir = unifiedBackDir;
 	}
 }
