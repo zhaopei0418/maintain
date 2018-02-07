@@ -1,28 +1,10 @@
 package online.zhaopei.myproject.schedule;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-
 import online.zhaopei.myproject.common.tool.PaymentTool;
 import online.zhaopei.myproject.config.ApplicationProp;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
-import online.zhaopei.myproject.domain.gjpayment.BodyMasterCiq;
-import online.zhaopei.myproject.domain.gjpayment.CbecMessage;
-import online.zhaopei.myproject.domain.gjpayment.CbecMessageCiq;
-import online.zhaopei.myproject.domain.gjpayment.MessageBodyCiq;
-import online.zhaopei.myproject.domain.gjpayment.MessageHeadCiq;
-import online.zhaopei.myproject.domain.gjpayment.PaymentMessage;
+import online.zhaopei.myproject.domain.gjpayment.*;
 import online.zhaopei.myproject.service.ecssent.InvtHeadService;
 import online.zhaopei.myproject.service.ecssent.PubRtnService;
 import online.zhaopei.myproject.service.ecssent.ServerSystemService;
@@ -31,6 +13,18 @@ import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
 import online.zhaopei.myproject.service.gjent.PersonalInfoService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
 import online.zhaopei.myproject.service.para.SyncPaymentInfoService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 @Configuration
 @EnableAsync
@@ -128,9 +122,9 @@ public class ScheduledTaskConfig {
 	 * 每隔10分钟同步一下电子车牌号
 	 * @throws Exception
 	 */
-	//@Scheduled(fixedDelay = 600000)
+	@Scheduled(fixedDelay = 600000)
 	public void checkServer() throws Exception {
-//		this.veHeadService.syncVeENo();
+		this.veHeadService.syncVeENo();
 //		List<ServerSystem> serverSystemList = this.serverSystemService.getServerSystemList(new ServerSystem());
 //		String url = null;
 //		Mem mem = null;
@@ -211,9 +205,9 @@ public class ScheduledTaskConfig {
 						cbecMessageCiq.setMessageBody(messageBodyCiq);
 
 						PaymentTool.generateCbecMessageCiq(cbecMessageCiq, this.app.getCiqDir(), this.app.getBackDir());
-						bodyMasterCiq.setPayEnterpriseCode("4100300536");
-						bodyMasterCiq.setCoinInsp("156");
-						PaymentTool.generateCbecMessageCiq(cbecMessageCiq, this.app.getUnifiedCiqDir(), this.app.getUnifiedBackDir());
+						cbecMessage.getMessageBody().getBodyMaster().setPayEnterpriseCode("4100300536");
+						cbecMessage.getMessageBody().getBodyMaster().setMonetaryType("156");
+						PaymentTool.generateCbecMessageCiq(cbecMessage, this.app.getUnifiedCiqDir(), this.app.getUnifiedBackDir());
 
 						searchImpPayHead = new ImpPayHead(insertImpPayHead.getPayCode(),
 								insertImpPayHead.getPayTransactionId());
