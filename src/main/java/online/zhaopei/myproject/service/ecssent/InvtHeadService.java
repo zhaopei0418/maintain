@@ -35,4 +35,6 @@ public interface InvtHeadService extends Serializable {
 	void syncInvtNoStatus(String cusStatus, String status);
 
 	Integer countInvtHead(InvtHead invtHead);
+
+	List<InvtHead> getNonSyncInvtList(String startDate, String endDate);
 }

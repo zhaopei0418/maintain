@@ -576,4 +576,25 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+
+	public String getNonSyncInvtListSql(final String startDate, final String endDate) {
+		return new SQL() {{
+		    StringBuffer sql1 = new StringBuffer("");
+			sql1.append("((cih.app_status = '800' ");
+			sql1.append("and ((cih.customs_code != '4612' and cmgh.seq_no is not null and (cmgh.status is null or cmgh.status != '26'))");
+			sql1.append(" or (cih.customs_code = '4612' and (cih.cus_status is null or cih.cus_status != '26')))");
+			sql1.append(") or ");
+			sql1.append("(cih.app_status = '500' ");
+			sql1.append("and ((cih.customs_code != '4612' and cmgh.seq_no is not null and  (cmgh.status is null or cmgh.status not in ( '24', '26')))");
+			sql1.append(" or (cih.customs_code = '4612' and (cih.cus_status is null or cih.cus_status not in ( '24', '26')))) ))");
+		    this.SELECT("cih.invt_no");
+		    this.FROM("ceb2_invt_head cih");
+		    this.LEFT_OUTER_JOIN("check_mail_good_head cmgh on cih.logistics_code = cmgh.logistics_code and cmgh.logistics_no = cih.logistics_no and cih.invt_no = cmgh.entry_id");
+		    this.WHERE(sql1.toString());
+		    this.WHERE("cih.dist_status != 8");
+		    this.WHERE("to_char(cih.sys_date, 'yyyymmdd') >= '" + startDate + "'");
+		    this.WHERE("to_char(cih.sys_date, 'yyyymmddhh24mi') <= '" + endDate + "'");
+
+		}}.toString();
+	}
 }

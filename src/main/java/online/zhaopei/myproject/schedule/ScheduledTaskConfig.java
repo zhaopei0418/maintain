@@ -13,6 +13,7 @@ import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
 import online.zhaopei.myproject.service.gjent.PersonalInfoService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
 import online.zhaopei.myproject.service.para.SyncPaymentInfoService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +23,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Configuration
 @EnableAsync
@@ -80,6 +83,49 @@ public class ScheduledTaskConfig {
 //	@Scheduled(cron = "0 0 */1 * * *")
 	public void clearErrorCount() throws Exception {
 		this.personalInfoService.clearErrorCount();
+	}
+
+	/**
+	 * 每隔半小时同步一次
+	 * @throws Exception
+	 */
+	@Scheduled(cron = "* */30 * * * *")
+	public void reissueNonSyncInvtList() throws  Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmm");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MINUTE, -30);
+		String endDate = sdf1.format(calendar.getTime());
+		calendar.add(Calendar.DATE, -15);
+		String startDate = sdf2.format(calendar.getTime());
+		List<InvtHead> invtList = this.invtHeadService.getNonSyncInvtList(startDate, endDate);
+		String suffix = "BuFaZbq.txt";
+		String reissueFileName = null;
+		File reissueTmpFile = null;
+		File reissueFile = null;
+		PrintWriter reissuePw = null;
+		if (null != invtList && !invtList.isEmpty()) {
+			try {
+				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + "_" + suffix;
+				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
+				reissueFile = new File(this.app.getReissueDir() + reissueFileName);
+				reissuePw = new PrintWriter(reissueTmpFile);
+				for (InvtHead ih : invtList) {
+					reissuePw.println(ih.getInvtNo());
+				}
+				reissuePw.flush();
+				reissuePw.close();
+				reissuePw = null;
+				FileUtils.copyFile(reissueTmpFile, reissueFile);
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (null != reissuePw) {
+					reissuePw.close();
+				}
+			}
+		}
 	}
 	
 	/**

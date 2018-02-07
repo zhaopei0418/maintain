@@ -91,4 +91,9 @@ public class InvtHeadServiceImpl implements InvtHeadService {
 		return this.invtHeadMapper.countInvtHead(invtHead);
 	}
 
+	@Override
+	public List<InvtHead> getNonSyncInvtList(String startDate, String endDate) {
+		return this.invtHeadMapper.getNonSyncInvtList(startDate, endDate);
+	}
+
 }
