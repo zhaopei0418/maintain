@@ -140,6 +140,7 @@ public interface InvtHeadMapper extends Serializable {
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "countInvtHeadSql")
 	Integer countInvtHead(InvtHead invtHead);
 
+	@ResultMap("invtHeadResult")
 	@SelectProvider(type = InvtHeadSqlProvide.class, method = "getNonSyncInvtListSql")
 	List<InvtHead> getNonSyncInvtList(String startDate, String endDate);
 }

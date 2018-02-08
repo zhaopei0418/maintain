@@ -123,7 +123,7 @@ public class VeHeadSqlProvide implements Serializable {
 			this.UPDATE("pre_ve_head pvh");
 			this.SET("pvh.ve_e_no = (select cvh.ve_e_no from cur_ve_head cvh where pvh.ve_no = cvh.ve_no)");
 			//this.WHERE("exists (select * from cur_ve_head cvh where cvh.ve_no = pvh.ve_no and pvh.ve_e_no is null and cvh.ve_e_no is not null)");
-			this.WHERE("exists (select * from cur_ve_head cvh where cvh.ve_no = pvh.ve_no and pvh.ve_e_no != cvh.ve_e_no)");
+			this.WHERE("exists (select * from cur_ve_head cvh where cvh.ve_no = pvh.ve_no and nvl(pvh.ve_e_no, 0) != nvl(cvh.ve_e_no, 0))");
 		}}.toString();
 	}
 }

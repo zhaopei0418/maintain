@@ -89,7 +89,7 @@ public class ScheduledTaskConfig {
 	 * 每隔半小时同步一次
 	 * @throws Exception
 	 */
-	@Scheduled(cron = "* */30 * * * *")
+	@Scheduled(cron = "0 0/30 * * * *")
 	public void reissueNonSyncInvtList() throws  Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmm");
