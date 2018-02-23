@@ -1,5 +1,6 @@
 package online.zhaopei.myproject.schedule;
 
+import com.github.pagehelper.PageHelper;
 import online.zhaopei.myproject.common.tool.PaymentTool;
 import online.zhaopei.myproject.config.ApplicationProp;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
@@ -99,6 +100,7 @@ public class ScheduledTaskConfig {
 		String endDate = sdf1.format(calendar.getTime());
 		calendar.add(Calendar.DATE, -15);
 		String startDate = sdf2.format(calendar.getTime());
+		PageHelper.startPage(1, 1000);
 		List<InvtHead> invtList = this.invtHeadService.getNonSyncInvtList(startDate, endDate);
 		String suffix = "BuFaZbq.txt";
 		String reissueFileName = null;
