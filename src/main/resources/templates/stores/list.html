@@ -172,6 +172,11 @@
 				// window.location.href = "/stores?" + formObj.serialize();
 				window.open("/stores/export?" + formObj.serialize());
 			}
+
+            function exportexcel() {
+                var formObj = $("#store_form")
+                window.open("/stores/exportexcel?" + formObj.serialize());
+            }
 		</script>
 
 		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
@@ -194,7 +199,8 @@
 				<div class="x_title">
 					<h2>
 						搜索条件
-						<button class="btn btn-round btn-info" onclick="exportstores()">导出</button>
+						<button class="btn btn-round btn-info" onclick="exportstores()">导出CSV</button>
+						<button class="btn btn-round btn-info" onclick="exportexcel()">导出EXCEL</button>
 					</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

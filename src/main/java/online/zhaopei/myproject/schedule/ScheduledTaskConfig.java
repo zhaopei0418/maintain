@@ -68,7 +68,7 @@ public class ScheduledTaskConfig {
 	@Scheduled(cron = "0 0 1 * * *")
 	public void deleteExportFile() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String regex = "^[a-z_]{1,}" + sdf.format(Calendar.getInstance().getTime()) + "[0-9]{9}.csv$";
+		String regex = "^[a-z_]{1,}" + sdf.format(Calendar.getInstance().getTime()) + "[0-9]{9}.[(csv)|(xls)]$";
 		File file = new File("export");
 		if (file.isDirectory()) {
 			File[] children = file.listFiles();

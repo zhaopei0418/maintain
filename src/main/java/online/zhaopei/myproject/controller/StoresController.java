@@ -10,6 +10,8 @@ import online.zhaopei.myproject.service.ecssent.StoreService;
 import online.zhaopei.myproject.service.para.CountryService;
 import online.zhaopei.myproject.service.para.UnitService;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -110,6 +112,84 @@ public class StoresController extends BaseController {
         } finally {
             output.close();
             writer.close();
+        }
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+    }
+
+    @RequestMapping("exportexcel")
+    public ResponseEntity<byte[]> exportexcel(Store store) throws IOException {
+        SimpleDateFormat sdfFileName = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        String prefix = "store_";
+        String fileName = prefix + sdfFileName.format(Calendar.getInstance().getTime()) + ".xls";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", fileName);
+        File file = new File("export/" + fileName);
+        OutputStream output = null;
+        AuthUser currUser = BaseController.getCurrUser();
+        if (!StringUtils.isEmpty(currUser.getMember().getCompanyCode())) {
+            if (null == store) {
+                store = new Store();
+            }
+            store.setAgentCode(currUser.getMember().getCompanyCode());
+        }
+        List<Store> storeList = this.storeService.getStoreList(store);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Workbook wb = new HSSFWorkbook();
+        int sheetCount = 0;
+        Sheet sheet = null;
+        Row row = null;
+        Cell cell = null;
+        Store generateStroe = null;
+        int minLength = 0;
+
+        try {
+            output = new FileOutputStream(file);
+
+            if(null != storeList && !storeList.isEmpty()) {
+                sheetCount = storeList.size() % CommonConstant.XLS_MAX_LINE == 0 ? storeList.size() / CommonConstant.XLS_MAX_LINE :
+                        (storeList.size() / CommonConstant.XLS_MAX_LINE + 1);
+                for(int i = 0; i < sheetCount; i++) {
+                    sheet = wb.createSheet(prefix + i);
+                    minLength = storeList.size() >= (i + 1) * CommonConstant.XLS_MAX_LINE ? CommonConstant.XLS_MAX_LINE :
+                            storeList.size() - i * CommonConstant.XLS_MAX_LINE;
+                    row = sheet.createRow(0);
+                    row.createCell(0).setCellValue("账册号");
+                    row.createCell(1).setCellValue("经营单位");
+                    row.createCell(2).setCellValue("料号");
+                    row.createCell(3).setCellValue("HS编码");
+                    row.createCell(4).setCellValue("商品名称");
+                    row.createCell(5).setCellValue("规格");
+                    row.createCell(6).setCellValue("成交单价");
+                    row.createCell(7).setCellValue("单位");
+                    row.createCell(8).setCellValue("出库");
+                    row.createCell(9).setCellValue("入库");
+                    row.createCell(10).setCellValue("库存");
+                    for(int j = 0; j < minLength; j++) {
+                        generateStroe = storeList.get(i * CommonConstant.XLS_MAX_LINE + j);
+                        row = sheet.createRow(j + 1);
+                        row.createCell(0).setCellValue(generateStroe.getLmsNo());
+                        row.createCell(1).setCellValue(generateStroe.getTradeName());
+                        row.createCell(2).setCellValue(generateStroe.getItemNo());
+                        row.createCell(3).setCellValue(generateStroe.getCodeTs());
+                        row.createCell(4).setCellValue(generateStroe.getgName());
+                        row.createCell(5).setCellValue(generateStroe.getgModel());
+                        row.createCell(5).setCellValue(generateStroe.getDeclPrice());
+                        row.createCell(6).setCellValue(ParaTool.getUnitDesc(generateStroe.getUnit(), this.unitService));
+                        row.createCell(7).setCellValue(generateStroe.getLegalOQty());
+                        row.createCell(8).setCellValue(generateStroe.getLegalIQty());
+                        row.createCell(9).setCellValue(generateStroe.getLegalRemainQty());
+                    }
+                }
+            }
+
+            wb.write(output);
+            output.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            output.close();
         }
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
     }

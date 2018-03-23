@@ -43,6 +43,8 @@ public enum CommonConstant implements Serializable {
 	private static List<String> PIE_COLORS = new ArrayList<String>();
 	
 	public static byte BOM[] = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
+
+	public static int XLS_MAX_LINE = 65535;
 	
 	private String value;
 
