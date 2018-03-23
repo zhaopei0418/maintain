@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>库存管理</title>
+</head>
+<body>
+	<div layout:fragment="header">
+		<div class="title_left">
+			<h3>库存查询</h3>
+		</div>
+		<div class="title_right">
+			<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+				<form action="/stores">
+					<div class="input-group">
+						<input type="text" class="form-control" name="searchText" placeholder="输入关键字...">
+						<span class="input-group-btn">
+							<button class="btn btn-default">搜索</button>
+						</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div layout:fragment="content">
+		<script type="text/javascript">
+			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
+				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
+					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("入库比对结果[" + copNo + "-" + logisticsCode + ":" +
+						logisticsNo + "]");
+					var isPass = false;
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><th>表头序号</th><th>企业内部编号</th><th>航班航次号</th><th>总（提）运单号</th><th>运输方式</th>";
+					dataHtml += "<th>运输工具</th><th>比对结果</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						if (0 == data.length) {
+							$("#appStatusModal .modal-body").html("没有对应的入库明细单");
+						} else {
+							for (var i = 0; i < data.length; i++) {
+								if (0 == i) {
+									dataHtml += "<tr style='background-color: yellow;'>";
+									dataHtml += "<td>" + data[i].storeGuid + "</td>";
+									dataHtml += "<td>" + copNo + "</td>";
+									dataHtml += "<td>" + data[i].invtVoyageNo + "</td>";
+									dataHtml += "<td>" + data[i].invtBillNo + "</td>";
+									dataHtml += "<td>" + data[i].invtTrafMode + "</td>";
+									dataHtml += "<td>" + data[i].invtTrafNo + "</td>";
+									dataHtml += "<td>清单信息</td>";
+									dataHtml += "</tr>";
+								}
+								dataHtml += "<tr>";
+								dataHtml += "<td>" + data[i].deliveryHeadGuid + "</td>";
+								dataHtml += "<td>" + data[i].copNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryVoyageNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryBillNo + "</td>";
+								dataHtml += "<td>" + data[i].deliveryTrafMode + "</td>";
+								dataHtml += "<td>" + data[i].deliveryTrafNo + "</td>";
+								isPass = false;
+								if (data[i].deliveryVoyageNo == data[i].invtVoyageNo &&
+									data[i].deliveryBillNo == data[i].invtBillNo &&
+									data[i].deliveryTrafMode == data[i].invtTrafMode &&
+									data[i].deliveryTrafNo == data[i].invtTrafNo) {
+									isPass = true;
+								}
+								dataHtml += "<td>" + (isPass ? "<b style='color:#5cb85c;'><i>通过</i></b>" : "<b style='color:red;'><i>不通过</i></b>") + "</td>";
+								dataHtml += "</tr>";
+							}
+							dataHtml += "</tbody></table>";
+							$("#appStatusModal .modal-body").html(dataHtml);
+						}
+					}
+				})
+			}
+			
+			function getCiqStatusByCopNo(copNo, copNo, status) {
+				$.getJSON("/invts/getImpstoreListByCopNo/" + copNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><th>支付编号</th><th>支付企业名称</th><th>国检状态</th><th>审批意见</th>";
+					dataHtml += "<th>审批时间</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for(var i = 0; i < data.length; i++) {
+				
+							if (null != data) {
+								for (var i = 0; i < data.length; i++) {
+									dataHtml += "<tr>";
+									dataHtml += "<td>" + data[i].applyCode + "</td>"
+									dataHtml += "<td title='" + data[i].payCode +"'>" + data[i].payName + "</td>";
+									if (undefined != data[i].auditState && null != data[i].auditState) {
+										dataHtml += "<td>" + status[data[i].auditState] + "[" + data[i].auditState + "]" + "</td>";
+									} else {
+										dataHtml += "<td></td>";
+									}
+									dataHtml += "<td>" + data[i].bwName + "</td>";
+									dataHtml += "<td>" + data[i].applyDate + "</td>";
+									dataHtml += "</tr>";
+								}
+							}
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
+				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><tr><th>时间</th><th>业务状态</th><th>业务信息</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						for (var i = 0; i < data.length; i++) {
+							dataHtml += "<tr>";
+							dataHtml += "<td>" + data[i].rtnTime + "</td>";
+							dataHtml += "<td>" + status[data[i].rtnStatus] + "[" + data[i].rtnStatus + "]</td>";
+							dataHtml += "<td>" + data[i].rtnInfo + "</td>";
+							dataHtml += "</tr>";
+						}
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function getDistHeadByInvtNo(invtNo, status) {
+				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+					$("#appStatusModal").modal("show");
+					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
+					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
+					dataHtml += "<thead><tr><th>核放单号</th><th>海关编码</th><th>申报企业</th><th>核放单状态</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.distNo + "</td>";
+						dataHtml += "<td>" + data.customsCode + "</td>";
+						dataHtml += "<td title='" + data.declCode + "'>" + data.declName + "</td>";
+						dataHtml += "<td>" + data.distStat + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "<thead><tr><th>录入日期</th><th>申报日期</th><th>退单原因</th><th>备注</th></thead>";
+					dataHtml += "<tbody>";
+					if (null != data) {
+						dataHtml += "<tr>";
+						dataHtml += "<td>" + data.inputDate + "</td>";
+						dataHtml += "<td>" + data.declDate + "</td>";
+						dataHtml += "<td>" + data.returnReason + "</td>";
+						dataHtml += "<td>" + data.note + "</td>";
+						dataHtml += "</tr>";
+					}
+					dataHtml += "</tbody>";
+					dataHtml += "</table>";
+					
+					$("#appStatusModal .modal-body").html(dataHtml);
+				});
+			}
+			
+			function exportstores() {
+				var formObj = $("#store_form")
+				// window.location.href = "/stores?" + formObj.serialize();
+				window.open("/stores/export?" + formObj.serialize());
+			}
+		</script>
+
+		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
+			role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">历史状态</h4>
+					</div>
+					<div class="modal-body"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>
+						搜索条件
+						<button class="btn btn-round btn-info" onclick="exportstores()">导出</button>
+					</h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a>
+								</li>
+								<li><a href="#">Settings 2</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form class="form-horizontal search-form" role="form" action="/stores" method="GET"
+							id="store_form">
+						<input type="hidden" name="pageSize" th:value="${store.pageSize}" />
+						<input class="page-num" type="hidden" name="pageNum" th:value="${store.pageNum}" />
+						<div class="form-group">
+							<span th:replace="~{issue :: condition-text('账册号', 'lmsNo', ${store.lmsNo}) }"></span>
+							<span th:replace="~{issue :: condition-text('料号', 'itemNo', ${store.itemNo}) }"></span>
+							<span th:replace="~{issue :: condition-text('经营单位代码', 'tradeCode', ${store.tradeCode}) }"></span>
+							<span th:replace="~{issue :: condition-text('经营单位名称', 'tradeName', ${store.tradeName}) }"></span>
+						</div>
+						<div class="form-group">
+							<span th:replace="~{issue :: condition-text('商编', 'codeTs', ${store.codeTs}) }"></span>
+							<span th:replace="~{issue :: condition-text('商品名称', 'gName', ${store.gName}) }"></span>
+						</div>
+						<div class="pull-right form-group no-margin-right">
+							<button type="button" class="btn btn-round btn-info btn-lg" onclick="formSubmit(this);">搜索</button>
+							<button type="button" class="btn btn-round btn-warning btn-lg" onclick="resetForm('store_form')">重置</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'store_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'store_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'store_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'store_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'store_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li><input type="number" class="input-lg change-page-num" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
+				<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'store_form\', $(\'.change-page-num\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('store_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+					</select>
+				</li>
+			</ul>
+			<table class="table table-striped jambo_table bulk_action">
+				<thead>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">账册号</th>
+						<th class="column-title">经营单位</th>
+						<th class="column-title">料号</th>
+						<th class="column-title">HS编码</th>
+						<th class="column-title">商品名称</th>
+						<th class="column-title">规格</th>
+						<th class="column-title">成交单价</th>
+						<th class="column-title">单位</th>
+						<th class="column-title">出库</th>
+						<th class="column-title">入库</th>
+						<th class="column-title">库存</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${storeList.empty}">
+						<td colspan="30">没有数据</td>
+					</tr>
+					<tr th:each="store,stat : ${storeList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
+						<td th:text="${stat.count}"></td>
+						<td th:title="${store.lmsNo}">
+							<a href="javascript:void(0)" th:text="${store.lmsNo}"
+								th:onclick="'addFormParaQuery(\'store_form\', \'lmsNo\', \'' + ${store.lmsNo} + '\')'"></a>
+						</td>
+						<td th:title="${store.tradeCode}">
+							<a href="javascript:void(0)" th:text="${store.tradeName}"
+								th:onclick="'addFormParaQuery(\'store_form\', \'tradeCode\', \'' + ${store.tradeCode} + '\')'"></a>
+						</td>
+						<td th:text="${store.itemNo}"></td>
+						<td th:title="${store.codeTs}">
+							<a href="javascript:void(0)" th:text="${store.codeTs}"
+								th:onclick="'addFormParaQuery(\'store_form\', \'codeTs\', \'' + ${store.codeTs} + '\')'"></a>
+						</td>
+						<td th:title="${store.gName}">
+							<a href="javascript:void(0)" th:text="${store.gName}"
+								th:onclick="'addFormParaQuery(\'store_form\', \'gName\', \'' + ${store.gName} + '\')'"></a>
+						</td>
+						<td th:text="${store.gModel}"></td>
+						<td th:text="${store.declPrice}"></td>
+						<td th:text="${unit[store.unit]}"></td>
+						<td th:text="${store.legalOQty}"></td>
+						<td th:text="${store.legalIQty}"></td>
+						<td th:text="${store.legalRemainQty}"></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="headings">
+						<th class="column-title">序号</th>
+						<th class="column-title">账册号</th>
+						<th class="column-title">经营单位</th>
+						<th class="column-title">料号</th>
+						<th class="column-title">HS编码</th>
+						<th class="column-title">商品名称</th>
+						<th class="column-title">规格</th>
+						<th class="column-title">成交单价</th>
+						<th class="column-title">单位</th>
+						<th class="column-title">出库</th>
+						<th class="column-title">入库</th>
+						<th class="column-title">库存</th>
+					</tr>
+				</tfoot>
+			</table>
+			<ul class="pagination pagination-lg pull-right">
+				<li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'store_form\', 1);'">首页</a>
+				</li>
+				<li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isFirstPage} ? 'goToPageNum(\'store_form\', ' + ${pageInfo.prePage} + ');'">上页</a>
+				</li>
+				<li th:each="page : ${pageList}"
+						th:class="${page == pageInfo.pageNum} ? 'active'">
+					<a href="javascript:void(0)" th:text="${page}"
+							th:onclick="'goToPageNum(\'store_form\',' + ${page} + ');'"></a>
+				</li>
+				<li th:class="${pageInfo.isLastPage} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${!pageInfo.isLastPage} ? 'goToPageNum(\'store_form\', ' + ${pageInfo.nextPage} + ');'">下页</a>
+				</li>
+				<li th:class="${0 == pageInfo.pages} ? 'disabled'">
+					<a href="javascript:void(0)"
+							th:onclick="${0 < pageInfo.pages} ? 'goToPageNum(\'store_form\', ' + ${pageInfo.pages} + ');'">尾页</a>
+				</li>
+				<li><a th:text="'第' + ${pageInfo.pageNum} + '页'">第1页</a></li>
+				<li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+				<li><input type="number" class="input-lg change-page-num-down" style="width:100px;"  th:value="${pageInfo.pageNum}" /></li>
+				<li><button  class="btn-lg btn btn-info" type="button" th:onclick="'goToPageNum(\'store_form\', $(\'.change-page-num-down\').val(), ' + ${pageInfo.pages} + ')'">跳转</button></li>
+				<li>
+					<select title="显示条数" class="input-lg" style="width:60px;" onchange="changePageSize('store_form', this.value);">
+						<option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+								th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+					</select>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
