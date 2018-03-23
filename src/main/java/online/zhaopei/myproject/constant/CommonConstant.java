@@ -44,7 +44,7 @@ public enum CommonConstant implements Serializable {
 	
 	public static byte BOM[] = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
 
-	public static int XLS_MAX_LINE = 65535;
+	public static int XLS_MAX_LINE = 65000;
 	
 	private String value;
 
