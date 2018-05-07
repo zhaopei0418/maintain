@@ -120,3 +120,5 @@ maintain:
   unifiedBackDir: /Users/zhaopei/work/logs/unifiedBackCiq/
   reissueTmpDir: /Users/zhaopei/work/logs/ciq/
   reissueDir: /Users/zhaopei/work/logs/backCiq/
+  reissueNoticeTmpDir: /Users/zhaopei/work/logs/ciq/
+  reissueNoticeDir: /Users/zhaopei/work/logs/backCiq/

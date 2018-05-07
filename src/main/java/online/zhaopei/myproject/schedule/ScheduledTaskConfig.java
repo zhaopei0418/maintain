@@ -3,6 +3,7 @@ package online.zhaopei.myproject.schedule;
 import com.github.pagehelper.PageHelper;
 import online.zhaopei.myproject.common.tool.PaymentTool;
 import online.zhaopei.myproject.config.ApplicationProp;
+import online.zhaopei.myproject.constant.CommonConstant;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
 import online.zhaopei.myproject.domain.gjent.ImpPayHead;
 import online.zhaopei.myproject.domain.gjpayment.*;
@@ -87,44 +88,71 @@ public class ScheduledTaskConfig {
 	}
 
 	/**
-	 * 每隔半小时同步一次
+	 * 每隔1小时同步一次
 	 * @throws Exception
 	 */
-	@Scheduled(cron = "0 0/30 * * * *")
+	@Scheduled(cron = "0 0 0/1 * * *")
 	public void reissueNonSyncInvtList() throws  Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmm");
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MINUTE, -30);
+		calendar.add(Calendar.MINUTE, -60);
 		String endDate = sdf1.format(calendar.getTime());
-		calendar.add(Calendar.DATE, -15);
+		calendar.add(Calendar.DATE, -1);
 		String startDate = sdf2.format(calendar.getTime());
 		PageHelper.startPage(1, 1000);
 		List<InvtHead> invtList = this.invtHeadService.getNonSyncInvtList(startDate, endDate);
-		String suffix = "BuFaZbq.txt";
+		String suffix = "_BuFaZbq.txt";
 		String reissueFileName = null;
 		File reissueTmpFile = null;
+		File reissueNoticeTmpFile = null;
 		File reissueFile = null;
+		File reissueNoticeFile = null;
 		PrintWriter reissuePw = null;
+		PrintWriter reissueNoticePw = null;
+		String invtNo = null;
+		boolean copyFile = false;
+		boolean copyNoticeFile = false;
 		if (null != invtList && !invtList.isEmpty()) {
 			try {
-				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + "_" + suffix;
+				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + suffix;
 				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
+				reissueNoticeTmpFile = new File(this.app.getReissueNoticeTmpDir() + reissueFileName);
 				reissueFile = new File(this.app.getReissueDir() + reissueFileName);
+				reissueNoticeFile = new File(this.app.getReissueNoticeDir() + reissueFileName);
 				reissuePw = new PrintWriter(reissueTmpFile);
 				for (InvtHead ih : invtList) {
-					reissuePw.println(ih.getInvtNo());
+					invtNo = ih.getInvtNo();
+					if (CommonConstant.isReissue(invtNo)) {
+						CommonConstant.addInvtToMap(invtNo);
+						reissuePw.println(invtNo);
+						copyFile = true;
+					} else {
+						if (CommonConstant.isReissueNotice(invtNo)) {
+							CommonConstant.addInvtToNoticeMap(invtNo);
+							reissueNoticePw.println(invtNo);
+							copyNoticeFile = true;
+						}
+					}
 				}
 				reissuePw.flush();
-				reissuePw.close();
-				reissuePw = null;
-				FileUtils.copyFile(reissueTmpFile, reissueFile);
+				reissueNoticePw.flush();
+				if (copyFile) {
+					FileUtils.copyFile(reissueTmpFile, reissueFile);
+				}
+				if (copyNoticeFile) {
+					FileUtils.copyFile(reissueNoticeTmpFile, reissueNoticeFile);
+				}
 			} catch(Exception e) {
 				e.printStackTrace();
 			} finally {
 				if (null != reissuePw) {
 					reissuePw.close();
+				}
+
+				if (null != reissueNoticePw) {
+					reissueNoticePw.close();
 				}
 			}
 		}
@@ -206,7 +234,7 @@ public class ScheduledTaskConfig {
 		
 	}
 	
-	@Scheduled(initialDelay = 10000, fixedDelay = 60000)
+	//@Scheduled(initialDelay = 10000, fixedDelay = 60000)
 	public void syncPaymentInfo() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		SimpleDateFormat sdfDay = new SimpleDateFormat("yyyyMMdd");

@@ -40,11 +40,17 @@ public enum CommonConstant implements Serializable {
 
 	private static Map<String, String> APP_TYPE_MAP = new HashMap<String, String>();
 
+	private static Map<String, Integer> ERROR_INVT_MAP = new HashMap<String, Integer>();
+
+	private static Map<String, Integer> NOTICE_INVT_MAP = new HashMap<String, Integer>();
+
 	private static List<String> PIE_COLORS = new ArrayList<String>();
 	
 	public static byte BOM[] = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
 
 	public static int XLS_MAX_LINE = 65000;
+
+	public static int REISSUE_FREQUENCY = 2;
 	
 	private String value;
 
@@ -149,5 +155,45 @@ public enum CommonConstant implements Serializable {
 
 	public static Map<String, String> getIE_TYPE_MAP() {
 		return IE_TYPE_MAP;
+	}
+
+	public static Map<String, Integer> getErrorInvtMap() {
+		return ERROR_INVT_MAP;
+	}
+
+	public static void setErrorInvtMap(Map<String, Integer> errorInvtMap) {
+		ERROR_INVT_MAP = errorInvtMap;
+	}
+
+	public static void addInvtToMap(String invtNo) {
+		if (null == ERROR_INVT_MAP.get(invtNo)) {
+			ERROR_INVT_MAP.put(invtNo, 1);
+		} else {
+			ERROR_INVT_MAP.put(invtNo, ERROR_INVT_MAP.get(invtNo) + 1);
+		}
+	}
+
+	public static Map<String, Integer> getNoticeInvtMap() {
+		return NOTICE_INVT_MAP;
+	}
+
+	public static void setNoticeInvtMap(Map<String, Integer> noticeInvtMap) {
+		NOTICE_INVT_MAP = noticeInvtMap;
+	}
+
+	public static boolean isReissue(String invtNo) {
+		return null == ERROR_INVT_MAP.get(invtNo) ? true : REISSUE_FREQUENCY > ERROR_INVT_MAP.get(invtNo);
+	}
+
+	public static boolean isReissueNotice(String invtNo) {
+		return null == NOTICE_INVT_MAP.get(invtNo) ? true : REISSUE_FREQUENCY > NOTICE_INVT_MAP.get(invtNo);
+	}
+
+	public static void addInvtToNoticeMap(String invtNo) {
+		if (null == NOTICE_INVT_MAP.get(invtNo)) {
+			NOTICE_INVT_MAP.put(invtNo, 1);
+		} else {
+			NOTICE_INVT_MAP.put(invtNo, NOTICE_INVT_MAP.get(invtNo) + 1);
+		}
 	}
 }

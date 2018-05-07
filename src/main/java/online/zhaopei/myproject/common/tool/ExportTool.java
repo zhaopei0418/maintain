@@ -1,8 +1,27 @@
 package online.zhaopei.myproject.common.tool;
 
+import io.swagger.models.auth.In;
+import online.zhaopei.myproject.constant.CommonConstant;
+import online.zhaopei.myproject.domain.BaseDomain;
 import online.zhaopei.myproject.domain.ecssent.InvtHead;
+import online.zhaopei.myproject.service.para.CountryService;
+import online.zhaopei.myproject.service.para.CurrService;
+import online.zhaopei.myproject.service.para.UnitService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by zhaopei on 17/11/24.
@@ -89,6 +108,123 @@ public class ExportTool {
                 this.WHERE("cih.cop_no in " + stringBufferIn.toString());
             }
         }}.toString();
+    }
+
+    /**
+     *
+     * @param fileNamePrefix 生成文件前缀
+     * @param domainList 域对象列表
+     * @param headers 表头
+     * @param properties 属性列表每个元素[方法名, "-1", "自定义列表以逗号分隔，每项再以冒号分隔如：800:放行,899:结关"]
+     *                   自定义列表转成Map以属性值为键取值, 第二个取值: -1:不转换; -2:取自定义列表; 0, 1, 2:单位，国家，币制
+     * @param services 服务列表0：单位，1：国家，2：币制
+     * @return 生成的excel文件
+     */
+    public static File generateExportExcel(String fileNamePrefix, List<? extends BaseDomain> domainList, String[] headers, String[][] properties, Object[] services) {
+        SimpleDateFormat sdfFileName = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String fileName = fileNamePrefix + sdfFileName.format(Calendar.getInstance().getTime()) + ".xls";
+        File file = new File("export/" + fileName);
+        OutputStream output = null;
+        BaseDomain domainObject = null;
+        Workbook wb = new HSSFWorkbook();
+        int sheetCount = 0;
+        Sheet sheet = null;
+        Row row = null;
+        Cell cell = null;
+        int minLength = 0;
+        Class<? extends BaseDomain> clazz = null;
+        Method getMethod = null;
+        Object result = null;
+        Integer intResult = null;
+        Double doubleResult = null;
+        String strResult = null;
+        Class returnType = null;
+        int propType = -1;
+        CurrService currService = null;
+        UnitService unitService = null;
+        CountryService countryService = null;
+        Map<String, String> propMap = null;
+        String[] tmpStrs = null, tmpStrs1 = null;
+
+        try {
+            output = new FileOutputStream(file);
+
+            if(null != domainList && !domainList.isEmpty()) {
+                sheetCount = domainList.size() % CommonConstant.XLS_MAX_LINE == 0 ? domainList.size() / CommonConstant.XLS_MAX_LINE :
+                        (domainList.size() / CommonConstant.XLS_MAX_LINE + 1);
+                for(int i = 0; i < sheetCount; i++) {
+                    sheet = wb.createSheet(fileNamePrefix + i);
+                    minLength = domainList.size() >= (i + 1) * CommonConstant.XLS_MAX_LINE ? CommonConstant.XLS_MAX_LINE :
+                            domainList.size() - i * CommonConstant.XLS_MAX_LINE;
+                    row = sheet.createRow(0);
+                    for(int k = 0; k < headers.length; k++) {
+                        row.createCell(k).setCellValue(headers[k]);
+                    }
+                    for(int j = 0; j < minLength; j++) {
+                        domainObject = domainList.get(i * CommonConstant.XLS_MAX_LINE + j);
+                        clazz = domainObject.getClass();
+                        row = sheet.createRow(j + 1);
+                        for(int k = 0; k < headers.length; k++) {
+                            getMethod = clazz.getMethod(properties[k][0]);
+                            propType = Integer.valueOf(properties[k][1]);
+                            returnType = getMethod.getReturnType();
+                            result = getMethod.invoke(domainObject);
+                            cell = row.createCell(k);
+                            if(Double.class == returnType) {
+                                doubleResult = (Double) result;
+                            } else if(Integer.class == returnType) {
+                                intResult = (Integer) result;
+                            } else if(Date.class == returnType) {
+                                strResult = dateFormat.format((Date) result);
+                            } else {
+                                strResult = (String) result;
+                            }
+                            if(-2 == propType) {
+                                propMap = new HashMap<String, String>();
+                                tmpStrs = properties[k][2].split(",");
+                                for(String s : tmpStrs) {
+                                    tmpStrs1 = s.split(":");
+                                    propMap.put(tmpStrs1[0], tmpStrs1[1]);
+                                }
+                                strResult = propMap.get(String.valueOf(null == strResult ? intResult: strResult));
+                            } else if(0 == propType) {
+                                unitService = (UnitService) services[0];
+                                strResult = ParaTool.getUnitDesc(strResult, unitService);
+                            } else if(1 == propType) {
+                                countryService = (CountryService) services[1];
+                                strResult = ParaTool.getCountryDesc(strResult, countryService);
+                            } else if(2 == propType) {
+                                currService = (CurrService) services[2];
+                                strResult = ParaTool.getCurrDesc(strResult, currService);
+                            }
+
+                            if(null != intResult) {
+                                cell.setCellValue(intResult);
+                            } else if(null != doubleResult) {
+                                cell.setCellValue(doubleResult);
+                            } else {
+                                cell.setCellValue(strResult);
+                            }
+                        }
+                    }
+                }
+            }
+
+            wb.write(output);
+            output.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return file;
     }
 
     public static native void hello(String name);

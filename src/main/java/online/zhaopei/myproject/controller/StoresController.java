@@ -134,7 +134,6 @@ public class StoresController extends BaseController {
             store.setAgentCode(currUser.getMember().getCompanyCode());
         }
         List<Store> storeList = this.storeService.getStoreList(store);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Workbook wb = new HSSFWorkbook();
         int sheetCount = 0;
         Sheet sheet = null;
@@ -174,11 +173,11 @@ public class StoresController extends BaseController {
                         row.createCell(3).setCellValue(generateStroe.getCodeTs());
                         row.createCell(4).setCellValue(generateStroe.getgName());
                         row.createCell(5).setCellValue(generateStroe.getgModel());
-                        row.createCell(5).setCellValue(generateStroe.getDeclPrice());
-                        row.createCell(6).setCellValue(ParaTool.getUnitDesc(generateStroe.getUnit(), this.unitService));
-                        row.createCell(7).setCellValue(generateStroe.getLegalOQty());
-                        row.createCell(8).setCellValue(generateStroe.getLegalIQty());
-                        row.createCell(9).setCellValue(generateStroe.getLegalRemainQty());
+                        row.createCell(6).setCellValue(generateStroe.getDeclPrice());
+                        row.createCell(7).setCellValue(ParaTool.getUnitDesc(generateStroe.getUnit(), this.unitService));
+                        row.createCell(8).setCellValue(generateStroe.getLegalOQty());
+                        row.createCell(9).setCellValue(generateStroe.getLegalIQty());
+                        row.createCell(10).setCellValue(generateStroe.getLegalRemainQty());
                     }
                 }
             }
