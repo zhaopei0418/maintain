@@ -1,10 +1,11 @@
 package online.zhaopei.myproject.constant;
 
+import online.zhaopei.myproject.domain.ecssent.InvtHead;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public enum CommonConstant implements Serializable {
 
@@ -13,6 +14,8 @@ public enum CommonConstant implements Serializable {
 	WECHAT_APP_ID("wx8a3ecd5dc8bf14ac"),
 	WECHAT_APP_SECRET("0383851a42499e5e72e1d09407d9d6e6"),
 	;
+
+	private static final Log LOGGER = LogFactory.getLog(CommonConstant.class);
 
 	private static Map<String, String> COUNTRY_MAP = new HashMap<String, String>();
 
@@ -50,7 +53,7 @@ public enum CommonConstant implements Serializable {
 
 	public static int XLS_MAX_LINE = 65000;
 
-	public static int REISSUE_FREQUENCY = 2;
+	public static int REISSUE_FREQUENCY = 1;
 	
 	private String value;
 
@@ -194,6 +197,36 @@ public enum CommonConstant implements Serializable {
 			NOTICE_INVT_MAP.put(invtNo, 1);
 		} else {
 			NOTICE_INVT_MAP.put(invtNo, NOTICE_INVT_MAP.get(invtNo) + 1);
+		}
+	}
+
+	public static void cleanErrorNoticeMap(List<String> invtNoList) {
+		try {
+			Map<String, Integer> tmpMap = new HashMap<String, Integer>();
+			for (String k : ERROR_INVT_MAP.keySet()) {
+				if (invtNoList.contains(k)) {
+					tmpMap.put(k, ERROR_INVT_MAP.get(k));
+				}
+			}
+			ERROR_INVT_MAP.clear();
+			for (String k : tmpMap.keySet()) {
+				ERROR_INVT_MAP.put(k, tmpMap.get(k));
+			}
+			tmpMap.clear();
+
+			for (String k : NOTICE_INVT_MAP.keySet()) {
+				if (invtNoList.contains(k)) {
+					tmpMap.put(k, NOTICE_INVT_MAP.get(k));
+				}
+			}
+			NOTICE_INVT_MAP.clear();
+			for (String k : tmpMap.keySet()) {
+				NOTICE_INVT_MAP.put(k, tmpMap.get(k));
+			}
+			tmpMap.clear();
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.error("cleanErrorNoticeMap error", e);
 		}
 	}
 }

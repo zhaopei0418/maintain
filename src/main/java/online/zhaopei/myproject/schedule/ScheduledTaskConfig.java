@@ -1,6 +1,8 @@
 package online.zhaopei.myproject.schedule;
 
 import com.github.pagehelper.PageHelper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import online.zhaopei.myproject.common.tool.PaymentTool;
 import online.zhaopei.myproject.config.ApplicationProp;
 import online.zhaopei.myproject.constant.CommonConstant;
@@ -16,6 +18,8 @@ import online.zhaopei.myproject.service.gjent.PersonalInfoService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
 import online.zhaopei.myproject.service.para.SyncPaymentInfoService;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +31,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.io.File;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
@@ -35,6 +40,8 @@ import java.util.logging.Logger;
 @EnableAsync
 @EnableScheduling
 public class ScheduledTaskConfig {
+
+	private final static Log LOGGER = LogFactory.getLog(ScheduledTaskConfig.class);
 
 	@Autowired
 	private ImpPayHeadService impPayHeadService;
@@ -114,38 +121,56 @@ public class ScheduledTaskConfig {
 		String invtNo = null;
 		boolean copyFile = false;
 		boolean copyNoticeFile = false;
+		List<String> invtNoList = new ArrayList<String>();
+		Gson gson = new Gson();
 		if (null != invtList && !invtList.isEmpty()) {
 			try {
 				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + suffix;
+
 				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
-				reissueNoticeTmpFile = new File(this.app.getReissueNoticeTmpDir() + reissueFileName);
 				reissueFile = new File(this.app.getReissueDir() + reissueFileName);
-				reissueNoticeFile = new File(this.app.getReissueNoticeDir() + reissueFileName);
 				reissuePw = new PrintWriter(reissueTmpFile);
+
+				reissueNoticeTmpFile = new File(this.app.getReissueNoticeTmpDir() + reissueFileName);
+				reissueNoticeFile = new File(this.app.getReissueNoticeDir() + reissueFileName);
+				reissueNoticePw = new PrintWriter(reissueNoticeTmpFile);
 				for (InvtHead ih : invtList) {
 					invtNo = ih.getInvtNo();
+					invtNoList.add(invtNo);
+					LOGGER.info("invtNo=[" + invtNo + "] errorInvtMap=[" + gson.toJson(CommonConstant.getErrorInvtMap()) + "] noticeInvtMap=["
+						+ gson.toJson(CommonConstant.getNoticeInvtMap()) + "]");
 					if (CommonConstant.isReissue(invtNo)) {
+						LOGGER.info("reissue====");
 						CommonConstant.addInvtToMap(invtNo);
 						reissuePw.println(invtNo);
 						copyFile = true;
 					} else {
 						if (CommonConstant.isReissueNotice(invtNo)) {
+							LOGGER.info("reissue notice====");
 							CommonConstant.addInvtToNoticeMap(invtNo);
 							reissueNoticePw.println(invtNo);
 							copyNoticeFile = true;
 						}
 					}
 				}
+				CommonConstant.cleanErrorNoticeMap(invtNoList);
 				reissuePw.flush();
+				reissuePw.close();
+				reissuePw = null;
 				reissueNoticePw.flush();
+				reissueNoticePw.close();
+				reissueNoticePw = null;
 				if (copyFile) {
+				    LOGGER.info("copy [" + reissueTmpFile.getAbsolutePath() + "] ==> [" + reissueFile.getAbsolutePath() + "]");
 					FileUtils.copyFile(reissueTmpFile, reissueFile);
 				}
 				if (copyNoticeFile) {
+					LOGGER.info("copy notice[" + reissueNoticeTmpFile.getAbsolutePath() + "] ==> [" + reissueNoticeFile.getAbsolutePath() + "]");
 					FileUtils.copyFile(reissueNoticeTmpFile, reissueNoticeFile);
 				}
 			} catch(Exception e) {
 				e.printStackTrace();
+				LOGGER.error("reissue error", e);
 			} finally {
 				if (null != reissuePw) {
 					reissuePw.close();
