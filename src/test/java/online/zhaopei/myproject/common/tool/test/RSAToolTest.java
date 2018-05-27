@@ -20,7 +20,7 @@ import online.zhaopei.myproject.domain.wechat.WeChatMessage;
 
 public class RSAToolTest {
 	
-	@Test
+	//@Test
 	public void buildMessage() throws Exception {
 		
 		EListRejectMessage elrm = null;
@@ -52,7 +52,7 @@ public class RSAToolTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void weChatTest() throws Exception {
 		StringBuffer xml = new StringBuffer("");
 		xml.append("<xml>");
@@ -90,7 +90,7 @@ public class RSAToolTest {
 		m.marshal(emm, System.out);
 	}
 
-	@Test
+	//@Test
 	public void test() throws Exception {
 		String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDI09TU5xKVHmm74jF/Vi0mpKPF\r"
 				+ "lUxzi/9qIAuEoOZN5vm/tyC0FM1jRSudxC8bRHlZgo60qy6U2GQWvVguMtwrWWvQ\r"
@@ -121,7 +121,7 @@ public class RSAToolTest {
 		System.out.println("私钥解密后：" + decrypt);
 	}
 	
-	@Test
+	//@Test
 	public void Md5Test() throws Exception {
 		System.out.println("encode===" + MD5Tool.MD5Encode("zhaopei", "UTF-8", false));
 	}

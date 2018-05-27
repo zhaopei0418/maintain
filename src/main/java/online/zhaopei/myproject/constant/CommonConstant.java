@@ -5,6 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public enum CommonConstant implements Serializable {
@@ -53,7 +54,11 @@ public enum CommonConstant implements Serializable {
 
 	public static int XLS_MAX_LINE = 65000;
 
-	public static int REISSUE_FREQUENCY = 1;
+	private static int REISSUE_FREQUENCY = 1;
+
+	public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
+	public final static SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	private String value;
 

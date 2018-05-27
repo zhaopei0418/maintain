@@ -170,20 +170,20 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getSearchText())) {
-				this.WHERE("cih.invt_no like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.cop_no like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.ebc_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.ebc_name like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.order_no like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.agent_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.agent_name like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.logistics_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.logistics_name like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.logistics_no like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.area_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.area_name like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.customs_code like '%" + invtHead.getSearchText() + "%'");
-				this.OR().WHERE("cih.trade_mode like '%" + invtHead.getSearchText() + "%'");
+				this.WHERE("cih.invt_no like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.cop_no like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.ebc_code like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.ebc_name like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.order_no like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.agent_code like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.agent_name like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.logistics_code like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.logistics_name like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.logistics_no like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.area_code like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.area_name like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.customs_code like '" + invtHead.getSearchText() + "%'");
+				this.OR().WHERE("cih.trade_mode like '" + invtHead.getSearchText() + "%'");
 			}
 
 
@@ -196,15 +196,16 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getBeginAppTime())) {
-				this.WHERE("to_char(cih.sys_date, 'yyyy-mm-dd') >= '" + invtHead.getBeginAppTime() + "'");
+				this.WHERE("cih.sys_date >= to_date('" + invtHead.getBeginAppTime() + "', 'yyyy-MM-dd')");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEndAppTime())) {
-				this.WHERE("to_char(cih.sys_date, 'yyyy-mm-dd') <= '" + invtHead.getEndAppTime() + "'");
+				this.WHERE("cih.sys_date <= to_date('" + invtHead.getEndAppTime() + " 23:59:59', 'yyyy-MM-dd hh24:mi:ss')");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getSysDateStr())) {
-				this.WHERE("to_char(cih.sys_date, 'yyyy-mm-dd') = '" + invtHead.getSysDateStr() + "'");
+				this.WHERE("cih.sys_date >= to_date('" + invtHead.getBeginAppTime() + "', 'yyyy-MM-dd')");
+				this.WHERE("cih.sys_date <= to_date('" + invtHead.getBeginAppTime() + " 23:59:59', 'yyyy-MM-dd hh24:mi:ss')");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAppSenderId())) {
@@ -212,7 +213,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getOrderNo())) {
-				this.WHERE("cih.order_no like '%" + invtHead.getOrderNo() + "%'");
+				this.WHERE("cih.order_no like '" + invtHead.getOrderNo() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEbcCode())) {
@@ -220,11 +221,11 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getEbcName())) {
-				this.WHERE("cih.ebc_name like '%" + invtHead.getEbcName() + "%'");
+				this.WHERE("cih.ebc_name like '" + invtHead.getEbcName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsNo())) {
-				this.WHERE("cih.logistics_no like '%" + invtHead.getLogisticsNo() + "%'");
+				this.WHERE("cih.logistics_no like '" + invtHead.getLogisticsNo() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsCode())) {
@@ -232,7 +233,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getLogisticsName())) {
-				this.WHERE("cih.logistics_name like '%" + invtHead.getLogisticsName() + "%'");
+				this.WHERE("cih.logistics_name like '" + invtHead.getLogisticsName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getCopNo())) {
@@ -240,7 +241,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getInvtNo())) {
-				this.WHERE("cih.invt_no like '%" + invtHead.getInvtNo() + "%'");
+				this.WHERE("cih.invt_no like '" + invtHead.getInvtNo() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAgentCode())) {
@@ -248,7 +249,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAgentName())) {
-				this.WHERE("cih.agent_name like '%" + invtHead.getAgentName() + "%'");
+				this.WHERE("cih.agent_name like '" + invtHead.getAgentName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAreaCode())) {
@@ -256,7 +257,7 @@ public class InvtHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getAreaName())) {
-				this.WHERE("cih.area_name like '%" + invtHead.getAreaName() + "%'");
+				this.WHERE("cih.area_name like '" + invtHead.getAreaName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(invtHead.getDistStatus())) {

@@ -128,7 +128,7 @@ public class ScheduledTaskConfig {
 				reissueFileName = sdf.format(Calendar.getInstance().getTime()) + suffix;
 
 				reissueTmpFile = new File(this.app.getReissueTmpDir() + reissueFileName);
-				reissueFile = new File(this.app.getReissueDir() + reissueFileName);
+				reissueFile = new File(this.app.getReissueNoticeDir() + reissueFileName);
 				reissuePw = new PrintWriter(reissueTmpFile);
 
 				reissueNoticeTmpFile = new File(this.app.getReissueNoticeTmpDir() + reissueFileName);
@@ -186,7 +186,7 @@ public class ScheduledTaskConfig {
 	/**
 	 * 每隔10分钟清空一下重复的清单号的清单
 	 */
-	@Scheduled(fixedDelay = 600000)
+	//@Scheduled(fixedDelay = 600000)
 	public void deleteRepeatInvtNo() throws Exception {
 		List<InvtHead> invtHeadList = this.invtHeadService.getInvtHeadListByRepeatInvtNo();
 		if (null != invtHeadList && !invtHeadList.isEmpty()) {
@@ -202,13 +202,13 @@ public class ScheduledTaskConfig {
 	 * 每隔10分钟同步一下企业端的清单状态
 	 * @throws Exception
 	 */
-	@Scheduled(fixedDelay = 600000)
+	//@Scheduled(fixedDelay = 600000)
 	public void syncInvtNoStatus() throws Exception {
 		this.invtHeadService.syncInvtNoStatus("26", "800");
 		this.invtHeadService.syncInvtNoStatus("24", "500");
 	}
 	
-	@Scheduled(cron = "0 0 */2 * * *")
+	//@Scheduled(cron = "0 0 */2 * * *")
 	public void modifyInvtStatus() throws Exception {
 		List<String> headGuidList = this.invtHeadService.getReleaseBackStaggeredInvtList();
 		
@@ -223,7 +223,7 @@ public class ScheduledTaskConfig {
 	 * 每隔10分钟同步一下电子车牌号
 	 * @throws Exception
 	 */
-	@Scheduled(fixedDelay = 600000)
+	//@Scheduled(fixedDelay = 600000)
 	public void checkServer() throws Exception {
 		this.veHeadService.syncVeENo();
 //		List<ServerSystem> serverSystemList = this.serverSystemService.getServerSystemList(new ServerSystem());

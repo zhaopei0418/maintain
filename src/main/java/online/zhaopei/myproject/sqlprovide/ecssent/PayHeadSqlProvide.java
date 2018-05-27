@@ -2,6 +2,7 @@ package online.zhaopei.myproject.sqlprovide.ecssent;
 
 import java.io.Serializable;
 
+import online.zhaopei.myproject.common.tool.OracleTool;
 import org.apache.ibatis.jdbc.SQL;
 
 import com.alibaba.druid.util.StringUtils;
@@ -38,7 +39,7 @@ public class PayHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getPayTransactionId())) {
-				this.WHERE("pay_transaction_id like '%" + payHead.getPayTransactionId() + "%'");
+				this.WHERE("pay_transaction_id like '" + payHead.getPayTransactionId() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getEbpCode())) {
@@ -46,7 +47,7 @@ public class PayHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getEbpName())) {
-				this.WHERE("ebp_name like '%" + payHead.getEbpName() + "%'");
+				this.WHERE("ebp_name like '" + payHead.getEbpName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getPayCode())) {
@@ -54,7 +55,7 @@ public class PayHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getPayName())) {
-				this.WHERE("pay_name like '%" + payHead.getPayName() + "%'");
+				this.WHERE("pay_name like '" + payHead.getPayName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getOrdNo())) {
@@ -62,11 +63,11 @@ public class PayHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getPayerName())) {
-				this.WHERE("payer_name like '%" + payHead.getPayName() + "%'");
+				this.WHERE("payer_name like '" + payHead.getPayName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getPayerIdNumber())) {
-				this.WHERE("payer_id_number like '%" + payHead.getPayerIdNumber() + "%'");
+				this.WHERE("payer_id_number like '" + payHead.getPayerIdNumber() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getAppStatus())) {
@@ -78,19 +79,19 @@ public class PayHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getBeginSysDate())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') >= '" + payHead.getBeginSysDate() + "'");
+				this.WHERE("sys_date >= to_date('" + payHead.getBeginSysDate() + "', 'yyyy-MM-dd')");
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getEndSysDate())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + payHead.getEndSysDate() + "'");
+				this.WHERE("sys_date <= to_date('" + payHead.getEndSysDate() + " 23:59:59', 'yyyy-MM-dd hh24:mi:ss')");
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getBeginPayTime())) {
-				this.WHERE("to_char(pay_time, 'yyyy-mm-dd') >= '" + payHead.getBeginPayTime() + "'");
+				this.WHERE("pay_time >= to_date('" + payHead.getBeginPayTime() + "', 'yyyy-MM-dd')");
 			}
 			
 			if (!StringUtils.isEmpty(payHead.getEndPayTime())) {
-				this.WHERE("to_char(pay_time, 'yyyy-mm-dd') <= '" + payHead.getEndPayTime() + "'");
+				this.WHERE("pay_time <= to_date('" + payHead.getEndPayTime() + " 23:59:59', 'yyyy-MM-dd hh24:mi:ss')");
 			}
 		}}.toString();
 	}

@@ -6,7 +6,7 @@ import online.zhaopei.myproject.sqlprovide.ecssent.VeHeadSqlProvide;
 
 public class VeHeadSqlProvideTest {
 
-	@Test
+	//@Test
 	public void test() {
 		VeHeadSqlProvide vhsp = new VeHeadSqlProvide();
 		System.out.println(vhsp.syncVeENoSql());

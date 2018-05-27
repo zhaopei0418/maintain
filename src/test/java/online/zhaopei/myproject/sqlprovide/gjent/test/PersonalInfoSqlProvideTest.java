@@ -9,7 +9,7 @@ import org.junit.Test;
  */
 public class PersonalInfoSqlProvideTest {
 
-    @Test
+    //@Test
     public void statisticsPersonalInfoSqlTest() throws Exception {
         System.out.println("Test");
         PersonalInfoSqlProvide pisp = new PersonalInfoSqlProvide();

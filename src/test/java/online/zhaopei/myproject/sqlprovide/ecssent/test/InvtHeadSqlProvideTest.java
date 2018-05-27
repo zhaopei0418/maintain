@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class InvtHeadSqlProvideTest {
 
-	@Test
+	//@Test
 	public void test() {
 		InvtHeadSqlProvide ihsp = new InvtHeadSqlProvide();
 		System.out.println(ihsp.getInvtHeadListByRepeatInvtNoSql());
@@ -23,7 +23,7 @@ public class InvtHeadSqlProvideTest {
 		System.out.println(ihsp.syncInvtNoStatusSql("24", "500"));
 	}
 
-	@Test
+	//@Test
 	public void testGetInvtHeadListSql() {
 		InvtHeadSqlProvide ihsp = new InvtHeadSqlProvide();
 		InvtHead ih = new InvtHead();
@@ -32,7 +32,7 @@ public class InvtHeadSqlProvideTest {
 		System.out.println(ihsp.getInvtHeadListSql(ih));
 	}
 
-	@Test
+	//@Test
 	public void testGetNonSyncInvtListSql() {
 		InvtHeadSqlProvide ihsp = new InvtHeadSqlProvide();
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmm");

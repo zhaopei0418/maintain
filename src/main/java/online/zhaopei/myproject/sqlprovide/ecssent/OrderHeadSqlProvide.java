@@ -95,7 +95,7 @@ public class OrderHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getEbcName())) {
-				this.WHERE("ebc_name like '%" + orderHead.getEbcName() + "%'");
+				this.WHERE("ebc_name like '" + orderHead.getEbcName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getEbpCode())) {
@@ -103,15 +103,15 @@ public class OrderHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getEbpName())) {
-				this.WHERE("ebp_name like '%" + orderHead.getEbcName() + "'");
+				this.WHERE("ebp_name like '" + orderHead.getEbcName() + "'");
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getBuyerName())) {
-				this.WHERE("buyer_name like '%" + orderHead.getBuyerName() + "%'");
+				this.WHERE("buyer_name like '" + orderHead.getBuyerName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getBuyerIdNumber())) {
-				this.WHERE("buyer_id_number like '%" + orderHead.getBuyerIdNumber() + "%'");
+				this.WHERE("buyer_id_number like '" + orderHead.getBuyerIdNumber() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getAppStatus())) {
@@ -123,11 +123,11 @@ public class OrderHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getBeginSysDate())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') >= '" + orderHead.getBeginSysDate() + "'");
+				this.WHERE("sys_date >= to_date('" + orderHead.getBeginSysDate() + "', 'yyyy-MM-dd')");
 			}
 			
 			if (!StringUtils.isEmpty(orderHead.getEndSysDate())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + orderHead.getEndSysDate() + "'");
+				this.WHERE("sys_date <= to_date('" + orderHead.getEndSysDate() + " 23:59:59', 'yyyy-MM-dd hh24:mi:ss')");
 			}
 		}}.toString();
 	}

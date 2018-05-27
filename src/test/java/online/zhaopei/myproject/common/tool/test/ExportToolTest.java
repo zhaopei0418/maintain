@@ -9,7 +9,7 @@ import org.junit.Test;
  */
 public class ExportToolTest {
 
-    @Test
+    //@Test
     public void testHello() {
         InvtHead ih = new InvtHead();
         ih.setOrderNo("123123");

@@ -29,11 +29,11 @@ public class LgsHeadSqlProvide implements Serializable {
 			this.FROM("ceb2_lgs_head");
 			
 			if (!StringUtils.isEmpty(lgsHead.getSearchText())) {
-				this.WHERE("logistics_code like '%" + lgsHead.getSearchText() + "%'");
-				this.OR().WHERE("bill_no like '%" + lgsHead.getSearchText() + "%'");
-				this.OR().WHERE("logistics_code like '%" + lgsHead.getSearchText() + "%'");
-				this.OR().WHERE("logistics_name like '%" + lgsHead.getSearchText() + "%'");
-				this.OR().WHERE("consignee like '%" + lgsHead.getSearchText() + "%'");
+				this.WHERE("logistics_code like '" + lgsHead.getSearchText() + "%'");
+				this.OR().WHERE("bill_no like '" + lgsHead.getSearchText() + "%'");
+				this.OR().WHERE("logistics_code like '" + lgsHead.getSearchText() + "%'");
+				this.OR().WHERE("logistics_name like '" + lgsHead.getSearchText() + "%'");
+				this.OR().WHERE("consignee like '" + lgsHead.getSearchText() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(lgsHead.getGuid())) {
@@ -53,7 +53,7 @@ public class LgsHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(lgsHead.getLogisticsName())) {
-				this.WHERE("logistics_name like '%" + lgsHead.getLogisticsName() + "%'");
+				this.WHERE("logistics_name like '" + lgsHead.getLogisticsName() + "%'");
 			}
 			
 			if (!StringUtils.isEmpty(lgsHead.getConsignee())) {
@@ -69,11 +69,11 @@ public class LgsHeadSqlProvide implements Serializable {
 			}
 			
 			if (!StringUtils.isEmpty(lgsHead.getBeginSysDate())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') >= '" + lgsHead.getBeginSysDate() + "'");
+				this.WHERE("sys_date >= to_date('" + lgsHead.getBeginSysDate() + "', 'yyyy-MM-dd')");
 			}
 			
 			if (!StringUtils.isEmpty(lgsHead.getEndSysDate())) {
-				this.WHERE("to_char(sys_date, 'yyyy-mm-dd') <= '" + lgsHead.getEndSysDate() + "'");
+			    this.WHERE("sys_date <= to_date('" + lgsHead.getEndSysDate() + " 23:59:59', 'yyyy-MM-dd hh24:mi:ss')");
 			}
 		}}.toString();
 	}

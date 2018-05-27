@@ -96,6 +96,9 @@ public class BaseController implements Serializable {
 	
 	protected <T extends BaseDomain> PageInfo<T> getPageInfo(T baseDomain, Class<T> clzz, Object service, String queryMethodName) {
 		PageInfo<T> pageInfo = null;
+		if (null == baseDomain) {
+			return new PageInfo<T>(new ArrayList<T>());
+		}
 		baseDomain = this.initPageInfo(baseDomain, clzz);
 		PageHelper.startPage(baseDomain.getPageNum(), baseDomain.getPageSize());
 		List<T> baseDomainList = null;

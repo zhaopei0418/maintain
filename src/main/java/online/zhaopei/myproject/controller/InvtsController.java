@@ -520,6 +520,18 @@ public class InvtsController extends BaseController {
 		if (null != invtHead && !StringUtils.isEmpty(invtHead.getApplyCode())) {
 			invtHead.setCopNoList(this.impInvtHeadService.getCopNoList(invtHead.getApplyCode()));
 		}
+
+		Calendar calendar = null;
+		if (StringUtils.isEmpty(invtHead.getBeginAppTime())) {
+			calendar = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_MONTH, -7);
+			invtHead.setBeginAppTime(CommonConstant.DATE_FORMAT.format(calendar.getTime()));
+		}
+
+		if (StringUtils.isEmpty(invtHead.getEndAppTime())) {
+			calendar = Calendar.getInstance();
+			invtHead.setEndAppTime(CommonConstant.DATE_FORMAT.format(calendar.getTime()));
+		}
 		
 		PageInfo<InvtHead> pageInfo = this.getPageInfo(invtHead, InvtHead.class, this.invtHeadService, "getInvtHeadList");
 		ModelAndView mv = this.buildBaseModelAndView("invts/list", pageInfo);
