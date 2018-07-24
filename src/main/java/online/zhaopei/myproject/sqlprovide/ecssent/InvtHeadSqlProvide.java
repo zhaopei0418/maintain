@@ -593,8 +593,10 @@ public class InvtHeadSqlProvide implements Serializable {
 		    this.LEFT_OUTER_JOIN("check_mail_good_head cmgh on cih.logistics_code = cmgh.logistics_code and cmgh.logistics_no = cih.logistics_no and cih.invt_no = cmgh.entry_id");
 		    this.WHERE(sql1.toString());
 		    this.WHERE("cih.dist_status != 8");
-		    this.WHERE("to_char(cih.sys_date, 'yyyymmdd') >= '" + startDate + "'");
-		    this.WHERE("to_char(cih.sys_date, 'yyyymmddhh24mi') <= '" + endDate + "'");
+		    //this.WHERE("to_char(cih.sys_date, 'yyyymmdd') >= '" + startDate + "'");
+			this.WHERE("cih.sys_date >= to_date('" + startDate + "', 'yyyyMMdd')");
+		    //this.WHERE("to_char(cih.sys_date, 'yyyymmddhh24mi') <= '" + endDate + "'");
+			this.WHERE("cih.sys_date <= to_date('" + endDate + "', 'yyyyMMddhh24mi')");
 
 		}}.toString();
 	}

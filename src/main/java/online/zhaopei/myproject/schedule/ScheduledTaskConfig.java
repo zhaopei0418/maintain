@@ -104,9 +104,9 @@ public class ScheduledTaskConfig {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmm");
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MINUTE, -60);
+		calendar.add(Calendar.MINUTE, -30);
 		String endDate = sdf1.format(calendar.getTime());
-		calendar.add(Calendar.DATE, -1);
+		calendar.add(Calendar.DATE, -2);
 		String startDate = sdf2.format(calendar.getTime());
 		PageHelper.startPage(1, 1000);
 		List<InvtHead> invtList = this.invtHeadService.getNonSyncInvtList(startDate, endDate);
