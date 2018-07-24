@@ -8,6 +8,7 @@ import online.zhaopei.myproject.domain.AuthUser;
 import online.zhaopei.myproject.domain.ecssent.Store;
 import online.zhaopei.myproject.service.ecssent.StoreService;
 import online.zhaopei.myproject.service.para.CountryService;
+import online.zhaopei.myproject.service.para.CurrService;
 import online.zhaopei.myproject.service.para.UnitService;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -42,6 +43,9 @@ public class StoresController extends BaseController {
 
     @Autowired
     private UnitService unitService;
+
+    @Autowired
+    private CurrService currService;
 
     @RequestMapping
     public ModelAndView index(Store store) {
@@ -90,7 +94,7 @@ public class StoresController extends BaseController {
             output.close();
 
             writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "UTF-8")));
-            writer.println("账册号,经营单位,料号,HS编码,商品名称,规格,成交单价,单位,出库,入库,库存");
+            writer.println("账册号,经营单位,料号,HS编码,商品名称,规格,成交单价,成交币制,单位,出库,入库,库存");
             for(Store s : storeList) {
                 writer.print(s.getLmsNo());
                 writer.print("," + s.getTradeName());
@@ -100,6 +104,7 @@ public class StoresController extends BaseController {
                 writer.print("," + s.getgModel());
                 writer.print("," + s.getgModel());
                 writer.print("," + s.getDeclPrice());
+                writer.print("," + ParaTool.getCurrDesc(s.getTradeCurr(), this.currService));
                 writer.print("," + ParaTool.getUnitDesc(s.getUnit(), this.unitService));
                 writer.print("," + s.getLegalOQty());
                 writer.print("," + s.getLegalIQty());
@@ -160,10 +165,11 @@ public class StoresController extends BaseController {
                     row.createCell(4).setCellValue("商品名称");
                     row.createCell(5).setCellValue("规格");
                     row.createCell(6).setCellValue("成交单价");
-                    row.createCell(7).setCellValue("单位");
-                    row.createCell(8).setCellValue("出库");
-                    row.createCell(9).setCellValue("入库");
-                    row.createCell(10).setCellValue("库存");
+                    row.createCell(7).setCellValue("成交币制");
+                    row.createCell(8).setCellValue("单位");
+                    row.createCell(9).setCellValue("出库");
+                    row.createCell(10).setCellValue("入库");
+                    row.createCell(11).setCellValue("库存");
                     for(int j = 0; j < minLength; j++) {
                         generateStroe = storeList.get(i * CommonConstant.XLS_MAX_LINE + j);
                         row = sheet.createRow(j + 1);
@@ -174,10 +180,13 @@ public class StoresController extends BaseController {
                         row.createCell(4).setCellValue(generateStroe.getgName());
                         row.createCell(5).setCellValue(generateStroe.getgModel());
                         row.createCell(6).setCellValue(generateStroe.getDeclPrice());
-                        row.createCell(7).setCellValue(ParaTool.getUnitDesc(generateStroe.getUnit(), this.unitService));
-                        row.createCell(8).setCellValue(generateStroe.getLegalOQty());
-                        row.createCell(9).setCellValue(generateStroe.getLegalIQty());
-                        row.createCell(10).setCellValue(generateStroe.getLegalRemainQty());
+                        row.createCell(7).setCellValue(ParaTool.getCurrDesc(generateStroe.getTradeCurr(), this.currService)
+                                + "[" + generateStroe.getTradeCurr() + "]");
+                        row.createCell(8).setCellValue(ParaTool.getUnitDesc(generateStroe.getUnit(), this.unitService)
+                                + "[" + generateStroe.getUnit() + "]");
+                        row.createCell(9).setCellValue(generateStroe.getLegalOQty());
+                        row.createCell(10).setCellValue(generateStroe.getLegalIQty());
+                        row.createCell(11).setCellValue(generateStroe.getLegalRemainQty());
                     }
                 }
             }

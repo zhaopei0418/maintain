@@ -54,7 +54,7 @@ public enum CommonConstant implements Serializable {
 
 	public static int XLS_MAX_LINE = 65000;
 
-	private static int REISSUE_FREQUENCY = 1;
+	private static int REISSUE_FREQUENCY = 2;
 
 	public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
