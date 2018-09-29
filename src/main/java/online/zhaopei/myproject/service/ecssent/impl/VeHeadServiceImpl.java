@@ -35,4 +35,9 @@ public class VeHeadServiceImpl implements VeHeadService {
 		this.veHeadMapper.syncVeENo();
 	}
 
+	@Override
+	public void clearVeeNo(String veId) {
+		this.veHeadMapper.clearVeeNo(veId);
+	}
+
 }

@@ -126,4 +126,12 @@ public class VeHeadSqlProvide implements Serializable {
 			this.WHERE("exists (select * from cur_ve_head cvh where cvh.ve_no = pvh.ve_no and nvl(pvh.ve_e_no, 0) != nvl(cvh.ve_e_no, 0))");
 		}}.toString();
 	}
+
+	public String clearVeeNoSql(final String veId) {
+		return new SQL() {{
+			this.UPDATE("cur_ve_head cvh");
+			this.SET("cvh.ve_e_no = null");
+			this.WHERE("cvh.ve_id = '" + veId + "'");
+		}}.toString();
+	}
 }

@@ -47,4 +47,11 @@ public class VehiclesController extends BaseController {
 		
 		return mv;
 	}
+
+	@GetMapping("/clearVeeNo/{veId}")
+	@ResponseBody
+	public String clearVeeNo(@PathVariable String veId) {
+		this.veHeadService.clearVeeNo(veId);
+		return "{success: true}";
+	}
 }

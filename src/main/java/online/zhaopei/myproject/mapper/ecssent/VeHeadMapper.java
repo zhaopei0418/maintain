@@ -65,4 +65,7 @@ public interface VeHeadMapper extends Serializable {
 	
 	@UpdateProvider(type = VeHeadSqlProvide.class, method = "syncVeENoSql")
 	Integer syncVeENo();
+
+	@UpdateProvider(type = VeHeadSqlProvide.class, method = "clearVeeNoSql")
+	Integer clearVeeNo(String veId);
 }

@@ -166,6 +166,10 @@
 					$("#appStatusModal .modal-body").html(dataHtml);
 				});
 			}
+
+			function clearVeeNo(veId) {
+                $.get("/vehicles/clearVeeNo/" + veId);
+			}
 		</script>
 
 		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
@@ -318,6 +322,7 @@
 						<th class="column-title">电话</th>
 						<th class="column-title">自重</th>
 						<th class="column-title">录入时间</th>
+						<th class="column-title">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -335,6 +340,7 @@
 						<td th:text="${veHead.linkTel}"></td>
 						<td th:text="${veHead.veWt}"></td>
 						<td th:text="${#calendars.format(veHead.inputDate, 'YYYY-MM-dd HH:mm:ss')}"></td>
+						<td><button class="btn btn-info btn-xs" th:onclick="'clearVeeNo(\'' + ${veHead.veId} + '\')'">清除电子车牌号</button></td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -349,6 +355,7 @@
 						<th class="column-title">电话</th>
 						<th class="column-title">自重</th>
 						<th class="column-title">录入时间</th>
+						<th class="column-title">操作</th>
 					</tr>
 				</tfoot>
 			</table>
