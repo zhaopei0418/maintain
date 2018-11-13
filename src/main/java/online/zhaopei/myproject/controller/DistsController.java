@@ -85,7 +85,14 @@ public class DistsController extends BaseController {
 		
 		return mv;
 	}
-	
+
+	@GetMapping("/calculationPackWt/{distNo}")
+	@ResponseBody
+	public String calculationPackWt(@PathVariable String distNo) {
+		this.distHeadService.calculationPackWt(distNo);
+		return "{success: true}";
+	}
+
 	@PostMapping("/searchDistBill/{seqNo}")
 	@ResponseBody
 	public String searchDistBill(@PathVariable String seqNo, DatatablePara datatablePara) {

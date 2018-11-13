@@ -16,8 +16,9 @@
 	</div>
 	<div layout:fragment="content">
 		<script type="text/javascript">
+			var ctx = [[@{/}]];
 			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
-				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
+				$.getJSON(ctx + "/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
 					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("入库比对结果[" + copNo + "-" + logisticsCode + ":" +
@@ -68,7 +69,7 @@
 			}
 			
 			function getCiqStatusByCopNo(copNo, copNo, status) {
-				$.getJSON("/invts/getImpinvtCancelListByCopNo/" + copNo, function(data) {
+				$.getJSON(ctx + "/invts/getImpinvtCancelListByCopNo/" + copNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
@@ -103,7 +104,7 @@
 			}
 			
 			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
-				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+				$.getJSON(ctx + "/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
@@ -127,7 +128,7 @@
 			}
 			
 			function getDistHeadByInvtNo(invtNo, status) {
-				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+				$.getJSON(ctx + "/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
@@ -195,7 +196,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form class="form-horizontal search-form" role="form" action="/invtCancel" method="GET"
+					<form class="form-horizontal search-form" role="form" th:action="@{/invtCancel}" method="GET"
 							id="invt_cancel_form">
 						<input type="hidden" name="pageSize" th:value="${invtCancel.pageSize}" />
 						<input class="page-num" type="hidden" name="pageNum" th:value="${invtCancel.pageNum}" />

@@ -106,7 +106,19 @@ public class TaxesController extends BaseController {
 			}
 			taxHead.setAgentCode(currUser.getMember().getCompanyCode());
 		}
-		
+
+		Calendar calendar = null;
+		if (StringUtils.isEmpty(taxHead.getBeginSysDate())) {
+			calendar = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_MONTH, -2);
+			taxHead.setBeginSysDate(CommonConstant.DATE_FORMAT.format(calendar.getTime()));
+		}
+
+		if (StringUtils.isEmpty(taxHead.getEndSysDate())) {
+			calendar = Calendar.getInstance();
+			taxHead.setEndSysDate(CommonConstant.DATE_FORMAT.format(calendar.getTime()));
+		}
+
 		PageInfo<TaxHead> pageInfo = this.getPageInfo(taxHead, TaxHead.class, this.taxHeadService, "getTaxHeadList");
 		ModelAndView mv = this.buildBaseModelAndView("taxes/list", pageInfo);
 		mv.addObject("taxHead", taxHead);

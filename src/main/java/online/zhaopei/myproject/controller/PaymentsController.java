@@ -2,6 +2,7 @@ package online.zhaopei.myproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,8 @@ import online.zhaopei.myproject.service.ecssent.PayHeadService;
 import online.zhaopei.myproject.service.gjent.ImpPayHeadService;
 import online.zhaopei.myproject.service.gjpayment.PaymentMessageService;
 import online.zhaopei.myproject.service.para.SyncPaymentInfoService;
+
+import java.util.Calendar;
 
 @Controller
 @RequestMapping("/payments")
@@ -68,6 +71,18 @@ public class PaymentsController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView index(PayHead payHead) {
+		Calendar calendar = null;
+		if (StringUtils.isEmpty(payHead.getBeginSysDate())) {
+			calendar = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_MONTH, -7);
+			payHead.setBeginSysDate(CommonConstant.DATE_FORMAT.format(calendar.getTime()));
+		}
+
+		if (StringUtils.isEmpty(payHead.getEndSysDate())) {
+			calendar = Calendar.getInstance();
+			payHead.setEndSysDate(CommonConstant.DATE_FORMAT.format(calendar.getTime()));
+		}
+
 		PageInfo<PayHead> pageInfo = this.getPageInfo(payHead, PayHead.class, this.payHeadService, "getPayHeadList");
 		ModelAndView mv = this.buildBaseModelAndView("payments/list", pageInfo);
 		mv.addObject("payHead", payHead);

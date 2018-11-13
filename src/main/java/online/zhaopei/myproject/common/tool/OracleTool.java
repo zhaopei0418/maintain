@@ -68,7 +68,7 @@ public class OracleTool {
 	
 	public static void where(SQL sql, String column, String value, String operator) {
 		if (!StringUtils.isEmpty(value)) {
-			sql.WHERE("to_char(" + column + ", 'YYYY-MM-DD') " + operator + " " + toString(value));
+			sql.WHERE(column + " " + operator + " to_date('" + value + "', 'yyyy-MM-dd')");
 		}
 	}
 	

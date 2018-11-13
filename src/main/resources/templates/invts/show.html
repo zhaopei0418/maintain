@@ -403,6 +403,7 @@
 			</div>
 		</div>
 		<script>
+            var ctx = [[@{/}]];
 			$(document).ready(function() {
 				$("#datatable-responsive").DataTable({
 					language: language,
@@ -411,7 +412,7 @@
 					responsive: true,
 					paginationType: "full_numbers",
 					ajax: {
-						url: "/invts/searchInvtList/" + $("#datatable-responsive").attr("tid"),
+						url: ctx + "/invts/searchInvtList/" + $("#datatable-responsive").attr("tid"),
 						type: "GET",
 						headers: {
 							"X-CSRF-Token": $('meta[name="_csrf"]').attr('content')

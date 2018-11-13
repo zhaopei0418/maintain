@@ -8,6 +8,7 @@
 	<meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>维护系统</title>
+    <link type="favicon" rel="shortcut icon" th:href="@{/favicon.ico}" />
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 	<link rel="stylesheet" th:href="@{/fonts/css/font-awesome.min.css}" />
 	<link rel="stylesheet" th:href="@{/vendors/nprogress/nprogress.css}" />
@@ -36,7 +37,7 @@
             <!-- menu profile quick info -->
             <div class="profile">
               <div class="profile_pic">
-                <img src="/images/img.jpg" alt="..." class="img-circle profile_img">
+                <img th:src="@{/images/img.jpg}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>欢迎</span>
@@ -52,19 +53,19 @@
 				<div class="menu_section">
 					<h3>菜单</h3>
 					<ul class="nav side-menu">
-						<li><a href="/"><i class="fa fa-home"></i>首页</a></li>
-						<li layout:fragment="servers-info"><a href="/servers/info"><i class="fa fa-home"></i>服务器监控</a></li>
+						<li><a th:href="@{/}"><i class="fa fa-home"></i>首页</a></li>
+						<li layout:fragment="servers-info"><a th:href="@{/servers/info}"><i class="fa fa-home"></i>服务器监控</a></li>
 						<li><a><i class="fa fa-home"></i>清单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/invts">清单查询</a></li>
-								<li><a href="/invts/statistics">清单统计</a></li>
-								<li><a href="/reissue">补发清单</a></li>
-								<li><a href="/modifyInvt">修改清单</a></li>
+								<li><a th:href="@{/invts}">清单查询</a></li>
+								<li><a th:href="@{/invts/statistics}">清单统计</a></li>
+								<li><a th:href="@{/reissue}">补发清单</a></li>
+								<li><a th:href="@{/modifyInvt}">修改清单</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-home"></i>税单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/taxes">税单查询</a></li>
+								<li><a th:href="@{/taxes}">税单查询</a></li>
 							</ul>
 						</li>
 						<!--li><a><i class="fa fa-home"></i>报文管理<span class="fa fa-chevron-down"></span></a>
@@ -75,58 +76,58 @@
 						</li-->
 						<li><a><i class="fa fa-home"></i>撤销单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/invtCancel">撤销单查询</a></li>
+								<li><a th:href="@{/invtCancel}">撤销单查询</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-edit"></i>入库明细单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/deliveries">入库明细单查询</a></li>
+								<li><a th:href="@{/deliveries}">入库明细单查询</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-edit"></i>光机指令管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/checkGoods">光机指令查询</a></li>
+								<li><a th:href="@{/checkGoods}">光机指令查询</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-edit"></i>身份认证信息管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/persons">身份认证信息查询</a></li>
+								<li><a th:href="@{/persons}">身份认证信息查询</a></li>
                                 <!--li><a href="/persons/statistics">身份信息认证统计</a></li-->
 							</ul>
 						</li>
 						<li><a><i class="fa fa-desktop"></i>订单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/orders">订单查询</a></li>
+								<li><a th:href="@{/orders}">订单查询</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-desktop"></i>运单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/logistics">运单查询</a></li>
+								<li><a th:href="@{/logistics}">运单查询</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-desktop"></i>支付单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/payments">支付单管理</a></li>
+								<li><a th:href="@{/payments}">支付单管理</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-desktop"></i>核放单管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/dists">核放单查询</a></li>
+								<li><a th:href="@{/dists}">核放单查询</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-desktop"></i>车辆管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/vehicles">车辆查询</a></li>
+								<li><a th:href="@{/vehicles}">车辆查询</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-table"></i>商品管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/goods">商品查询</a></li>
+								<li><a th:href="@{/goods}">商品查询</a></li>
 							</ul>
 						</li>
                         <li><a><i class="fa fa-table"></i>库存管理<span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li><a href="/stores">库存查询</a></li>
+                                <li><a th:href="@{/stores}">库存查询</a></li>
                             </ul>
                         </li>
 						<li><a><i class="fa fa-table"></i>企业管理<span class="fa fa-chevron-down"></span></a>
@@ -136,7 +137,7 @@
 						</li>
 						<li><a><i class="fa fa-bar-chart-o"></i>用户管理<span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="/users">用户查询</a></li>
+								<li><a th:href="@{/users}">用户查询</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -174,19 +175,19 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="/images/img.jpg" alt="">管理员
+                    <img th:src="@{/images/img.jpg}" alt="">管理员
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="javascript:;">个人信息</a></li>
-                    <li><a href="/">数据查询</a></li>
+                    <li><a th:href="@{/}">数据查询</a></li>
                     <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>
                         <span>设置</span>
                       </a>
                     </li>
-                    <li><a href="/versions">问题管理</a></li>
+                    <li><a th:href="@{/versions}">问题管理</a></li>
 					<li><a href="javascript:logout();"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
                   </ul>
                 </li>
@@ -199,7 +200,7 @@
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
                       <a>
-                        <span class="image"><img src="/images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img th:src="@{/images/img.jpg}" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -211,7 +212,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="/images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img th:src="@{/images/img.jpg}" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -223,7 +224,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="/images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img th:src="@{/images/img.jpg}" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -235,7 +236,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="/images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img th:src="@{/images/img.jpg}" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>

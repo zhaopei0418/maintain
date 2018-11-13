@@ -3,12 +3,8 @@ package online.zhaopei.myproject.mapper.ecssent;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
+import online.zhaopei.myproject.service.ecssent.DistHeadService;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
 import online.zhaopei.myproject.domain.ecssent.DistHead;
@@ -66,4 +62,7 @@ public interface DistHeadMapper extends Serializable {
 	@ResultMap("distHeadResult")
 	@SelectProvider(type = DistHeadSqlProvide.class, method = "getDistHeadBySeqNoSql")
 	DistHead getDistHeadBySeqNo(String seqNo);
+
+	@UpdateProvider(type = DistHeadSqlProvide.class, method = "calculationPackWtSql")
+	Integer calculationPackWt(String distNo);
 }

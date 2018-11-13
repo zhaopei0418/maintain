@@ -1,9 +1,11 @@
 package online.zhaopei.myproject.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +52,18 @@ public class OrdersController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView index(OrderHead orderHead) {
+		Calendar calendar = null;
+		if (StringUtils.isEmpty(orderHead.getBeginSysDate())) {
+			calendar = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_MONTH, -7);
+			orderHead.setBeginSysDate(CommonConstant.DATE_FORMAT.format(calendar.getTime()));
+		}
+
+		if (StringUtils.isEmpty(orderHead.getEndSysDate())) {
+			calendar = Calendar.getInstance();
+			orderHead.setEndSysDate(CommonConstant.DATE_FORMAT.format(calendar.getTime()));
+		}
+
 		PageInfo<OrderHead> pageInfo = this.getPageInfo(orderHead, OrderHead.class, this.orderHeadService, "getOrderHeadList");
 		ModelAndView mv = this.buildBaseModelAndView("orders/list", pageInfo);
 		mv.addObject("orderHead", orderHead);

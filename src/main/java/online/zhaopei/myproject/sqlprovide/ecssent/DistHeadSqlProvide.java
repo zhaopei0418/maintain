@@ -146,4 +146,12 @@ public class DistHeadSqlProvide implements Serializable {
 			}
 		}}.toString();
 	}
+
+	public String calculationPackWtSql(final String distNo) {
+		return new SQL() {{
+			this.UPDATE("pre_dist_head pdh");
+			this.SET("(pdh.total_pack_num, pdh.total_gross_wt) = (select count(pdbl.pack_num), sum(pdbl.gross_wt) from pre_dist_bill_list pdbl where pdbl.dist_no = '" + distNo + "')");
+			this.WHERE("pdh.dist_no = '" + distNo + "'");
+		}}.toString();
+	}
 }

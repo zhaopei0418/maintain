@@ -14,7 +14,7 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<a class="btn btn-default" href="/orders">返回订单列表</a>
+					<a class="btn btn-default" th:href="@{/orders}">返回订单列表</a>
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
@@ -279,6 +279,7 @@
 			</div>
 		</div>
 		<script>
+            var ctx = [[@{/}]];
 			$(document).ready(function() {
 				$("#datatable-responsive").DataTable({
 					language: language,
@@ -287,7 +288,7 @@
 					responsive: true,
 					paginationType: "full_numbers",
 					ajax: {
-						url: "/orders/searchOrderList/" + $("#datatable-responsive").attr("tid"),
+						url: ctx + "/orders/searchOrderList/" + $("#datatable-responsive").attr("tid"),
 						type: "GET",
 						headers: {
 							"X-CSRF-Token": $('meta[name="_csrf"]').attr('content')

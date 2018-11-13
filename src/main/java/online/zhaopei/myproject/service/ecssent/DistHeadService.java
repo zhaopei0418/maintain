@@ -12,4 +12,6 @@ public interface DistHeadService extends Serializable {
 	List<DistHead> getDistHeadList(DistHead distHead);
 	
 	DistHead getDistHeadBySeqNo(String seqNo);
+
+	void calculationPackWt(String distNo);
 }

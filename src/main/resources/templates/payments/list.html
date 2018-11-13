@@ -12,7 +12,7 @@
 		</div>
 		<div class="title_right">
 			<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-				<form action="/payments">
+				<form th:action="@{/payments}">
 					<div class="input-group">
 						<input type="text" class="form-control" name="searchText" placeholder="输入关键字...">
 						<span class="input-group-btn">
@@ -25,8 +25,9 @@
 	</div>
 	<div layout:fragment="content">
 		<script type="text/javascript">
+			var ctx = [[@{/}]];
 			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
-				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
+				$.getJSON(ctx + "/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
 					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("入库比对结果[" + copNo + "-" + logisticsCode + ":" +
@@ -77,7 +78,7 @@
 			}
 			
 			function getCiqStatusByCopNo(copNo, copNo, status) {
-				$.getJSON("/invts/getImppayHeadListByCopNo/" + copNo, function(data) {
+				$.getJSON(ctx + "/invts/getImppayHeadListByCopNo/" + copNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("国检状态[" + copNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
@@ -112,7 +113,7 @@
 			}
 			
 			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
-				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+				$.getJSON(ctx + "/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
@@ -136,7 +137,7 @@
 			}
 			
 			function getDistHeadByInvtNo(invtNo, status) {
-				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+				$.getJSON(ctx + "/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
@@ -204,7 +205,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form class="form-horizontal search-form" role="form" action="/payments" method="GET"
+					<form class="form-horizontal search-form" role="form" th:action="@{/payments}" method="GET"
 							id="payment_form">
 						<input type="hidden" name="pageSize" th:value="${payHead.pageSize}" />
 						<input class="page-num" type="hidden" name="pageNum" th:value="${payHead.pageNum}" />

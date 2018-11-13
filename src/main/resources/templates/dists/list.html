@@ -25,6 +25,7 @@
 	</div>
 	<div layout:fragment="content">
 		<script type="text/javascript">
+			var ctx = [[@{/}]];
 			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
 				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
 					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
@@ -174,6 +175,12 @@
 					$("#appStatusModal .modal-body").html(dataHtml);
 				});
 			}
+
+            function calculationPackWt(distNo) {
+                $.get(ctx + "/dists/calculationPackWt/" + distNo, function(data) {
+                    alert('计算成功!');
+				});
+            }
 		</script>
 
 		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
@@ -211,7 +218,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form class="form-horizontal search-form" role="form" action="/dists" method="GET"
+					<form class="form-horizontal search-form" role="form" th:action="@{/dists}" method="GET"
 							id="dist_form">
 						<input type="hidden" name="pageSize" th:value="${distHead.pageSize}" />
 						<input class="page-num" type="hidden" name="pageNum" th:value="${distHead.pageNum}" />
@@ -383,6 +390,7 @@
 						<th class="column-title">单据状态</th>
 						<th class="column-title">申报关区</th>
 						<th class="column-title">审批意见</th>
+						<th class="column-title">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -392,7 +400,7 @@
 					<tr th:each="distHead,stat : ${distHeadList}" th:class="${0 == stat.count % 2} ? 'odd pointer' : 'even pointer'">
 						<td th:text="${stat.count}"></td>
 						<td title="点击查看详情">
-							<a th:href="'/dists/' + ${distHead.seqNo}" th:text="${distHead.distNo}"></a>
+							<a th:href="@{'/dists/' + ${distHead.seqNo}}" th:text="${distHead.distNo}"></a>
 						</td>
 						<td th:text="${distHead.veNo}" th:onclick="'getVeHeadByVeNo(\'' + ${distHead.veNo} + '\')'"></td>
 						<td th:text="${ieFlag[distHead.ieFlag]}"></td>
@@ -415,6 +423,7 @@
 						</td>
 						<td th:text="${customsCode[distHead.customsCode]}"></td>
 						<td th:text="${distHead.returnReason}"></td>
+						<td><button class="btn btn-info btn-xs" th:onclick="'calculationPackWt(\'' + ${distHead.distNo} + '\')'">重新计算件数重量</button></td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -431,6 +440,7 @@
 						<th class="column-title">单据状态</th>
 						<th class="column-title">申报关区</th>
 						<th class="column-title">审批意见</th>
+						<th class="column-title">操作</th>
 					</tr>
 				</tfoot>
 			</table>

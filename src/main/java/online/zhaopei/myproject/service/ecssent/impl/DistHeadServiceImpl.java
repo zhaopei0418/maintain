@@ -35,4 +35,9 @@ public class DistHeadServiceImpl implements DistHeadService {
 		return this.distHeadMapper.getDistHeadBySeqNo(seqNo);
 	}
 
+	@Override
+	public void calculationPackWt(String distNo) {
+		this.distHeadMapper.calculationPackWt(distNo);
+	}
+
 }

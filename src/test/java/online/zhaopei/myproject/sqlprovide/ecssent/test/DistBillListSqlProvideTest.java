@@ -1,6 +1,7 @@
 package online.zhaopei.myproject.sqlprovide.ecssent.test;
 
 import online.zhaopei.myproject.sqlprovide.ecssent.DistBillListSqlProvide;
+import online.zhaopei.myproject.sqlprovide.ecssent.DistHeadSqlProvide;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,5 +16,12 @@ public class DistBillListSqlProvideTest {
         System.out.println(dblsp.excludeInvtsSql("distNo123", "companyCode123"));
 
     }
+
+//    @Test
+    public void calculationPackWtSql() throws Exception {
+        DistHeadSqlProvide distHeadSqlProvide = new DistHeadSqlProvide();
+        System.out.println(distHeadSqlProvide.calculationPackWtSql("122"));
+    }
+
 
 }
