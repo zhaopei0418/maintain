@@ -27,7 +27,7 @@
 		<script type="text/javascript">
 			var ctx = [[@{/}]];
 			function comparisonDelivery(logisticsCode, logisticsNo, copNo, headGuid) {
-				$.getJSON("/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
+				$.getJSON(cxt + "/deliveries/comparisonDeliveryByLogisticsNo?logisticsCode=" + logisticsCode +
 					"&logisticsNo=" + logisticsNo + "&headGuid=" + headGuid, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("入库比对结果[" + copNo + "-" + logisticsCode + ":" +
@@ -78,7 +78,7 @@
 			}
 			
 			function getVeHeadByVeNo(veNo) {
-				$.getJSON("/vehicles/" + veNo, function(data) {
+				$.getJSON(ctx + "/vehicles/" + veNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("车辆信息[" + veNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
@@ -121,7 +121,7 @@
 			}
 			
 			function getPubRtnListByBizGuid(copNo, bizGuid, status) {
-				$.getJSON("/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
+				$.getJSON(ctx + "/invts/getPubRtnListByBizGuid/" + bizGuid, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("历史状态[" + copNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";
@@ -144,7 +144,7 @@
 			}
 			
 			function getDistHeadByInvtNo(invtNo, status) {
-				$.getJSON("/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
+				$.getJSON(ctx + "/invts/getDistHeadByInvtNo/" + invtNo, function(data) {
 					$("#appStatusModal").modal("show");
 					$("#appStatusModal .modal-title").text("核放单信息[" + invtNo + "]");
 					var dataHtml = "<table class='table table-striped jambo_table bulk_action'>";

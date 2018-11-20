@@ -32,7 +32,7 @@ public class InvtHeadSqlProvideTest {
 		System.out.println(ihsp.getInvtHeadListSql(ih));
 	}
 
-	//@Test
+//	@Test
 	public void testGetNonSyncInvtListSql() {
 		InvtHeadSqlProvide ihsp = new InvtHeadSqlProvide();
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmm");
