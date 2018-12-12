@@ -487,7 +487,6 @@
 						<th class="column-title">清单状态</th>
 						<th class="column-title">海关状态</th>
 						<th class="column-title">出区状态</th>
-						<th class="column-title">国检状态</th>
 						<th class="column-title">比对入库明细单</th>
 						<th class="column-title">补发此清单</th>
 					</tr>
@@ -562,7 +561,6 @@
 							<span th:case="8" class="btn btn-round btn-success btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
 							<span th:case="*" class="btn btn-round btn-info btn-xs" th:text="${distStatus[invtHead.distStatus]}"></span>
 						</td>
-						<td><button class="btn btn-info btn-xs" th:onclick="'getCiqStatusByCopNo(\'' + ${invtHead.ebcCode} + '\',\'' + ${invtHead.orderNo} + '\',\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\', ' + ${auditStatusJson} + ')'">查询</button></td>
 						<td><button th:disabled="${'9610' != invtHead.tradeMode}" class="btn btn-info btn-xs" th:onclick="'comparisonDelivery(\'' + ${invtHead.logisticsCode} + '\',\'' + ${invtHead.logisticsNo} + '\',\'' + ${invtHead.copNo} + '\',\'' + ${invtHead.headGuid} + '\')'">比对</button></td>
 						<td><button class="btn btn-info btn-xs" th:onclick="'reissueInvt(\'' + ${invtHead.invtNo} + '\')'">补发</button></td>
 					</tr>
@@ -583,7 +581,6 @@
 						<th class="column-title">清单状态</th>
 						<th class="column-title">海关状态</th>
 						<th class="column-title">出区状态</th>
-						<th class="column-title">国检状态</th>
 						<th class="column-title">比对入库明细单</th>
 						<th class="column-title">补发此清单</th>
 					</tr>
