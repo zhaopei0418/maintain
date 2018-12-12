@@ -68,7 +68,14 @@ public class OracleTool {
 	
 	public static void where(SQL sql, String column, String value, String operator) {
 		if (!StringUtils.isEmpty(value)) {
-			sql.WHERE(column + " " + operator + " to_date('" + value + "', 'yyyy-MM-dd')");
+			if (">=".equals(operator) || ">".equals(operator)) {
+				sql.WHERE(column + " " + operator + " to_date('" + value + "', 'yyyy-MM-dd')");
+			} else if ("=".equals(operator)) {
+				sql.WHERE(column + " >= to_date('" + value + "', 'yyyy-MM-dd')");
+				sql.WHERE(column + " <= to_date('" + value + " 23:59:59', 'yyyy-MM-dd hh24:mi:ss')");
+			} else {
+				sql.WHERE(column + " " + operator + " to_date('" + value + " 23:59:59', 'yyyy-MM-dd hh24:mi:ss')");
+			}
 		}
 	}
 	
