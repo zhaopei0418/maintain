@@ -39,18 +39,18 @@ public class ExportTool {
             this.SELECT("cpr.rtn_info 海关回执");
             this.SELECT("cpr.rtn_time 海关回执时间");
             this.SELECT("cpr.sys_date 海关回执入库时间");
-            this.SELECT("iih.detailscode 国检清单编号");
-            this.SELECT("iih.audit_state 国检状态");
-            this.SELECT("iih.bw_name 国检回执");
+//            this.SELECT("iih.detailscode 国检清单编号");
+//            this.SELECT("iih.audit_state 国检状态");
+//            this.SELECT("iih.bw_name 国检回执");
             this.SELECT("cih.ebc_name 电商企业");
             this.SELECT("cih.order_no 订单编号");
             this.SELECT("cih.logistics_name 物流企业");
             this.SELECT("cih.logistics_no 物流单号");
-            this.SELECT("iih.payename 支付企业");
-            this.SELECT("iih.applycode 支付单编号");
+//            this.SELECT("iih.payename 支付企业");
+//            this.SELECT("iih.applycode 支付单编号");
             this.SELECT("cih.bill_no 主单号");
             this.SELECT("cih.sys_date 申报日期");
-            this.SELECT("iih.goodsvalue 总货值");
+//            this.SELECT("iih.goodsvalue 总货值");
             this.SELECT("cih.consignee_address 收货人地址");
             this.SELECT("cih.gross_weight 总毛重");
             this.SELECT("cih.net_weight 总净重");
@@ -60,7 +60,7 @@ public class ExportTool {
 
             this.FROM("ceb2_invt_head cih");
 
-            this.LEFT_OUTER_JOIN("imp_invt_head@ggfw_zhengzhou iih on iih.order_no = cih.order_no and iih.ebc_code = cih.ebc_code and iih.logistics_code = cih.logistics_code and iih.logistics_no = cih.logistics_no");
+            //this.LEFT_OUTER_JOIN("imp_invt_head@ggfw_zhengzhou iih on iih.order_no = cih.order_no and iih.ebc_code = cih.ebc_code and iih.logistics_code = cih.logistics_code and iih.logistics_no = cih.logistics_no");
             this.LEFT_OUTER_JOIN("ceb2_pub_rtn cpr on cpr.biz_guid = cih.head_guid and cpr.rtn_status = cih.app_status left outer join (select tt.biz_guid, tt.rtn_status,max(tt.sys_date) as max_sys_date from ceb2_pub_rtn tt group by tt.biz_guid, tt.rtn_status) tt0 on tt0.biz_guid = cpr.biz_guid and tt0.rtn_status = cpr.rtn_status and tt0.max_sys_date = cpr.sys_date");
             this.LEFT_OUTER_JOIN("pre_dist_bill_list pdbl on pdbl.bill_no = cih.invt_no left outer join pre_dist_head pdh on pdh.seq_no = pdbl.seq_no");
 
