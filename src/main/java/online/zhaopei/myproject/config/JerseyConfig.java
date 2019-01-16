@@ -18,7 +18,7 @@ import online.zhaopei.myproject.jerseyservice.LoginEndpoint;
 @ApplicationPath("api")
 public class JerseyConfig extends ResourceConfig {
 
-	@Value("${spring.jersey.application-path:/api}")
+	@Value("${spring.jersey.application-path:/maintain/api}")
 	private String apiPath;
 
 	public JerseyConfig() {
@@ -45,7 +45,7 @@ public class JerseyConfig extends ResourceConfig {
 		config.setVersion("1.0.0");
 		config.setContact("赵配");
 //		config.setSchemes(new String[] { "http", "https" });
-		config.setSchemes(new String[] { "https" });
+		config.setSchemes(new String[] { "http" });
 		config.setBasePath(this.apiPath);
 		config.setResourcePackage("online.zhaopei.myproject.jerseyservice");
 		config.setPrettyPrint(true);
