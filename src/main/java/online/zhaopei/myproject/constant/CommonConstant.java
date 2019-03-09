@@ -78,7 +78,9 @@ public enum CommonConstant implements Serializable {
 		ZBXC_CUSTOMS_MAP.put("4604", "郑州机办");
 		ZBXC_CUSTOMS_MAP.put("4605", "郑州邮办");
 		ZBXC_CUSTOMS_MAP.put("4606", "郑铁东办");
+		ZBXC_CUSTOMS_MAP.put("4608", "出口加工区");
 		ZBXC_CUSTOMS_MAP.put("4612", "新郑综保");
+		ZBXC_CUSTOMS_MAP.put("4613", "郑州机办");
 		ZBXC_CUSTOMS_MAP.put("4619", "河南德众");
 		ZBXC_CUSTOMS_MAP.put("4620", "口岸作业区");
 		
