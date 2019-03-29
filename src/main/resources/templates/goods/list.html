@@ -173,6 +173,11 @@
 				// window.location.href = "/goods?" + formObj.serialize();
 				window.open(ctx + "/goods/export?" + formObj.serialize());
 			}
+
+            function exportGoodsExcel() {
+                var formObj = $("#good_form")
+                window.open(ctx + "/goods/exportExcel?" + formObj.serialize());
+            }
 		</script>
 
 		<div id="appStatusModal" class="modal fade bs-example-modal-sm" tabindex="-1"
@@ -196,6 +201,7 @@
 					<h2>
 						搜索条件
 						<button class="btn btn-round btn-info" onclick="exportGoods()">导出</button>
+						<button class="btn btn-round btn-info" onclick="exportGoodsExcel()">导出Excel</button>
 					</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -218,14 +224,14 @@
 						<input type="hidden" name="pageSize" th:value="${good.pageSize}" />
 						<input class="page-num" type="hidden" name="pageNum" th:value="${good.pageNum}" />
 						<div class="form-group">
-							<label class="col-sm-1 control-label">仓储企业代码</label>
+							<label class="col-sm-1 control-label">电商企业代码</label>
 							<div class="col-sm-2">
-								<input class="form-control" type="text" name="cbeCode" placeholder="仓储企业代码"
+								<input class="form-control" type="text" name="cbeCode" placeholder="电商企业代码"
 										th:value="${good.cbeCode}" />
 							</div>
-							<label class="col-sm-1 control-label">仓储企业名称</label>
+							<label class="col-sm-1 control-label">电商企业名称</label>
 							<div class="col-sm-2">
-								<input class="form-control" type="text" name="cbeName" placeholder="仓储企业名称"
+								<input class="form-control" type="text" name="cbeName" placeholder="电商企业名称"
 										th:value="${good.cbeName}" />
 							</div>
 							<label class="col-sm-1 control-label">报关企业代码</label>
@@ -361,7 +367,7 @@
 				<thead>
 					<tr class="headings">
 						<th class="column-title">序号</th>
-						<th class="column-title">仓诸企业</th>
+						<th class="column-title">电商企业</th>
 						<th class="column-title">报关企业</th>
 						<th class="column-title">商品货号</th>
 						<th class="column-title">上架品名</th>
@@ -408,7 +414,7 @@
 				<tfoot>
 					<tr class="headings">
 						<th class="column-title">序号</th>
-						<th class="column-title">仓诸企业</th>
+						<th class="column-title">电商企业</th>
 						<th class="column-title">报关企业</th>
 						<th class="column-title">商品货号</th>
 						<th class="column-title">上架品名</th>
