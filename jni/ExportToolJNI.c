@@ -28,10 +28,10 @@ JNIEXPORT void JNICALL Java_online_zhaopei_myproject_common_tool_ExportTool_gene
     strcat(sql, pSqlPathName);
     strcat(file, pExportPathName);
     if (0 == type) {
-       strcat(buf, "ecssent/dbwork@//172.16.0.140:1525/tybwtfw");
+       strcat(buf, "ecssent/dbwork@//172.16.0.87:1525/hnkjdb");
     }
     strcat(buf, sql);
     strcat(buf, file);
     printf("command is: %s\n", buf);
-    //system(buf);
+    system(buf);
 }
