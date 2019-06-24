@@ -167,7 +167,7 @@ public class GoodsController extends BaseController {
 					row.createCell(4).setCellValue("申报品名");
 					row.createCell(5).setCellValue("规格型号");
 					row.createCell(6).setCellValue("备案商品编号");
-					row.createCell(7).setCellValue("行邮税号");
+					row.createCell(7).setCellValue("商品描述");
 					row.createCell(8).setCellValue("价格（元）");
 					row.createCell(9).setCellValue("单位");
 					row.createCell(10).setCellValue("HS编码");
@@ -184,7 +184,7 @@ public class GoodsController extends BaseController {
 						row.createCell(4).setCellValue(generateGood.getGoodsName());
 						row.createCell(5).setCellValue(generateGood.getGoodsModel());
 						row.createCell(6).setCellValue(generateGood.getItemNo());
-						row.createCell(7).setCellValue(generateGood.getTaxCode());
+						row.createCell(7).setCellValue(generateGood.getDescribe());
 						row.createCell(8).setCellValue(generateGood.getPriceRmb());
 						row.createCell(9).setCellValue(ParaTool.getUnitDesc(generateGood.getUnit(), this.unitService));
 						row.createCell(10).setCellValue(generateGood.getCodeTs());
