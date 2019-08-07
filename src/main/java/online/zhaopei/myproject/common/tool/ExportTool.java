@@ -37,8 +37,8 @@ public class ExportTool {
             this.SELECT("cih.invt_no 海关清单号");
             this.SELECT("cih.app_status 海关状态");
             this.SELECT("cpr.rtn_info 海关回执");
-            this.SELECT("cpr.rtn_time 海关回执时间");
-            this.SELECT("cpr.sys_date 海关回执入库时间");
+            this.SELECT("time_to_char(cpr.rtn_time) 海关回执时间");
+            this.SELECT("time_to_char(cpr.sys_date) 海关回执入库时间");
 //            this.SELECT("iih.detailscode 国检清单编号");
 //            this.SELECT("iih.audit_state 国检状态");
 //            this.SELECT("iih.bw_name 国检回执");
@@ -49,14 +49,14 @@ public class ExportTool {
 //            this.SELECT("iih.payename 支付企业");
 //            this.SELECT("iih.applycode 支付单编号");
             this.SELECT("cih.bill_no 主单号");
-            this.SELECT("cih.sys_date 申报日期");
+            this.SELECT("time_to_char(cih.sys_date) 申报日期");
 //            this.SELECT("iih.goodsvalue 总货值");
             this.SELECT("cih.consignee_address 收货人地址");
             this.SELECT("cih.gross_weight 总毛重");
             this.SELECT("cih.net_weight 总净重");
             this.SELECT("pdbl.dist_no 核放单号");
             this.SELECT("pdh.dist_stat 核放单状态");
-            this.SELECT("cih.dist_time 过卡口时间");
+            this.SELECT("time_to_char(cih.dist_time) 过卡口时间");
 
             this.FROM("ceb2_invt_head cih");
 

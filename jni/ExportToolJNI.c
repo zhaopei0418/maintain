@@ -16,8 +16,8 @@ JNIEXPORT void JNICALL Java_online_zhaopei_myproject_common_tool_ExportTool_hell
 JNIEXPORT void JNICALL Java_online_zhaopei_myproject_common_tool_ExportTool_generateExportFile
   (JNIEnv *env, jclass thisobj, jint type, jstring sqlPathName, jstring exportPathName) {
 
-    char buf[BUFFSIZE] = "sqluldr264 header=true text=csv user=";
-    char sql[256] = " sql=", file[256] = " file=";
+    char buf[BUFFSIZE] = "export_xlsx.exe -l ";
+    char sql[100] = " -s ", file[100] = " -x ";
     const jbyte *pSqlPathName;
     const jbyte *pExportPathName;
     pSqlPathName = (*env)->GetStringUTFChars(env, sqlPathName, NULL);
@@ -28,7 +28,7 @@ JNIEXPORT void JNICALL Java_online_zhaopei_myproject_common_tool_ExportTool_gene
     strcat(sql, pSqlPathName);
     strcat(file, pExportPathName);
     if (0 == type) {
-       strcat(buf, "ecssent/dbwork@//172.16.0.87:1525/hnkjdb");
+       strcat(buf, "username/password@//172.16.0.104:1525/hnkjdb_rw.hndzka.com");
     }
     strcat(buf, sql);
     strcat(buf, file);

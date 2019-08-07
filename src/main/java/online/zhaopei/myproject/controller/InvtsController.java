@@ -564,8 +564,8 @@ public class InvtsController extends BaseController {
 	@RequestMapping("export")
 	public ResponseEntity<byte[]> export(InvtHead invtHead) throws IOException {
 		SimpleDateFormat sdfFileName = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-		String fileName = "invts_" + sdfFileName.format(Calendar.getInstance().getTime()) + ".csv";
-		String sqlFileName = "export_" + sdfFileName.format(Calendar.getInstance().getTime()) + ".csv";
+		String fileName = "invts_" + sdfFileName.format(Calendar.getInstance().getTime()) + ".xlsx";
+		String sqlFileName = "export_" + sdfFileName.format(Calendar.getInstance().getTime()) + ".sql";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		headers.setContentDispositionFormData("attachment", fileName);
