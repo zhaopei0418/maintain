@@ -203,7 +203,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form class="form-horizontal search-form" role="form" action="/persons" method="GET"
+					<form class="form-horizontal search-form" role="form" th:action="@{/persons}" method="GET"
 							id="personal_form">
 						<input type="hidden" name="pageSize" th:value="${personalInfo.pageSize}" />
 						<input class="page-num" type="hidden" name="pageNum" th:value="${personalInfo.pageNum}" />
